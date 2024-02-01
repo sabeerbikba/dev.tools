@@ -1,30 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: "Lato", sans-serif;
   margin: 0;
   padding: 0;
+  background-color: black;
 }
 
 
 ul {
   height: 100%;
-  width: 160px;
+  width: 200px;
   position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
   overflow-x: hidden;
-  padding: 20px 0 0 0;
+  /* padding: 20px 0 0 0; */
   margin: 0;
   display: inline-block;
-  background-color: black;
+  background-color: #374151;
   list-style-type: none;
+}
 
+li {
+  border-bottom: 2px solid #1f3151;
 }
 
 a {
+  /* color: red; */
+  font-size: 1.2rem;
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 25px;
+  /* font-size: 25px; */
   color: #818181;
   display: block;
 }
@@ -35,11 +51,11 @@ a:hover {
 }
 
 .main {
-  margin-left: 180px;
+  margin-left: 200px;
   /* Same as the width of the sidenav */
   font-size: 28px;
   /* Increased text to enable scrolling */
-  padding: 0px 10px;
+  padding: 0;
 }
 
 @media screen and (max-height: 450px) {
@@ -51,3 +67,14 @@ a:hover {
     font-size: 18px;
   }
 }
+
+/* grapesjs styles */
+
+.gjs-editor-cont {
+  height: 1035px;
+}
+
+.gjs-editor {
+  height: 100vh;
+}
+

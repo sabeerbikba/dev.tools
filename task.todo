@@ -1,1 +1,15 @@
 30/01   add drag & drop editor with the help of grapesJs  
+need to give better names 
+need to give full height for inputs for better view in CharacterAndWordCounterComponent
+need to add copy code button in grapesjs section checkout grapesjs-plugin-codemirror-with-buttons lib
+need to add color picker in ColorConverterComponent
+
+extra: 
+
+convert this typescript next.js code to javascript react.js code 
+
+and remove User, ToolType and saveHistory
+
+and don't remove Selector, TextArea and useDebounce
+
+give full code don't even miss single line

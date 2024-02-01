@@ -6,26 +6,30 @@ export default function Layout() {
             <nav>
                 <ul className="sidnav">
                     <li>
-                        <Link to="/Practice1">Practice1</Link>
+                        <Link to="/UnitConverter">UnitConverter</Link>
                     </li>
                     <li>
-                        <Link to="/practice2">practice2</Link>
+                        <Link to="/GrapesJSEditor">GrapesJSEditor</Link>
                     </li>
                     <li>
-                        <Link to="/Practice3">Practice3</Link>
+                        <Link to="/CharacterAndWordCounter">WordCounter</Link>
                     </li>
                     <li>
-                        <Link to="/practice4">practice4</Link>
+                        <Link to="/ColorConverter">ColorConverter</Link>
                     </li>
                     <li>
-                        <Link to="/practice5">practice5</Link>
+                        <Link to="/HashGenerator">HashGenerator</Link>
                     </li>
                     <li>
-                        <Link to="/practice6">practice6</Link>
+                        <Link to="/ QrCodeGenerator"> QRCodeGenerator</Link>
                     </li>
                     <li>
+                        <Link to="/StringConverter">StringConverter</Link>
+                    </li>
+                    {/* <li>
                         <Link to="/">Home</Link>
-                    </li>
+                    </li> */}
+                    {/* removed because don't need home page  */}
                 </ul>
             </nav>
             <div className="main">
