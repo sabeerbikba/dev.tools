@@ -30,6 +30,12 @@ export default function Layout() {
                         <Link to="/">Home</Link>
                     </li> */}
                     {/* removed because don't need home page  */}
+                    {/* <li>
+                        <Link to="SvgToReactNative">SvgToReactNative</Link>
+                    </li> */}
+                    <li>
+                        <Link to="Websites">Websites</Link>
+                    </li>
                 </ul>
             </nav>
             <div className="main">

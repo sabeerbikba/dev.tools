@@ -1,15 +1,51 @@
-30/01   add drag & drop editor with the help of grapesJs  
 need to give better names 
 need to give full height for inputs for better view in CharacterAndWordCounterComponent
 need to add copy code button in grapesjs section checkout grapesjs-plugin-codemirror-with-buttons lib
-need to add color picker in ColorConverterComponent
+need to add color picker in ColorConverterComponent and give better place for that color picker 
+need to remove extra codes left after removed imports //tool: webpack i think 
+learn how to use @ in improts and use in project after projec complete
+need to explore all tools in transform.tools website 
+need to explore more convert tools from the internet
+creat section for APIs give highter like free and paid to that card: twillio, spalshimages
+creat section for beautiful ui lib with npm and docs link if avilable 
 
-extra: 
+install tailwindcss file if supported for .jsx file 
+____________________________________________________________________________________________________
+tool that can be copied :
+ html-to-jsx.jsx
 
+tools need to explore if pass then need to add :
+ css-to-js.jsx
+ css-to-tailwind.jsx
+ json-to-mysql.jsx
+ json-schema-to-openapi-schema.jsx
+ toml-to-json.jsx
+ toml-to-yaml.jsx
+ yaml-to-json.jsx
+ yaml-to-toml.jsx
+ json-to-toml.jsx
+ json-to-yaml.jsx
+
+tools need to creat by myself : //already there because of @worker can't do it 
+js-object-to-json.jsx
+json-to-javascriptObject.jsx
+typescript-to-javascript.jsx
+html-to-xml.jsx
+xml-to-html.jsx
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+TOOLS WEBSITE WITH GITHUB CODE: 
+|website | descretption|
+|fontjoy.com | suggest fonts for website |
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+__________________________________________________________________________________________________________
+extras:
 convert this typescript next.js code to javascript react.js code 
-
 and remove User, ToolType and saveHistory
-
 and don't remove Selector, TextArea and useDebounce
-
 give full code don't even miss single line
+
+-----------------------------------------------------------------------------------------------------------
+project progress:
+31/01 | 10hr | project initialized and added 7 tools
+01/02 | 8hr | removed unncessary code from 7 tools, created svg-to-react but not done

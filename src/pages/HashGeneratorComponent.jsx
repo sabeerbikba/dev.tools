@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TextArea from "../common/TextArea";
-import useDebounce from "../hooks/useDebounce";
 import * as CryptoJS from "crypto-js";
 
 export default function HashGeneratorComponent({ isProUser }) {
@@ -12,14 +11,6 @@ export default function HashGeneratorComponent({ isProUser }) {
     const [sha384Hash, setSha384Hash] = useState("");
     const [sha512Hash, setSha512Hash] = useState("");
     const [keccak256Hash, setKeccak256Hash] = useState("");
-
-    const debouncedInput = useDebounce(input, 1000);
-
-    useEffect(() => {
-        if (debouncedInput) {
-            // Remove saveHistory function and related code
-        }
-    }, [debouncedInput]);
 
     const generateMd5Hash = (input) =>
         setMd5Hash(CryptoJS.MD5(input).toString());
@@ -74,10 +65,7 @@ export default function HashGeneratorComponent({ isProUser }) {
                     <div className="flex gap-2">
                         <input
                             readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             value={md5Hash}
                         />
                         <button
@@ -97,10 +85,7 @@ export default function HashGeneratorComponent({ isProUser }) {
                     <div className="flex gap-2">
                         <input
                             readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             value={sha1Hash}
                         />
                         <button
@@ -120,10 +105,7 @@ export default function HashGeneratorComponent({ isProUser }) {
                     <div className="flex gap-2">
                         <input
                             readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             value={sha224Hash}
                         />
                         <button
@@ -143,10 +125,7 @@ export default function HashGeneratorComponent({ isProUser }) {
                     <div className="flex gap-2">
                         <input
                             readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             value={sha256Hash}
                         />
                         <button
@@ -166,10 +145,7 @@ export default function HashGeneratorComponent({ isProUser }) {
                     <div className="flex gap-2">
                         <input
                             readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             value={sha384Hash}
                         />
                         <button
@@ -189,10 +165,7 @@ export default function HashGeneratorComponent({ isProUser }) {
                     <div className="flex gap-2">
                         <input
                             readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             value={sha512Hash}
                         />
                         <button
@@ -212,10 +185,7 @@ export default function HashGeneratorComponent({ isProUser }) {
                     <div className="flex gap-2">
                         <input
                             readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             value={keccak256Hash}
                         />
                         <button

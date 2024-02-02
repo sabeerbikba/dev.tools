@@ -6,6 +6,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  color: white;
 }
 
 body {
@@ -78,3 +79,22 @@ a:hover {
   height: 100vh;
 }
 
+/* Websites component */
+
+.card-container {
+  display: flex;
+  flex-direction: row;
+  /* height: 100%; */
+}
+
+.card {
+  border: 2px solid white;
+  border-radius: 8px;
+  height: 220px;
+  width: 350px;
+  text-align: center;
+  background-color: #6366f1;
+  padding: 20px;  
+  margin: 20px;
+  overflow: hidden;
+}

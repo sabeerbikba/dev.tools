@@ -1,24 +1,8 @@
-import { useEffect, useState } from "react";
-import useDebounce from "../hooks/useDebounce";
+import { useState } from "react";
 import QRCode from "react-qr-code";
 
 export default function QrCodeGeneratorComponent() {
     const [qrText, setQrText] = useState("https://www.google.com/");
-
-    const debouncedQrText = useDebounce(qrText, 1000);
-
-    // useEffect(() => {
-    //     if (debouncedQrText) {
-    //         // Removed saveHistory logic
-    //         // void saveHistory({
-    //         //   user,
-    //         //   isProUser,
-    //         //   toolType: ToolType.QrCodeGenerator,
-    //         //   onError: () => {},
-    //         //   metadata: { qrText },
-    //         // });
-    //     }
-    // }, [debouncedQrText]);
 
     const handleTextChange = (input) => {
         setQrText(input);
@@ -61,10 +45,7 @@ export default function QrCodeGeneratorComponent() {
                 <p className="font-bold text-sm mb-2">Text: </p>
                 <div className="flex gap-2">
                     <input
-                        className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         value={qrText}
                         onChange={(e) => handleTextChange(e.currentTarget.value)}
                     />

@@ -10,6 +10,8 @@ import HashGeneratorComponent from './pages/HashGeneratorComponent.jsx';
 import  QrCodeGeneratorComponent from './pages/QRCodeGenratorComponent.jsx';
 import StringConverterComponent from './pages/StringConverterComponent.jsx';
 import UnitConverter from "./pages/UnitConverter.jsx";
+// import SvgToReactNative from "./pages/svg-to-react-native.jsx";
+import Websites from "./pages/Websites.jsx";
 
 export default function App() {
   return (
@@ -25,6 +27,8 @@ export default function App() {
           <Route path="HashGenerator" element={<HashGeneratorComponent />} />
           <Route path=" QrCodeGenerator" element={< QrCodeGeneratorComponent />} />
           <Route path="StringConverter" element={<StringConverterComponent />} />
+          {/* <Route path="SvgToReactNative" element={<SvgToReactNative />} /> */}
+          <Route path="Websites" element={<Websites/>} />
         </Route>
       </Routes>
     </BrowserRouter>

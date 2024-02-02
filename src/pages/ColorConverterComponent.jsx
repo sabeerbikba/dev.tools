@@ -1,26 +1,12 @@
-import { useEffect, useState } from "react";
-import useDebounce from "../hooks/useDebounce";
+import { useState } from "react";
 
-const isHSLColor =
-    /^hsl\(\s*(\d+)\s*,\s*(\d*(?:\.\d+)?%)\s*,\s*(\d*(?:\.\d+)?%)\)$/i;
+const isHSLColor = /^hsl\(\s*(\d+)\s*,\s*(\d*(?:\.\d+)?%)\s*,\s*(\d*(?:\.\d+)?%)\)$/i;
 
 export default function ColorConverterComponent({ isProUser }) {
     const [rgb, setRgb] = useState("255, 255, 255");
     const [rgba, setRgba] = useState("255, 255, 255, 1");
     const [hex, setHex] = useState("#ffffff");
     const [hsl, setHsl] = useState("hsl(0, 0%, 100%)");
-
-    const debouncedRgb = useDebounce(rgb, 1000);
-    const debouncedRgba = useDebounce(rgba, 1000);
-    const debouncedHex = useDebounce(hex, 1000);
-    const debouncedHsl = useDebounce(hsl, 1000);
-
-    useEffect(() => {
-        if (debouncedRgb && debouncedHex && debouncedRgba && debouncedHsl) {
-            // Removed saveHistory code
-        }
-    }, [debouncedRgb, debouncedHex, debouncedRgba, debouncedHsl]);
-
     const rgbToHex = (input) => {
         const cleanedRgb = input.replace(/\s/g, "").toLowerCase();
         const match = cleanedRgb.match(/\(?(\d+),(\d+),(\d+)\)?$/);
@@ -70,9 +56,7 @@ export default function ColorConverterComponent({ isProUser }) {
 
     const hexToRgb = (input) => {
         const cleanedHex = input.replace(/\s/g, "").toLowerCase();
-        const match = cleanedHex.match(
-            /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/
-        );
+        const match = cleanedHex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/);
 
         if (!match) {
             throw Error();
@@ -91,9 +75,7 @@ export default function ColorConverterComponent({ isProUser }) {
 
     const hexToRgba = (input) => {
         const cleanedHex = input.replace(/\s/g, "").toLowerCase();
-        const match = cleanedHex.match(
-            /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/
-        );
+        const match = cleanedHex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?$/);
 
         if (!match) {
             throw Error();
@@ -160,8 +142,8 @@ export default function ColorConverterComponent({ isProUser }) {
             b < 0 ||
             b > 255 ||
             a < 0 ||
-            a > 1
-        ) {
+            a > 1 
+            ) {
             throw Error();
         }
 
@@ -335,10 +317,7 @@ export default function ColorConverterComponent({ isProUser }) {
                 <p className="font-bold text-sm mb-2"> RGB: </p>
                 <div className="flex gap-2">
                     <input
-                        className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         value={rgb}
                         onChange={(e) => handleRgbChange(e.currentTarget.value)}
                     />
@@ -358,10 +337,7 @@ export default function ColorConverterComponent({ isProUser }) {
                 <p className="font-bold text-sm mb-2"> RGBA: </p>
                 <div className="flex gap-2">
                     <input
-                        className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         value={rgba}
                         onChange={(e) => handleRgbaChange(e.currentTarget.value)}
                     />
@@ -381,10 +357,7 @@ export default function ColorConverterComponent({ isProUser }) {
                 <p className="font-bold text-sm mb-2"> Hex: </p>
                 <div className="flex gap-2">
                     <input
-                        className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         value={hex}
                         onChange={(e) => handleHexChange(e.currentTarget.value)}
                     />
@@ -404,10 +377,7 @@ export default function ColorConverterComponent({ isProUser }) {
                 <p className="font-bold text-sm mb-2"> HSL: </p>
                 <div className="flex gap-2">
                     <input
-                        className="px-4 py-2 w-full block rounded-lg border-0
-        bg-gray-700 text-white shadow-sm ring-1 ring-inset
-        ring-gray-300 focus:ring-2 focus:ring-inset
-        focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         value={hsl}
                         onChange={(e) => handleHslChange(e.currentTarget.value)}
                     />

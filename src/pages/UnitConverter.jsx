@@ -28,18 +28,11 @@ const UnitInput = (props) => {
                     pattern="[0-9]*"
                     value={`${value ?? ''}`}
                     onChange={handleInput}
-                    className="px-4 py-2 w-full block rounded-lg border-0
-			bg-gray-700 text-white shadow-sm ring-1 ring-inset
-			ring-gray-300 focus:ring-2 focus:ring-inset
-			focus:ring-indigo-600 sm:text-sm sm:leading-6
-			[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
                 <button
                     type="button"
-                    className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm
-			  font-semibold text-white shadow-sm enabled:hover:bg-indigo-400 focus-visible:outline
-			  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500
-			  disabled:opacity-80 disabled:cursor-not-allowed"
+                    className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm enabled:hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:opacity-80 disabled:cursor-not-allowed"
                     onClick={() => {
                         navigator.clipboard.writeText(`${value}`);
                     }}
@@ -112,9 +105,7 @@ const UnitConverter = () => {
             <div className="px-1 py-4" >
                 <div
                     style={style}
-                    className="w-full h-[var(--w)] bg-indigo-500
-			flex items-center justify-center
-			rounded-md text-s">
+                    className="w-full h-[var(--w)] bg-indigo-500 flex items-center justify-center rounded-md text-s">
                     This is {px} Pixel high
                 </div>
             </div>
