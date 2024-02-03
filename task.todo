@@ -1,6 +1,6 @@
 need to give better names 
 need to give full height for inputs for better view in CharacterAndWordCounterComponent
-need to add copy code button in grapesjs section checkout grapesjs-plugin-codemirror-with-buttons lib
+need to add copy code button in grapesjs section checkout grapesjs-plugin-codemirror-with-buttons lib and optimiz styles of the page for smaller screen
 need to add color picker in ColorConverterComponent and give better place for that color picker 
 need to remove extra codes left after removed imports //tool: webpack i think 
 learn how to use @ in improts and use in project after projec complete
@@ -8,6 +8,14 @@ need to explore all tools in transform.tools website
 need to explore more convert tools from the internet
 creat section for APIs give highter like free and paid to that card: twillio, spalshimages
 creat section for beautiful ui lib with npm and docs link if avilable 
+
+toolsIdea's----------------------------------------------------------------------------------
+* Support all browser css generator 
+* Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
+* Search specific word from website
+* Svg editor 
+* Live preview code editor with support of react next and raw hrml
+---------------------------------------------------------------------------------------------
 
 install tailwindcss file if supported for .jsx file 
 ____________________________________________________________________________________________________
@@ -36,7 +44,6 @@ xml-to-html.jsx
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 TOOLS WEBSITE WITH GITHUB CODE: 
 |website | descretption|
-|fontjoy.com | suggest fonts for website |
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 __________________________________________________________________________________________________________
 extras:
@@ -49,3 +56,4 @@ give full code don't even miss single line
 project progress:
 31/01 | 10hr | project initialized and added 7 tools
 01/02 | 8hr | removed unncessary code from 7 tools, created svg-to-react but not done
+02/02 | 9.30hr | improved website page appearnces, page simmilarWebsites added and page added browser-ready-css  

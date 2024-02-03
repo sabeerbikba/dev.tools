@@ -36,6 +36,15 @@ export default function Layout() {
                     <li>
                         <Link to="Websites">Websites</Link>
                     </li>
+                    <li>
+                        <Link to="Apis">Apis</Link>
+                    </li>
+                    <li>
+                        <Link to="SimmilarWebsites">SimmilarWebsites</Link>
+                    </li>
+                    <li>
+                        <Link to="Browser-Ready-CSS">Browser-Ready-CSS</Link>
+                    </li>
                 </ul>
             </nav>
             <div className="main">

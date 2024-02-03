@@ -312,7 +312,7 @@ export default function ColorConverterComponent({ isProUser }) {
     };
 
     return (
-        <div className="w-full h-full flex flex-col gap-4">
+        <div className="flex flex-col gap-4 m-4">
             <div>
                 <p className="font-bold text-sm mb-2"> RGB: </p>
                 <div className="flex gap-2">

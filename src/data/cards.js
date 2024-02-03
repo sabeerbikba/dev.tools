@@ -1,47 +1,49 @@
+export const __baseUrl = './src/assets/'
+
 const cards = [{
-    id: 1,
     heading: 'Images Compression',
     text: 'Compress WebP, PNG and JPEG images to optimize web page loding times',
-    link: 'https://tinypng.com/'
+    link: 'https://tinypng.com/',
+    image: 'george-account-page.webp'
 }, {
-    id: 2,
     heading: 'BrandColors',
     text: 'Color used by company to in their website',
-    link: 'https://brandcolor.net/'
+    link: 'http://brandcolors.net/',
+    image: 'image 2.jpg'
 }, {
-    id: 3,
     heading: 'CSS color Gradiet',
     text: 'tool that genrate css code for backgound with gradient effect',
-    link: 'https://cssgradient.io/'
+    link: 'https://cssgradient.io/',
+    image: 'logo-55c31c59.svg'
 }, {
-    id: 4,
     heading: 'SVG Backgrounds',
     text: 'Provides customizable SVG background with various patterns and colors',
-    link: 'https://svgbackgrounds.com/'
+    link: 'https://svgbackgrounds.com/',
+    image: 'image 3.svg'
 }, {
-    id: 5,
     heading: 'Color Palettes',
     text: 'A collection of color palettes for inspiration.',
-    link: 'https://colorhunt.co/'
+    link: 'https://colorhunt.co/',
+    image: 'color-hunt-logo-face.svg'
 }, {
-    id: 6,
     heading: 'Material Palette',
     text: 'A tool for creating Material Desingn color palettes',
-    link: 'https://materialpalette.com/'
+    link: 'https://materialpalette.com/',
+    image: 'shecodes.png'
 }, {
-    id: 7,
     heading: 'Color Pelette Genrator',
     text: 'A tool for Genrating Color Palettes for creting websites',
-    link: 'https://coolors.co/'
+    link: 'https://coolors.co/',
+    image: 'logo.svg'
 }, {
-    id: 8,
     heading: 'Adobe Color Wheel',
     text: 'Allow you to create, explore and save color schemes',
-    link: 'https://color.adobe.com/create'
+    link: 'https://color.adobe.com/create',
+    image: 'download.png'
 }, {
-    id: 9,
-    heading: 'heading',
-    text: 'text',
-    link: 'link'
+    heading: 'Fonts Suggest',
+    text: 'Generate font combinations with deep learning',
+    link: 'https://fontjoy.com/',
+    image: 'download.gif'
 }]
 export default cards;

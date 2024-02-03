@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* global styles */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,6 +18,7 @@ body {
   background-color: black;
 }
 
+/* sideNav and main content */
 
 ul {
   height: 100%;
@@ -25,7 +28,6 @@ ul {
   top: 0;
   left: 0;
   overflow-x: hidden;
-  /* padding: 20px 0 0 0; */
   margin: 0;
   display: inline-block;
   background-color: #374151;
@@ -37,11 +39,9 @@ li {
 }
 
 a {
-  /* color: red; */
   font-size: 1.2rem;
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  /* font-size: 25px; */
   color: #818181;
   display: block;
 }
@@ -54,9 +54,8 @@ a:hover {
 .main {
   margin-left: 200px;
   /* Same as the width of the sidenav */
-  font-size: 28px;
-  /* Increased text to enable scrolling */
   padding: 0;
+  height: 100vh;
 }
 
 @media screen and (max-height: 450px) {
@@ -83,18 +82,83 @@ a:hover {
 
 .card-container {
   display: flex;
-  flex-direction: row;
-  /* height: 100%; */
+  flex-wrap: wrap;
+  height: 100%;
+
+  .card {
+    border: 2px solid white;
+    display: flex;
+    border-radius: 8px;
+    height: 250px;
+    width: 390px;
+    text-align: center;
+    background-color: #6366f1;
+    margin: 20px;
+    overflow: hidden;
+    position: relative;
+
+    .card-body {
+      padding: 20px;
+
+      .card-heading {
+        font-size: 25px;
+        font-weight: 600;
+        padding: 9px;
+      }
+
+      .card-text {
+        font-size: 18px;
+      }
+    }
+
+    .card-button {
+      height: 50px;
+      background-color: #333453;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+
+      .card-image {
+        height: 40px;
+        position: relative;
+        top: -36px;
+        left: 282px;
+      }
+    }
+  }
 }
 
-.card {
-  border: 2px solid white;
+.card:hover {
+  box-shadow: 10px 10px 10px rgba(255, 255, 255, 0.386), -10px -10px 10px rgba(255, 255, 255, 0.37);
+}
+
+/* simmilar websites */
+
+.sw-btn {
+  /* border: 1px solid white; */
+  width: 50%;
+  height: 40px;
+}
+
+.sw-btn-active {
+  background-color: #818181;
+}
+
+.sw-btn-link {
+  display: inline;
+  color: white;
+  position: relative;
+  left: 32%;
+  height: 40px;
+  background-color: #4446A6;
+  border-radius: 7px;
+}
+
+/* autoprefixer */
+
+.af-btn {
+  background-color: #4446a6;
+  height: 32px;
+  width: 90px;
   border-radius: 8px;
-  height: 220px;
-  width: 350px;
-  text-align: center;
-  background-color: #6366f1;
-  padding: 20px;  
-  margin: 20px;
-  overflow: hidden;
 }

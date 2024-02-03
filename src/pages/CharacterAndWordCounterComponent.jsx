@@ -55,7 +55,7 @@ export default function CharacterAndWordCounterComponent() {
     };
 
     return (
-        <div className="w-full h-full flex gap-4 m-4">
+        <div className="flex gap-4 m-4">
             <div className="w-full h-full">
                 <div className="flex justify-between items-center mb-4 gap-4">
                     <div className="flex gap-4 items-center">

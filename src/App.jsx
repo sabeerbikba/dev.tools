@@ -10,8 +10,11 @@ import HashGeneratorComponent from './pages/HashGeneratorComponent.jsx';
 import  QrCodeGeneratorComponent from './pages/QRCodeGenratorComponent.jsx';
 import StringConverterComponent from './pages/StringConverterComponent.jsx';
 import UnitConverter from "./pages/UnitConverter.jsx";
-// import SvgToReactNative from "./pages/svg-to-react-native.jsx";
+// import SvgToReactNative from "./pages/testing/svg-to-react-native.jsx";
 import Websites from "./pages/Websites.jsx";
+import Apis from "./pages/Apis.jsx";
+import SimmilarWebsites from "./pages/SimmilarWebsites.jsx";
+import AutoprefixerTool from "./pages/Autoprefixer.jsx";
 
 export default function App() {
   return (
@@ -28,7 +31,10 @@ export default function App() {
           <Route path=" QrCodeGenerator" element={< QrCodeGeneratorComponent />} />
           <Route path="StringConverter" element={<StringConverterComponent />} />
           {/* <Route path="SvgToReactNative" element={<SvgToReactNative />} /> */}
+          <Route path="Apis" element={<Apis/>} />
           <Route path="Websites" element={<Websites/>} />
+          <Route path="SimmilarWebsites" element={<SimmilarWebsites/>} />
+          <Route path="Browser-Ready-CSS" element={<AutoprefixerTool/>} />
         </Route>
       </Routes>
     </BrowserRouter>

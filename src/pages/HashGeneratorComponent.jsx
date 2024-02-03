@@ -50,7 +50,7 @@ export default function HashGeneratorComponent({ isProUser }) {
     };
 
     return (
-        <div className="w-full h-full flex gap-4">
+        <div className="flex gap-4 m-4">
             <TextArea
                 initialInput="hello world"
                 onInputChange={(input) => {

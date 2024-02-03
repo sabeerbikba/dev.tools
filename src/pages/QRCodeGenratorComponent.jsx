@@ -40,7 +40,7 @@ export default function QrCodeGeneratorComponent() {
     };
 
     return (
-        <div className="w-full h-full flex flex-col gap-4">
+        <div className="flex flex-col gap-4 m-4">
             <div>
                 <p className="font-bold text-sm mb-2">Text: </p>
                 <div className="flex gap-2">

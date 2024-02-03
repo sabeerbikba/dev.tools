@@ -1,12 +1,15 @@
+// "use-server"
+
 import { useCallback, useState } from "react";
-import BabelWorker from "@workers/babel.worker";
+import BabelWorker from "babel-polyfill";
 import { SvgConverter } from "../../components/SvgConverter.jsx";
 import { defaultNativeSettings, formFields, nativeRequiredSettings } from "../../constants/svgoConfig.js";
 import isSvg from "is-svg";
 import { getWorker } from "../../utils/workerWrapper.js";
-import SvgoWorker from "../../../typings";
-// import { Transformer } from "@components/ConversionPanel";
-import SvgrWorker from "../../../typings";
+import SvgoWorker from "svgo";
+// import { Transformer } from "../../components/ConversionPanel.jsx";
+import SvgrWorker from "@svgr/webpack"; //need to test with @svgr/cli @svgr/core and @svgr/webpack
+// import { Transformer }
 
 let svgo, _babelWorker, svgr;
 

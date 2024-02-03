@@ -100,7 +100,7 @@ export default function StringConverterComponent() {
   };
 
   return (
-    <div className="w-full h-full flex gap-4 m-4">
+    <div className="flex flex-col gap-8 m-4">
       <TextArea
         initialInput="snake_case_to_camel_case"
         onInputChange={(input) => {
