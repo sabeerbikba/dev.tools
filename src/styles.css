@@ -5,6 +5,7 @@
 /* global styles */
 
 * {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -56,6 +57,8 @@ a:hover {
   /* Same as the width of the sidenav */
   padding: 0;
   height: 100vh;
+  /* added after monaco editor */
+  /* overflow: hidden;  */
 }
 
 @media screen and (max-height: 450px) {
@@ -81,12 +84,17 @@ a:hover {
 /* Websites component */
 
 .card-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   height: 100%;
 
   .card {
     border: 2px solid white;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     border-radius: 8px;
     height: 250px;
@@ -129,6 +137,7 @@ a:hover {
 }
 
 .card:hover {
+  -webkit-box-shadow: 10px 10px 10px rgba(255, 255, 255, 0.386), -10px -10px 10px rgba(255, 255, 255, 0.37);
   box-shadow: 10px 10px 10px rgba(255, 255, 255, 0.386), -10px -10px 10px rgba(255, 255, 255, 0.37);
 }
 
@@ -156,9 +165,49 @@ a:hover {
 
 /* autoprefixer */
 
-.af-btn {
-  background-color: #4446a6;
-  height: 32px;
-  width: 90px;
-  border-radius: 8px;
+.monaco-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+
+
 }
+
+.monaco-style {
+  width: 50%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  margin: 1rem;
+
+  /* border-radius: 14px; */
+
+
+
+}
+
+.monaco-editor {
+  margin-right: 0;
+}
+
+.monaco-result {
+  height: 90%;
+  margin-bottom: 20px;
+}
+
+.monaco-copy-btn {
+  background-color: #6366f1;
+  height: 40px;
+  width: 120px;
+  border-radius: 10px;
+  margin: 10px 10px 0 0;
+}
+
+.btn-disabled {
+  background-color: #4446a6;
+}
+
+
+
+/* character count component */

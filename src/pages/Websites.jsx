@@ -5,7 +5,6 @@ export default function Websites() {
         <>
             <div className="card-container" >
                 {cards.map((card, index) => (<Card
-                    // key={card.id}
                     key={index}
                     heading={card.heading}
                     text={card.text}

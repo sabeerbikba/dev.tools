@@ -3,18 +3,19 @@ need to give full height for inputs for better view in CharacterAndWordCounterCo
 need to add copy code button in grapesjs section checkout grapesjs-plugin-codemirror-with-buttons lib and optimiz styles of the page for smaller screen
 need to add color picker in ColorConverterComponent and give better place for that color picker 
 need to remove extra codes left after removed imports //tool: webpack i think 
-learn how to use @ in improts and use in project after projec complete
+learn how to use @ in improts and use in project after project complete
 need to explore all tools in transform.tools website 
 need to explore more convert tools from the internet
 creat section for APIs give highter like free and paid to that card: twillio, spalshimages
 creat section for beautiful ui lib with npm and docs link if avilable 
 
 toolsIdea's----------------------------------------------------------------------------------
-* Support all browser css generator 
 * Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
-* Search specific word from website
-* Svg editor 
+* Svg editor with oupput
+* color picker in colorConverter component 
+* css: selected windows show text color white for identification  
 * Live preview code editor with support of react next and raw hrml
+* live preview for hugo with editor markdown file live preview of website page will look like after upload css 
 ---------------------------------------------------------------------------------------------
 
 install tailwindcss file if supported for .jsx file 
@@ -34,12 +35,6 @@ tools need to explore if pass then need to add :
  json-to-toml.jsx
  json-to-yaml.jsx
 
-tools need to creat by myself : //already there because of @worker can't do it 
-js-object-to-json.jsx
-json-to-javascriptObject.jsx
-typescript-to-javascript.jsx
-html-to-xml.jsx
-xml-to-html.jsx
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 TOOLS WEBSITE WITH GITHUB CODE: 
@@ -57,3 +52,7 @@ project progress:
 31/01 | 10hr | project initialized and added 7 tools
 01/02 | 8hr | removed unncessary code from 7 tools, created svg-to-react but not done
 02/02 | 9.30hr | improved website page appearnces, page simmilarWebsites added and page added browser-ready-css  
+03/02 | 8.30hr | added manoco editor in word counter and added monaco editor in browser ready css with 2 more functionality
+_________DONE__________________________________________________________________________________________________
+* Support all browser css generator ✅ 
+* Search specific word from website 🔴

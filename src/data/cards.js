@@ -45,5 +45,10 @@ const cards = [{
     text: 'Generate font combinations with deep learning',
     link: 'https://fontjoy.com/',
     image: 'download.gif'
+}, {
+    heading: 'Icons',
+    text: 'free and easy intigration icons (change icon)',
+    link: 'https://heroicons.com/',
+    image: 'download.png'
 }]
 export default cards;
