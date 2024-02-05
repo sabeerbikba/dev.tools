@@ -110,7 +110,7 @@ export default function StringConverterComponent() {
       />
       <div className="w-full h-full">
         <div className="flex items-center mb-4 gap-4 justify-between">
-          <p className="font-bold text-xl"> Output: </p>
+          <p className="font-bold text-xl text-white"> Output: </p>
           <Selector
             values={options}
             handleClick={(filterOption) => {

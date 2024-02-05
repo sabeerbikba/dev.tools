@@ -1,8 +1,6 @@
 need to give better names 
-need to give full height for inputs for better view in CharacterAndWordCounterComponent
-need to add copy code button in grapesjs section checkout grapesjs-plugin-codemirror-with-buttons lib and optimiz styles of the page for smaller screen
-need to add color picker in ColorConverterComponent and give better place for that color picker 
 need to remove extra codes left after removed imports //tool: webpack i think 
+need to add copy code button in grapesjs section checkout grapesjs-plugin-codemirror-with-buttons lib and optimiz styles of the page for smaller screen
 learn how to use @ in improts and use in project after project complete
 need to explore all tools in transform.tools website 
 need to explore more convert tools from the internet
@@ -11,11 +9,11 @@ creat section for beautiful ui lib with npm and docs link if avilable
 
 toolsIdea's----------------------------------------------------------------------------------
 * Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
-* Svg editor with oupput
-* color picker in colorConverter component 
-* css: selected windows show text color white for identification  
 * Live preview code editor with support of react next and raw hrml
-* live preview for hugo with editor markdown file live preview of website page will look like after upload css 
+* featureUpdate: live preview for hugo with editor markdown file live preview of website page will look like after upload css 
+* need to create section for extesnions
+ litehouse
+ metatag suggetions 
 ---------------------------------------------------------------------------------------------
 
 install tailwindcss file if supported for .jsx file 
@@ -53,6 +51,12 @@ project progress:
 01/02 | 8hr | removed unncessary code from 7 tools, created svg-to-react but not done
 02/02 | 9.30hr | improved website page appearnces, page simmilarWebsites added and page added browser-ready-css  
 03/02 | 8.30hr | added manoco editor in word counter and added monaco editor in browser ready css with 2 more functionality
+04/02 | 9.30hr | side nav appearnce, added colorpicker in color convertor component, global text color & background color, some adjustment in unitconvertor component, used Dry method in colorpicker component and hashgenrator, implement base logic for serach engine component
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴
+* color picker in colorConverter component ✅
+* css: selected windows show text color white for identification ✅
+* Svg editor with oupput 🔴
+* device detect and show show warning: 'this website not made for mobile please switch to desktop if possible' 🔵
+need to give full height for inputs for better view in CharacterAndWordCounterComponent ✅

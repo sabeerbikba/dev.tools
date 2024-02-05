@@ -58,147 +58,39 @@ export default function HashGeneratorComponent({ isProUser }) {
                     generateHashes(input);
                 }}
             />
-
             <div className="w-full h-full flex flex-col gap-4">
-                <div>
-                    <p className="font-bold text-sm mb-2">Md5 Hash:</p>
-                    <div className="flex gap-2">
-                        <input
-                            readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            value={md5Hash}
-                        />
-                        <button
-                            type="button"
-                            className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                            onClick={async () => {
-                                await navigator.clipboard.writeText(md5Hash);
-                            }}
-                        >
-                            Copy
-                        </button>
-                    </div>
-                </div>
+                <Output4Hash title="Md5" hash={md5Hash} />
+                <Output4Hash title="Sha1" hash={sha1Hash} />
+                <Output4Hash title="Sha224" hash={sha224Hash} />
+                <Output4Hash title="Sha256" hash={sha256Hash} />
+                <Output4Hash title="Sha384" hash={sha384Hash} />
+                <Output4Hash title="Sha512" hash={sha512Hash} />
+                <Output4Hash title="Keccak256" hash={keccak256Hash} />
+            </div>
+        </div>
+    );
+}
 
-                <div>
-                    <p className="font-bold text-sm mb-2">Sha1 Hash:</p>
-                    <div className="flex gap-2">
-                        <input
-                            readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            value={sha1Hash}
-                        />
-                        <button
-                            type="button"
-                            className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                            onClick={async () => {
-                                await navigator.clipboard.writeText(sha1Hash);
-                            }}
-                        >
-                            Copy
-                        </button>
-                    </div>
-                </div>
 
-                <div>
-                    <p className="font-bold text-sm mb-2">Sha224 Hash:</p>
-                    <div className="flex gap-2">
-                        <input
-                            readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            value={sha224Hash}
-                        />
-                        <button
-                            type="button"
-                            className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                            onClick={async () => {
-                                await navigator.clipboard.writeText(sha224Hash);
-                            }}
-                        >
-                            Copy
-                        </button>
-                    </div>
-                </div>
-
-                <div>
-                    <p className="font-bold text-sm mb-2">Sha256 Hash:</p>
-                    <div className="flex gap-2">
-                        <input
-                            readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            value={sha256Hash}
-                        />
-                        <button
-                            type="button"
-                            className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                            onClick={async () => {
-                                await navigator.clipboard.writeText(sha256Hash);
-                            }}
-                        >
-                            Copy
-                        </button>
-                    </div>
-                </div>
-
-                <div>
-                    <p className="font-bold text-sm mb-2">Sha384 Hash:</p>
-                    <div className="flex gap-2">
-                        <input
-                            readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            value={sha384Hash}
-                        />
-                        <button
-                            type="button"
-                            className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                            onClick={async () => {
-                                await navigator.clipboard.writeText(sha384Hash);
-                            }}
-                        >
-                            Copy
-                        </button>
-                    </div>
-                </div>
-
-                <div>
-                    <p className="font-bold text-sm mb-2">Sha512 Hash:</p>
-                    <div className="flex gap-2">
-                        <input
-                            readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            value={sha512Hash}
-                        />
-                        <button
-                            type="button"
-                            className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                            onClick={async () => {
-                                await navigator.clipboard.writeText(sha512Hash);
-                            }}
-                        >
-                            Copy
-                        </button>
-                    </div>
-                </div>
-
-                <div>
-                    <p className="font-bold text-sm mb-2">Keccak256 Hash:</p>
-                    <div className="flex gap-2">
-                        <input
-                            readOnly
-                            className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            value={keccak256Hash}
-                        />
-                        <button
-                            type="button"
-                            className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                            onClick={async () => {
-                                await navigator.clipboard.writeText(keccak256Hash);
-                            }}
-                        >
-                            Copy
-                        </button>
-                    </div>
-                </div>
+function Output4Hash({ title = '', hash }) {
+    return (
+        <div>
+            <p className="font-bold text-sm mb-2 text-white">{title} Hash:</p>
+            <div className="flex gap-2">
+                <input
+                    readOnly
+                    className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    value={hash}
+                />
+                <button
+                    type="button"
+                    className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                    onClick={async () => {
+                        await navigator.clipboard.writeText(hash);
+                    }}
+                >
+                    Copy
+                </button>
             </div>
         </div>
     );

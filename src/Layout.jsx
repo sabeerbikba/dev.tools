@@ -1,25 +1,27 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 
 export default function Layout() {
     return (
         <>
             <nav>
                 <ul className="sidnav">
-                    <li><Link to="/UnitConverter">UnitConverter</Link></li>
-                    <li><Link to="/GrapesJSEditor">GrapesJSEditor</Link></li>
-                    <li><Link to="/CharacterAndWordCounter">WordCounter</Link></li>
-                    <li><Link to="/ColorConverter">ColorConverter</Link></li>
-                    <li><Link to="/HashGenerator">HashGenerator</Link></li>
-                    <li><Link to="/ QrCodeGenerator"> QRCodeGenerator</Link></li>
-                    <li><Link to="/StringConverter">StringConverter</Link></li>
-                    {/* <li><Link to="/">Home</Link></li> */}
+                    <li><NavLink to="/UnitConverter">UnitConverter</NavLink></li>
+                    <li><NavLink to="/GrapesJSEditor">GrapesJSEditor</NavLink></li>
+                    <li><NavLink to="/CharacterAndWordCounter">WordCounter</NavLink></li>
+                    <li><NavLink to="/ColorConverter">ColorConverter</NavLink></li>
+                    <li><NavLink to="/HashGenerator">HashGenerator</NavLink></li>
+                    <li><NavLink to="/ QrCodeGenerator"> QRCodeGenerator</NavLink></li>
+                    <li><NavLink to="/StringConverter">StringConverter</NavLink></li>
+                    {/* <li><NavLink to="/">Home</NavLink></li> */}
                     {/* removed because don't need home page  */}
-                    {/* <li><Link to="SvgToReactNative">SvgToReactNative</Link></li> */}
-                    <li><Link to="Websites">Websites</Link></li>
-                    <li><Link to="Apis">Apis</Link></li>
-                    <li><Link to="SimmilarWebsites">SimmilarWebsites</Link></li>
-                    <li><Link to="Browser-Ready-CSS">Browser-Ready-CSS</Link></li>
-                    {/* <li><Link to="SearchWord">SearchWord</Link></li> */} 
+                    {/* <li><NavLink to="SvgToReactNative">SvgToReactNative</NavLink></li> */}
+                    <li><NavLink to="Websites">Websites</NavLink></li>
+                    <li><NavLink to="Apis">Apis</NavLink></li>
+                    <li><NavLink to="SimmilarWebsites">SimmilarWebsites</NavLink></li>
+                    <li><NavLink to="Browser-Ready-CSS">Browser-Ready-CSS</NavLink></li>
+                    {/* <li><NavLink to="SearchWord">SearchWord</NavLink></li> */} 
+                    {/* <li><NavLink to="SVGeditor"/>SVGeditor</li> */}
+                    <li><NavLink to="SearchEngine">SearchEngine</NavLink></li>
                 </ul>
             </nav>
             <div className="main">

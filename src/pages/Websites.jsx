@@ -1,4 +1,4 @@
-import cards, { __baseUrl } from "../data/cards";
+import cards, { __baseUrl } from "../data/websites";
 
 export default function Websites() {
     return (
@@ -18,8 +18,8 @@ export default function Websites() {
 
 function Card({ heading, text, link, image }) {
     return (
-        <div className="card">
-            <div className="card-body">
+        <div className="card text-white">
+            <div className="card-body overflow-hidden ">
                 <h4 className="card-heading">{heading}</h4>
                 <p className="card-text">{text}</p>
             </div>

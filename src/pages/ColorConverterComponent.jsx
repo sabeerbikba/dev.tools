@@ -1,12 +1,14 @@
 import { useState } from "react";
+import { PhotoshopPicker, SwatchesPicker, SliderPicker, CirclePicker } from 'react-color';
 
 const isHSLColor = /^hsl\(\s*(\d+)\s*,\s*(\d*(?:\.\d+)?%)\s*,\s*(\d*(?:\.\d+)?%)\)$/i;
 
-export default function ColorConverterComponent({ isProUser }) {
+export default function ColorConverterComponent() {
     const [rgb, setRgb] = useState("255, 255, 255");
     const [rgba, setRgba] = useState("255, 255, 255, 1");
     const [hex, setHex] = useState("#ffffff");
     const [hsl, setHsl] = useState("hsl(0, 0%, 100%)");
+
     const rgbToHex = (input) => {
         const cleanedRgb = input.replace(/\s/g, "").toLowerCase();
         const match = cleanedRgb.match(/\(?(\d+),(\d+),(\d+)\)?$/);
@@ -142,8 +144,8 @@ export default function ColorConverterComponent({ isProUser }) {
             b < 0 ||
             b > 255 ||
             a < 0 ||
-            a > 1 
-            ) {
+            a > 1
+        ) {
             throw Error();
         }
 
@@ -266,12 +268,12 @@ export default function ColorConverterComponent({ isProUser }) {
         }
     };
 
-    const handleHexChange = (input) => {
+    const handleHexChange = (color) => {
         try {
-            setHex(input);
-            setRgb(hexToRgb(input));
-            setRgba(hexToRgba(input));
-            setHsl(hexToHsl(input));
+            setHex(color.hex);
+            setRgb(hexToRgb(color.hex));
+            setRgba(hexToRgba(color.hex));
+            setHsl(hexToHsl(color.hex));
         } catch (_) {
             setRgb("");
             setRgba("");
@@ -312,90 +314,61 @@ export default function ColorConverterComponent({ isProUser }) {
     };
 
     return (
-        <div className="flex flex-col gap-4 m-4">
-            <div>
-                <p className="font-bold text-sm mb-2"> RGB: </p>
-                <div className="flex gap-2">
-                    <input
-                        className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        value={rgb}
-                        onChange={(e) => handleRgbChange(e.currentTarget.value)}
-                    />
-                    <button
-                        type="button"
-                        className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                        onClick={async () => {
-                            await navigator.clipboard.writeText(rgb);
-                        }}
-                    >
-                        Copy
-                    </button>
-                </div>
-            </div>
+        <div className='flex flex-col gap-4 m-4'>
+            <Output4CC title="RGB" colorCode={rgb} handleChange={e => setRgb(e.currentTarget.value)} />
+            <Output4CC title="RGBA" colorCode={rgba} handleChange={e => setRgba(e.currentTarget.value)} />
+            <Output4CC title="HEX" colorCode={hex} handleChange={e => setHex(e.currentTarget.value)} />
+            <Output4CC title="HSL" colorCode={hsl} handleChange={e => setHsl(e.currentTarget.value)} />
 
             <div>
-                <p className="font-bold text-sm mb-2"> RGBA: </p>
-                <div className="flex gap-2">
-                    <input
-                        className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        value={rgba}
-                        onChange={(e) => handleRgbaChange(e.currentTarget.value)}
+                <p className="font-bold text-sm mb-2 text-white">Preview:</p>
+                <SliderPicker
+                    color={hex}
+                    onChange={handleHexChange}
+                    header="Pick a Color"
+                />
+                <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
+                    <PhotoshopPicker
+                        color={hex}
+                        onChange={handleHexChange}
+                        header="Pick a Color"
                     />
-                    <button
-                        type="button"
-                        className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                        onClick={async () => {
-                            await navigator.clipboard.writeText(rgba);
-                        }}
-                    >
-                        Copy
-                    </button>
+                    <div style={{ height: '300px' }}>
+                        <SwatchesPicker
+                            color={hex}
+                            onChange={handleHexChange}
+                        />
+                    </div>
+                    <CirclePicker
+                        color={hex}
+                        onChange={handleHexChange}
+                    />
                 </div>
             </div>
+        </div>
+    );
+}
 
-            <div>
-                <p className="font-bold text-sm mb-2"> Hex: </p>
-                <div className="flex gap-2">
-                    <input
-                        className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        value={hex}
-                        onChange={(e) => handleHexChange(e.currentTarget.value)}
-                    />
-                    <button
-                        type="button"
-                        className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                        onClick={async () => {
-                            await navigator.clipboard.writeText(hex);
-                        }}
-                    >
-                        Copy
-                    </button>
-                </div>
+function Output4CC({ title = '', colorCode, handleChange }) {
+    return (
+        <div>
+            <p className='font-bold text-sm mb-2 text-white'> {title}: </p>
+            <div className='flex gap-2'>
+                <input
+                    className='px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                    value={colorCode}
+                    onChange={handleChange}
+                />
+                <button
+                    type="button"
+                    className='rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
+                    onClick={async () => {
+                        await navigator.clipboard.writeText(colorCode);
+                    }}
+                >
+                    Copy
+                </button>
             </div>
-
-            <div>
-                <p className="font-bold text-sm mb-2"> HSL: </p>
-                <div className="flex gap-2">
-                    <input
-                        className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        value={hsl}
-                        onChange={(e) => handleHslChange(e.currentTarget.value)}
-                    />
-                    <button
-                        type="button"
-                        className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                        onClick={async () => {
-                            await navigator.clipboard.writeText(hsl);
-                        }}
-                    >
-                        Copy
-                    </button>
-                </div>
-            </div>
-            <p className="font-bold text-sm mb-2">Preview:</p>
-            <svg width={200} height={200}>
-                <rect width="100%" height="100%" fill={"rgba(" + rgba + ")"}></rect>
-            </svg>
         </div>
     );
 }

@@ -610,6 +610,11 @@ video {
   margin: 1rem;
 }
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -660,6 +665,10 @@ video {
 
 .h-11 {
   height: 2.75rem;
+}
+
+.h-12 {
+  height: 3rem;
 }
 
 .h-6 {
@@ -751,6 +760,10 @@ video {
   gap: 2rem;
 }
 
+.overflow-hidden {
+  overflow: hidden;
+}
+
 .overflow-y-scroll {
   overflow-y: scroll;
 }
@@ -802,6 +815,10 @@ video {
 .bg-indigo-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(99 102 241 / var(--tw-bg-opacity));
+}
+
+.p-4 {
+  padding: 1rem;
 }
 
 .px-1 {
@@ -980,14 +997,13 @@ video {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  color: white;
 }
 
 body {
   font-family: "Lato", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: black;
+  background-color: rgb(42, 42, 42);
 }
 
 /* sideNav and main content */
@@ -1010,16 +1026,22 @@ li {
   border-bottom: 2px solid #1f3151;
 }
 
+a:hover {
+  color: white;
+}
+
+a.active {
+  color: white;
+  background-color: #2d354385;
+  /* Add any other styles you want for the active link */
+}
+
 a {
   font-size: 1.2rem;
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   color: #818181;
   display: block;
-}
-
-a:hover {
-  color: white;
 }
 
 .main {
@@ -1076,7 +1098,10 @@ a:hover {
         padding: 9px;
       }
       .card-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
         font-size: 18px;
+        height: 105px;
       }
     }
     .card-button {
@@ -1131,17 +1156,18 @@ a:hover {
 .monaco-style {
   width: 50%;
   box-sizing: border-box;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   margin: 1rem;
   /* border-radius: 14px; */
 }
 
 .monaco-editor {
   margin-right: 0;
+  height: 88%;
 }
 
 .monaco-result {
-  height: 90%;
+  height: 84%;
   margin-bottom: 20px;
 }
 
@@ -1156,8 +1182,6 @@ a:hover {
 .btn-disabled {
   background-color: #4446a6;
 }
-
-/* character count component */
 
 .placeholder\:text-gray-400::-moz-placeholder {
   --tw-text-opacity: 1;

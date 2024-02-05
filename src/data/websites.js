@@ -1,4 +1,4 @@
-export const __baseUrl = './src/assets/'
+export const __baseUrl = './src/assets/website/'
 
 const cards = [{
     heading: 'Images Compression',
@@ -49,6 +49,16 @@ const cards = [{
     heading: 'Icons',
     text: 'free and easy intigration icons (change icon)',
     link: 'https://heroicons.com/',
-    image: 'download.png'
+    image: 'image 6.svg'
+}, {
+    heading: 'Draw.io',
+    text: 'Draw.io is a online diagramming website that allows users to create diagrams, flowcharts and various other visual representations (vscode extension avilable)',
+    link: 'https://app.diagrams.net/',
+    image: 'image7.svg'
+}, {
+    heading: 'Bootstrap icons',
+    text: 'icons by bootstrap',
+    link: 'https://icons.getbootstrap.com/',
+    image:  'image7.svg'
 }]
 export default cards;

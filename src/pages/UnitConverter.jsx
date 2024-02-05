@@ -20,7 +20,7 @@ const UnitInput = (props) => {
 
     return (
         <div>
-            <p className="font-bold text-sm mb-2 capitalize">{props.name}</p>
+            <p className="font-bold text-sm mb-2 capitalize text-white">{props.name}</p>
             <div className="flex gap-2">
                 <input
                     type="number"
@@ -63,6 +63,8 @@ const UnitConverter = () => {
 
     const [style, setStyle] = useState({ '--w': `${px}px` });
 
+    console.log(px);
+
     useEffect(() => {
         setEm(pxToEm(px));
         setTw(pxToTw(px));
@@ -102,13 +104,15 @@ const UnitConverter = () => {
                 />
             </div>
 
-            <div className="px-1 py-4" >
-                <div
-                    style={style}
-                    className="w-full h-[var(--w)] bg-indigo-500 flex items-center justify-center rounded-md text-s">
-                    This is {px} Pixel high
+            {px > 0 && (
+                <div className="px-1 py-4" >
+                    <div
+                        style={style}
+                        className="w-full h-[var(--w)] bg-indigo-500 flex items-center justify-center rounded-md text-s">
+                        This is {px} Pixel high
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 };
