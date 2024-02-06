@@ -38,11 +38,11 @@ li {
   border-bottom: 2px solid #1f3151;
 }
 
-a:hover {
+.nav-a:hover {
   color: white;
 }
 
-a.active {
+.nav-a.active {
   color: white;
   background-color: #2d354385;
   /* Add any other styles you want for the active link */

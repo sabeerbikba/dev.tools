@@ -52,6 +52,7 @@ project progress:
 02/02 | 9.30hr | improved website page appearnces, page simmilarWebsites added and page added browser-ready-css  
 03/02 | 8.30hr | added manoco editor in word counter and added monaco editor in browser ready css with 2 more functionality
 04/02 | 9.30hr | side nav appearnce, added colorpicker in color convertor component, global text color & background color, some adjustment in unitconvertor component, used Dry method in colorpicker component and hashgenrator, implement base logic for serach engine component
+05/02 | 9.30hr | added more functionality to searchEngine component
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴
