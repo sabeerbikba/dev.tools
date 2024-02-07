@@ -45,12 +45,9 @@ li {
 .nav-a.active {
   color: white;
   background-color: #2d354385;
-  /* Add any other styles you want for the active link */
 }
 
-
-
-a {
+.nav-a {
   font-size: 1.2rem;
   padding: 6px 8px 6px 16px;
   text-decoration: none;
@@ -58,15 +55,10 @@ a {
   display: block;
 }
 
-
-
-
 .main {
   margin-left: 200px;
-  /* Same as the width of the sidenav */
   padding: 0;
   height: 100vh;
-  /* added after monaco editor */
   /* overflow: hidden;  */
 }
 
@@ -188,9 +180,7 @@ a {
   width: 50%;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  /* border: 1px solid #ccc; */
   margin: 1rem;
-  /* border-radius: 14px; */
 }
 
 .monaco-editor {
@@ -209,6 +199,14 @@ a {
   width: 120px;
   border-radius: 10px;
   margin: 10px 10px 0 0;
+}
+
+.monaco-editor-suggest-container {
+  font-size: 8px !important;
+}
+
+.monaco-editor-suggest-list {
+  font-size: 8px !important;
 }
 
 .btn-disabled {

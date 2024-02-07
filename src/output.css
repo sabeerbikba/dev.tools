@@ -743,12 +743,16 @@ video {
   width: 66.666667%;
 }
 
+.w-2\/5 {
+  width: 40%;
+}
+
 .w-3 {
   width: 0.75rem;
 }
 
-.w-3\/6 {
-  width: 50%;
+.w-3\/5 {
+  width: 60%;
 }
 
 .w-40 {
@@ -786,6 +790,10 @@ video {
 
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.resize-none {
+  resize: none;
 }
 
 .resize {
@@ -1009,6 +1017,11 @@ video {
   text-decoration-line: underline;
 }
 
+.antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .shadow-sm {
   --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
@@ -1036,6 +1049,11 @@ video {
 
 .blur {
   --tw-blur: blur(8px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.grayscale {
+  --tw-grayscale: grayscale(100%);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
@@ -1109,10 +1127,9 @@ li {
 .nav-a.active {
   color: white;
   background-color: #2d354385;
-  /* Add any other styles you want for the active link */
 }
 
-a {
+.nav-a {
   font-size: 1.2rem;
   padding: 6px 8px 6px 16px;
   text-decoration: none;
@@ -1122,10 +1139,8 @@ a {
 
 .main {
   margin-left: 200px;
-  /* Same as the width of the sidenav */
   padding: 0;
   height: 100vh;
-  /* added after monaco editor */
   /* overflow: hidden;  */
 }
 
@@ -1232,9 +1247,7 @@ a {
 .monaco-style {
   width: 50%;
   box-sizing: border-box;
-  /* border: 1px solid #ccc; */
   margin: 1rem;
-  /* border-radius: 14px; */
 }
 
 .monaco-editor {
@@ -1253,6 +1266,14 @@ a {
   width: 120px;
   border-radius: 10px;
   margin: 10px 10px 0 0;
+}
+
+.monaco-editor-suggest-container {
+  font-size: 8px !important;
+}
+
+.monaco-editor-suggest-list {
+  font-size: 8px !important;
 }
 
 .btn-disabled {
