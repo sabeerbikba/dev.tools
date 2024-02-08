@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import MonacoEditor from '@monaco-editor/react';
-import searchEngines, { __baseUrl, defaultIcon, files } from '../data/searchEngine';
+import searchEngines, { __baseUrl, defaultIcon, files } from '../../data/searchEngine';
 
 export default function SearchEngine() {
     const [query, setQuery] = useState('');

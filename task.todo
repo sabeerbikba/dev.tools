@@ -55,6 +55,7 @@ project progress:
 04/02 | 9.30hr | side nav appearnce, added colorpicker in color convertor component, global text color & background color, some adjustment in unitconvertor component, used Dry method in colorpicker component and hashgenrator, implement base logic for serach engine component
 05/02 | 9.30hr | added more functionality to searchEngine component
 06/02 | 8.30hr | added muliple code editor in searchEngine component and some extra functions 
+07/02 | 8.30hr | added code editor for nessary serach engines, adde functionality search engine can change from input using key (need improvments)
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴
