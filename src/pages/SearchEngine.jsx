@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import MonacoEditor from '@monaco-editor/react';
-import searchEngines, { __baseUrl, defaultIcon, files } from '../data/searchEngine';
-import { useRef } from 'react';
+import { toast, Bounce } from 'react-toastify';
+import searchEngines, { files } from '../data/searchEngine';
 
 console.log();
 export default function SearchEngine() {
@@ -16,35 +16,86 @@ export default function SearchEngine() {
 
     // Safety check to ensure selectedEngine is not undefined
     const safeSelectedEngine = selectedEngine || {};
-    const searchImg = __baseUrl + (safeSelectedEngine.icon || defaultIcon);
+
+    // const searchImg = __baseUrl + (safeSelectedEngine.icon || defaultIcon);
+    const searchImg = safeSelectedEngine.imgClassName
+
     const advanceSearch = safeSelectedEngine.advanceSearchBtn;
     const btnDisabled = !safeSelectedEngine || query === '';
     const file = files[language];
     const value = files[language].value;
-    
+    const validEngineNames = ['Google', 'Bing', 'DuckDuckGo', 'Phind (Code)'];
 
     const handleInputChange = (event) => {
         const inputValue = event.target.value;
         let newSelectedEngine = null;
 
-        // Check if the input ends with a space or if the entire key sequence is present
-        const specialKeys = searchEngines.flatMap(group => group.engines.map(engine => engine.key));
-        specialKeys.forEach(key => {
-            if (inputValue.endsWith(` ${key}`) || inputValue.endsWith(key)) {
+        if (inputValue.includes("!!") && inputValue.endsWith(' ')) {
+            const keyStartIndex = inputValue.indexOf("!!");
+            const keyEndIndex = inputValue.indexOf(" ", keyStartIndex);
+            const key = inputValue.substring(keyStartIndex, keyEndIndex !== -1 ? keyEndIndex : undefined).trim();
+
+            //-----debug---2--------------------------------
+            // console.log('keyStartIndex: ' + keyStartIndex);
+            // console.log('keyEndIndex: ' + keyEndIndex);
+            // console.log('key: ' + key);
+            //-----debug-----------------------------------
+
+            if (key === '!!clear') {
+                setQuery("");
+                return;
+            }
+
+            if (key === '!!code') {
+                // if (editorVisible && editorInputs) {
+                if (validEngineNames.includes(selectedEngine.name)) {
+                    setEditorVisible(prevVal => !prevVal);
+                    setQuery(inputValue.replace(key, ' ').trim());
+                    return;
+                } else {
+                    setQuery(inputValue.replace(key, ' ').trim());
+                    toast.warn(`There is no reason to use codeEditor in ${selectedEngine.name}`, {
+                        position: "bottom-right",
+                        autoClose: 2400,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                    });
+                    return
+                }
+            }
+
+            const specialKeys = searchEngines.flatMap(group => group.engines.map(engine => engine.key));
+            if (specialKeys.includes(key)) {
                 newSelectedEngine = key;
             }
-        });
 
-        // Update the selected engine if a special key was found at the end of the input
-        if (newSelectedEngine) {
-            const engine = searchEngines.flatMap(group => group.engines).find(engine => engine.key === newSelectedEngine);
-            setSelectedEngine(engine);
-            // Remove the special key from the input value
-            setQuery(inputValue.replace(newSelectedEngine, '').trim());
-        } else {
-            // Otherwise, just update the query
-            setQuery(inputValue);
+            if (newSelectedEngine) {
+                const engine = searchEngines.flatMap(group => group.engines).find(engine => engine.key === newSelectedEngine);
+                setSelectedEngine(engine);
+                setQuery(inputValue.replace(newSelectedEngine, '').trim());
+                return;
+            } else {
+                toast.warn('Key not found!', {
+                    position: "bottom-right",
+                    autoClose: 2400,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    transition: Bounce,
+                });
+                return;
+            }
         }
+
+        setQuery(inputValue);
     };
 
 
@@ -52,7 +103,6 @@ export default function SearchEngine() {
     useEffect(() => { setEditorValue(value); }, [value]);
 
     useEffect(() => {
-        const validEngineNames = ['Google', 'Bing', 'DuckDuckGo', 'Phind (Code)'];
         !validEngineNames.includes(selectedEngine.name) ? setEditorInputs(true) : setEditorInputs(false);
         selectedEngine.name === 'Phind (Code)' ? setEditorVisible(true) : setEditorVisible(false);
     }, [selectedEngine]);
@@ -69,15 +119,17 @@ export default function SearchEngine() {
         const searchUrl = `${selectedEngine.url}${searchQuery}`;
         window.open(searchUrl, '_blank');
     }
-    const tailwindcss = {
-        main: 'm-4 flex h-full w-full',
-        main2: 'box-border',
-        selectDiv: ' flex  items-center mb-4 gap-4 h-12',
-        select: `w-fit rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6`,
-        textArea: 'resize-none px-4 py-2 rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ',
-        btn: 'rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 h-12',
-        img: 'inline h-4 mr-1.5'
-    };
+
+    // const tailwindcss = {
+    //     main: 'm-4 flex h-full w-full',
+    //     main2: 'box-border',
+    //     selectDiv: ' flex  items-center mb-4 gap-4 h-12',
+    //     select: `w-fit rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6`,
+    //     textArea: 'resize-none px-4 py-2 rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ',
+    //     btn: 'rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 h-12',
+    //     img: 'inline h-4 mr-1.5'
+    // };
+
     return (
         <div className="m-4 flex h-full w-full">
             <div className="box-border w-3/5">
@@ -150,7 +202,10 @@ export default function SearchEngine() {
                             } rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 h-12 mr-2 w-2/3`}
                         style={{ width: '60%' }}
                     >
-                        <img src={searchImg} className="inline h-4 mr-1.5" />Search
+                        {/* <img src={searchImg} className="inline h-4 mr-1.5" />Search */}
+                        {/* <div className='inline'> */}
+                        <div className={`mr-1.5  ${'eng-bg-' + searchImg}`}></div>Search
+                        {/* </div> */}
                     </button>
                     <button
                         disabled={btnDisabled}
@@ -170,7 +225,7 @@ export default function SearchEngine() {
                     <br />
                     <h2>Task:</h2>
                     * enter to serach
-                    * need to fix the !!g problem 
+                    * need to fix the !!g problem
                     * need to add sprites to images ( add all images in single images)
                     * correct the scrren width by removing scrool bars
                     * vsCode suggestion not text width need to change
@@ -179,7 +234,13 @@ export default function SearchEngine() {
                     * Slash to enter in search panel
                     * Add simmilar functionality like duckduckgo bango
                     * code disabled for (not for search engines and other seaach engines other all need to off )
-                    * need to extract those tailwindcss in array 
+                    * need to extract those tailwindcss in array
+                    * need to add keyboard shortcut for inputs
+                    * problem images 
+                     stackoverflow 
+                     codesandbox
+                     css tricks
+                     gipyy
                 </div>
             </div>
         </div>

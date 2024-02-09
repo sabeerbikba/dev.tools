@@ -4,61 +4,71 @@ const cards = [{
     heading: 'Images Compression',
     text: 'Compress WebP, PNG and JPEG images to optimize web page loding times',
     link: 'https://tinypng.com/',
-    image: 'george-account-page.webp'
+    imgClassNumber: '1'
+}, {
+    heading: 'Sprites Genrator',
+    text: 'is a tool for creating CSS sprite sheets. CSS sprites are a technique used to combine multiple images into a single image file to reduce the number of server requests,',
+    link: 'https://www.toptal.com/developers/css/sprite-generator',
+    imgClassNumber: '2'
+}, {
+    heading: 'Convert anything',
+    text: 'website offering online file conversion services. Users can convert various types of files, such as documents, images, videos, audio, and more, between different formats',
+    link: 'https://convertio.co/',
+    imgClassNumber: '2'
 }, {
     heading: 'BrandColors',
     text: 'Color used by company to in their website',
     link: 'http://brandcolors.net/',
-    image: 'image 2.jpg'
+    imgClassNumber: '3'
 }, {
     heading: 'CSS color Gradiet',
     text: 'tool that genrate css code for backgound with gradient effect',
     link: 'https://cssgradient.io/',
-    image: 'logo-55c31c59.svg'
+    imgClassNumber: '4'
 }, {
     heading: 'SVG Backgrounds',
     text: 'Provides customizable SVG background with various patterns and colors',
     link: 'https://svgbackgrounds.com/',
-    image: 'image 3.svg'
+    imgClassNumber: '5'
 }, {
     heading: 'Color Palettes',
     text: 'A collection of color palettes for inspiration.',
     link: 'https://colorhunt.co/',
-    image: 'color-hunt-logo-face.svg'
+    imgClassNumber: '6'
 }, {
     heading: 'Material Palette',
     text: 'A tool for creating Material Desingn color palettes',
     link: 'https://materialpalette.com/',
-    image: 'shecodes.png'
+    imgClassNumber: '7'
 }, {
     heading: 'Color Pelette Genrator',
     text: 'A tool for Genrating Color Palettes for creting websites',
     link: 'https://coolors.co/',
-    image: 'logo.svg'
+    imgClassNumber: '2'
 }, {
     heading: 'Adobe Color Wheel',
     text: 'Allow you to create, explore and save color schemes',
     link: 'https://color.adobe.com/create',
-    image: 'download.png'
+    imgClassNumber: '9'
 }, {
     heading: 'Fonts Suggest',
     text: 'Generate font combinations with deep learning',
     link: 'https://fontjoy.com/',
-    image: 'download.gif'
+    imgClassNumber: '10'
 }, {
     heading: 'Icons',
     text: 'free and easy intigration icons (change icon)',
     link: 'https://heroicons.com/',
-    image: 'image 6.svg'
+    imgClassNumber: '11'
 }, {
     heading: 'Draw.io',
     text: 'Draw.io is a online diagramming website that allows users to create diagrams, flowcharts and various other visual representations (vscode extension avilable)',
     link: 'https://app.diagrams.net/',
-    image: 'image7.svg'
+    imgClassNumber: '14'
 }, {
     heading: 'Bootstrap icons',
     text: 'icons by bootstrap',
     link: 'https://icons.getbootstrap.com/',
-    image:  'image7.svg'
+    imgClassNumber: '14'
 }]
 export default cards;
