@@ -5,7 +5,7 @@ import searchEngines, { files } from '../data/searchEngine';
 
 console.log();
 export default function SearchEngine() {
-    const [query, setQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
     const [selectedEngine, setSelectedEngine] = useState(searchEngines[0].engines[0]);
     const [editorVisible, setEditorVisible] = useState(false);
     const [language, setLanguage] = useState(Object.keys(files)[0]);
@@ -21,7 +21,7 @@ export default function SearchEngine() {
     const searchImg = safeSelectedEngine.imgClassName
 
     const advanceSearch = safeSelectedEngine.advanceSearchBtn;
-    const btnDisabled = !safeSelectedEngine || query === '';
+    const btnDisabled = !safeSelectedEngine || searchQuery === '';
     const file = files[language];
     const value = files[language].value;
     const validEngineNames = ['Google', 'Bing', 'DuckDuckGo', 'Phind (Code)'];
@@ -42,7 +42,7 @@ export default function SearchEngine() {
             //-----debug-----------------------------------
 
             if (key === '!!clear') {
-                setQuery("");
+                setSearchQuery("");
                 return;
             }
 
@@ -50,10 +50,10 @@ export default function SearchEngine() {
                 // if (editorVisible && editorInputs) {
                 if (validEngineNames.includes(selectedEngine.name)) {
                     setEditorVisible(prevVal => !prevVal);
-                    setQuery(inputValue.replace(key, ' ').trim());
+                    setSearchQuery(inputValue.replace(key, ' ').trim());
                     return;
                 } else {
-                    setQuery(inputValue.replace(key, ' ').trim());
+                    setSearchQuery(inputValue.replace(key, ' ').trim());
                     toast.warn(`There is no reason to use codeEditor in ${selectedEngine.name}`, {
                         position: "bottom-right",
                         autoClose: 2400,
@@ -77,9 +77,10 @@ export default function SearchEngine() {
             if (newSelectedEngine) {
                 const engine = searchEngines.flatMap(group => group.engines).find(engine => engine.key === newSelectedEngine);
                 setSelectedEngine(engine);
-                setQuery(inputValue.replace(newSelectedEngine, '').trim());
+                setSearchQuery(inputValue.replace(newSelectedEngine, '').trim());
                 return;
             } else {
+                setSearchQuery(inputValue.replace(key, '!!').trim());
                 toast.warn('Key not found!', {
                     position: "bottom-right",
                     autoClose: 2400,
@@ -95,7 +96,7 @@ export default function SearchEngine() {
             }
         }
 
-        setQuery(inputValue);
+        setSearchQuery(inputValue);
     };
 
 
@@ -114,9 +115,9 @@ export default function SearchEngine() {
 
     function handleSearch() {
 
-        const addQuery = editorVisible ? query + ' ```' + file.language + ' ' + editorValue + '```' : query;
-        const searchQuery = encodeURIComponent(addQuery);
-        const searchUrl = `${selectedEngine.url}${searchQuery}`;
+        const addQuery = editorVisible ? searchQuery + ' ```' + file.language + ' ' + editorValue + '```' : searchQuery;
+        const finalSearchQuery = encodeURIComponent(addQuery);
+        const searchUrl = `${selectedEngine.url}${finalSearchQuery}`;
         window.open(searchUrl, '_blank');
     }
 
@@ -171,7 +172,7 @@ export default function SearchEngine() {
                         />{' '}codeEditor</label>
                 </div>
                 <textarea
-                    value={query}
+                    value={searchQuery}
                     onChange={handleInputChange}
                     className="resize-none px-4 py-2 rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                     placeholder="  Enter search query"
@@ -209,7 +210,7 @@ export default function SearchEngine() {
                     </button>
                     <button
                         disabled={btnDisabled}
-                        onClick={() => setQuery('')}
+                        onClick={() => setSearchQuery('')}
                         className={`${btnDisabled ? 'btn-disabled' : ''
                             } rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 h-12 w-1/3`}
                     >
@@ -236,11 +237,11 @@ export default function SearchEngine() {
                     * code disabled for (not for search engines and other seaach engines other all need to off )
                     * need to extract those tailwindcss in array
                     * need to add keyboard shortcut for inputs
-                    * problem images 
-                     stackoverflow 
-                     codesandbox
-                     css tricks
-                     gipyy
+                    * problem images
+                    stackoverflow
+                    codesandbox
+                    css tricks
+                    gipyy
                 </div>
             </div>
         </div>

@@ -21,6 +21,7 @@ import AutoprefixerTool from "./pages/Autoprefixer.jsx";
 // import SearchWord from "./pages/SearchWord.jsx";
 // import SVGEditor from "./pages/SVGeditor.jsx";
 import SearchEngine from "./pages/SearchEngine.jsx";
+import Test from "./pages/testing/Test.jsx";
 
 export default function App() {
   useEffect(() => {
@@ -53,6 +54,7 @@ export default function App() {
             {/* <Route path="SearchWord" element={<SearchWord/>} /> */} {/* not possible beacaus it's backen product  */}
             {/* <Route path="SVGeditor" element={<SVGEditor/>} /> */} {/* not possible not better lib avialable */}
             <Route path="SearchEngine" element={<SearchEngine />} />
+            <Route path="Test" element={<Test />} />
           </Route>
         </Routes>
       </BrowserRouter>

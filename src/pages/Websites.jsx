@@ -1,5 +1,5 @@
-import cards, { __baseUrl } from "../data/websites";
-console.log(cards.length);
+import cards from "../data/websites";
+// console.log(cards.length);
 
 export default function Websites() {
     return (
