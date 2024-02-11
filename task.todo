@@ -7,6 +7,13 @@ need to explore more convert tools from the internet
 creat section for APIs give highter like free and paid to that card: twillio, spalshimages
 creat section for beautiful ui lib with npm and docs link if avilable 
 remove unncessary code files that not used any where test workin as expented 
+need to add prop types to all component 
+searchEngine component
+  * correct the scrren width by removing scrool bars
+  * vsCode press f12 check fix that probelm
+  * open serach last opened window
+  * how to use make button shortcuts
+  * add support code editor for You.com
 
 toolsIdea's----------------------------------------------------------------------------------
 * Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
@@ -17,6 +24,7 @@ toolsIdea's---------------------------------------------------------------------
  litehouse
  metatag suggetions 
  * need to adjust sprites images 
+ html beautifier
 ---------------------------------------------------------------------------------------------
 
 install tailwindcss file if supported for .jsx file 
@@ -55,6 +63,7 @@ project progress:
 07/02 | 8.30hr | added code editor for nessary serach engines, added functionality select search engine from input using keys (need improvments)
 08/02 | 10hr   | made imporvements in select search engine from input with two extra keys !!code to open code editor and !!clear to clear input and added sprites in searchEngine component and website component
 09/02 | 6hr | created in test simmilar to command functionality in input using top arrow key can access last inputs and created uselocalstroage hook  
+10/02 | 11hr | added command line functionality into searchinput in searchEngines component, removed useState and instead used useReducer, tested according with commands need to implement after complete testing
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴
