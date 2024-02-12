@@ -196,40 +196,148 @@ const searchEngines = [
 ];
 export default searchEngines;
 
+
 export const files = {
-    "JavaScript": { language: "javascript", value: `// add some javascript code ` },
-    "CSS": { language: "css", value: `/* add some css code  */` },
-    "HTML": { language: "html", value: `<!-- add some some html code  -->` },
-    "TypeScript": { language: "typescript", value: `// add some TypeScript code` },
-    "LESS": { language: "less", value: `/* add some LESS code */` },
-    "SCSS": { language: "scss", value: `/* add some SCSS code */` },
+    "JavaScript": {
+        language: "javascript",
+        key: '!!.js',
+        value: `// add some javascript code `
+    },
+    "CSS": {
+        language: "css",
+        key: '!!.css',
+        value: `/* add some css code  */`
+    },
+    "HTML": {
+        language: "html",
+        key: '!!.html',
+        value: `<!-- add some some html code  -->`
+    },
+    "TypeScript": {
+        language: "typescript",
+        key: '!!.ts',
+        value: `// add some TypeScript code`
+    },
+    "LESS": {
+        language: "less",
+        key: '!!.less',
+        value: `/* add some LESS code */`
+    },
+    "SCSS": {
+        language: "scss",
+        key: '!!.scss',
+        value: `/* add some SCSS code */`
+    },
     "JSON": {
         language: "json",
+        key: '!!.json',
         value: `{
   "key": "value"
 }` },
-    "XML": { language: "xml", value: `<!-- add some XML code -->` },
+    "XML": {
+        language: "xml",
+        key: '!!.xml',
+        value: `<!-- add some XML code -->`
+    },
     "PHP": {
-        language: "php", value: `<?php
+        language: "php",
+        key: '!!.php',
+        value: `<?php
 // add some PHP code
 ?>`},
-    "C#": { language: "csharp", value: `// add some C# code` },
-    "C++": { language: "cpp", value: `// add some C++ code` },
-    "Razor": { language: "razor", value: `<!-- add some Razor code -->` },
-    "Markdown": { language: "markdown", value: `# add some Markdown code` },
-    "Diff": { language: "diff", value: `// add some Diff code` },
-    "Java": { language: "java", value: `// add some Java code` },
-    "VB": { language: "vb", value: `' add some VB code` },
-    "CoffeeScript": { language: "coffeescript", value: `# add some CoffeeScript code` },
-    "Handlebars": { language: "handlebars", value: `<!-- add some Handlebars code -->` },
-    "Batch": { language: "batch", value: `REM add some Batch code` },
-    "Pug": { language: "pug", value: `// add some Pug code` },
-    "F#": { language: "fsharp", value: `// add some F# code` },
-    "Lua": { language: "lua", value: `-- add some Lua code` },
-    "Powershell": { language: "powershell", value: `# add some Powershell code` },
-    "Python": { language: "python", value: `# add some Python code` },
-    "Ruby": { language: "ruby", value: `# add some Ruby code` },
-    "SASS": { language: "sass", value: `// add some SASS code` },
-    "R": { language: "r", value: `# add some R code` },
-    "Objective-C": { language: "objective-c", value: `// add some Objective-C code` }
+    "C#": {
+        language: "csharp",
+        key: '!!.cs',
+        value: `// add some C# code`
+    },
+    "C++": {
+        language: "cpp",
+        key: '!!.cpp',
+        value: `// add some C++ code`
+    },
+    "Razor": {
+        language: "razor",
+        key: '!!.cshtml',
+        value: `<!-- add some Razor code -->`
+    },
+    "Markdown": {
+        language: "markdown",
+        key: '!!.md',
+        value: `# add some Markdown code`
+    },
+    "Diff": {
+        language: "diff",
+        key: '!!.diff',
+        value: `// add some Diff code`
+    },
+    "Java": {
+        language: "java",
+        key: '!!.java',
+        value: `// add some Java code`
+    },
+    "VB": {
+        language: "vb",
+        key: '!!.vb',
+        value: `' add some VB code`
+    },
+    "CoffeeScript": {
+        language: "coffeescript",
+        key: '!!.coffee',
+        value: `# add some CoffeeScript code`
+    },
+    "Handlebars": {
+        language: "handlebars",
+        key: '!!.hbs',
+        value: `<!-- add some Handlebars code -->`
+    },
+    "Batch": {
+        language: "batch",
+        key: '!!.bat',
+        value: `REM add some Batch code`
+    },
+    "Pug": {
+        language: "pug",
+        key: '!!.pug',
+        value: `// add some Pug code`
+    },
+    "F#": {
+        language: "fsharp",
+        key: '!!.fs',
+        value: `// add some F# code`
+    },
+    "Lua": {
+        language: "lua",
+        key: '!!.lua',
+        value: `-- add some Lua code`
+    },
+    "Powershell": {
+        language: "powershell",
+        key: '!!.ps1',
+        value: `# add some Powershell code`
+    },
+    "Python": {
+        language: "python",
+        key: '!!.py',
+        value: `# add some Python code`
+    },
+    "Ruby": {
+        language: "ruby",
+        key: '!!.rb',
+        value: `# add some Ruby code`
+    },
+    "SASS": {
+        language: "sass",
+        key: '!!.sass',
+        value: `// add some SASS code`
+    },
+    "R": {
+        language: "r",
+        key: '!!.r',
+        value: `# add some R code`
+    },
+    "Objective-C": {
+        language: "objective-c",
+        key: '!!.m',
+        value: `// add some Objective-C code`
+    }
 };

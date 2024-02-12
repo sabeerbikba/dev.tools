@@ -24,7 +24,7 @@ toolsIdea's---------------------------------------------------------------------
  litehouse
  metatag suggetions 
  * need to adjust sprites images 
- html beautifier
+ html beautifier or use older imges in Websites component 
 ---------------------------------------------------------------------------------------------
 
 install tailwindcss file if supported for .jsx file 
@@ -64,6 +64,7 @@ project progress:
 08/02 | 10hr   | made imporvements in select search engine from input with two extra keys !!code to open code editor and !!clear to clear input and added sprites in searchEngine component and website component
 09/02 | 6hr | created in test simmilar to command functionality in input using top arrow key can access last inputs and created uselocalstroage hook  
 10/02 | 11hr | added command line functionality into searchinput in searchEngines component, removed useState and instead used useReducer, tested according with commands need to implement after complete testing
+11/02 | 9.40hr | added shortcuts bar, now key support in also in upperCase, fixed bug code editor open close from input, fixed language selection error, added fancy hr inside shortcut inside searchEngine component 
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴

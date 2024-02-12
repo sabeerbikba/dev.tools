@@ -455,3 +455,156 @@ li {
   height: 18px;
   background: var(--sprite-eng-url) -960px -10px;
 }
+
+
+
+
+
+/**
+* ----------------------------------------------
+* Demo styles 
+* according pasted code 
+* odified 
+* ----------------------------------------------
+**/
+
+.accordion_main {
+  position: absolute;
+  bottom: 0;
+  width: 94.5%;
+}
+
+
+.accordion {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.accordion__item+.accordion__item {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.accordion__panel {
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: rgba(23, 23, 23, 0.14);
+  color: #aaaaaa;
+}
+
+/* ther is another accordin panel */
+
+.accordion__button {
+  background-color: #f4f4f4;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background-color: #7e7dff;
+  text-transform: capitalize;
+  color: rgb(53, 53, 53);
+}
+
+.accordion__button:hover {
+  background-color: #7d7dffc8;
+}
+
+@keyframes rotateOpenAnimation {
+  from {
+    transform: rotate(-45deg);
+  }
+
+  to {
+    transform: rotate(225deg);
+  }
+}
+
+@keyframes rotateCloseAnimation {
+  from {
+    transform: rotate(225deg);
+  }
+
+  to {
+    transform: rotate(-45deg);
+  }
+}
+
+.accordion__button {
+  user-select: none;
+}
+
+.accordion__button:before {
+  display: inline-block;
+  content: '';
+  height: 10px;
+  width: 10px;
+  margin-right: 12px;
+  border-bottom: 2px solid currentColor;
+  border-right: 2px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+.accordion__button[aria-expanded='true']::before,
+.accordion__button[aria-selected='true']::before {
+  animation: rotateOpenAnimation 0.3s ease forwards;
+}
+
+.accordion__button[aria-expanded='false']::before,
+.accordion__button[aria-selected='false']::before {
+  animation: rotateCloseAnimation 0.3s ease forwards;
+}
+
+[hidden] {
+  display: none;
+}
+
+hr.hr {
+  border-width: 0 0 1px;
+  color: #aaaaaa;
+  border-image: linear-gradient(90deg,
+      rgba(135, 206, 235, 0),
+      #aaaaaa 50%,
+      rgba(135, 206, 235, 0) 100%) 0 0 100%;
+  border-style: solid;
+  padding-top: 12px;
+  margin-bottom: 8px;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #46464677;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.accordion__panel {
+  padding: 20px;
+  animation: fadein 0.35s ease-in;
+  /* height: 80%; */
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
