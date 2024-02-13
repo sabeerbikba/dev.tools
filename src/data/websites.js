@@ -70,5 +70,10 @@ const cards = [{
     text: 'icons by bootstrap',
     link: 'https://icons.getbootstrap.com/',
     imgClassNumber: '14'
+}, {
+    heading: 'heasd',
+    text: 'text',
+    link: 'https://regexr.com/',
+    imgClassNumber: '21'
 }]
 export default cards;

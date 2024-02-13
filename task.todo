@@ -6,9 +6,12 @@ need to explore all tools in transform.tools website
 need to explore more convert tools from the internet
 creat section for APIs give highter like free and paid to that card: twillio, spalshimages
 creat section for beautiful ui lib with npm and docs link if avilable 
-remove unncessary code files that not used any where test workin as expented 
+remove unncessary code files that not used any where test working as expented 
 need to add prop types to all component 
+need to think about when select youtube from code editor i nee to remove code editor and focus in input or show eoor 
 searchEngine component
+added newly added keys inside shortcuts imporve shortcus tab 
+
   * correct the scrren width by removing scrool bars
   * vsCode press f12 check fix that probelm
   * open serach last opened window
@@ -53,8 +56,8 @@ give full code don't even miss single line
 
 -----------------------------------------------------------------------------------------------------------
 project progress:
-31/01 | 10hr | project initialized and added 7 tools
-01/02 | 8hr | removed unncessary code from 7 tools, created svg-to-react but not done
+31/01 | 10hr   | project initialized and added 7 tools
+01/02 | 8hr    | removed unncessary code from 7 tools, created svg-to-react but not done
 02/02 | 9.30hr | improved website page appearnces, page simmilarWebsites added and page added browser-ready-css  
 03/02 | 8.30hr | added manoco editor in word counter and added monaco editor in browser ready css with 2 more functionality
 04/02 | 9.30hr | side nav appearnce, added colorpicker in color convertor component, global text color & background color, some adjustment in unitconvertor component, used Dry method in colorpicker component and hashgenrator, implement base logic for serach engine component
@@ -62,9 +65,10 @@ project progress:
 06/02 | 8.30hr | added muliple code editor in searchEngine component and some extra functions 
 07/02 | 8.30hr | added code editor for nessary serach engines, added functionality select search engine from input using keys (need improvments)
 08/02 | 10hr   | made imporvements in select search engine from input with two extra keys !!code to open code editor and !!clear to clear input and added sprites in searchEngine component and website component
-09/02 | 6hr | created in test simmilar to command functionality in input using top arrow key can access last inputs and created uselocalstroage hook  
-10/02 | 11hr | added command line functionality into searchinput in searchEngines component, removed useState and instead used useReducer, tested according with commands need to implement after complete testing
+09/02 | 6hr    | created in test simmilar to command functionality in input using top arrow key can access last inputs and created uselocalstroage hook  
+10/02 | 11hr   | added command line functionality into searchinput in searchEngines component, removed useState and instead used useReducer, tested according with commands need to implement after complete testing
 11/02 | 9.40hr | added shortcuts bar, now key support in also in upperCase, fixed bug code editor open close from input, fixed language selection error, added fancy hr inside shortcut inside searchEngine component 
+12/02 | 10hr   | added keys in sleection and created imporved hanldeInputs condition now only fixed bug now only work keys only work end of file, fixed simmilar website component key error
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴

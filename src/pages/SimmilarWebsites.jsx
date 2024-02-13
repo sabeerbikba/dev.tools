@@ -28,29 +28,29 @@ export default function SimilarWebsites() {
     );
 }
 
+
 function Buttons({ websites, handleClick, pageIndex }) {
     return (
         <div className="pagination">
             {websites.map(website => (
-                <>
-                    <button
-                        className={`sw-btn ${website.pageIndex === pageIndex ? 'sw-btn-active' : ''}`}
-                        key={website.pageIndex}
-                        onClick={() => handleClick(website.pageIndex)}
-                    >
-                        {website.name}
-                        <a className="sw-btn-link" href={website.link} target="_blank" rel="noreferrer">visit site</a>
-                    </button>
-                </>
+                <button
+                    className={`sw-btn ${website.pageIndex === pageIndex ? 'sw-btn-active' : ''}`}
+                    key={website.pageIndex}
+                    onClick={() => handleClick(website.pageIndex)}
+                >
+                    {website.name}
+                    <a className="sw-btn-link" href={website.link} target="_blank" rel="noreferrer">visit site</a>
+                </button>
             ))}
         </div>
     );
 }
 
+
 function Content({ link }) {
     return (
         <>
-            <iframe style={{borderLeft: '1px solid white'}} src={link} width="100%" height="95%"></iframe>
+            <iframe style={{ borderLeft: '1px solid white' }} src={link} width="100%" height="95%"></iframe>
         </>
     );
 }

@@ -201,7 +201,7 @@ export const files = {
     "JavaScript": {
         language: "javascript",
         key: '!!.js',
-        value: `// add some javascript code `
+        // value: `// add some javascript code `
     },
     "CSS": {
         language: "css",

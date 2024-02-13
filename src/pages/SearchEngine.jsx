@@ -90,7 +90,7 @@ export default function SearchEngine() {
         const inputValue = event.target.value;
         let newSelectedEngine = null;
 
-        if (inputValue.includes("!!") && inputValue.endsWith(' ')) {
+        if (inputValue.includes("!!") && inputValue.endsWith('  ')) {
             const keyStartIndex = inputValue.indexOf("!!");
             const keyEndIndex = inputValue.indexOf(" ", keyStartIndex);
             const key = inputValue.substring(keyStartIndex, keyEndIndex !== -1 ? keyEndIndex : undefined).trim(); console.log(key);
