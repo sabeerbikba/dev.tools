@@ -1,12 +1,10 @@
-export const __baseUrl = './src/assets/website/'
-
 const cards = [{
     heading: 'Images Compression',
     text: 'Compress WebP, PNG and JPEG images to optimize web page loding times',
     link: 'https://tinypng.com/',
     imgClassNumber: '1'
 }, {
-    heading: 'Sprites Genrator',
+    heading: 'Sprites Generator',
     text: 'Tool for creating CSS sprite sheets (Better to use when all image same size). CSS sprites are a technique used to combine multiple images into a single image file to reduce the number of server requests,',
     link: 'https://www.toptal.com/developers/css/sprite-generator',
     imgClassNumber: '2'
@@ -21,7 +19,7 @@ const cards = [{
     link: 'http://brandcolors.net/',
     imgClassNumber: '4'
 }, {
-    heading: 'CSS color Gradiet',
+    heading: 'CSS Color Gradient',
     text: 'tool that genrate css code for backgound with gradient effect',
     link: 'https://cssgradient.io/',
     imgClassNumber: '5'
@@ -41,7 +39,7 @@ const cards = [{
     link: 'https://materialpalette.com/',
     imgClassNumber: '8'
 }, {
-    heading: 'Color Pelette Genrator',
+    heading: 'Color Palette Generator',
     text: 'A tool for Genrating Color Palettes for creting websites',
     link: 'https://coolors.co/',
     imgClassNumber: '9'
@@ -66,14 +64,19 @@ const cards = [{
     link: 'https://app.diagrams.net/',
     imgClassNumber: '13'
 }, {
-    heading: 'Bootstrap icons',
+    heading: 'Bootstrap Icons',
     text: 'icons by bootstrap',
     link: 'https://icons.getbootstrap.com/',
     imgClassNumber: '14'
 }, {
-    heading: 'heasd',
+    heading: 'regExGen1',
     text: 'text',
     link: 'https://regexr.com/',
-    imgClassNumber: '21'
+    imgClassNumber: '15'
+}, {
+    heading: 'regExGen2',
+    texg: 'lorem ipsum',
+    link: 'https://regex-generator.olafneumann.org/',
+    imgClassNumber: '16'
 }]
 export default cards;

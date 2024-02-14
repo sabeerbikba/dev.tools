@@ -69,6 +69,7 @@ project progress:
 10/02 | 11hr   | added command line functionality into searchinput in searchEngines component, removed useState and instead used useReducer, tested according with commands need to implement after complete testing
 11/02 | 9.40hr | added shortcuts bar, now key support in also in upperCase, fixed bug code editor open close from input, fixed language selection error, added fancy hr inside shortcut inside searchEngine component 
 12/02 | 10hr   | added keys in sleection and created imporved hanldeInputs condition now only fixed bug now only work keys only work end of file, fixed simmilar website component key error
+13/02 | 7hr    | completed shortcuts tab, made code cleaner and use best Practices in search Engines component 
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴

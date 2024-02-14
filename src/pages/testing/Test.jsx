@@ -9,6 +9,18 @@ import {
 import useLocalStorage from '../../hooks/useLocalStorage';
 import searchEngines, { defaultImgClassName, files } from '../../data/searchEngine';
 
+const actionTypes = {
+    SET_SEARCH_QUERY: 'SET_SEARCH_QUERY',
+    SET_SELECTED_ENGINE: 'SET_SELECTED_ENGINE',
+    TOGGLE_EDITOR_VISIBILITY: 'TOGGLE_EDITOR_VISIBILITY',
+    SET_LANGUAGE: 'SET_LANGUAGE',
+    SET_EDITOR_VALUE: 'SET_EDITOR_VALUE',
+    SET_EDITOR_INPUTS: 'SET_EDITOR_INPUTS',
+    SET_HISTORY_INDEX: 'SET_HISTORY_INDEX',
+    SET_SAVE_INPUT: 'SET_SAVE_INPUT',
+    SET_SHOULD_FOCUS_EDITOR: 'SET_SHOULD_FOCUS_EDITOR',
+};
+
 const initialState = {
     searchQuery: '',
     selectedEngine: searchEngines[0].engines[0],
@@ -24,23 +36,23 @@ const initialState = {
 
 function searchReducer(state, action) {
     switch (action.type) {
-        case 'SET_SEARCH_QUERY':
+        case actionTypes.SET_SEARCH_QUERY:
             return { ...state, searchQuery: action.payload };
-        case 'SET_SELECTED_ENGINE':
+        case actionTypes.SET_SELECTED_ENGINE:
             return { ...state, selectedEngine: action.payload };
-        case 'TOGGLE_EDITOR_VISIBILITY':
+        case actionTypes.TOGGLE_EDITOR_VISIBILITY:
             return { ...state, editorVisible: action.payload };
-        case 'SET_LANGUAGE':
+        case actionTypes.SET_LANGUAGE:
             return { ...state, language: action.payload, editorKey: Date.now() };
-        case 'SET_EDITOR_VALUE':
+        case actionTypes.SET_EDITOR_VALUE:
             return { ...state, editorValue: action.payload };
-        case 'SET_EDITOR_INPUTS':
+        case actionTypes.SET_EDITOR_INPUTS:
             return { ...state, editorInputs: action.payload };
-        case 'SET_HISTORY_INDEX':
+        case actionTypes.SET_HISTORY_INDEX:
             return { ...state, historyIndex: action.payload };
-        case 'SET_SAVE_INPUT':
+        case actionTypes.SET_SAVE_INPUT:
             return { ...state, saveInput: action.payload };
-        case 'SET_SHOULD_FOCUS_EDITOR':
+        case actionTypes.SET_SHOULD_FOCUS_EDITOR:
             return { ...state, shouldFocusEditor: action.payload }
         default:
             console.error('Unknown action: ' + action.type);
@@ -50,6 +62,9 @@ function searchReducer(state, action) {
 }
 
 export default function SearchEngine() {
+    const editorRef = useRef(null);
+    const textAreaRef = useRef(null);
+    const [history, setHistory] = useLocalStorage('history', [], 30);
     const [state, dispatch] = useReducer(searchReducer, initialState);
     const {
         searchQuery,
@@ -63,27 +78,6 @@ export default function SearchEngine() {
         saveInput,
         shouldFocusEditor
     } = state;
-    console.log('shouldFocusEditor: ' + shouldFocusEditor);
-
-
-    useEffect(() => {
-        if (shouldFocusEditor && editorRef.current) {
-            editorRef.current.focus();
-            editorRef.current.revealLineInCenter(1);
-            dispatch({ type: 'SET_SHOULD_FOCUS_EDITOR', payload: false })
-        }
-    }, [shouldFocusEditor]);
-
-    function handleEditorMount(editor) {
-        editorRef.current = editor;
-        dispatch({ type: 'SET_SHOULD_FOCUS_EDITOR', payload: true })
-    }
-
-
-
-    const [history, setHistory] = useLocalStorage('history', [], 30);
-    const editorRef = useRef(null);
-    const textAreaRef = useRef(null);
 
     const advanceSearch = selectedEngine.advanceSearchBtn;
     const btnDisabled = !selectedEngine || searchQuery === '';
@@ -91,50 +85,72 @@ export default function SearchEngine() {
     const validEngineNames = ['Google', 'Bing', 'DuckDuckGo', 'Phind (Code)', 'You.com'];
     const visibleEditor = ['Phind (Code)', 'You.com'];
 
-    const handleKeyDown = (event) => {
+
+    function handleEditorMount(editor) {
+        editorRef.current = editor;
+        dispatch({ type: actionTypes.SET_SHOULD_FOCUS_EDITOR, payload: true })
+    }
+
+    function handleSearch() {
+        if (searchQuery.trim() !== '') {
+            setHistory([searchQuery, ...history]);
+            dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: '' });
+            dispatch({ type: actionTypes.SET_HISTORY_INDEX, payload: -1 });
+        }
+        const addQuery = editorVisible ? searchQuery + ' ```' + language + ' ' + editorValue + '```' : searchQuery;
+
+        const finalSearchQuery = encodeURIComponent(addQuery);
+        const searchUrl = `${selectedEngine.url}${finalSearchQuery}`;
+        window.open(searchUrl, '_blank');
+    }
+
+    function handleFileChange(event) {
+        const newLanguage = event.target.value;
+        dispatch({ type: actionTypes.SET_LANGUAGE, payload: newLanguage });
+    }
+
+    function handleKeyDown(event) {
 
         if (event.key === 'ArrowUp') {
             if (historyIndex < history.length - 1) {
-                dispatch({ type: 'SET_HISTORY_INDEX', payload: historyIndex + 1 });
-                dispatch({ type: 'SET_SEARCH_QUERY', payload: history[historyIndex + 1] });
+                dispatch({ type: actionTypes.SET_HISTORY_INDEX, payload: historyIndex + 1 });
+                dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: history[historyIndex + 1] });
             }
         } else if (event.key === 'ArrowDown') {
             if (historyIndex > 0) {
-                dispatch({ type: 'SET_HISTORY_INDEX', payload: historyIndex - 1 });
-                dispatch({ type: 'SET_SEARCH_QUERY', payload: history[historyIndex - 1] });
+                dispatch({ type: actionTypes.SET_HISTORY_INDEX, payload: historyIndex - 1 });
+                dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: history[historyIndex - 1] });
             } else if (historyIndex === 0) {
-                dispatch({ type: 'SET_HISTORY_INDEX', payload: -1 });
-                dispatch({ type: 'SET_SEARCH_QUERY', payload: saveInput });
+                dispatch({ type: actionTypes.SET_HISTORY_INDEX, payload: -1 });
+                dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: saveInput });
             }
         }
-    };
-
+    }
 
     function handleInputChange(event) {
         const inputValue = event.target.value;
         let newSelectedEngine = null;
+        dispatch({ type: actionTypes.SET_SAVE_INPUT, payload: inputValue });
 
         // if (inputValue.includes("!!") && inputValue.endsWith()) {
-        if (/!![\w\S\d]*\s$/gi.test(inputValue)) {
+        if (/!![\w\d\S]*\s$/gi.test(inputValue)) {
 
             const keyStartIndex = inputValue.indexOf("!!");
             const keyEndIndex = inputValue.indexOf(" ", keyStartIndex);
             const key = inputValue.substring(keyStartIndex, keyEndIndex !== -1 ? keyEndIndex : undefined).trim();
-            // console.log(key);
             const keyLowerCase = key.toLowerCase();
 
 
             if (keyLowerCase === '!!clear') {
-                dispatch({ type: 'SET_SEARCH_QUERY', payload: "" });
+                dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: "" });
                 return;
             }
 
             if (keyLowerCase === '!!code') {
                 if (validEngineNames.includes(selectedEngine.name)) {
-                    dispatch({ type: 'TOGGLE_EDITOR_VISIBILITY', payload: !state.editorVisible });
+                    dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: !state.editorVisible });
 
                     if (editorRef.current && editorVisible) {
-                        console.log('editor visible');
 
                         if (shouldFocusEditor) {
                             editorRef.current.focus();
@@ -142,10 +158,10 @@ export default function SearchEngine() {
                         }
 
                     }
-                    dispatch({ type: 'SET_SEARCH_QUERY', payload: inputValue.replace(key, ' ').trim() });
+                    dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: inputValue.replace(key, ' ').trim() });
                     return;
                 } else {
-                    dispatch({ type: 'SET_SEARCH_QUERY', payload: inputValue.replace(key, ' ').trim() });
+                    dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: inputValue.replace(key, ' ').trim() });
                     toast.warn(`There is no reason to use codeEditor when selected ${selectedEngine.name}`, {
                         position: "bottom-right",
                         autoClose: 3000,
@@ -168,12 +184,12 @@ export default function SearchEngine() {
             }
 
             if (newSelectedEngine) {
-                dispatch({ type: 'SET_SELECTED_ENGINE', payload: newSelectedEngine });
+                dispatch({ type: actionTypes.SET_SELECTED_ENGINE, payload: newSelectedEngine });
                 const newQuery = inputValue.replace(key, '').trim();
-                dispatch({ type: 'SET_SEARCH_QUERY', payload: newQuery });
+                dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: newQuery });
                 return;
             } else {
-                dispatch({ type: 'SET_SEARCH_QUERY', payload: inputValue.replace(key, '!!').trim() });
+                dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: inputValue.replace(key, '!!').trim() });
                 toast.warn('Key not found!', {
                     position: "bottom-right",
                     autoClose: 1400,
@@ -187,10 +203,8 @@ export default function SearchEngine() {
                 });
                 return;
             }
-
         }
-        // }
-        dispatch({ type: 'SET_SEARCH_QUERY', payload: inputValue });
+        dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: inputValue });
     }
 
     function handleCodeChange(code) {
@@ -198,20 +212,20 @@ export default function SearchEngine() {
         let newSelectedEngine = null;
 
         // if (inputCode.includes("!!") && inputCode.endsWith(' ')) {
-        if (/!![\w\S\d]*\s$/gi.test(inputCode)) {
+        if (/!![\w\d\S]*\s$/gi.test(inputCode)) {
             const keyStartIndex = inputCode.indexOf("!!");
             const keyEndIndex = inputCode.indexOf(" ", keyStartIndex);
             const key = inputCode.substring(keyStartIndex, keyEndIndex !== -1 ? keyEndIndex : undefined).trim();
             const keyLowerCase = key.toLowerCase();
 
             if (keyLowerCase === '!!clear') {
-                dispatch({ type: 'SET_EDITOR_VALUE', payload: '' });
+                dispatch({ type: actionTypes.SET_EDITOR_VALUE, payload: '' });
                 return;
             }
 
             if (keyLowerCase === '!!code') {
-                dispatch({ type: 'TOGGLE_EDITOR_VISIBILITY', payload: !state.editorVisible });
-                dispatch({ type: 'SET_EDITOR_VALUE', payload: inputCode.replace(key, '').trim() });
+                dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: !state.editorVisible });
+                dispatch({ type: actionTypes.SET_EDITOR_VALUE, payload: inputCode.replace(key, '').trim() });
                 textAreaRef.current.focus();
                 return;
             }
@@ -224,17 +238,17 @@ export default function SearchEngine() {
             }
 
             if (language) {
-                dispatch({ type: 'SET_LANGUAGE', payload: language });
-                dispatch({ type: 'SET_EDITOR_VALUE', payload: inputCode.replace(key, '').trim() });
+                dispatch({ type: actionTypes.SET_LANGUAGE, payload: language });
+                dispatch({ type: actionTypes.SET_EDITOR_VALUE, payload: inputCode.replace(key, '').trim() });
                 return;
             } else if (newSelectedEngine) {
                 if (validEngineNames.includes(newSelectedEngine.name)) {
-                    dispatch({ type: 'TOGGLE_EDITOR_VISIBILITY', payload: true })
-                    dispatch({ type: 'SET_SELECTED_ENGINE', payload: newSelectedEngine });
-                    dispatch({ type: 'SET_EDITOR_VALUE', payload: inputCode.replace(key, '').trim() });
+                    dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: true })
+                    dispatch({ type: actionTypes.SET_SELECTED_ENGINE, payload: newSelectedEngine });
+                    dispatch({ type: actionTypes.SET_EDITOR_VALUE, payload: inputCode.replace(key, '').trim() });
                     return;
                 } else {
-                    dispatch({ type: 'SET_EDITOR_VALUE', payload: inputCode.replace(key, ' ').trim() });
+                    dispatch({ type: actionTypes.SET_EDITOR_VALUE, payload: inputCode.replace(key, ' ').trim() });
                     toast.warn(`There is no reason to use codeEditor when selected ${newSelectedEngine.name}`, {
                         position: "bottom-right",
                         autoClose: 3000,
@@ -249,7 +263,7 @@ export default function SearchEngine() {
                     return;
                 }
             } else {
-                dispatch({ type: 'SET_EDITOR_VALUE', payload: inputCode.replace(key, '!!').trim() });
+                dispatch({ type: actionTypes.SET_EDITOR_VALUE, payload: inputCode.replace(key, '!!').trim() });
                 toast.warn('Key not found!', {
                     position: "bottom-right",
                     autoClose: 1400,
@@ -265,37 +279,29 @@ export default function SearchEngine() {
             }
 
         }
-        dispatch({ type: 'SET_EDITOR_VALUE', payload: inputCode })
+        dispatch({ type: actionTypes.SET_EDITOR_VALUE, payload: inputCode })
     }
 
-    // shorcuts accordion will be 
-    //------------------ inside serch query -----------------------
-    //    _______________________________________________________
-    /**
-     * all the keys 
-     * 
-     */
-    //------------------ inside code editor -----------------------
 
-
-
-    const handleFileChange = (event) => {
-        const newLanguage = event.target.value;
-        console.log(newLanguage);
-        dispatch({ type: 'SET_LANGUAGE', payload: newLanguage });
-    };
 
     useEffect(() => {
         editorRef.current?.focus();
     }, [language]);
 
+    useEffect(() => {
+        if (shouldFocusEditor && editorRef.current) {
+            editorRef.current.focus();
+            editorRef.current.revealLineInCenter(1);
+            dispatch({ type: 'actionTypes.SET_SHOULD_FOCUS_EDITOR', payload: false })
+        }
+    }, [shouldFocusEditor]);
 
     useEffect(() => {
-        dispatch({ type: 'SET_EDITOR_INPUTS', payload: !validEngineNames.includes(selectedEngine.name) });
+        dispatch({ type: actionTypes.SET_EDITOR_INPUTS, payload: !validEngineNames.includes(selectedEngine.name) });
         if (editorVisible) {
-            dispatch({ type: 'TOGGLE_EDITOR_VISIBILITY', payload: validEngineNames.includes(selectedEngine.name) });
+            dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: validEngineNames.includes(selectedEngine.name) });
         } else {
-            dispatch({ type: 'TOGGLE_EDITOR_VISIBILITY', payload: visibleEditor.includes(selectedEngine.name) });
+            dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: visibleEditor.includes(selectedEngine.name) });
         }
     }, [selectedEngine]);
 
@@ -316,18 +322,7 @@ export default function SearchEngine() {
         };
     }, []);
 
-    function handleSearch() {
-        if (searchQuery.trim() !== '') {
-            setHistory([searchQuery, ...history]);
-            dispatch({ type: 'SET_SEARCH_QUERY', payload: '' });
-            dispatch({ type: 'SET_HISTORY_INDEX', payload: -1 });
-        }
-        const addQuery = editorVisible ? searchQuery + ' ```' + language + ' ' + editorValue + '```' : searchQuery;
 
-        const finalSearchQuery = encodeURIComponent(addQuery);
-        const searchUrl = `${selectedEngine.url}${finalSearchQuery}`;
-        window.open(searchUrl, '_blank');
-    }
 
     const tailwindcss = {
         main: 'm-4 flex h-full w-full',
@@ -342,8 +337,11 @@ export default function SearchEngine() {
     };
 
     const styles = {
+        'textArea': { width: '96%', height: '18%' },
         'editorDiv': { height: '69%', width: '96%', border: '1px solid white', fontSize: ' 5px' },
         'imgDiv': { marginRight: '30%', marginLeft: '10%' },
+        'mainDiv2': { height: '96%', width: '38%' },
+        'descreptionDiv': { marginTop: '40px', textAlign: 'center', width: '94.5%' },
     }
 
     return (
@@ -352,7 +350,7 @@ export default function SearchEngine() {
                 <div className={tailwindcss.selectDiv}>
                     <p className={tailwindcss.p}> InputQuery: </p>
                     <select
-                        onChange={(e) => dispatch({ type: 'SET_SELECTED_ENGINE', payload: JSON.parse(e.target.value) })}
+                        onChange={(e) => dispatch({ type: actionTypes.SET_SELECTED_ENGINE, payload: JSON.parse(e.target.value) })}
                         value={JSON.stringify(selectedEngine)}
                         className={tailwindcss.select}
                     >
@@ -383,7 +381,7 @@ export default function SearchEngine() {
                             disabled={editorInputs}
                             type="checkbox"
                             checked={editorVisible}
-                            onChange={() => dispatch({ type: 'TOGGLE_EDITOR_VISIBILITY', payload: !state.editorVisible })}
+                            onChange={() => dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: !state.editorVisible })}
                         />{' '}codeEditor</label>
                 </div>
                 <textarea
@@ -393,7 +391,7 @@ export default function SearchEngine() {
                     onKeyDown={handleKeyDown}
                     className={tailwindcss.textArea}
                     placeholder="  Enter search query"
-                    style={{ width: '96%', height: '18%' }}
+                    style={styles['textArea']}
                 />
                 {editorVisible && (
                     <div style={styles['editorDiv']}>
@@ -405,13 +403,12 @@ export default function SearchEngine() {
                             value={editorValue}
                             onChange={handleCodeChange}
                             defaultLanguage={file.language}
-                            // defaultValue={file.value}
                             onMount={handleEditorMount}
                         />
                     </div>
                 )}
             </div >
-            <div className={`${tailwindcss.main2} w-2/5 relative`} style={{ height: '96%', width: '38%' }}>
+            <div className={`${tailwindcss.main2} w-2/5 relative`} style={styles['mainDiv2']}>
                 <div className="mb-2 flex">
                     <button
                         onClick={handleSearch}
@@ -424,7 +421,7 @@ export default function SearchEngine() {
                     </button>
                     <button
                         disabled={btnDisabled}
-                        onClick={() => dispatch({ type: 'SET_SEARCH_QUERY', payload: '' })}
+                        onClick={() => dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: '' })}
                         className={`${btnDisabled ? 'btn-disabled' : ''} ${tailwindcss.btn} w-1/3`}
                     >
                         Clear
@@ -436,7 +433,7 @@ export default function SearchEngine() {
                     </button>
                 )}
                 <div className={tailwindcss.textWhite}>
-                    <div style={{ marginTop: '40px', textAlign: 'center', width: '94.5%' }}>
+                    <div style={styles['descreptionDiv']}>
                         {selectedEngine.description}
                     </div>
                     <SearchEngineShortcutsAccordion />
@@ -463,7 +460,7 @@ function SearchEngineShortcutsAccordion() {
                     </AccordionItemPanel>
                     <AccordionItemHeading>
                         <AccordionItemButton>
-                            Input Shortcuts
+                            Inputs Shortcuts
                         </AccordionItemButton>
                     </AccordionItemHeading>
                 </AccordionItem>
@@ -479,6 +476,16 @@ function ShortcutComponent() {
     const firstHalf = flattenedEngines.slice(0, midpoint);
     const secondHalf = flattenedEngines.slice(midpoint);
 
+
+    const flattenedFiles = Object.keys(files).map(key => ({
+        title: key,
+        keys: files[key].key
+    }));
+    console.log(flattenedFiles[0]);
+    const filesMidPoint = Math.ceil(flattenedFiles.length / 2);
+    const filesFirstHalf = flattenedFiles.slice(0, filesMidPoint);
+    const filesHalf = flattenedFiles.slice(filesMidPoint);
+
     const tailwindcss = {
         shortcutComponent: "p-4 sm:p-6",
         shortcutComponentDiv: "grid grid-flow-row grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-x-9",
@@ -489,12 +496,12 @@ function ShortcutComponent() {
         key: "my-2 flex h-8 items-center inline justify-center rounded-[4px] border border-black/10 text-token-text-secondary dark:border-white/10 min-w-[50px]",
     }
 
-    const style = { border: '1px solid #aaaaaa', borderRadius: '50px', padding: '4px', paddingTop: '0', paddingBottom: '0', marginRight: '5px' };
+    const style = { border: '1px solid #aaaaaa', borderRadius: '4px', padding: '4px', paddingTop: '0', paddingBottom: '0', marginRight: '5px' };
 
     return (
         <div className={tailwindcss.shortcutComponent}>
             <div className={tailwindcss.shortcutItem}>
-                <div className={tailwindcss.title + 'text-center'}>
+                <div className={`text-center block mx-auto`}>
                     <span style={style}> ℹ </span>
                     {/* All this input keys triggered only at last line or end of the input  */}
                     Commands work only when typed at the end of the inputs
@@ -510,16 +517,16 @@ function ShortcutComponent() {
                     <div className={tailwindcss.key}>▼</div>
                 </div>
             </div>
-            <hr className='hr' />
             <div className={tailwindcss.shortcutComponentDiv} >
                 <div className={tailwindcss.parts} >
                     <ShortcutItem
                         title='Open close code editor'
                         keys={['!!code']}
                     />
-                    {firstHalf.map(engine => (
+                    {firstHalf.map((engine, index) => (
                         <div key={engine.key}>
                             <ShortcutItem
+                                key={index}
                                 title={`Select search ${engine.name} engine`}
                                 keys={[engine.key]}
                             />
@@ -531,9 +538,10 @@ function ShortcutComponent() {
                         title='Clear input'
                         keys={['!!clear']}
                     />
-                    {secondHalf.map(engine => (
+                    {secondHalf.map((engine, index) => (
                         <div key={engine.key}>
                             <ShortcutItem
+                                key={index}
                                 title={`Select search ${engine.name} engine`}
                                 keys={[engine.key]}
                             />
@@ -542,6 +550,34 @@ function ShortcutComponent() {
                 </div>
             </div>
             <hr className='hr' />
+            <div className={tailwindcss.shortcutComponentDiv} >
+                <div className={tailwindcss.parts} >
+                    <ShortcutItem
+                        title='Open close code editor'
+                        keys={['!!code']}
+                    />
+                    {filesFirstHalf.map((item, index) => (
+                        <ShortcutItem
+                            key={index}
+                            title={`Select language ${item.title}`}
+                            keys={[item.keys]}
+                        />
+                    ))}
+                </div>
+                <div className={tailwindcss.parts} >
+                    <ShortcutItem
+                        title='Clear input'
+                        keys={['!!clear']}
+                    />
+                    {filesHalf.map((item, index) => (
+                        <ShortcutItem
+                            key={index}
+                            title={`Select language ${item.title}`}
+                            keys={[item.keys]}
+                        />
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }
@@ -573,9 +609,3 @@ ShortcutItem.propTypes = {
     title: PropTypes.string.isRequired,
     keys: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
-
-
-// const value = files[language].value;
-// useEffect(() => {
-//     dispatch({ type: 'SET_EDITOR_VALUE', payload: value });
-// }, [value]);

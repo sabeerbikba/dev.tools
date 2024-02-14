@@ -1,31 +1,44 @@
-import { useRef } from 'react';
-import MonacoEditor from '@monaco-editor/react';
+import { useState } from 'react';
+import {
+    Accordion, AccordionItem, AccordionItemHeading,
+    AccordionItemButton, AccordionItemPanel
+} from 'react-accessible-accordion';
+import { websites } from '../data/websites2';
 
-function Apis() {
-    const editorRef = useRef(null);
 
-    function handleEditorDidMount(editor, monaco) {
-        // Store the editor instance in the ref
-        editorRef.current = editor;
+export default function Websites() {
+    const [expandedSection, setExpandedSection] = useState(-1); // Single state for all accordions
+
+    function handleAccordionChange(index) {
+        setExpandedSection(expandedSection === index ? -1 : index);
     }
 
-    function focusEditor() {
-        if (editorRef.current) {
-            editorRef.current.focus();
-            editorRef.current.revealLineInCenter(1); // Focus on line number  1
-        }
-    }
 
     return (
-        <div>
-            <MonacoEditor
-                onMount={handleEditorDidMount}
-                height={'400px'}
-            // Other props for MonacoEditor component
-            />
-            <button onClick={focusEditor}>Focus Editor</button>
-        </div>
+        <>
+            <Accordion allowZeroExpanded={true} preExpanded={expandedSection === -1 ? [] : [expandedSection]} onChange={handleAccordionChange}>
+                <AccordionItem>
+                    <AccordionItemHeading>
+                        <AccordionItemButton>
+                            <div className='inline mr-auto border' >sabeer</div>
+                            <div className='inline border'>bikba</div>
+                        </AccordionItemButton>
+                    </AccordionItemHeading>
+
+                    <AccordionItemPanel style={{ border: '2px solid red' }}>
+                        sabeer bikba
+                    </AccordionItemPanel>
+                    <AccordionItemPanel
+                        // style={{ position: 'absolute' }}
+                    >
+                        {/* <div className='block'> */}
+                            <button style={{ backgroundColor: 'yellow', marginRight: 'auto' }}>click</button>
+
+                        {/* </div> */}
+                    </AccordionItemPanel>
+                </AccordionItem>
+
+            </Accordion>
+        </>
     );
 }
-
-export default Apis;
