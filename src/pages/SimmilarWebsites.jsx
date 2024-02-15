@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from 'prop-types'
 
 const websites = [
     {
@@ -10,6 +11,11 @@ const websites = [
         pageIndex: 2,
         name: 'Transform.tools',
         link: "https://transform.tools/"
+    },
+    {
+        pageIndex: 3,
+        name: 'code Beautify',
+        link: 'https://codebeautify.org/'
     }
 ];
 
@@ -28,24 +34,35 @@ export default function SimilarWebsites() {
     );
 }
 
-
 function Buttons({ websites, handleClick, pageIndex }) {
     return (
         <div className="pagination">
             {websites.map(website => (
-                <button
-                    className={`sw-btn ${website.pageIndex === pageIndex ? 'sw-btn-active' : ''}`}
+                <div
+                    className={`sw-btn-div ${website.pageIndex === pageIndex ? 'sw-btn-active' : ''}`}
                     key={website.pageIndex}
                     onClick={() => handleClick(website.pageIndex)}
                 >
                     {website.name}
-                    <a className="sw-btn-link" href={website.link} target="_blank" rel="noreferrer">visit site</a>
-                </button>
+                    <button className="sw-link-btn">
+                        <a className="sw-btn-link" href={website.link} target="_blank" rel="noreferrer">visit site</a>
+                    </button>
+                </div>
             ))}
         </div>
     );
 }
-
+Buttons.propTypes = {
+    websites: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            link: PropTypes.string.isRequired,
+            pageIndex: PropTypes.number.isRequired,
+        })
+    ).isRequired,
+    handleClick: PropTypes.func.isRequired,
+    pageIndex: PropTypes.number.isRequired,
+};
 
 function Content({ link }) {
     return (
@@ -53,4 +70,7 @@ function Content({ link }) {
             <iframe style={{ borderLeft: '1px solid white' }} src={link} width="100%" height="95%"></iframe>
         </>
     );
+}
+Content.propTypes = {
+    link: PropTypes.string.isRequired
 }

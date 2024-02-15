@@ -2,6 +2,7 @@ import { useState, useReducer, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { toast, Bounce } from 'react-toastify';
 import MonacoEditor from '@monaco-editor/react';
+// import '../../node_modules/monaco-editor/min/vs/editor/editor.main.css'
 import {
     Accordion, AccordionItem, AccordionItemHeading,
     AccordionItemButton, AccordionItemPanel
@@ -19,19 +20,6 @@ const actionTypes = {
     SET_HISTORY_INDEX: 'SET_HISTORY_INDEX',
     SET_SAVE_INPUT: 'SET_SAVE_INPUT',
     SET_SHOULD_FOCUS_EDITOR: 'SET_SHOULD_FOCUS_EDITOR',
-};
-
-const initialState = {
-    searchQuery: '',
-    selectedEngine: searchEngines[0].engines[0],
-    editorVisible: false,
-    language: Object.keys(files)[0],
-    editorKey: Date.now(),
-    editorValue: '',
-    editorInputs: false,
-    historyIndex: -1,
-    saveInput: '',
-    shouldFocusEditor: false
 };
 
 function searchReducer(state, action) {
@@ -61,9 +49,22 @@ function searchReducer(state, action) {
     }
 }
 
+const initialState = {
+    searchQuery: '',
+    selectedEngine: searchEngines[0].engines[0],
+    editorVisible: false,
+    language: Object.keys(files)[0],
+    editorKey: Date.now(),
+    editorValue: '',
+    editorInputs: false,
+    historyIndex: -1,
+    saveInput: '',
+    shouldFocusEditor: false
+};
+
 export default function SearchEngine() {
-    const editorRef = useRef(null);
     const textAreaRef = useRef(null);
+    const editorRef = useRef(null);
     const [history, setHistory] = useLocalStorage('history', [], 30);
     const [state, dispatch] = useReducer(searchReducer, initialState);
     const {
@@ -230,12 +231,13 @@ export default function SearchEngine() {
                 return;
             }
 
+            // check if key pressed valid by checking serchEngines and files array
             const language = Object.keys(files).find(fileKey => files[fileKey].key.toLowerCase() === keyLowerCase);
             const specialKeys = searchEngines.flatMap(group => group.engines.map(engine => engine.key.toLowerCase()));
             if (specialKeys.includes(keyLowerCase)) {
                 const engine = searchEngines.flatMap(group => group.engines).find(engine => engine.key.toLowerCase() === keyLowerCase);
                 newSelectedEngine = engine;
-            }
+            } //
 
             if (language) {
                 dispatch({ type: actionTypes.SET_LANGUAGE, payload: language });
@@ -249,17 +251,9 @@ export default function SearchEngine() {
                     return;
                 } else {
                     dispatch({ type: actionTypes.SET_EDITOR_VALUE, payload: inputCode.replace(key, ' ').trim() });
-                    toast.warn(`There is no reason to use codeEditor when selected ${newSelectedEngine.name}`, {
-                        position: "bottom-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                        transition: Bounce,
-                    });
+                    dispatch({ type: actionTypes.SET_SELECTED_ENGINE, payload: newSelectedEngine });
+                    dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: !state.editorVisible })
+                    textAreaRef.current.focus();
                     return;
                 }
             } else {
@@ -480,7 +474,6 @@ function ShortcutComponent() {
         title: key,
         keys: files[key].key
     }));
-    console.log(flattenedFiles[0]);
     const filesMidPoint = Math.ceil(flattenedFiles.length / 2);
     const filesFirstHalf = flattenedFiles.slice(0, filesMidPoint);
     const filesHalf = flattenedFiles.slice(filesMidPoint);

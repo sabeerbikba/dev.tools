@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from 'prop-types';
 import { PhotoshopPicker, SwatchesPicker, SliderPicker, CirclePicker } from 'react-color';
 
 const isHSLColor = /^hsl\(\s*(\d+)\s*,\s*(\d*(?:\.\d+)?%)\s*,\s*(\d*(?:\.\d+)?%)\)$/i;
@@ -315,10 +316,10 @@ export default function ColorConverterComponent() {
 
     return (
         <div className='flex flex-col gap-4 m-4'>
-            <Output4CC title="RGB" colorCode={rgb} handleChange={e => setRgb(e.currentTarget.value)} />
-            <Output4CC title="RGBA" colorCode={rgba} handleChange={e => setRgba(e.currentTarget.value)} />
-            <Output4CC title="HEX" colorCode={hex} handleChange={e => setHex(e.currentTarget.value)} />
-            <Output4CC title="HSL" colorCode={hsl} handleChange={e => setHsl(e.currentTarget.value)} />
+            <Output4CC title="RGB" colorCode={rgb} handleChange={e => handleRgbChange(e.currentTarget.value)} />
+            <Output4CC title="RGBA" colorCode={rgba} handleChange={e => handleRgbaChange(e.currentTarget.value)} />
+            <Output4CC title="HEX" colorCode={hex} handleChange={e => handleHexChange(e.currentTarget.value)} />
+            <Output4CC title="HSL" colorCode={hsl} handleChange={e => handleHslChange(e.currentTarget.value)} />
 
             <div>
                 <p className="font-bold text-sm mb-2 text-white">Preview:</p>
@@ -372,3 +373,8 @@ function Output4CC({ title = '', colorCode, handleChange }) {
         </div>
     );
 }
+Output4CC.propTypes = {
+    title: PropTypes.string,
+    colorCode: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
+};

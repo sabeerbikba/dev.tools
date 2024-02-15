@@ -1,49 +1,6 @@
 import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types'
 import { findNearestNumber } from '../utils/findNearestNumber';
-
-const UnitInput = (props) => {
-    const [value, setValue] = useState(0);
-    const [isDisabled, setDisabled] = useState(false);
-
-    const handleInput = (e) => {
-        const num = parseInt(e.target.value);
-        const realNum = isNaN(num) ? null : num;
-        setValue(realNum);
-        setDisabled(isNaN(num));
-        props.onChange(realNum, isNaN(num));
-    };
-
-    useEffect(() => {
-        setValue(props.value);
-        setDisabled(isNaN(props.value));
-    }, [props.value]);
-
-    return (
-        <div>
-            <p className="font-bold text-sm mb-2 capitalize text-white">{props.name}</p>
-            <div className="flex gap-2">
-                <input
-                    type="number"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    value={`${value ?? ''}`}
-                    onChange={handleInput}
-                    className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                />
-                <button
-                    type="button"
-                    className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm enabled:hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:opacity-80 disabled:cursor-not-allowed"
-                    onClick={() => {
-                        navigator.clipboard.writeText(`${value}`);
-                    }}
-                    disabled={isDisabled}
-                >
-                    Copy
-                </button>
-            </div>
-        </div>
-    );
-};
 
 const tailwindUnits = [
     0, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 20, 24,
@@ -56,7 +13,7 @@ const twToPx = (tw) => tw * 4;
 const pxToEm = (px) => px / 16;
 const pxToTw = (px) => findNearestNumber(tailwindUnits, px / 4) ?? 0;
 
-const UnitConverter = () => {
+export default function UnitConverter() {
     const [em, setEm] = useState(0);
     const [px, setPx] = useState(0);
     const [tw, setTw] = useState(0);
@@ -115,6 +72,54 @@ const UnitConverter = () => {
             )}
         </div>
     );
-};
+}
 
-export default UnitConverter;
+function UnitInput(props) {
+    console.log(props);
+    const [value, setValue] = useState(0);
+    const [isDisabled, setDisabled] = useState(false);
+
+    const handleInput = (e) => {
+        const num = parseInt(e.target.value);
+        const realNum = isNaN(num) ? null : num;
+        setValue(realNum);
+        setDisabled(isNaN(num));
+        props.onChange(realNum, isNaN(num));
+    };
+
+    useEffect(() => {
+        setValue(props.value);
+        setDisabled(isNaN(props.value));
+    }, [props.value]);
+
+    return (
+        <div>
+            <p className="font-bold text-sm mb-2 capitalize text-white">{props.name}</p>
+            <div className="flex gap-2">
+                <input
+                    type="number"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={`${value ?? ''}`}
+                    onChange={handleInput}
+                    className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+                <button
+                    type="button"
+                    className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm enabled:hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:opacity-80 disabled:cursor-not-allowed"
+                    onClick={() => {
+                        navigator.clipboard.writeText(`${value}`);
+                    }}
+                    disabled={isDisabled}
+                >
+                    Copy
+                </button>
+            </div>
+        </div>
+    );
+}
+UnitInput.propTypes = {
+    name: PropTypes.string.isRequired,
+    value: PropTypes.number.isRequired,
+    onChange: PropTypes.func.isRequired,
+};

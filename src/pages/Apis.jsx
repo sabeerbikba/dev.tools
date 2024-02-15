@@ -1,44 +1,58 @@
 import { useState } from 'react';
 import {
-    Accordion, AccordionItem, AccordionItemHeading,
-    AccordionItemButton, AccordionItemPanel
+    Accordion,
+    AccordionItem,
+    AccordionItemHeading,
+    AccordionItemButton,
+    AccordionItemPanel
 } from 'react-accessible-accordion';
-import { websites } from '../data/websites2';
-
+import { baseUrl, websites } from '../data/websites2';
 
 export default function Websites() {
-    const [expandedSection, setExpandedSection] = useState(-1); // Single state for all accordions
+    const [expandedSections, setExpandedSections] = useState(new Array(Object.keys(websites).length).fill(false));
 
     function handleAccordionChange(index) {
-        setExpandedSection(expandedSection === index ? -1 : index);
+        const newExpandedSections = [...expandedSections];
+        newExpandedSections[index] = !expandedSections[index];
+        setExpandedSections(newExpandedSections);
     }
 
+    return (
+        <Accordion allowZeroExpanded={true} preExpanded={expandedSections.filter((expanded) => expanded)} onChange={handleAccordionChange}>
+            {Object.keys(websites).map((website, index) => (
+                <AccordionItem key={index}>
+                    <AccordionGenrator heading={website} index={index} />
+                </AccordionItem>
+            ))}
+        </Accordion>
+    );
+}
+
+function AccordionGenrator({ heading, index }) {
+    const accrdionBody = websites[heading];
 
     return (
         <>
-            <Accordion allowZeroExpanded={true} preExpanded={expandedSection === -1 ? [] : [expandedSection]} onChange={handleAccordionChange}>
-                <AccordionItem>
-                    <AccordionItemHeading>
-                        <AccordionItemButton>
-                            <div className='inline mr-auto border' >sabeer</div>
-                            <div className='inline border'>bikba</div>
-                        </AccordionItemButton>
-                    </AccordionItemHeading>
-
-                    <AccordionItemPanel style={{ border: '2px solid red' }}>
-                        sabeer bikba
-                    </AccordionItemPanel>
-                    <AccordionItemPanel
-                        // style={{ position: 'absolute' }}
-                    >
-                        {/* <div className='block'> */}
-                            <button style={{ backgroundColor: 'yellow', marginRight: 'auto' }}>click</button>
-
-                        {/* </div> */}
-                    </AccordionItemPanel>
-                </AccordionItem>
-
-            </Accordion>
+            <AccordionItemHeading key={index}>
+                <AccordionItemButton className='accordion-btn4Web'>
+                    <div className='accordion-btn4Web-div'>
+                        <div className='accordion-btn4Web-div2'>{heading}</div>
+                    </div>
+                </AccordionItemButton>
+            </AccordionItemHeading>
+            {accrdionBody.map((body, bodyIndex) => (
+                <AccordionItemPanel key={bodyIndex} className='accrdion-panel4Web' style={{ backgroundColor: '#8c8ecc' }}>
+                    <div className='accordion-panel4WebDiv'>
+                        <div><img src={baseUrl + body.img} className='accordion-panel4WebImg' /></div>
+                        <div>{body.heading}</div>
+                        <div>
+                            <button className='accordion-panel4WebBtn'>
+                                <a href={body.link} target='_blank' rel="noreferrer">Visit</a>
+                            </button>
+                        </div>
+                    </div>
+                </AccordionItemPanel>
+            ))}
         </>
     );
 }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from 'prop-types';
 import TextArea from "../common/TextArea";
 import * as CryptoJS from "crypto-js";
 
@@ -94,4 +95,8 @@ function Output4Hash({ title = '', hash }) {
             </div>
         </div>
     );
+}
+Output4Hash.propTypes = {
+    title: PropTypes.string,
+    hash: PropTypes.string.isRequired,
 }
