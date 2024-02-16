@@ -7,12 +7,14 @@ need to explore more convert tools from the internet
 creat section for APIs give highter like free and paid to that card: twillio, spalshimages
 creat section for beautiful ui lib with npm and docs link if avilable 
 remove unncessary code files that not used any where test working as expented 
-need to remove unused dependencies 
+need to remove unuse1 dependencies 
+user-select implemet where need to implemet
 added newly added keys inside shortcuts imporve shortcus tab 
   * correct the scrren width by removing scrool bars
   * vsCode press f12 check fix that probelm try importing styles 
   * open serach last opened window
   * how to use make button shortcuts
+  * try control R and seee the effect fix that 
 
 toolsIdea's----------------------------------------------------------------------------------
 * meta tag generator
@@ -67,6 +69,7 @@ project progress:
 12/02 | 10hr   | added keys in sleection and created imporved hanldeInputs condition now only fixed bug now only work keys only work end of file, fixed simmilar website component key error
 13/02 | 7hr    | completed shortcuts tab, made code cleaner and use best Practices in search Engines component 
 14/02 | 9.15hr | added some mine standard in cssunitConverter compoenent added proptypes in all pages, entirely changed websites ui to accrdion, imporved styles in tab in simmilarWebsites component fixed bug in colroconvertComponent input not reflcting bug added some logic in serchEngies compoennt for example if user type youtube key from code editor user code editor will be close and textArea will be focused 
+15/02 | | added shorcut /  in shorcuts tab, when user enter key without selecting input he will show info of press / to open or focus on serac query, marged array in of tailwindcss2 in sigle array 
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴

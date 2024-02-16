@@ -20,6 +20,7 @@ const actionTypes = {
     SET_HISTORY_INDEX: 'SET_HISTORY_INDEX',
     SET_SAVE_INPUT: 'SET_SAVE_INPUT',
     SET_SHOULD_FOCUS_EDITOR: 'SET_SHOULD_FOCUS_EDITOR',
+    SET_SLASH_INFO: 'SET_SLASH_INFO',
 };
 
 function searchReducer(state, action) {
@@ -42,9 +43,11 @@ function searchReducer(state, action) {
             return { ...state, saveInput: action.payload };
         case actionTypes.SET_SHOULD_FOCUS_EDITOR:
             return { ...state, shouldFocusEditor: action.payload }
+        case actionTypes.SET_SLASH_INFO:
+            return { ...state, showSlahsInfo: action.payload }
         default:
             console.error('Unknown action: ' + action.type);
-            console.warn('you not added action.type: ' + action.type + ' add and try')
+            console.warn('you not added action.type: ' + action.type + ' add and try');
             return state;
     }
 }
@@ -59,7 +62,8 @@ const initialState = {
     editorInputs: false,
     historyIndex: -1,
     saveInput: '',
-    shouldFocusEditor: false
+    shouldFocusEditor: false,
+    showSlahsInfo: true
 };
 
 export default function SearchEngine() {
@@ -77,7 +81,8 @@ export default function SearchEngine() {
         editorInputs,
         historyIndex,
         saveInput,
-        shouldFocusEditor
+        shouldFocusEditor,
+        showSlahsInfo,
     } = state;
 
     const advanceSearch = selectedEngine.advanceSearchBtn;
@@ -271,12 +276,72 @@ export default function SearchEngine() {
                 });
                 return;
             }
-
         }
         dispatch({ type: actionTypes.SET_EDITOR_VALUE, payload: inputCode })
     }
 
+    useEffect(() => {
+        dispatch({ type: actionTypes.SET_EDITOR_INPUTS, payload: !validEngineNames.includes(selectedEngine.name) });
+        if (editorVisible) {
+            dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: validEngineNames.includes(selectedEngine.name) });
+        } else {
+            dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: visibleEditor.includes(selectedEngine.name) });
+        }
+    }, [selectedEngine]);
 
+    useEffect(() => {
+        function handleSlashKey(event) {
+            if (event.key === '/') {
+                if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA') {
+                    textAreaRef.current.focus();
+                    event.preventDefault();
+                }
+            }
+        }
+
+        const allowedKeys = [
+            '~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+',
+            'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '|',
+            'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"',
+            'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?',
+            '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=',
+            'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\'',
+            'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'",
+            'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/',
+            ' ',
+        ];
+
+        function handleOtherKeys(event) {
+            if (allowedKeys.includes(event.key)) {
+                if ((!textAreaRef.current?.contains(event.target) &&
+                    !editorRef.current?.contains(event.target)) &&
+                    event.key !== '/') {
+                    if (showSlahsInfo) {
+                        dispatch({ type: actionTypes.SET_SLASH_INFO, payload: false });
+                        toast.info('Press / to jump to the search box!', {
+                            position: "bottom-right",
+                            autoClose: 4000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "dark",
+                            transition: Bounce,
+                        });
+                    }
+                }
+            }
+        }
+
+        document.addEventListener('keydown', handleSlashKey);
+        document.addEventListener('keydown', handleOtherKeys);
+
+        return () => {
+            document.removeEventListener('keydown', handleSlashKey);
+            document.removeEventListener('keydown', handleOtherKeys);
+        };
+    }, [textAreaRef, editorRef, showSlahsInfo]);
 
     useEffect(() => {
         editorRef.current?.focus();
@@ -289,34 +354,6 @@ export default function SearchEngine() {
             dispatch({ type: 'actionTypes.SET_SHOULD_FOCUS_EDITOR', payload: false })
         }
     }, [shouldFocusEditor]);
-
-    useEffect(() => {
-        dispatch({ type: actionTypes.SET_EDITOR_INPUTS, payload: !validEngineNames.includes(selectedEngine.name) });
-        if (editorVisible) {
-            dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: validEngineNames.includes(selectedEngine.name) });
-        } else {
-            dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: visibleEditor.includes(selectedEngine.name) });
-        }
-    }, [selectedEngine]);
-
-
-    useEffect(() => {
-        const handleKeyDown = (event) => {
-            if (event.key === '/') {
-                if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA') {
-                    textAreaRef.current.focus();
-                    event.preventDefault();
-                }
-            }
-        };
-
-        document.addEventListener('keydown', handleKeyDown);
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, []);
-
-
 
     const tailwindcss = {
         main: 'm-4 flex h-full w-full',
@@ -437,7 +474,6 @@ export default function SearchEngine() {
     );
 }
 
-
 function SearchEngineShortcutsAccordion() {
     const [expandedSection, setExpandedSection] = useState(-1);
 
@@ -463,6 +499,16 @@ function SearchEngineShortcutsAccordion() {
     );
 }
 
+const tailwindcss2 = {
+    shortcutComponent: "p-4 sm:p-6",
+    shortcutComponentDiv: "grid grid-flow-row grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-x-9",
+    parts: "flex flex-col overflow-hidden",
+    shortcutItem: "flex items-center justify-between overflow-hidden text-token-text-secondary ",
+    title: "flex flex-shrink items-center overflow-hidden text-sm",
+    keys: "ml-3 flex flex-row gap-2",
+    key: "my-2 flex h-8 items-center inline justify-center rounded-[4px] border border-black/10 text-token-text-secondary dark:border-white/10 min-w-[50px]",
+}
+
 function ShortcutComponent() {
     const flattenedEngines = searchEngines.flatMap(group => group.engines);
     const midpoint = Math.ceil(flattenedEngines.length / 2);
@@ -478,21 +524,11 @@ function ShortcutComponent() {
     const filesFirstHalf = flattenedFiles.slice(0, filesMidPoint);
     const filesHalf = flattenedFiles.slice(filesMidPoint);
 
-    const tailwindcss = {
-        shortcutComponent: "p-4 sm:p-6",
-        shortcutComponentDiv: "grid grid-flow-row grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-x-9",
-        parts: "flex flex-col overflow-hidden",
-        shortcutItem: "flex  items-center justify-between overflow-hidden text-token-text-secondary ",
-        title: "flex flex-shrink items-center overflow-hidden text-sm",
-        keys: "ml-3 flex flex-row gap-2",
-        key: "my-2 flex h-8 items-center inline justify-center rounded-[4px] border border-black/10 text-token-text-secondary dark:border-white/10 min-w-[50px]",
-    }
-
     const style = { border: '1px solid #aaaaaa', borderRadius: '4px', padding: '4px', paddingTop: '0', paddingBottom: '0', marginRight: '5px' };
 
     return (
-        <div className={tailwindcss.shortcutComponent}>
-            <div className={tailwindcss.shortcutItem}>
+        <div className={tailwindcss2.shortcutComponent}>
+            <div className={tailwindcss2.shortcutItem}>
                 <div className={`text-center block mx-auto`}>
                     <span style={style}> ℹ </span>
                     {/* All this input keys triggered only at last line or end of the input  */}
@@ -500,17 +536,21 @@ function ShortcutComponent() {
                 </div>
             </div>
             <hr className=' hr' />
-            <div className={tailwindcss.shortcutItem}>
-                <div className={tailwindcss.title}>
+            <div className={tailwindcss2.shortcutItem}>
+                <div className={tailwindcss2.title}>
                     Navigate recent searches with Up/Down Arrows.
                 </div>
-                <div className={tailwindcss.keys}>
-                    <div className={tailwindcss.key}>▲</div>
-                    <div className={tailwindcss.key}>▼</div>
+                <div className={tailwindcss2.keys}>
+                    <div className={tailwindcss2.key}>▲</div>
+                    <div className={tailwindcss2.key}>▼</div>
                 </div>
             </div>
-            <div className={tailwindcss.shortcutComponentDiv} >
-                <div className={tailwindcss.parts} >
+            <div className={tailwindcss2.shortcutComponentDiv} >
+                <div className={tailwindcss2.parts} >
+                    <ShortcutItem
+                        title='To focus on Search box'
+                        keys={['/']}
+                    />
                     <ShortcutItem
                         title='Open close code editor'
                         keys={['!!code']}
@@ -525,7 +565,7 @@ function ShortcutComponent() {
                         </div>
                     ))}
                 </div>
-                <div className={tailwindcss.parts} >
+                <div className={tailwindcss2.parts} >
                     <ShortcutItem
                         title='Clear input'
                         keys={['!!clear']}
@@ -542,8 +582,8 @@ function ShortcutComponent() {
                 </div>
             </div>
             <hr className='hr' />
-            <div className={tailwindcss.shortcutComponentDiv} >
-                <div className={tailwindcss.parts} >
+            <div className={tailwindcss2.shortcutComponentDiv} >
+                <div className={tailwindcss2.parts} >
                     <ShortcutItem
                         title='Open close code editor'
                         keys={['!!code']}
@@ -556,7 +596,7 @@ function ShortcutComponent() {
                         />
                     ))}
                 </div>
-                <div className={tailwindcss.parts} >
+                <div className={tailwindcss2.parts} >
                     <ShortcutItem
                         title='Clear input'
                         keys={['!!clear']}
@@ -574,22 +614,19 @@ function ShortcutComponent() {
     );
 }
 
+
+
 function ShortcutItem({ title, keys }) {
-    const tailwindcss = {
-        shortcutItem: "flex items-center justify-between overflow-hidden text-token-text-secondary",
-        title: "flex flex-shrink items-center overflow-hidden text-sm",
-        keys: "ml-3 flex flex-row gap-2",
-        key: "my-2 flex h-8 items-center justify-center rounded-[4px] border border-black/10 text-token-text-secondary dark:border-white/10 min-w-[50px]",
-    }
+
 
     return (
-        <div className={tailwindcss.shortcutItem}>
-            <div className={tailwindcss.title}>
+        <div className={tailwindcss2.shortcutItem}>
+            <div className={tailwindcss2.title}>
                 <div className="truncate">{title}</div>
             </div>
-            <div className={tailwindcss.keys}>
+            <div className={tailwindcss2.keys}>
                 {keys.map((key, index) => (
-                    <div key={index} className={tailwindcss.key}>
+                    <div key={index} className={tailwindcss2.key}>
                         <span className="text-xs">{key}</span>
                     </div>
                 ))}
