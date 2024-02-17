@@ -1,3 +1,8 @@
+linux: 
+
+code --disable-gpu
+___________________________________________________________________________________________________
+
 need to give better names 
 need to remove extra codes left after removed imports //tool: webpack i think 
 need to add copy code button in grapesjs section checkout grapesjs-plugin-codemirror-with-buttons lib and optimiz styles of the page for smaller screen
