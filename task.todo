@@ -74,7 +74,8 @@ project progress:
 12/02 | 10hr   | added keys in sleection and created imporved hanldeInputs condition now only fixed bug now only work keys only work end of file, fixed simmilar website component key error
 13/02 | 7hr    | completed shortcuts tab, made code cleaner and use best Practices in search Engines component 
 14/02 | 9.15hr | added some mine standard in cssunitConverter compoenent added proptypes in all pages, entirely changed websites ui to accrdion, imporved styles in tab in simmilarWebsites component fixed bug in colroconvertComponent input not reflcting bug added some logic in serchEngies compoennt for example if user type youtube key from code editor user code editor will be close and textArea will be focused 
-15/02 | | added shorcut /  in shorcuts tab, when user enter key without selecting input he will show info of press / to open or focus on serac query, marged array in of tailwindcss2 in sigle array 
+15/02 | 8hr | added shorcut /  in shorcuts tab, when user enter key without selecting input he will show info of press / to open or focus on serac query, marged array in of tailwindcss2 in sigle array 
+2days taken 4 install linux and successfully insttalled
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴
@@ -82,4 +83,4 @@ _________DONE___________________________________________________________________
 * css: selected windows show text color white for identification ✅
 * Svg editor with oupput 🔴
 * device detect and show show warning: 'this website not made for mobile please switch to desktop if possible' 🔵
-need to give full height for inputs for better view in CharacterAndWordCounterComponent ✅
+* need to give full height for inputs for better view in CharacterAndWordCounterComponent ✅

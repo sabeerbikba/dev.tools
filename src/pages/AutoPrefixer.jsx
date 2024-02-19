@@ -5,7 +5,7 @@ import store from 'store';
 // import 'monaco-editor/min/vs/editor/editor.main.css'; //need to check good to remove styles 
 import MonacoEditor from '@monaco-editor/react';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
 
 export default function AutoPrefixerTool() {
     const DEFAULT_BROWSERS = ['last 4 versions'];

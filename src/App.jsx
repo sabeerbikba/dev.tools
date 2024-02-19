@@ -2,6 +2,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { isMobile } from 'react-device-detect';
 import Layout from "./Layout";
 // import Home from "./pages/Home.jsx";
@@ -17,7 +18,7 @@ import UnitConverter from "./pages/UnitConverter.jsx";
 import Websites from "./pages/Websites.jsx";
 import Apis from "./pages/Apis.jsx";
 import SimmilarWebsites from "./pages/SimmilarWebsites.jsx";
-import AutoprefixerTool from "./pages/Autoprefixer.jsx";
+import AutoprefixerTool from "./pages/AutoPrefixer.jsx";
 // import SearchWord from "./pages/SearchWord.jsx";
 // import SVGEditor from "./pages/SVGeditor.jsx";
 import SearchEngine from "./pages/SearchEngine.jsx";
