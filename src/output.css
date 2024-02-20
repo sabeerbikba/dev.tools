@@ -1554,25 +1554,31 @@ li {
   }
 }
 
-.accordion-panel4WebDiv {
+.accordion-panel4WebDiv, .Browser-extensionsDiv {
   border-bottom: 2px solid #2a2a2a;
   display: flex;
   justify-content: space-between;
   height: 100%;
 }
 
-.accordion-panel4WebImg {
+.Browser-extensionsDiv {
+  height: 60px;
+  padding-left: 20px;
+  background-color: #8c8ecc;
+}
+
+.accordion-panel4WebImg, .Browser-extensionsImg {
   height: 60px;
 }
 
-.accordion-panel4WebHead {
+.accordion-panel4WebHead, .Browser-extensionsHead {
   /* text-align: center; */
   margin-top: auto;
   margin-bottom: auto;
   font-size: 1.2rem;
 }
 
-.accordion-panel4WebP {
+.accordion-panel4WebP, .Browser-extensionsP {
   width: 420px;
   height: 60px;
   padding: 4px;
@@ -1581,7 +1587,7 @@ li {
   border: 1px solid transparent;
 }
 
-.accordion-panel4WebBtn {
+.accordion-panel4WebBtn, .Browser-extensionsBtn {
   background-color: #6677b5;
   height: 100%;
   width: 12rem;

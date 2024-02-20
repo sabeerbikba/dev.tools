@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import MonacoEditor from '@monaco-editor/react';
 
@@ -117,7 +117,7 @@ export default function MetaTagsGenrator() {
         // }
         // problem --------------------------------------------------------------------------------------------------------------------------
 
-        dispatch({ type: actionTypes.UPDATE_INPUT, field: 'finalOutput', value: output })
+        UPDATE_INPUT('finalOutput', output);
     }
 
     async function handleCopyBtn() {
@@ -301,7 +301,6 @@ function Input({ label, elementType, type = 'text', value, placeholder = '', han
         </div>
     );
 }
-
 Input.propTypes = {
     label: PropTypes.string.isRequired,
     elementType: PropTypes.oneOf(['input', 'textarea']).isRequired,

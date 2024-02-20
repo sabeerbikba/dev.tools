@@ -22,7 +22,9 @@ import AutoprefixerTool from "./pages/AutoPrefixer.jsx";
 // import SearchWord from "./pages/SearchWord.jsx";
 // import SVGEditor from "./pages/SVGeditor.jsx";
 import SearchEngine from "./pages/SearchEngine.jsx";
+import MetaTagsGenrator from "./pages/MetaTagsGenrator.jsx";
 import Test from "./pages/testing/Test.jsx";
+import BrowserExtensions from "./pages/BrowserExtensions.jsx";
 
 export default function App() {
   useEffect(() => {
@@ -39,7 +41,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="*" element={<NoPage />} />
-            <Route index element={<UnitConverter />} />
+            <Route index element={<SearchEngine />} />
             <Route path="UnitConverter" element={<UnitConverter />} />
             <Route path="GrapesJSEditor" element={<GrapesJSEditor />} />
             <Route path="CharacterAndWordCounter" element={<CharacterAndWordCounterComponent />} />
@@ -55,6 +57,8 @@ export default function App() {
             {/* <Route path="SearchWord" element={<SearchWord/>} /> */} {/* not possible beacaus it's backen product  */}
             {/* <Route path="SVGeditor" element={<SVGEditor/>} /> */} {/* not possible not better lib avialable */}
             <Route path="SearchEngine" element={<SearchEngine />} />
+            <Route path="MetaTagsGenrator" element={<MetaTagsGenrator />} />
+            <Route path="BrowserExtensions" element={<BrowserExtensions />} />
             <Route path="Test" element={<Test />} />
           </Route>
         </Routes>
