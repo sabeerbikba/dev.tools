@@ -308,7 +308,7 @@ li {
 
 }
 
-.accordion-panel4WebBtnLink {
+.accordion-panel4WebBtnLink, .Browser-extensionsBtnLink {
   text-decoration: none;
   color: white;
 }

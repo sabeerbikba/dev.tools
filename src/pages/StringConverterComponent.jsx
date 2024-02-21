@@ -99,8 +99,17 @@ export default function StringConverterComponent() {
     return text;
   };
 
+  const tailwindcss = {
+    main: "flex flex-col gap-8 m-4",
+    wHFull: "w-full h-full",
+    selectorDiv: "flex items-center mb-4 gap-4 justify-between",
+    outputText: "font-bold text-xl text-white",
+    copyBtn: "rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500",
+    textArea: "px-8 py-2 block w-full rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+  }
+
   return (
-    <div className="flex flex-col gap-8 m-4">
+    <main className={tailwindcss.main}>
       <TextArea
         initialInput="snake_case_to_camel_case"
         onInputChange={(input) => {
@@ -108,9 +117,9 @@ export default function StringConverterComponent() {
           setOutput(transformText(input));
         }}
       />
-      <div className="w-full h-full">
-        <div className="flex items-center mb-4 gap-4 justify-between">
-          <p className="font-bold text-xl text-white"> Output: </p>
+      <div className={tailwindcss.wHFull}>
+        <div className={tailwindcss.selectorDiv}>
+          <p className={tailwindcss.outputText}> Output: </p>
           <Selector
             values={options}
             handleClick={(filterOption) => {
@@ -119,7 +128,7 @@ export default function StringConverterComponent() {
           />
           <button
             type="button"
-            className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            className={tailwindcss.copyBtn}
             onClick={async () => {
               await navigator.clipboard.writeText(output);
             }}
@@ -129,11 +138,11 @@ export default function StringConverterComponent() {
         </div>
         <textarea
           readOnly
-          className="px-8 py-2 block w-full rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          className={tailwindcss.textArea}
           style={{ height: "calc(100% - 44px)" }}
           value={output}
         />
       </div>
-    </div>
+    </main>
   );
 }

@@ -1596,7 +1596,7 @@ li {
   border-radius: 20px 0 0 0;
 }
 
-.accordion-panel4WebBtnLink {
+.accordion-panel4WebBtnLink, .Browser-extensionsBtnLink {
   text-decoration: none;
   color: white;
 }

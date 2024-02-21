@@ -23,6 +23,20 @@ const actionTypes = {
     SET_SLASH_INFO: 'SET_SLASH_INFO',
 };
 
+const initialState = {
+    searchQuery: '',
+    selectedEngine: searchEngines[0].engines[0],
+    editorVisible: false,
+    language: Object.keys(files)[0],
+    editorKey: Date.now(),
+    editorValue: '',
+    editorInputs: false,
+    historyIndex: -1,
+    saveInput: '',
+    shouldFocusEditor: false,
+    showSlahsInfo: true
+};
+
 function searchReducer(state, action) {
     switch (action.type) {
         case actionTypes.SET_SEARCH_QUERY:
@@ -51,20 +65,6 @@ function searchReducer(state, action) {
             return state;
     }
 }
-
-const initialState = {
-    searchQuery: '',
-    selectedEngine: searchEngines[0].engines[0],
-    editorVisible: false,
-    language: Object.keys(files)[0],
-    editorKey: Date.now(),
-    editorValue: '',
-    editorInputs: false,
-    historyIndex: -1,
-    saveInput: '',
-    shouldFocusEditor: false,
-    showSlahsInfo: true
-};
 
 export default function SearchEngine() {
     const textAreaRef = useRef(null);

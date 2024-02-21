@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import Selector from "../common/Selector";
 import MonacoEditor from '@monaco-editor/react'
 
@@ -10,41 +10,59 @@ const FilterOption = {
 };
 
 const filterOptions = [
-    {
-        label: "Character",
-        value: FilterOption.Character,
-    },
+    { label: "Character", value: FilterOption.Character },
     { label: "Word", value: FilterOption.Word },
     { label: "Line", value: FilterOption.Line },
     { label: "Custom Delimiter", value: FilterOption.CustomDelimiter },
 ];
 
+const actionTypes = {
+    UPDATE_VALUE: 'UPDATE_VALUE',
+}
+
+const initilaState = {
+    input: '',
+    output: '',
+    count: '',
+    currentFilterOption: filterOptions[0].value,
+    filter: ''
+}
+
+function charctedCounterReducer(state, action) {
+    switch (action.type) {
+        case actionTypes.UPDATE_VALUE:
+            return { ...state, [action.field]: action.value };
+        default:
+            console.error('Unknown action: ' + action.type);
+            console.warn('you not added action.type: ' + action.type + ' add and try');
+            return state;
+    }
+}
+
 export default function CharacterAndWordCounterComponent() {
-    const [input, setInput] = useState("");
-    const [output, setOutput] = useState("");
-    const [count, setCount] = useState(0);
-    const [currentFilterOption, setCurrentFilterOption] = useState(
-        filterOptions[0].value
-    );
-    const [filter, setFilter] = useState("");
+    const [state, dispatch] = useReducer(charctedCounterReducer, initilaState)
+    const { input, output, count, currentFilterOption, filter } = state;
+
+    function UPDATE_VALUE(field, value) {
+        dispatch({ type: actionTypes.UPDATE_VALUE, field: field, value: value })
+    }
 
     useEffect(() => {
         switch (currentFilterOption) {
             case FilterOption.Character:
-                setCount(input.length);
-                setOutput(input.split("").join("\n"));
+                UPDATE_VALUE('count', input.length);
+                UPDATE_VALUE('output', input.split("").join("\n"));
                 break;
             case FilterOption.CustomDelimiter:
-                setCount(input.split(filter).length -1);
-                setOutput(input.split(filter).join("\n"));
+                UPDATE_VALUE('count', input.split(filter).length - 1);
                 break;
             case FilterOption.Word:
-                setCount(input.split(" ").length);
-                setOutput(input.split(" ").join("\n"));
+                UPDATE_VALUE('count', input.split(" ").length - 1);
+                UPDATE_VALUE('output', input.split(" ").join("\n"));
                 break;
             case FilterOption.Line:
-                setCount(input.trim().split("\n").length);
-                setOutput(input);
+                UPDATE_VALUE('count', input.trim().split("\n").length);
+                UPDATE_VALUE('output', input);
             default:
                 break;
         }
@@ -52,7 +70,7 @@ export default function CharacterAndWordCounterComponent() {
 
     const handleChange = (event) => {
         const { value } = event.target;
-        setFilter(value);
+        UPDATE_VALUE('filter', value);
     };
 
     const options = {
@@ -71,7 +89,7 @@ export default function CharacterAndWordCounterComponent() {
                         <button
                             type="button"
                             className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                            onClick={() => setInput("")}
+                            onClick={() => UPDATE_VALUE('input', '')}
                         >
                             Clear
                         </button>
@@ -81,7 +99,7 @@ export default function CharacterAndWordCounterComponent() {
                     language="plaintext"
                     theme="vs-dark"
                     value={input}
-                    onChange={e => setInput(e)}
+                    onChange={codeIn => UPDATE_VALUE('input', codeIn)}
                     options={options}
                     height={'95vh'}
                 />
@@ -103,7 +121,7 @@ export default function CharacterAndWordCounterComponent() {
                         <Selector
                             values={filterOptions}
                             handleClick={(filterOption) => {
-                                setCurrentFilterOption(filterOption.value);
+                                UPDATE_VALUE('currentFilterOption', filterOption.value);
                             }}
                         />
                         <p className="font-bold text-md text-white"> count: {count}</p>
@@ -122,7 +140,6 @@ export default function CharacterAndWordCounterComponent() {
                     language="plaintext"
                     theme="vs-dark"
                     options={{ ...options, readOnly: true }}
-                    onChange={e => setOutput(e)}
                     value={output}
                     height={'95vh'}
                 />

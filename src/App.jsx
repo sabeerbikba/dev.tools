@@ -16,7 +16,7 @@ import StringConverterComponent from './pages/StringConverterComponent.jsx';
 import UnitConverter from "./pages/UnitConverter.jsx";
 // import SvgToReactNative from "./pages/testing/svg-to-react-native.jsx";
 import Websites from "./pages/Websites.jsx";
-import Apis from "./pages/Apis.jsx";
+// import Apis from "./pages/Apis.jsx";
 import SimmilarWebsites from "./pages/SimmilarWebsites.jsx";
 import AutoprefixerTool from "./pages/AutoPrefixer.jsx";
 // import SearchWord from "./pages/SearchWord.jsx";
@@ -24,7 +24,7 @@ import AutoprefixerTool from "./pages/AutoPrefixer.jsx";
 import SearchEngine from "./pages/SearchEngine.jsx";
 import MetaTagsGenrator from "./pages/MetaTagsGenrator.jsx";
 import Test from "./pages/testing/Test.jsx";
-import BrowserExtensions from "./pages/BrowserExtensions.jsx";
+// import BrowserExtensions from "./pages/BrowserExtensions.jsx";
 
 export default function App() {
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function App() {
             <Route path=" QrCodeGenerator" element={< QrCodeGeneratorComponent />} />
             <Route path="StringConverter" element={<StringConverterComponent />} />
             {/* <Route path="SvgToReactNative" element={<SvgToReactNative />} /> */}
-            <Route path="Apis" element={<Apis />} />
+            {/* <Route path="Apis" element={<Apis />} /> */} {/* not a good idea  */}
             <Route path="Websites" element={<Websites />} />
             <Route path="SimmilarWebsites" element={<SimmilarWebsites />} />
             <Route path="Browser-Ready-CSS" element={<AutoprefixerTool />} />
@@ -58,7 +58,7 @@ export default function App() {
             {/* <Route path="SVGeditor" element={<SVGEditor/>} /> */} {/* not possible not better lib avialable */}
             <Route path="SearchEngine" element={<SearchEngine />} />
             <Route path="MetaTagsGenrator" element={<MetaTagsGenrator />} />
-            <Route path="BrowserExtensions" element={<BrowserExtensions />} />
+            {/* <Route path="BrowserExtensions" element={<BrowserExtensions />} /> */} {/* not a good idea */}
             <Route path="Test" element={<Test />} />
           </Route>
         </Routes>

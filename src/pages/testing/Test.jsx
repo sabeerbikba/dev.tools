@@ -1,11 +1,10 @@
-import MetaTagsGenrator from "../MetaTagsGenrator";
-
+import LiveHtml from "../LiveHtml";
 export default function Test() {
 
 
     return (
         <>
-            <MetaTagsGenrator />
+        <LiveHtml />
         </>
     );
 }

@@ -1,32 +1,50 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import PropTypes from 'prop-types';
 import TextArea from "../common/TextArea";
 import * as CryptoJS from "crypto-js";
+// 95 lines 
 
-export default function HashGeneratorComponent({ isProUser }) {
-    const [input, setInput] = useState("");
-    const [md5Hash, setMd5Hash] = useState("");
-    const [sha1Hash, setSha1Hash] = useState("");
-    const [sha224Hash, setSha224Hash] = useState("");
-    const [sha256Hash, setSha256Hash] = useState("");
-    const [sha384Hash, setSha384Hash] = useState("");
-    const [sha512Hash, setSha512Hash] = useState("");
-    const [keccak256Hash, setKeccak256Hash] = useState("");
+const initialState = {
+    input: '',
+    md5Hash: '',
+    sha1Hash: '',
+    sha224Hash: '',
+    sha256Hash: '',
+    sha384Hash: '',
+    sha512Hash: '',
+    keccak256Hash: '',
+};
 
-    const generateMd5Hash = (input) =>
-        setMd5Hash(CryptoJS.MD5(input).toString());
-    const generateSha1Hash = (input) =>
-        setSha1Hash(CryptoJS.SHA1(input).toString());
-    const generateSha224Hash = (input) =>
-        setSha224Hash(CryptoJS.SHA224(input).toString());
-    const generateSha256Hash = (input) =>
-        setSha256Hash(CryptoJS.SHA256(input).toString());
-    const generateSha384Hash = (input) =>
-        setSha384Hash(CryptoJS.SHA384(input).toString());
-    const generateSha512Hash = (input) =>
-        setSha512Hash(CryptoJS.SHA512(input).toString());
-    const generateKeccak256Hash = (input) =>
-        setKeccak256Hash(CryptoJS.SHA3(input, { outputLength: 256 }).toString());
+const actionTypes = { UPDATE_INPUT: 'UPDATE_INPUT', CLEAR_INPUTS: 'CLEAR_INPUTS' };
+
+function hashGenratorReducer(state, action) {
+    switch (action.type) {
+        case actionTypes.UPDATE_VALUE:
+            return { ...state, [action.field]: action.value };
+        case actionTypes.CLEAR_INPUTS:
+            return initialState;
+        default:
+            console.error('Unknown action: ' + action.type);
+            console.warn('you not added action.type: ' + action.type + ' add and try');
+            return state;
+    }
+}
+
+export default function HashGeneratorComponent() {
+    const [state, dispatch] = useReducer(hashGenratorReducer, initialState);
+    const { input, md5Hash, sha1Hash, sha224Hash, sha256Hash, sha384Hash, sha512Hash, keccak256Hash } = state
+
+    function UPDATE_VALUE(field, value) {
+        dispatch({ type: actionTypes.UPDATE_VALUE, field: field, value: value })
+    }
+
+    const generateMd5Hash = (input) => UPDATE_VALUE('md5Hash', CryptoJS.MD5(input).toString());
+    const generateSha1Hash = (input) => UPDATE_VALUE('sha1Hash', CryptoJS.SHA1(input).toString());
+    const generateSha224Hash = (input) => UPDATE_VALUE('sha224Hash', CryptoJS.SHA224(input).toString());
+    const generateSha256Hash = (input) => UPDATE_VALUE('sha256Hash', CryptoJS.SHA256(input).toString());
+    const generateSha384Hash = (input) => UPDATE_VALUE('sha384Hash', CryptoJS.SHA384(input).toString());
+    const generateSha512Hash = (input) => UPDATE_VALUE('sha512Hash', CryptoJS.SHA512(input).toString());
+    const generateKeccak256Hash = (input) => UPDATE_VALUE('keccak256Hash', CryptoJS.SHA3(input, { outputLength: 256 }).toString());
 
     const generateHashes = (input) => {
         try {
@@ -40,26 +58,26 @@ export default function HashGeneratorComponent({ isProUser }) {
                 generateKeccak256Hash(input);
             }
         } catch (_) {
-            setMd5Hash("");
-            setSha1Hash("");
-            setSha224Hash("");
-            setSha256Hash("");
-            setSha384Hash("");
-            setSha512Hash("");
-            setKeccak256Hash("");
+            dispatch({ type: actionTypes.CLEAR_INPUTS });
         }
     };
 
+    const tailwindcss = {
+        main: "flex gap-4 m-4",
+        hashOutputsDiv: "w-full h-full flex flex-col gap-4",
+    }
+
     return (
-        <div className="flex gap-4 m-4">
+        <main className={tailwindcss.main}>
             <TextArea
                 initialInput="hello world"
                 onInputChange={(input) => {
-                    setInput(input);
+                    // setInput(input);
+                    UPDATE_VALUE('input', input);
                     generateHashes(input);
                 }}
             />
-            <div className="w-full h-full flex flex-col gap-4">
+            <div className={tailwindcss.hashOutputsDiv}>
                 <Output4Hash title="Md5" hash={md5Hash} />
                 <Output4Hash title="Sha1" hash={sha1Hash} />
                 <Output4Hash title="Sha224" hash={sha224Hash} />
@@ -68,24 +86,31 @@ export default function HashGeneratorComponent({ isProUser }) {
                 <Output4Hash title="Sha512" hash={sha512Hash} />
                 <Output4Hash title="Keccak256" hash={keccak256Hash} />
             </div>
-        </div>
+        </main>
     );
 }
 
 
 function Output4Hash({ title = '', hash }) {
+    const tailwindcss = {
+        p: "font-bold text-sm mb-2 text-white",
+        div: "flex gap-2",
+        input: "px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+        button: "rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500",
+    }
+
     return (
         <div>
-            <p className="font-bold text-sm mb-2 text-white">{title} Hash:</p>
-            <div className="flex gap-2">
+            <p className={tailwindcss.p}>{title} Hash:</p>
+            <div className={tailwindcss.div}>
                 <input
                     readOnly
-                    className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className={tailwindcss.input}
                     value={hash}
                 />
                 <button
                     type="button"
-                    className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                    className={tailwindcss.button}
                     onClick={async () => {
                         await navigator.clipboard.writeText(hash);
                     }}

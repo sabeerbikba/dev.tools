@@ -105,6 +105,14 @@ export const websites = {
             img: 'convert.io.png'
         }
     ],
+    "Website Optimization": [
+        {
+            heading: "PageSpeed Insights",
+            text: "tool by Google that analyzes the performance of web pages on both mobile and desktop devices. It provides suggestions and optimizations to improve page loading speed and user experience, helping developers enhance their websites' performance and usability.",
+            link: "https://pagespeed.web.dev/",
+            img: '', // need to add image 
+        }
+    ],
     "Color Tools": [
         {
             heading: "BrandColors",

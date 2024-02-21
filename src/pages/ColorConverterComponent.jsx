@@ -269,18 +269,18 @@ export default function ColorConverterComponent() {
         }
     };
 
-    const handleHexChange = (color) => {
+    const handleHexChange = (input) => {
         try {
-            setHex(color.hex);
-            setRgb(hexToRgb(color.hex));
-            setRgba(hexToRgba(color.hex));
-            setHsl(hexToHsl(color.hex));
+            setHex(input);
+            setRgb(hexToRgb(input));
+            setRgba(hexToRgba(input));
+            setHsl(hexToHsl(input));
         } catch (_) {
             setRgb("");
             setRgba("");
             setHsl("");
         }
-    };
+    }
 
     const handleRgbaChange = (input) => {
         try {
@@ -314,8 +314,22 @@ export default function ColorConverterComponent() {
         }
     };
 
+    function handleColorPickers(color) {
+        console.log(color.hex);
+        try {
+            setHex(color.hex);
+            setRgb(hexToRgb(color.hex));
+            setRgba(hexToRgba(color.hex));
+            setHsl(hexToHsl(color.hex));
+        } catch (_) {
+            setRgb("");
+            setRgba("");
+            setHsl("");
+        }
+    }
+
     return (
-        <div className='flex flex-col gap-4 m-4'>
+        <div style={{userSelect: 'none'}} className='flex flex-col gap-4 m-4'>
             <Output4CC title="RGB" colorCode={rgb} handleChange={e => handleRgbChange(e.currentTarget.value)} />
             <Output4CC title="RGBA" colorCode={rgba} handleChange={e => handleRgbaChange(e.currentTarget.value)} />
             <Output4CC title="HEX" colorCode={hex} handleChange={e => handleHexChange(e.currentTarget.value)} />
@@ -325,24 +339,24 @@ export default function ColorConverterComponent() {
                 <p className="font-bold text-sm mb-2 text-white">Preview:</p>
                 <SliderPicker
                     color={hex}
-                    onChange={handleHexChange}
-                    header="Pick a Color"
+                    onChange={handleColorPickers}
+                // header="Pick a Color"
                 />
                 <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
                     <PhotoshopPicker
                         color={hex}
-                        onChange={handleHexChange}
+                        onChange={handleColorPickers}
                         header="Pick a Color"
                     />
                     <div style={{ height: '300px' }}>
                         <SwatchesPicker
                             color={hex}
-                            onChange={handleHexChange}
+                            onChange={handleColorPickers}
                         />
                     </div>
                     <CirclePicker
                         color={hex}
-                        onChange={handleHexChange}
+                        onChange={handleColorPickers}
                     />
                 </div>
             </div>
