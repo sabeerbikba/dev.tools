@@ -9,28 +9,32 @@ need to add copy code button in grapesjs section checkout grapesjs-plugin-codemi
 learn how to use @ in improts and use in project after project complete
 need to explore all tools in transform.tools website 
 need to explore more convert tools from the internet
-creat section for APIs give highter like free and paid to that card: twillio, spalshimages
 creat section for beautiful ui lib with npm and docs link if avilable 
 remove unncessary code files that not used any where test working as expented 
 need to remove unuse1 dependencies 
 user-select implemet where need to implemet
-color line 100% width line not reflecting if used that line in color picker   also need to add user select off in that compoenent
-added newly added keys inside shortcuts imporve shortcus tab 
-  * correct the scrren width by removing scrool bars
-  * vsCode press f12 check fix that probelm try importing styles 
-  * open serach last opened window
-  * how to use make button shortcuts
-  * try control R and seee the effect fix that 
+shift to reducer function
+
+--------------fix--------------------------------------------------------------------------
+---- SearchEngines.jsx
+* added newly added keys inside shortcuts imporve shortcus tab 
+* correct the scrren width by removing scrool bars
+* vsCode press f12 check fix that probelm try importing styles 
+* open serach last opened window
+* how to use make button shortcuts
+* try control R and seee the effect fix that 
+---- colorConverterComponent compoenent: 
+* color line 100% width line not reflecting if used that line in color picker
+* also need to add user-select off in that compoenent
+---- simmilarWebsites component:
+* once open the website need to preserve that website state 
+--------------------------------------------------------------------------------------------
 
 toolsIdea's----------------------------------------------------------------------------------
 * meta tag generator
 * Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
-* Live preview code editor with support of react next and raw hrml
+* Live preview code editor with support of html and css 
 * featureUpdate: live preview for hugo with editor markdown file live preview of website page will look like after upload css 
-* add head icon faster flame 
-* need to create section for extesnions
- litehouse
- metatag suggetions 
 * html beautifier
 * tailwind to cssinjs 
 ---------------------------------------------------------------------------------------------
@@ -58,7 +62,7 @@ and remove User, ToolType and saveHistory
 and don't remove Selector, TextArea and useDebounce
 give full code don't even miss single line
 
------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
 project progress:
 31/01 | 10hr   | project initialized and added 7 tools
 01/02 | 8hr    | removed unncessary code from 7 tools, created svg-to-react but not done
@@ -75,9 +79,11 @@ project progress:
 12/02 | 10hr   | added keys in sleection and created imporved hanldeInputs condition now only fixed bug now only work keys only work end of file, fixed simmilar website component key error
 13/02 | 7hr    | completed shortcuts tab, made code cleaner and use best Practices in search Engines component 
 14/02 | 9.15hr | added some mine standard in cssunitConverter compoenent added proptypes in all pages, entirely changed websites ui to accrdion, imporved styles in tab in simmilarWebsites component fixed bug in colroconvertComponent input not reflcting bug added some logic in serchEngies compoennt for example if user type youtube key from code editor user code editor will be close and textArea will be focused 
-15/02 | 8hr | added shorcut /  in shorcuts tab, when user enter key without selecting input he will show info of press / to open or focus on serac query, marged array in of tailwindcss2 in sigle array 
-2days taken 4 install linux and successfully insttalled
-18/02 | | corrected ui in and speels, created single function for UPDATE_INPUT 4 less code 
+15/02 | 8hr    | added shorcut /  in shorcuts tab, when user enter key without selecting input he will show info of press / to open or focus on serac query, marged array in of tailwindcss2 in sigle array 
+2days taken 4 install linux and successfully installed with little bit problems
+18/02 | 8hr    | corrected ui in and speels, created single function for UPDATE_INPUT 4 less code 
+19/02 | 5.30hr | created html strcuture for chrome extensions 
+20/02 | 9.45hr | written html structure 4 liveHtml and offlineGpt component, wordsCount and hashGenrator component converted into reducer and hashGenrator compoent tailwindcss createed object 
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴
@@ -86,3 +92,4 @@ _________DONE___________________________________________________________________
 * Svg editor with oupput 🔴
 * device detect and show show warning: 'this website not made for mobile please switch to desktop if possible' 🔵
 * need to give full height for inputs for better view in CharacterAndWordCounterComponent ✅
+* metatag suggetions done ✅ 
