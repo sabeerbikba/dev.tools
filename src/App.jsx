@@ -24,6 +24,7 @@ import AutoprefixerTool from "./pages/AutoPrefixer.jsx";
 import SearchEngine from "./pages/SearchEngine.jsx";
 import MetaTagsGenrator from "./pages/MetaTagsGenrator.jsx";
 import Test from "./pages/testing/Test.jsx";
+import LiveHtml from "./pages/LiveHtml.jsx";
 // import BrowserExtensions from "./pages/BrowserExtensions.jsx";
 
 export default function App() {
@@ -59,6 +60,7 @@ export default function App() {
             <Route path="SearchEngine" element={<SearchEngine />} />
             <Route path="MetaTagsGenrator" element={<MetaTagsGenrator />} />
             {/* <Route path="BrowserExtensions" element={<BrowserExtensions />} /> */} {/* not a good idea */}
+            <Route path="LiveHtml" element={<LiveHtml />} /> {/* not a good idea */}
             <Route path="Test" element={<Test />} />
           </Route>
         </Routes>

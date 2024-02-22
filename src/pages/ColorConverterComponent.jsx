@@ -1,14 +1,36 @@
-import { useState } from "react";
+import useLocalStorageReducer from "../hooks/useLocalStorageReducer";
 import PropTypes from 'prop-types';
-import { PhotoshopPicker, SwatchesPicker, SliderPicker, CirclePicker } from 'react-color';
+import { PhotoshopPicker, SwatchesPicker, HuePicker, AlphaPicker, CirclePicker, SliderPicker } from 'react-color';
 
 const isHSLColor = /^hsl\(\s*(\d+)\s*,\s*(\d*(?:\.\d+)?%)\s*,\s*(\d*(?:\.\d+)?%)\)$/i;
 
+const initialState = {
+    rgb: "255, 255, 255",
+    rgba: "255, 255, 255, 1",
+    hex: "#ffffff",
+    hsl: "hsl(0, 0%, 100%)",
+}
+
+const actionTypes = { UPDATE_CODE: 'UPDATE_CODE' };
+
+function colorConverterReducer(state, action) {
+    switch (action.type) {
+        case actionTypes.UPDATE_CODE:
+            return { ...state, [action.field]: action.code }
+        default:
+            console.error('Unknown action: ' + action.type);
+            console.warn('you not added action.type: ' + action.type + ' add and try');
+            return state;
+    }
+}
+
 export default function ColorConverterComponent() {
-    const [rgb, setRgb] = useState("255, 255, 255");
-    const [rgba, setRgba] = useState("255, 255, 255, 1");
-    const [hex, setHex] = useState("#ffffff");
-    const [hsl, setHsl] = useState("hsl(0, 0%, 100%)");
+    const [state, dispatch] = useLocalStorageReducer('colorCodes', colorConverterReducer, initialState)
+    const { rgb, rgba, hex, hsl } = state;
+
+    function UPDATE_CODE(field, code) {
+        dispatch({ type: actionTypes.UPDATE_CODE, field: field, code: code })
+    }
 
     const rgbToHex = (input) => {
         const cleanedRgb = input.replace(/\s/g, "").toLowerCase();
@@ -258,58 +280,58 @@ export default function ColorConverterComponent() {
 
     const handleRgbChange = (input) => {
         try {
-            setRgb(input);
-            setRgba(rgbToRgba(input));
-            setHex(rgbToHex(input));
-            setHsl(hexToHsl(rgbToHex(input)));
+            UPDATE_CODE('rgb', input);
+            UPDATE_CODE('rgba', rgbToRgba(input));
+            UPDATE_CODE('hex', rgbToHex(input));
+            UPDATE_CODE('hsl', hexToHsl(rgbToHex(input)));
         } catch (_) {
-            setHex("");
-            setRgba("");
-            setHsl("");
+            UPDATE_CODE('hex', "");
+            UPDATE_CODE('rgba', "");
+            UPDATE_CODE('hsl', "");
         }
     };
 
     const handleHexChange = (input) => {
         try {
-            setHex(input);
-            setRgb(hexToRgb(input));
-            setRgba(hexToRgba(input));
-            setHsl(hexToHsl(input));
+            UPDATE_CODE('hex', input);
+            UPDATE_CODE('rgb', hexToRgb(input));
+            UPDATE_CODE('rgba', hexToRgba(input));
+            UPDATE_CODE('hsl', hexToHsl(input));
         } catch (_) {
-            setRgb("");
-            setRgba("");
-            setHsl("");
+            UPDATE_CODE('rgb', "");
+            UPDATE_CODE('rgba', "");
+            UPDATE_CODE('hsl', "");
         }
     }
 
     const handleRgbaChange = (input) => {
         try {
-            setRgba(input);
-            setRgb(rgbaToRgb(input));
-            setHex(rgbaToHex(input));
-            setHsl(hexToHsl(rgbaToHex(input)));
+            UPDATE_CODE('rgba', input);
+            UPDATE_CODE('rgb', rgbaToRgb(input));
+            UPDATE_CODE('hex', rgbaToHex(input));
+            UPDATE_CODE('hsl', hexToHsl(rgbaToHex(input)));
         } catch (_) {
-            setRgb("");
-            setHex("");
-            setHsl("");
+            UPDATE_CODE('rgb', "");
+            UPDATE_CODE('hex', "");
+            UPDATE_CODE('hsl', "");
         }
     };
 
     const handleHslChange = (input) => {
-        setHsl(input);
+        UPDATE_CODE('hsl', input);
         if (!isHSLColor.test(input)) {
-            setRgb("");
-            setHex("");
-            setRgba("");
+            UPDATE_CODE('rgb', "");
+            UPDATE_CODE('hex', "");
+            UPDATE_CODE('rgba', "");
         } else {
             try {
-                setRgb(hslToRgb(input));
-                setRgba(rgbToRgba(hslToRgb(input)));
-                setHex(rgbToHex(hslToRgb(input)));
+                UPDATE_CODE('rgb', hslToRgb(input));
+                UPDATE_CODE('rgba', rgbToRgba(hslToRgb(input)));
+                UPDATE_CODE('hex', rgbToHex(hslToRgb(input)));
             } catch (_) {
-                setRgb("");
-                setHex("");
-                setRgba("");
+                UPDATE_CODE('rgb', "");
+                UPDATE_CODE('hex', "");
+                UPDATE_CODE('rgba', "");
             }
         }
     };
@@ -317,19 +339,19 @@ export default function ColorConverterComponent() {
     function handleColorPickers(color) {
         console.log(color.hex);
         try {
-            setHex(color.hex);
-            setRgb(hexToRgb(color.hex));
-            setRgba(hexToRgba(color.hex));
-            setHsl(hexToHsl(color.hex));
+            UPDATE_CODE('hex', color.hex);
+            UPDATE_CODE('rgb', color.rgb.r + ', ' + color.rgb.g + ', ' + color.rgb.b);
+            UPDATE_CODE('rgba', color.rgb.r + ', ' + color.rgb.g + ', ' + color.rgb.b + ', ' + color.rgb.a);
+            UPDATE_CODE('hsl', color.hsl.h + ', ' + color.hsl.s + '%, ' + color.hsl.l + '%');
         } catch (_) {
-            setRgb("");
-            setRgba("");
-            setHsl("");
+            UPDATE_CODE('rgb', "");
+            UPDATE_CODE('rgba', "");
+            UPDATE_CODE('hsl', "");
         }
     }
 
     return (
-        <div style={{userSelect: 'none'}} className='flex flex-col gap-4 m-4'>
+        <div style={{ userSelect: 'none' }} className='flex flex-col gap-4 m-4'>
             <Output4CC title="RGB" colorCode={rgb} handleChange={e => handleRgbChange(e.currentTarget.value)} />
             <Output4CC title="RGBA" colorCode={rgba} handleChange={e => handleRgbaChange(e.currentTarget.value)} />
             <Output4CC title="HEX" colorCode={hex} handleChange={e => handleHexChange(e.currentTarget.value)} />
@@ -337,10 +359,21 @@ export default function ColorConverterComponent() {
 
             <div>
                 <p className="font-bold text-sm mb-2 text-white">Preview:</p>
-                <SliderPicker
+                {/* <SliderPicker
                     color={hex}
                     onChange={handleColorPickers}
                 // header="Pick a Color"
+                /> */} {/* bug in this component */}
+                <HuePicker
+                    color={hex}
+                    width="100%"
+                    onChange={handleColorPickers}
+                />
+                <br />
+                <AlphaPicker
+                    color={hex}
+                    width="100%"
+                    onChange={handleColorPickers}
                 />
                 <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '20px' }}>
                     <PhotoshopPicker
@@ -365,18 +398,25 @@ export default function ColorConverterComponent() {
 }
 
 function Output4CC({ title = '', colorCode, handleChange }) {
+    const tailwindcss = {
+        p: 'font-bold text-sm mb-2 text-white',
+        div: 'flex gap-2',
+        input: 'px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',
+        btn: 'rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
+    }
+
     return (
         <div>
-            <p className='font-bold text-sm mb-2 text-white'> {title}: </p>
-            <div className='flex gap-2'>
+            <p className={tailwindcss.p}> {title}: </p>
+            <div className={tailwindcss.div}>
                 <input
-                    className='px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                    className={tailwindcss.input}
                     value={colorCode}
                     onChange={handleChange}
                 />
                 <button
                     type="button"
-                    className='rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
+                    className={tailwindcss.btn}
                     onClick={async () => {
                         await navigator.clipboard.writeText(colorCode);
                     }}

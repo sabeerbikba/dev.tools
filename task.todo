@@ -84,6 +84,7 @@ project progress:
 18/02 | 8hr    | corrected ui in and speels, created single function for UPDATE_INPUT 4 less code 
 19/02 | 5.30hr | created html strcuture for chrome extensions 
 20/02 | 9.45hr | written html structure 4 liveHtml and offlineGpt component, wordsCount and hashGenrator component converted into reducer and hashGenrator compoent tailwindcss createed object 
+21/02 |      | finished liveHtml compponent, creted uselocalstroageReducer custom hook, and used that hook in colroconvertComponent, deleted website2.js and useSesstionStorage custom hook, completed live html component 
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴

@@ -22,10 +22,11 @@ const initialState = {
     revisitDays: '',
     author: '',
     finalOutput: '',
-    robotsAllowed: 'no',
-    robotsFollowLink: 'no',
+    robotsAllowed: 'yes',
+    robotsFollowLink: 'yes',
     contentType: 'UTF-8',
     primaryLanguage: 'EngLish',
+    primaryLanguageManual: '',
     copyBtnDisabled: false,
 };
 const actionTypes = { UPDATE_INPUT: 'UPDATE_INPUT', CLEAR_INPUTS: 'CLEAR_INPUTS' };
@@ -55,20 +56,22 @@ export default function MetaTagsGenrator() {
         robotsFollowLink,
         contentType,
         primaryLanguage,
+        primaryLanguageManual,
         finalOutput,
         copyBtnDisabled,
     } = inputs
 
+    // console.log(primaryLanguage);
+
     // const noTag = 'noTag';
 
     const contentTypeOptions = ['UTF-8', 'UTF-16', 'ISO-8859-1', 'WINDOWS-1252', "Don't Use This Tag"];
-    const primaryLanguageOptions = ['English', 'French', 'Spanist', 'Russian', 'Arabic', 'Japanese', 'Korean', 'Hindi', 'Portuguese', 'No Language Tag', 'Manually Type'];
+    const primaryLanguageOptions = ['English', 'French', 'Spanish', 'Russian', 'Arabic', 'Japanese', 'Korean', 'Hindi', 'Portuguese', 'No Language Tag', 'Manually Type'];
     const yesNoOptions = () => {
         return (
             <>
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
-                <option value="noTag">Don&apos;t use this Tag</option>
             </>
         )
     }
@@ -77,45 +80,45 @@ export default function MetaTagsGenrator() {
     function handleFinalOutput() {
         let output = '';
 
-        if (title) {
-            output += '<meta name="title" content="' + title + '">\n';
+        if (title.trim()) {
+            output += '<meta name="title" content="' + title.trim() + '">\n';
         }
 
-        if (descreption) {
-            output += '<meta name="desciption" content="' + descreption + '">\n'; //check descreption spelling 
+        if (descreption.trim()) {
+            output += '<meta name="desciption" content="' + descreption.trim() + '">\n'; //check descreption spelling 
         }
 
-        if (keywords) {
-            output += '<meta name="keywords" content="' + keywords + '">\n';
+        if (keywords.trim()) {
+            output += '<meta name="keywords" content="' + keywords.trim() + '">\n';
         }
 
-        // if (.trim() || )
-
-        if (revisitDays) {
-            output += '<meta name="revisit-after" content="' + revisitDays + ' days">\n'; //check descreption spelling 
+        if (robotsAllowed === 'yes' && robotsFollowLink === 'yes') {
+            output += '<meta name="robots" content="index, follow">\n';
+        } else if (robotsAllowed === 'no' && robotsFollowLink === 'no') {
+            output += '<meta name="robots" content="noindex, nofollow">\n';
+        } else if (robotsAllowed === 'yes' && robotsFollowLink === 'no') {
+            output += '<meta name="robots" content="index, nofollow">\n';
+        } else if (robotsAllowed === 'no' && robotsFollowLink === 'yes') {
+            output += '<meta name="robots" content="noindex, follow">\n';
         }
 
-        if (author) {
-            output += '<meta name="author" content="' + author + '">\n';
+        if (contentType) {
+            output += '<meta http-equiv="Content-Type" content="text/html; charset=' + contentType + '">\n';
         }
 
+        if (primaryLanguage !== 'No Language Tag' && primaryLanguage !== 'Manually Type') {
+            output += '<meta name="language" content="' + primaryLanguage + '">\n';
+        } else if (primaryLanguage === 'Manually Type' && primaryLanguageManual.trim()) {
+            output += '<meta name="language" content="' + primaryLanguageManual.trim() + '">\n';
+        }
 
-        // problem --------------------------------------------------------------------------------------------------------------------------
-        // if (!robotsAllowed === 'noTag' && !robotsFollowLink === 'noTag') {
-        //     console.log('1');
-        //     output += '<meta name="robots" content="' + robotsAllowed + ', ' + robotsFollowLink + '">\n'; // need to check name attribute
-        // }
-        // //  else
-        // if (!robotsAllowed == 'noTag') {
-        //     console.log('2');
-        //     output += '<meta name="robots" content="' + robotsAllowed + '">\n'; // need to check name attribute
-        // }
-        // //  else 
-        // if (!robotsFollowLink == 'noTag') {
-        //     console.log('3');
-        //     output += '<meta name="robots" content="' + robotsFollowLink + '">\n'; // need to check name attribute
-        // }
-        // problem --------------------------------------------------------------------------------------------------------------------------
+        if (revisitDays.trim()) {
+            output += '<meta name="revisit-after" content="' + revisitDays.trim() + ' days">\n'; //check descreption spelling 
+        }
+
+        if (author.trim()) {
+            output += '<meta name="author" content="' + author.trim() + '">\n';
+        }
 
         UPDATE_INPUT('finalOutput', output);
     }
@@ -147,15 +150,16 @@ export default function MetaTagsGenrator() {
 
     const styles = {
         mainDiv: { height: '100%' },
-        mainDiv2: { width: '75%', height: '100%', marginLeft: 'auto', marginRight: 'auto', padding: '20px', },
+        mainDiv2: { width: '75%', height: '100%', marginLeft: 'auto', marginRight: 'auto', padding: '20px', position: 'relative' },
         flex: { display: 'flex' },
         flexStrech: { display: 'flex', alignItems: 'stretch' },
         selectorDiv: { height: '100px', marginLeft: '5px', marginRight: '5px' },
         selector: { width: '100%', borderRadius: '2px', textAlign: 'center' },
         input: { marginLeft: '10px', marginRight: '10px', borderRadius: '4px' },
         button: { flexGrow: '1', backgroundColor: '#204e84', height: '50px', marginLeft: '5px', marginRight: '5px', borderRadius: '5px', color: 'white' },
+        h2: { height: '40px', fontSize: '1.8rem', color: '#cecece', textAlign: 'center', borderRadius: '10px', background: 'linear-gradient(277deg, rgba(42, 42, 42, 1) 3%, rgba(92, 92, 92, 1) 32%, rgba(177, 176, 176, 1) 51%, rgba(92, 92, 92, 1) 68%, rgba(42, 42, 42, 1) 100%)', },
         h60px: { height: '60px' },
-        'h54%': { height: '54%' },
+        'h54%': { height: '30%' },
     }
 
     return (
@@ -211,9 +215,9 @@ export default function MetaTagsGenrator() {
                 </div>
                 <div style={styles.flex}>
                     <div style={{ ...styles.selectorDiv, width: '46%', }}>
-                        <label style={labelStyles} htmlFor="robotsAllowed">What type of content will your site display?</label>
+                        <label style={labelStyles} htmlFor="contentType">What type of content will your site display?</label>
                         <select
-                            id="robotsAllowed"
+                            id="contentType"
                             value={contentType}
                             onClick={e => UPDATE_INPUT('contentType', e.target.value)}
                             style={styles.selector}
@@ -223,9 +227,9 @@ export default function MetaTagsGenrator() {
                         </select>
                     </div>
                     <div style={{ ...styles.selectorDiv, width: '53%' }}>
-                        <label style={labelStyles} htmlFor="robotsFollowLink">What is your site primary language?</label>
+                        <label style={labelStyles} htmlFor="primaryLanguage">What is your site primary language?</label>
                         <select
-                            id="robotsFollowLink"
+                            id="primaryLanguage"
                             value={primaryLanguage}
                             onClick={e => UPDATE_INPUT('primaryLanguage', e.target.value)}
                             style={styles.selector}
@@ -233,6 +237,14 @@ export default function MetaTagsGenrator() {
                             <option key={language} value={language}>{language}</option>
                         ))}
                         </select>
+                        {primaryLanguage === 'Manually Type' && (
+                            <input
+                                type="text"
+                                value={primaryLanguageManual}
+                                onChange={e => UPDATE_INPUT('primaryLanguageManual', e.target.value)}
+                                style={{ ...styles.input, marginLeft: '0', width: '100%' }}
+                            />
+                        )}
                     </div>
                 </div>
                 <div style={styles.h60px}>
@@ -257,20 +269,30 @@ export default function MetaTagsGenrator() {
                         onChange={e => UPDATE_INPUT('author', e.target.value)}
                     />
                 </div>
-                <div style={{ ...styles.flexStrech, ...styles.h60px }}>
-                    <button style={styles.button} onClick={handleFinalOutput}>Genrate Meta Tags</button>
-                    <button style={styles.button} onClick={handleCopyBtn} disabled={copyBtnDisabled}>copy to clipboard</button>
-                    <button style={styles.button} onClick={() => dispatch({ type: actionTypes.CLEAR_INPUTS })}>clear Inputs</button>
+                <h2 style={styles.h2}>sabeer bikba</h2>
+                <div style={styles.h60px}>
+                    <label style={labelStyles} htmlFor="author">Author</label>
+                    <input
+                        id="author"
+                        type="text" value={author}
+                        style={{ width: '54%', ...styles.input }}
+                        onChange={e => UPDATE_INPUT('author', e.target.value)}
+                    />
                 </div>
-                <div style={styles["h54%"]}>
-                    <div style={styles["h54%"]}>
-                        <MonacoEditor
-                            language="html"
-                            theme="vs-dark"
-                            value={finalOutput}
-                            options={{ minimap: { enabled: false }, lineNumber: true, readOnly: true }}
-                        />
+                {/* editor and editor buttons */}
+                <div style={{ ...styles["h54%"], width: '95%', position: 'absolute', bottom: '70px' }}>
+                    <div style={{ ...styles.flexStrech, ...styles.h60px }}>
+                        <button style={styles.button} onClick={handleFinalOutput}>Genrate Meta Tags</button>
+                        <button style={styles.button} onClick={handleCopyBtn} disabled={copyBtnDisabled}>copy to clipboard</button>
+                        <button style={styles.button} onClick={() => dispatch({ type: actionTypes.CLEAR_INPUTS })}>clear Inputs</button>
                     </div>
+                    <MonacoEditor
+                        language="html"
+                        theme="vs-dark"
+                        // width={'100%'}
+                        value={finalOutput}
+                        options={{ minimap: { enabled: false }, lineNumber: true, readOnly: true }}
+                    />
                 </div>
             </div>
         </div>

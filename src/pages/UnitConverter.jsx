@@ -75,7 +75,6 @@ export default function UnitConverter() {
 }
 
 function UnitInput(props) {
-    console.log(props);
     const [value, setValue] = useState(0);
     const [isDisabled, setDisabled] = useState(false);
 
