@@ -31,19 +31,28 @@ export default function LiveHtml() {
             })
         }
     }
-    
+
     const tailwindcss = {
         btn: "rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 h-12"
     }
 
+    const styles = {
+        main: { width: '100%', height: '100%', display: 'flex' },
+        div50: { width: '50%', height: '100%', display: 'flex', flexDirection: 'column', background: '#808080cc' },
+        btnDiv: { display: 'flex', justifyContent: 'space-around', height: '5%' },
+        btn: { width: '35%', height: '92%' },
+        'h95%': { height: '95%' },
+        iframeDiv: { width: '50%', height: '100%' },
+    }
+
     return (
-        <div style={{ width: '100%', height: '100%', display: 'flex' }}>
-            <div style={{ width: '50%', height: '100%', display: 'flex', flexDirection: 'column', background: '#808080cc' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-around', height: '5%' }}>
-                    <button style={{width: '35%', height: '92%'}} className={tailwindcss.btn} onClick={handleClear}>Clear</button>
-                    <button style={{width: '35%', height: '92%'}} className={tailwindcss.btn} onClick={handleCopyBtn} disabled={copyBtnDisabled || code.trim() === ''}>Copy</button> {/* need to verify */}
+        <main style={styles.main}>
+            <div style={styles.div50}>
+                <div style={styles.btnDiv}>
+                    <button style={styles.btn} className={tailwindcss.btn} onClick={handleClear}>Clear</button>
+                    <button style={styles.btn} className={tailwindcss.btn} onClick={handleCopyBtn} disabled={copyBtnDisabled || code.trim() === ''}>Copy</button> {/* need to implemnt color when hover*/}
                 </div>
-                <div style={{ height: '95%' }}>
+                <div style={styles['h95%']}>
                     <MonacoEditor
                         language="html"
                         theme="vs-dark"
@@ -53,7 +62,7 @@ export default function LiveHtml() {
                     />
                 </div>
             </div>
-            <div style={{ width: '50%', height: '100%' }}>
+            <div style={styles.iframeDiv}>
                 <iframe
                     srcDoc={code}
                     title="Live Preview"
@@ -61,6 +70,6 @@ export default function LiveHtml() {
                     height={'100%'}
                 />
             </div>
-        </div>
+        </main>
     );
 }
