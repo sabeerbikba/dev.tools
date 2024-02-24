@@ -49,8 +49,17 @@ export default function LiveHtml() {
         <main style={styles.main}>
             <div style={styles.div50}>
                 <div style={styles.btnDiv}>
-                    <button style={styles.btn} className={tailwindcss.btn} onClick={handleClear}>Clear</button>
-                    <button style={styles.btn} className={tailwindcss.btn} onClick={handleCopyBtn} disabled={copyBtnDisabled || code.trim() === ''}>Copy</button> {/* need to implemnt color when hover*/}
+                    <button
+                        style={{ ...styles.btn, backgroundColor: `${!code.trim() ? '#bbbbff' : ''}` }}
+                        className={tailwindcss.btn}
+                        onClick={handleClear}
+                    >Clear</button>
+                    <button
+                        style={{ ...styles.btn, backgroundColor: `${!code.trim() || copyBtnDisabled ? '#bbbbff' : ''}` }}
+                        className={tailwindcss.btn}
+                        onClick={handleCopyBtn}
+                        disabled={copyBtnDisabled || code.trim() === ''}
+                    >Copy</button>
                 </div>
                 <div style={styles['h95%']}>
                     <MonacoEditor

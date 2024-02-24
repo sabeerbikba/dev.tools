@@ -94,6 +94,8 @@ export default function MetaTagsGenrator() {
         ogImagesLinks,
     } = inputs
 
+    const ogInputsFocused = { border: `${ogImagesLinks[0] || ogUrl || ogTitle || ogDescription ? '2px solid teal' : ''}`}
+
     const contentTypeOptions = ['UTF-8', 'UTF-16', 'ISO-8859-1', 'WINDOWS-1252', "Don't Use This Tag"];
     const primaryLanguageOptions = ['English', 'French', 'Spanish', 'Russian', 'Arabic', 'Japanese', 'Korean', 'Hindi', 'Portuguese', 'No Language Tag', 'Manually Type'];
     const ogTypeOptions = [
@@ -134,7 +136,7 @@ export default function MetaTagsGenrator() {
         )
     }
 
-    const renderInputs = () => {
+    const renderImagesInputs = () => {
         const inputs = [];
         for (let i = 0; i < ogNumberOfImages; i++) {
             const label = i === 0 ? 'Image URL' : '';
@@ -142,17 +144,45 @@ export default function MetaTagsGenrator() {
                 <Input
                     key={i}
                     label={label}
-                    styles={{ height: '24px' }}
+                    styles={{ height: '24px', ...ogInputsFocused }}
                     elementType="input"
                     value={ogImagesLinks[i]}
                     placeholder={`Image URL ${i + 1}`}
-                    elementHeight="48px"
+                    elementHeight={i === 0 ? '45px' : '22px'}
                     handleInput={(e) => handleOgImagesLinks(i, e.target.value)}
                 />
             );
         }
         return inputs;
     };
+
+    const ogLivePreview = `
+    <html style="height: 100%; width: 100%; display: flex; justify-content: center;   align-items: center;">
+    <head>
+    <head>
+    <body style="width: 90%">
+        <div style="max-width: 100%; cursor: pointer; ">
+            <div
+                style="border: 1px solid #dadde1; border-bottom: 0; background-size: cover; background-position: center; background-repeat: no-repeat;">
+                <div style="width: 100%; position: relative; padding-top: 52.5%;">
+                    <img style="height: 100%; width: 100%; position: absolute; top: 0; object-fit: cover; display: block;" src="${ogImagesLinks[0]}">
+                </div>
+            </div>
+            <div
+                style="overflow-wrap: break-word; border: 1px solid #dadde1; background-color: #f2f3f5; padding: 10px 12px; font-family: 'Helvetica';">
+                <div style="overflow: hidden; white-space: nowrap; font-size: 12px; color: #606770;">${formatUrl(ogUrl)}</div><div
+                    style="display: block; height: 46px; max-height: 46px; border-separate: 0; overflow: hidden; break-word; text-align: left; border-spacing: 0px;">
+                    <div
+                        style="margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; font-weight: 600; line-height: 20px; color: #1d2129;">
+                        ${ogTitle}</div>
+                    <div
+                        style="margin-top: 3px; display: block; height: 18px; max-height: 80px; border-separate: 0; overflow: hidden; white-space: nowrap; break-word; font-size: 14px; line-height: 20px; color: #606770; -webkit-line-clamp: 1; border-spacing: 0px; -moz-box-orient: vertical;">
+                        ${ogDescription}</div>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>`
 
     function handleFinalOutput() {
         let output = '';
@@ -201,15 +231,6 @@ export default function MetaTagsGenrator() {
             output += '<meta name="author" content="' + author.trim() + '">\n';
         }
 
-        /**
-         *  <meta property="og:title" content="title">
-<meta property="og:site_name" content="name">
-<meta property="og:url" content="https://wtools.io/open-graph-generator">
-<meta property="og:description" content="description">
-<meta property="og:type" content="article">
-<meta property="og:image" content="https://wtools.io/open-graph-generator">
-         */
-        // Open Graph section
         if (ogTitle.trim()) {
             output += '<meta property="og:title" content="' + ogTitle.trim() + '">\n';
         }
@@ -220,7 +241,8 @@ export default function MetaTagsGenrator() {
 
         if (urlRegex.test(ogUrl.trim())) {
             output += '<meta property="og:url" content="' + ogUrl.trim() + '">\n'
-        } else {
+        } else if (!urlRegex.test(ogUrl.trim()) && ogUrl.trim()) {
+            console.log('true');
             toast.warn('URL is not valid', {
                 position: 'bottom-right',
                 theme: 'dark',
@@ -236,14 +258,20 @@ export default function MetaTagsGenrator() {
             output += '<meta property="og:type" content="' + ogType + '">\n'
         }
 
-        // if (ogSelectors()) {
-        ogImagesLinks.filter(link => link) // Filter out empty or falsy values
+        ogImagesLinks.filter(link => link)
             .forEach((link) => (
                 output += '<meta property="og:image" content="' + link + '">\n'
             ));
-        // }
 
         UPDATE_INPUT('finalOutput', output);
+    }
+
+    function formatUrl(url) {
+        url = url.replace(/^(https?:\/\/)?/, '');
+        url = url.replace(/^www./, '');
+        const domain = url.split('/')[0];
+        const formattedUrl = domain.charAt(0).toUpperCase() + domain.slice(1);
+        return formattedUrl;
     }
 
     async function handleCopyBtn() {
@@ -410,7 +438,7 @@ export default function MetaTagsGenrator() {
                                 value={ogTitle}
                                 placeholder="Title of your content"
                                 handleInput={e => UPDATE_INPUT('ogTitle', e.target.value)}
-                                styles={{ height: '26px', }}
+                                styles={{ height: '26px', ...ogInputsFocused }}
                             />
                         </div>
                         <div style={{ height: '60px' }}>
@@ -420,7 +448,7 @@ export default function MetaTagsGenrator() {
                                 value={ogSiteName}
                                 placeholder="Name of your website or brand"
                                 handleInput={e => UPDATE_INPUT('ogSiteName', e.target.value)}
-                                styles={{ height: '26px', }}
+                                styles={{ height: '26px' }}
                             />
                         </div>
                     </div>
@@ -431,6 +459,7 @@ export default function MetaTagsGenrator() {
                             value={ogDescription}
                             placeholder="Descreption must be within 200 characters"
                             handleInput={e => UPDATE_INPUT('ogDescription', e.target.value)}
+                            styles={ogInputsFocused}
                         />
                     </div>
                 </div>
@@ -442,7 +471,7 @@ export default function MetaTagsGenrator() {
                             value={ogUrl}
                             placeholder="URL of your website"
                             handleInput={e => UPDATE_INPUT('ogUrl', e.target.value)}
-                            styles={{ height: '26px', }}
+                            styles={{ height: '26px', ...ogInputsFocused }}
                         />
                     </div>
                     <div style={{ flexGrow: '1', height: '60px', display: 'flex', width: '54%', paddingTop: '9px' }}>
@@ -472,19 +501,13 @@ export default function MetaTagsGenrator() {
                             </select>
                         </div>
                     </div>
-
                 </div>
                 <div>
-                    {renderInputs()}
-                    problem is when lable is present or not height always fixed that's why problem occuring 
+                    {renderImagesInputs()}
                 </div>
-                {/* editor and editor buttons */}
-
-
-
             </div>
             <div style={styles.mainDiv2}>
-                <div style={{ height: '50%', border: '2px solid green' }}>
+                <div style={{ height: '46%', border: '2px solid transparent' }}>
 
                     <div style={{ ...styles.flexStrech, ...styles.h60px }}>
                         <button style={styles.button} onClick={handleFinalOutput}>Genrate Meta Tags</button>
@@ -495,14 +518,20 @@ export default function MetaTagsGenrator() {
                         language="html"
                         theme="vs-dark"
                         height={'87%'}
-                        // width={'100%'}
                         value={finalOutput}
                         options={{ minimap: { enabled: false }, lineNumber: true, readOnly: true }}
                     />
                 </div>
-                <div style={{ height: '50%', border: '2px solid red' }}>
-                    {/* need to implement live og looks like  */}
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, eos.
+                <div style={{ height: '54%' }}>
+                    {ogTitle.trim() || ogDescription.trim() || ogImagesLinks[0] || ogUrl ? (
+                        <iframe
+                            srcDoc={ogLivePreview}
+                            title="Live Preview"
+                            width={'100%'}
+                            height={'100%'}
+                            style={{}}
+                        />
+                    ) : null}
                 </div>
             </div>
 
@@ -519,9 +548,9 @@ function Input({ label = '', elementType, type = 'text', value, placeholder = ''
 
     return (
         <div style={style.div}>
-                {label && (
-                    <label style={labelStyles} htmlFor={label}>{label + ' '}</label>
-                )}
+            {label && (
+                <label style={labelStyles} htmlFor={label}>{label + ' '}</label>
+            )}
             <InputComponent
                 style={{ ...style.input, ...styles, }}
                 id={label}
