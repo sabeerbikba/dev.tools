@@ -5,13 +5,15 @@ import MonacoEditor from '@monaco-editor/react';
 
 /** TASK.TODO
 //  * create single function UPDATE_INPUTS 
- * fix handleFinalOutput
+//  * fix handleFinalOutput
 * when url type use need to show url correct or not 
  * fix the error in log
 //  * need to update contennt type and primarly language UPDATE_INPUT function 
  * need to add trim in if logic in handleFinalOutput fucntion
  * in revistDays input if userType text need to show error only number allowed 
  * need to make responsive when screen is smaller 
+ * implement regEx in inputs where possible 
+ * in inputs after enter specified charcter notfiy or warn them 
  */
 
 const labelStyles = { color: '#A6A6A6' };
@@ -33,9 +35,15 @@ const initialState = {
     ogTitle: '',
     ogSiteName: '',
     ogDescription: '',
+    ogLocale: 'en_US',
+    ogLocaleManual: '',
+    ogLocaleAlternate: 'none',
+    ogLocaleAlternateManual: '',
     ogUrl: '',
     ogType: 'website', //need to verify after done 
     ogNumberOfImages: 1,
+    // Twitter card section
+
     ogImagesLinks: [''],
 };
 const actionTypes = {
@@ -88,13 +96,19 @@ export default function MetaTagsGenrator() {
         ogTitle,
         ogSiteName,
         ogDescription,
+        ogLocale,
+        ogLocaleManual,
+        ogLocaleAlternate,
+        ogLocaleAlternateManual,
         ogUrl,
-        ogType, //need to verify after done 
+        ogType,
         ogNumberOfImages,
         ogImagesLinks,
+        // Twitter card section
+
     } = inputs
 
-    const ogInputsFocused = { border: `${ogImagesLinks[0] || ogUrl || ogTitle || ogDescription ? '2px solid teal' : ''}`}
+    const ogInputsFocused = { border: `${ogImagesLinks[0] || ogUrl || ogTitle || ogDescription ? '2px solid teal' : ''}` }
 
     const contentTypeOptions = ['UTF-8', 'UTF-16', 'ISO-8859-1', 'WINDOWS-1252', "Don't Use This Tag"];
     const primaryLanguageOptions = ['English', 'French', 'Spanish', 'Russian', 'Arabic', 'Japanese', 'Korean', 'Hindi', 'Portuguese', 'No Language Tag', 'Manually Type'];
@@ -135,6 +149,24 @@ export default function MetaTagsGenrator() {
             </>
         )
     }
+    const ogLocaleOptions = [
+        { text: 'English (United States)', value: 'en_US' },
+        { text: 'English (United Kingdom)', value: 'en_UK' },
+        { text: 'Spanish (Spain)', value: 'es_ES' },
+        { text: 'Spanish (Mexico)', value: 'es_MX' },
+        { text: 'French (France)', value: 'fr_FR' },
+        { text: 'French (Canada)', value: 'fr_CA' },
+        { text: 'German (Germany)', value: 'de_DE' },
+        { text: 'Italian (Italy)', value: 'it_IT' },
+        { text: 'Chinese (Simplified, China)', value: 'zh_CN' },
+        { text: 'Chinese (Traditional, Taiwan)', value: 'zh_TW' },
+        { text: 'Japanese (Japan)', value: 'ja_JP' },
+        { text: 'Korean (South Korea)', value: 'ko_KR' },
+        { text: 'Russian (Russia)', value: 'ru_RU' },
+        { text: 'Arabic (Saudi Arabia)', value: 'ar_SA' },
+        { text: 'Portuguese (Brazil)', value: 'pt_BR' },
+        { text: 'Manually Type', value: 'manual' },
+    ];
 
     const renderImagesInputs = () => {
         const inputs = [];
@@ -188,7 +220,7 @@ export default function MetaTagsGenrator() {
         let output = '';
         const urlRegex = /^https?:\/\/(?:www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?$/;
         const ogSelectors = () => {
-            return ogTitle.trim() !== '' || ogSiteName.trim() !== '' || ogDescription.trim() !== '';
+            return ogTitle.trim() !== '' || ogDescription.trim() !== '';
         };
 
         if (title.trim()) {
@@ -220,7 +252,7 @@ export default function MetaTagsGenrator() {
         if (primaryLanguage !== 'No Language Tag' && primaryLanguage !== 'Manually Type') {
             output += '<meta name="language" content="' + primaryLanguage + '">\n';
         } else if (primaryLanguage === 'Manually Type' && primaryLanguageManual.trim()) {
-            output += '<meta name="language" content="' + primaryLanguageManual.trim() + '">\n';
+            output += '<meta name="language" content="' + primaryLanguageManual.trim().charAt(0).toUpperCase() + primaryLanguageManual.slice(1) + '">\n';
         }
 
         if (revisitDays.trim()) {
@@ -254,14 +286,34 @@ export default function MetaTagsGenrator() {
             output += '<meta property="og:description" content="' + ogDescription.trim() + '">\n'
         }
 
-        if (ogSelectors()) {
+        if (ogSelectors() || ogSiteName.trim() !== '') {
             output += '<meta property="og:type" content="' + ogType + '">\n'
         }
 
-        ogImagesLinks.filter(link => link)
-            .forEach((link) => (
-                output += '<meta property="og:image" content="' + link + '">\n'
-            ));
+        // if (ogSelectors()) {
+        ogImagesLinks.filter(link => link).forEach((link) => (
+            output += '<meta property="og:image" content="' + link + '">\n'
+        ));
+        // }
+
+        if (ogLocale !== ogLocaleAlternate && (ogLocale !== 'manual' && ogLocaleAlternate == 'manual')) {
+            if (ogLocale !== 'manual') {
+                output += '<meta property="og:locale" content="' + ogLocale + '">\n'
+            } else if (ogLocale === 'manual' && ogLocaleManual.trim()) {
+                output += '<meta property="og:locale" content="' + ogLocaleManual.trim() + '">\n'
+            }
+            if (ogLocaleAlternate !== 'manual' && ogLocaleAlternate !== 'none') {
+                output += '<meta property="og:locale:alternate" content="' + ogLocaleAlternate + '">'
+            } else if (ogLocaleAlternate === 'manual' && ogLocaleAlternateManual.trim()) {
+                output += '<meta property="og:locale:alternate" content="' + ogLocaleAlternateManual.trim() + '">'
+            }
+        } else {
+            toast.warn('Open Graph Primary Locale and Alternate Localte not be same ', {
+                position: 'bottom-right',
+                theme: 'dark',
+                autoClose: 3400,
+            })
+        }
 
         UPDATE_INPUT('finalOutput', output);
     }
@@ -308,22 +360,22 @@ export default function MetaTagsGenrator() {
     }
 
     const styles = {
-        main: { height: '100%', width: '100%', display: 'flex' },
-        mainDiv2: { width: '50%', height: '100%', display: 'flex', flexDirection: 'column', padding: '14px' },
+        main: { height: '100%', width: '100%', display: 'flex', },
+        mainDiv2: { width: '50%', height: 'auto', display: 'flex', flexDirection: 'column', padding: '14px' },
         flex: { display: 'flex' },
         flexStrech: { display: 'flex', alignItems: 'stretch' },
         selectorDiv: { height: '100px', marginLeft: '5px', marginRight: '5px' },
         selector: { width: '100%', borderRadius: '2px', textAlign: 'center' },
         input: { marginLeft: '10px', marginRight: '10px', borderRadius: '4px' },
         button: { flexGrow: '1', backgroundColor: '#204e84', height: '50px', marginLeft: '5px', marginRight: '5px', borderRadius: '5px', color: 'white' },
-        h2: { height: '40px', marginBottom: '20px', fontSize: '1.8rem', color: '#cecece', textAlign: 'center', borderRadius: '10px', background: 'linear-gradient(277deg, rgba(42, 42, 42, 1) 3%, rgba(92, 92, 92, 1) 32%, rgba(177, 176, 176, 1) 51%, rgba(92, 92, 92, 1) 68%, rgba(42, 42, 42, 1) 100%)', },
-        h60px: { height: '60px' },
+        h2: { height: '40px', marginBottom: '20px', marginTop: '20px', fontSize: '1.8rem', color: '#cecece', textAlign: 'center', borderRadius: '10px', background: 'linear-gradient(277deg, rgba(42, 42, 42, 1) 3%, rgba(92, 92, 92, 1) 32%, rgba(177, 176, 176, 1) 51%, rgba(92, 92, 92, 1) 68%, rgba(42, 42, 42, 1) 100%)', },
+        h60px: { height: '60px', marginBottom: '10px' },
         'h54%': { height: '30%' },
     }
 
     return (
         <main style={styles.main}>
-            <div style={styles.mainDiv2}>
+            <div style={{ ...styles.mainDiv2, overflow: 'scroll' }}>
                 <div style={styles.flexStrech}>
                     <Input
                         label="Site Title:"
@@ -332,6 +384,8 @@ export default function MetaTagsGenrator() {
                         value={title}
                         placeholder="Title must be within 70 characters"
                         handleInput={e => UPDATE_INPUT('title', e.target.value)}
+                        elementHeight="48px"
+                        styles={{ height: '24px' }}
                     />
                 </div>
                 <div style={styles.flexStrech}>
@@ -356,7 +410,7 @@ export default function MetaTagsGenrator() {
                         <select
                             id="robotsAllowed"
                             value={robotsAllowed}
-                            onClick={e => UPDATE_INPUT('robotsAllowed', e.target.value)}
+                            onChange={e => UPDATE_INPUT('robotsAllowed', e.target.value)}
                             style={styles.selector}
                         >{yesNoOptions()}
                         </select>
@@ -366,19 +420,19 @@ export default function MetaTagsGenrator() {
                         <select
                             id="robotsFollowLink"
                             value={robotsFollowLink}
-                            onClick={e => UPDATE_INPUT('robotsFollowLink', e.target.value)}
+                            onChange={e => UPDATE_INPUT('robotsFollowLink', e.target.value)}
                             style={styles.selector}
                         >{yesNoOptions()}
                         </select>
                     </div>
                 </div>
-                <div style={styles.flex}>
+                <div style={{ ...styles.flex, height: '87px' }}>
                     <div style={{ ...styles.selectorDiv, width: '46%', }}>
                         <label style={labelStyles} htmlFor="contentType">What type of content will your site display?</label>
                         <select
                             id="contentType"
                             value={contentType}
-                            onClick={e => UPDATE_INPUT('contentType', e.target.value)}
+                            onChange={e => UPDATE_INPUT('contentType', e.target.value)}
                             style={styles.selector}
                         >{contentTypeOptions.map(type => (
                             <option key={type} value={type}>{type}</option>
@@ -390,18 +444,20 @@ export default function MetaTagsGenrator() {
                         <select
                             id="primaryLanguage"
                             value={primaryLanguage}
-                            onClick={e => UPDATE_INPUT('primaryLanguage', e.target.value)}
+                            onChange={e => UPDATE_INPUT('primaryLanguage', e.target.value)}
                             style={styles.selector}
                         >{primaryLanguageOptions.map(language => (
                             <option key={language} value={language}>{language}</option>
                         ))}
                         </select>
                         {primaryLanguage === 'Manually Type' && (
-                            <input
-                                type="text"
+                            <Input
+                                styles={{ ...styles.input, marginLeft: '0', width: '100%', height: '22px' }}
                                 value={primaryLanguageManual}
-                                onChange={e => UPDATE_INPUT('primaryLanguageManual', e.target.value)}
-                                style={{ ...styles.input, marginLeft: '0', width: '100%' }}
+                                handleInput={e => UPDATE_INPUT('primaryLanguageManual', e.target.value)}
+                                placeholder="Enter Primary Language"
+                                elementHeight="30%"
+                                noDivMargin
                             />
                         )}
                     </div>
@@ -463,6 +519,61 @@ export default function MetaTagsGenrator() {
                         />
                     </div>
                 </div>
+                <div style={{ ...styles.flexStrech, height: '75px' }}>
+
+                    <div style={{ ...styles.selectorDiv, width: '50%' }}>
+                        <label style={labelStyles} htmlFor="ogLocale">Primary Locale:</label>
+                        <select
+                            style={styles.selector}
+                            value={ogLocale}
+                            onChange={e => UPDATE_INPUT('ogLocale', e.target.value)}
+                            id="ogLocale">
+                            {/* <option value=""></option> */}
+                            {ogLocaleOptions.map((option, index) => (
+                                <option key={index} value={option.value}>
+                                    {option.value !== 'manual' ? '[' + option.value + '] ' + ' ' : ' '}
+                                    {option.text}
+                                </option>
+                            ))}
+                        </select>
+                        {ogLocale === 'manual' && (
+                            <Input
+                                styles={{ ...styles.input, marginLeft: '0', width: '100%', height: '22px' }}
+                                value={ogLocaleManual}
+                                handleInput={e => UPDATE_INPUT('ogLocaleManual', e.target.value)}
+                                placeholder="Enter Pramary Locale"
+                                elementHeight="30%"
+                                noDivMargin
+                            />
+                        )}
+                    </div>
+                    <div style={{ ...styles.selectorDiv, width: '50%', height: '60px' }}>
+                        <label style={labelStyles} htmlFor="ogLocaleAlternate">Alternate Locale:</label>
+                        <select
+                            style={styles.selector}
+                            value={ogLocaleAlternate}
+                            onChange={e => UPDATE_INPUT('ogLocaleAlternate', e.target.value)}
+                            id="ogLocaleAlternate">
+                            <option value="none">Don&apos;t Use This Tag</option>
+                            {ogLocaleOptions.map((option, index) => (
+                                <option key={index} value={option.value}>
+                                    {option.value !== 'manual' ? '[' + option.value + '] ' + ' ' : ' '}
+                                    {option.text}
+                                </option>
+                            ))}
+                        </select>
+                        {ogLocaleAlternate === 'manual' && (
+                            <Input
+                                styles={{ ...styles.input, marginLeft: '0', width: '100%', height: '22px' }}
+                                value={ogLocaleAlternateManual}
+                                handleInput={e => UPDATE_INPUT('ogLocaleAlternateManual', e.target.value)}
+                                placeholder="Enter Pramary Locale"
+                                elementHeight="30%"
+                                noDivMargin
+                            />
+                        )}
+                    </div>
+                </div>
                 <div style={styles.flexStrech}>
                     <div style={{ height: '60px', width: '45.5%' }}>
                         <Input
@@ -505,6 +616,65 @@ export default function MetaTagsGenrator() {
                 <div>
                     {renderImagesInputs()}
                 </div>
+
+
+                <h2 style={styles.h2}>Twitter Card</h2>
+                <div style={styles.flexStrech}>
+                    <div style={{ flexGrow: '1', }}>
+                        <div style={{ height: '60px' }}>
+                            <Input
+                                label="Title:"
+                                elementType="input"
+                                value={ogTitle}
+                                placeholder="Title of your content"
+                                handleInput={e => UPDATE_INPUT('ogTitle', e.target.value)}
+                                styles={{ height: '26px', ...ogInputsFocused }}
+                            />
+                        </div>
+                        <div style={{ height: '60px' }}>
+                            <Input
+                                label="Site Name:"
+                                elementType="input"
+                                value={ogSiteName}
+                                placeholder="Name of your website or brand"
+                                handleInput={e => UPDATE_INPUT('ogSiteName', e.target.value)}
+                                styles={{ height: '26px' }}
+                            />
+                        </div>
+                    </div>
+                    <div style={{ flexGrow: '1' }}>
+                        <div style={{ height: '60px' }}>
+                            <Input
+                                label="Title:"
+                                elementType="input"
+                                value={ogTitle}
+                                placeholder="Title of your content"
+                                handleInput={e => UPDATE_INPUT('ogTitle', e.target.value)}
+                                styles={{ height: '26px', ...ogInputsFocused }}
+                            />
+                        </div>
+                        <div style={{ height: '60px' }}>
+                            <Input
+                                label="Site Name:"
+                                elementType="input"
+                                value={ogSiteName}
+                                placeholder="Name of your website or brand"
+                                handleInput={e => UPDATE_INPUT('ogSiteName', e.target.value)}
+                                styles={{ height: '26px' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div style={styles.flexStrech}>
+                    <Input
+                        label="Site Descreption"
+                        elementType="textarea"
+                        value={descreption}
+                        placeholder="Descreption must be within 150 characters"
+                        handleInput={e => UPDATE_INPUT('descreption', e.target.value)}
+                    />
+                </div>
             </div>
             <div style={styles.mainDiv2}>
                 <div style={{ height: '46%', border: '2px solid transparent' }}>
@@ -535,14 +705,24 @@ export default function MetaTagsGenrator() {
                 </div>
             </div>
 
-        </main>
+        </main >
     );
 }
 
-function Input({ label = '', elementType, type = 'text', value, placeholder = '', handleInput, styles = {}, elementHeight = '60%' }) {
+function Input({
+    label = '',
+    elementType,
+    type = 'text',
+    value,
+    placeholder = '',
+    handleInput,
+    styles = {},
+    elementHeight = '60%',
+    noDivMargin
+}) {
     const InputComponent = elementType === 'textarea' ? 'textarea' : 'input';
     const style = {
-        div: { paddingLeft: '5px', paddingRight: '5px', flexGrow: '1', marginBottom: '10px', height: elementHeight },
+        div: { paddingLeft: noDivMargin ? '0' : '5px', paddingRight: noDivMargin ? '0' : '5px', flexGrow: '1', marginBottom: '10px', height: elementHeight },
         input: { marginTop: '5px', marginBottom: '12px', width: '100%', height: '100%', borderRadius: '5px' },
     }
 
@@ -571,5 +751,6 @@ Input.propTypes = {
     placeholder: PropTypes.string,
     handleInput: PropTypes.func.isRequired,
     styles: PropTypes.object,
-    elementHeight: PropTypes.string
+    elementHeight: PropTypes.string,
+    noDivMargin: PropTypes.bool,
 };
