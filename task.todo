@@ -87,7 +87,9 @@ project progress:
 21/02 | 9.10hr | finished liveHtml compponent, creted uselocalstroageReducer custom hook, and used that hook in colroconvertComponent, deleted website2.js and useSesstionStorage custom hook, completed live html component 
 22/02 | 9.15hr | created array of styles in liveHtml component for readability and added openGraph inputs logic
 23/02 | 5.30hr | completed openGraph logic inside metaTagsGenrator component, implement button disable logic in live html code 
-24/03 | 5hr    | added more inputs to openGraph meta tags 
+24/02 | 5hr    | added more inputs to openGraph meta tags 
+urus 
+26/02 | 8hr    | completed twitter card inputs, added boilderPlate checkbox with logic  
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴

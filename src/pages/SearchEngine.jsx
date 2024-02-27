@@ -103,7 +103,7 @@ export default function SearchEngine() {
             dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: '' });
             dispatch({ type: actionTypes.SET_HISTORY_INDEX, payload: -1 });
         }
-        const addQuery = editorVisible ? searchQuery + ' ```' + language + ' ' + editorValue + '```' : searchQuery;
+        const addQuery = editorVisible && editorValue !== '' ? searchQuery + ' ```\n' + language + ' ' + editorValue + '\n```' : searchQuery;
 
         const finalSearchQuery = encodeURIComponent(addQuery);
         const searchUrl = `${selectedEngine.url}${finalSearchQuery}`;
