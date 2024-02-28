@@ -10,24 +10,27 @@ import MonacoEditor from '@monaco-editor/react';
  * fix the error in log
 //  * need to update contennt type and primarly language UPDATE_INPUT function 
 //  * need to add trim in if logic in handleFinalOutput fucntion
- * in revistDays input if userType text need to show error only number allowed 
+//  * in revistDays input if userType text need to show error only number allowed 
  * need to make responsive when screen is smaller 
  * implement regEx in inputs where possible 
  * in inputs after enter specified charcter notfiy or warn them 
  * oglocale ogAlternateLocale bug click genrate to see
- * create reusable selection and use where possible 
+//  * create reusable selection and use where possible 
 //  * need to impletmet boilderplate code 
 //  * check descreption spelling 
+// * after implemet all reusable componet need to check onFocus workig or not in og and tc
+// * make styles supprate in reusable components 
+* adjust monaco editor font size 
  */
 
-const labelStyles = { color: '#A6A6A6' };
 
 const initialState = {
     title: '',
     description: '',
     keywords: '',
     canonicalUrl: '',
-    revisitDays: '',
+    revisitDays: 1,
+    revisitDaysError: '',
     author: '',
     finalOutput: '',
     robotsAllowed: 'yes',
@@ -98,6 +101,7 @@ export default function MetaTagsGenrator() {
         keywords,
         canonicalUrl,
         revisitDays,
+        revisitDaysError,
         author,
         robotsAllowed,
         robotsFollowLink,
@@ -130,7 +134,7 @@ export default function MetaTagsGenrator() {
         tcDescription,
     } = inputs
 
-    // console.log(livePreview);
+    console.log(typeof revisitDays);
 
     const ogInputsFocused = { border: `${ogImagesLinks[0] || ogUrl || ogTitle || ogDescription ? '3px solid green' : ''}` }
     const tcInputFocused = { border: `${tcUrl.trim() || tcImgUrl.trim() ? '3px solid green' : ''}` }
@@ -166,14 +170,6 @@ export default function MetaTagsGenrator() {
         { text: 'Video Other', value: 'video.other' },
         { text: 'Website (default)', value: 'website' },
     ];
-    const yesNoOptions = () => {
-        return (
-            <>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </>
-        )
-    }
     const ogLocaleOptions = [
         { text: 'English (United States)', value: 'en_US' },
         { text: 'English (United Kingdom)', value: 'en_UK' },
@@ -193,10 +189,10 @@ export default function MetaTagsGenrator() {
         { text: 'Manually Type', value: 'manual' },
     ];
     const tcTypeOptions = [
-        { name: 'App', value: 'app' },
-        { name: 'Player', value: 'player' },
-        { name: 'Summary', value: 'summary' },
-        { name: 'Summary With Large Image', value: 'summary_large_image' }
+        { text: 'App', value: 'app' },
+        { text: 'Player', value: 'player' },
+        { text: 'Summary', value: 'summary' },
+        { text: 'Summary With Large Image', value: 'summary_large_image' }
     ];
 
     const renderImagesInputs = () => {
@@ -212,7 +208,7 @@ export default function MetaTagsGenrator() {
                     value={ogImagesLinks[i]}
                     placeholder={`Image URL ${i + 1}`}
                     elementHeight={i === 0 ? '45px' : '22px'}
-                    handleInput={(e) => handleOgImagesLinks(i, e.target.value)}
+                    onChange={(e) => handleOgImagesLinks(i, e.target.value)}
                     onFocus={() => hanldeSetLivePreview(1)}
                 />
             );
@@ -339,8 +335,8 @@ export default function MetaTagsGenrator() {
             output += '<meta name="language" content="' + primaryLanguageManual.trim().charAt(0).toUpperCase() + primaryLanguageManual.slice(1) + '">\n';
         }
 
-        if (revisitDays.trim()) {
-            output += '<meta name="revisit-after" content="' + revisitDays.trim() + ' days">\n'; //check description spelling 
+        if (revisitDays) {
+            output += '<meta name="revisit-after" content="' + revisitDays + ' days">\n'; //check description spelling 
         }
 
         if (author.trim()) {
@@ -423,8 +419,6 @@ export default function MetaTagsGenrator() {
             })
         }
 
-
-
         if (tcType) {
             output += '<meta name="twitter:card" content="' + tcType + '">\n';
         }
@@ -504,31 +498,49 @@ export default function MetaTagsGenrator() {
         UPDATE_INPUT('livePreview', previewTab);
     }
 
+    function handleRevisitDays(value) {
+        if (value === '') {
+            UPDATE_INPUT('revisitDays', '');
+            return;
+        }
+        if (!/^\d+$/.test(value)) {
+            UPDATE_INPUT('revisitDaysError', 'Only numbers are allowed');
+            return;
+        }
+        let numericValue = value.replace(/[^0-9]/g, '');
+        if (numericValue.startsWith('0')) {
+            UPDATE_INPUT('revisitDays', numericValue);
+            UPDATE_INPUT('revisitDaysError', 'Minimum value is 1');
+        } else if (parseInt(numericValue) > 120) { // Check if the value is greater than 120
+            UPDATE_INPUT('revisitDays', numericValue);
+            UPDATE_INPUT('revisitDaysError', 'Keep robots revisit below 120 for SEO');
+        } else {
+            UPDATE_INPUT('revisitDays', numericValue);
+            UPDATE_INPUT('revisitDaysError', '');
+        }
+    }
+
     const styles = {
         main: { height: '100%', width: '100%', display: 'flex', },
         mainDiv2: { width: '50%', height: 'auto', display: 'flex', flexDirection: 'column', padding: '14px' },
-        flex: { display: 'flex' },
         flexStrech: { display: 'flex', alignItems: 'stretch' },
-        selectorDiv: { height: '100px', marginLeft: '5px', marginRight: '5px' },
-        selector: { width: '100%', borderRadius: '2px', textAlign: 'center', },
-        input: { marginLeft: '10px', marginRight: '10px', borderRadius: '4px' },
+        label: { color: '#A6A6A6' },
         button: { flexGrow: '1', backgroundColor: '#204e84', height: '50px', marginLeft: '5px', marginRight: '5px', borderRadius: '5px', color: 'white' },
-        h2: { height: '40px', marginBottom: '20px', marginTop: '20px', fontSize: '1.8rem', color: '#cecece', textAlign: 'center', borderRadius: '10px', background: 'linear-gradient(277deg, rgba(42, 42, 42, 1) 3%, rgba(92, 92, 92, 1) 32%, rgba(177, 176, 176, 1) 51%, rgba(92, 92, 92, 1) 68%, rgba(42, 42, 42, 1) 100%)', },
         h60px: { height: '60px', marginBottom: '10px' },
-        'h54%': { height: '30%' },
     }
 
     return (
         <main style={styles.main}>
             <div style={{ ...styles.mainDiv2, overflow: 'scroll' }}>
-                <h2 style={{ ...styles.h2, marginTop: '0', marginBottom: '8px' }}>Basic SEO</h2>
+                <Heading text="Basic SEO" styles={{ marginTop: '0', marginBottom: '8px' }} />
                 {boilerPlate && (
                     <div style={styles.flexStrech}>
                         <Input
+                            name="headTitle"
                             label="Head Title:"
                             value={headTitle}
                             placeholder="Head title must be within 50 characters"
-                            handleInput={e => UPDATE_INPUT('headTitle', e.target.value)}
+                            onChange={UPDATE_INPUT}
                             elementHeight="48px"
                             styles={{ height: '24px' }}
                         />
@@ -536,140 +548,151 @@ export default function MetaTagsGenrator() {
                 )}
                 <div style={styles.flexStrech}>
                     <Input
+                        name="title"
                         label="Site Title:"
                         value={title}
                         placeholder="Title must be within 70 characters"
-                        handleInput={e => UPDATE_INPUT('title', e.target.value)}
+                        onChange={UPDATE_INPUT}
                         elementHeight="48px"
                         styles={{ height: '24px' }}
                     />
                 </div>
                 <div style={{ ...styles.flexStrech, height: '90px' }}>
                     <Input
+                        name="description"
                         label="Site Description"
                         elementType="textarea"
                         value={description}
                         placeholder="Description must be within 150 characters"
-                        handleInput={e => UPDATE_INPUT('description', e.target.value)}
+                        onChange={UPDATE_INPUT}
                     />
                     <Input
-                        label="Site KeyWords (Separate with commas)"
+                        name="keywords"
+                        label="Site KeyWords (Separate with commas):"
                         elementType="textarea"
                         value={keywords}
                         placeholder="keyword1, keyword2, keyword3"
-                        handleInput={e => UPDATE_INPUT('keywords', e.target.value)}
+                        onChange={UPDATE_INPUT}
                     />
                 </div>
                 <div style={styles.flexStrech}>
                     <Input
-                        label="Canonical URL"
+                        name="canonicalUrl"
+                        label="Canonical URL:"
                         value={canonicalUrl}
-                        handleInput={e => UPDATE_INPUT('canonicalUrl', e.target.value)}
+                        onChange={UPDATE_INPUT}
                         placeholder="Enter canonical URL..."
                         elementHeight="35%"
                     />
                 </div>
-                <div style={styles.flex}>
-                    <div style={{ ...styles.selectorDiv, width: '46%', height: '60px' }}>
-                        <label style={labelStyles} htmlFor="robotsAllowed">Allow Robots to index your Website?</label>
-                        <select
-                            id="robotsAllowed"
-                            value={robotsAllowed}
-                            onChange={e => UPDATE_INPUT('robotsAllowed', e.target.value)}
-                            style={styles.selector}
-                        >{yesNoOptions()}
-                        </select>
-                    </div>
-                    <div style={{ ...styles.selectorDiv, width: '53%', height: '60px' }}>
-                        <label style={labelStyles} htmlFor="robotsFollowLink">Allow robots to follow all links?</label>
-                        <select
-                            id="robotsFollowLink"
-                            value={robotsFollowLink}
-                            onChange={e => UPDATE_INPUT('robotsFollowLink', e.target.value)}
-                            style={styles.selector}
-                        >{yesNoOptions()}
-                        </select>
-                    </div>
+                <div style={{ display: 'flex' }}>
+                    <YesNoSelect
+                        label="Allow Robots to index your Website?"
+                        value={`robotsAllowed=${robotsAllowed}`}
+                        onChange={UPDATE_INPUT}
+                        width="46%"
+                    />
+                    <YesNoSelect
+                        label="Allow robots to follow all links?"
+                        value={`robotsFollowLink=${robotsFollowLink}`}
+                        onChange={UPDATE_INPUT}
+                        width="53%"
+                    />
                 </div>
-                <div style={{ ...styles.flex, height: '87px' }}>
-                    <div style={{ ...styles.selectorDiv, width: '46%', }}>
-                        <label style={labelStyles} htmlFor="contentType">What type of content will your site display?</label>
-                        <select
-                            id="contentType"
-                            value={contentType}
-                            onChange={e => UPDATE_INPUT('contentType', e.target.value)}
-                            style={styles.selector}
-                        >{contentTypeOptions.map(type => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                        </select>
-                    </div>
-                    <div style={{ ...styles.selectorDiv, width: '53%' }}>
-                        <label style={labelStyles} htmlFor="primaryLanguage">What is your site primary language?</label>
-                        <select
-                            id="primaryLanguage"
-                            value={primaryLanguage}
-                            onChange={e => UPDATE_INPUT('primaryLanguage', e.target.value)}
-                            style={styles.selector}
-                        >{primaryLanguageOptions.map(language => (
-                            <option key={language} value={language}>{language}</option>
-                        ))}
-                        </select>
-                        {primaryLanguage === 'Manually Type' && (
-                            <Input
-                                styles={{ ...styles.input, marginLeft: '0', width: '100%', height: '22px' }}
-                                value={primaryLanguageManual}
-                                handleInput={e => UPDATE_INPUT('primaryLanguageManual', e.target.value)}
-                                placeholder="Enter Primary Language"
-                                elementHeight="30%"
-                                noDivMargin
-                            />
-                        )}
-                    </div>
+                <div style={{ display: 'flex', height: '87px' }}>
+                    <SelectInput
+                        name="contentType"
+                        value={contentType}
+                        onChange={UPDATE_INPUT}
+                        options={contentTypeOptions.map(type => ({ text: type, value: type }))}
+                        label="What type of content will your site display?"
+                        width="46%"
+                    />
+                    <LanguageSelector
+                        label="What is your site primary language?"
+                        name="primaryLanguage"
+                        value={primaryLanguage}
+                        onChange={UPDATE_INPUT}
+                        options={primaryLanguageOptions.map(language => ({ text: language, value: language }))}
+                        inputName="primaryLanguageManual"
+                        inputPlaceholder="Enter Primary Language"
+                        manualInputValue={primaryLanguageManual}
+                        handleManualInput={UPDATE_INPUT}
+                        divStyles={{ width: '53%', height: '87px' }}
+                        inputStyles={{ marginLeft: '0' }}
+                        showManualInput={primaryLanguage === 'Manually Type'}
+                    />
                 </div>
                 <div style={styles.h60px}>
-                    <label style={labelStyles} htmlFor="revisitDays">Search engines should revisit this page after</label>
+                    <label style={styles.label} htmlFor="revisitDays">Search engines should revisit this page after</label>
                     <input
                         id="revisitDays"
                         min={1}
-                        // max={730} // 2years
                         value={revisitDays}
-                        style={{ width: '20%', ...styles.input }}
-                        type="number"
-                        onChange={e => UPDATE_INPUT('revisitDays', e.target.value)}
+                        style={{ width: '20%', marginLeft: '10px', marginRight: '10px', borderRadius: '4px' }}
+                        type="text"
+                        onChange={e => handleRevisitDays(e.target.value)}
                     />
-                    <span style={labelStyles}>days</span>
+                    <span style={styles.label}>days</span>
+                    {revisitDaysError && (
+                        <div style={{
+                            marginLeft: '25px',
+                            display: 'inline',
+                            border: '2px solid orange',
+                            color: 'white',
+                            borderRadius: '8px',
+                            padding: '7px',
+                            fontSize: '0.85rem',
+                            backgroundColor: 'rgba(255, 87, 34, 0.1)'
+                        }}>
+                            <span style={{
+                                position: 'relative',
+                                left: '-25px',
+                                bottom: '-3px',
+                                display: 'inline-block',
+                                width: 0,
+                                height: 0,
+                                borderTop: '7px solid transparent',
+                                borderBottom: '7px solid transparent',
+                                borderRight: '10px solid orange',
+                            }}></span>
+                            {revisitDaysError}
+                        </div>
+                    )}
                 </div>
                 <div style={styles.h60px}>
-                    <label style={labelStyles} htmlFor="author">Author</label>
+                    <label style={styles.label} htmlFor="author">Author</label>
                     <input
                         id="author"
-                        type="text" value={author}
-                        style={{ width: '54%', ...styles.input }}
+                        type="text"
+                        value={author}
+                        style={{ width: '54%', marginLeft: '10px', marginRight: '10px', borderRadius: '4px' }}
                         onChange={e => UPDATE_INPUT('author', e.target.value)}
                     />
                 </div>
-                <h2 style={styles.h2}>Open Graph </h2>
+                <Heading text="Open Graph" />
                 <div style={styles.flexStrech}>
                     <div style={{ flexGrow: '1', }}>
                         <div style={{ height: '60px' }}>
                             <Input
+                                name="ogTitle"
                                 label="Title:"
                                 elementType="input"
                                 value={ogTitle}
                                 placeholder="Title of your content"
-                                handleInput={e => UPDATE_INPUT('ogTitle', e.target.value)}
+                                onChange={UPDATE_INPUT}
                                 styles={{ height: '26px', ...ogInputsFocused }}
                                 onFocus={() => hanldeSetLivePreview(1)}
                             />
                         </div>
                         <div style={{ height: '60px' }}>
                             <Input
+                                name="ogSiteName"
                                 label="Site Name:"
                                 elementType="input"
                                 value={ogSiteName}
                                 placeholder="Name of your website or brand"
-                                handleInput={e => UPDATE_INPUT('ogSiteName', e.target.value)}
+                                onChange={UPDATE_INPUT}
                                 styles={{ height: '26px' }}
                                 onFocus={() => hanldeSetLivePreview(1)}
                             />
@@ -677,108 +700,80 @@ export default function MetaTagsGenrator() {
                     </div>
                     <div style={{ flexGrow: '1' }}>
                         <Input
+                            name="ogDescription"
                             label="Description:"
                             elementType="textarea"
                             value={ogDescription}
                             placeholder="Description must be within 200 characters"
-                            handleInput={e => UPDATE_INPUT('ogDescription', e.target.value)}
+                            onChange={UPDATE_INPUT}
                             styles={ogInputsFocused}
                             onFocus={() => hanldeSetLivePreview(1)}
                         />
                     </div>
                 </div>
                 <div style={{ ...styles.flexStrech, height: '75px' }}>
-                    <div style={{ ...styles.selectorDiv, width: '50%' }}>
-                        <label style={labelStyles} htmlFor="ogLocale">Primary Locale:</label>
-                        <select
-                            style={styles.selector}
-                            value={ogLocale}
-                            onChange={e => UPDATE_INPUT('ogLocale', e.target.value)}
-                            id="ogLocale"
-                            onFocus={() => hanldeSetLivePreview(1)}
-                        >{ogLocaleOptions.map((option, index) => (
-                            <option key={index} value={option.value}>
-                                {option.value !== 'manual' ? '[' + option.value + '] ' + ' ' : ' '}
-                                {option.text}
-                            </option>
-                        ))}
-                        </select>
-                        {ogLocale === 'manual' && (
-                            <Input
-                                styles={{ ...styles.input, marginLeft: '0', width: '100%', height: '22px' }}
-                                value={ogLocaleManual}
-                                handleInput={e => UPDATE_INPUT('ogLocaleManual', e.target.value)}
-                                onFocus={() => hanldeSetLivePreview(1)}
-                                placeholder="Enter Pramary Locale"
-                                elementHeight="30%"
-                                noDivMargin
-                            />
-                        )}
-                    </div>
-                    <div style={{ ...styles.selectorDiv, width: '50%', height: '60px' }}>
-                        <label style={labelStyles} htmlFor="ogLocaleAlternate">Alternate Locale:</label>
-                        <select
-                            style={styles.selector}
-                            value={ogLocaleAlternate}
-                            onChange={e => UPDATE_INPUT('ogLocaleAlternate', e.target.value)}
-                            onFocus={() => hanldeSetLivePreview(1)}
-                            id="ogLocaleAlternate">
-                            <option value="none">Don&apos;t Use This Tag</option>
-                            {ogLocaleOptions.map((option, index) => (
-                                <option key={index} value={option.value}>
-                                    {option.value !== 'manual' ? '[' + option.value + '] ' + ' ' : ' '}
-                                    {option.text}
-                                </option>
-                            ))}
-                        </select>
-                        {ogLocaleAlternate === 'manual' && (
-                            <Input
-                                styles={{ ...styles.input, marginLeft: '0', width: '100%', height: '22px' }}
-                                value={ogLocaleAlternateManual}
-                                handleInput={e => UPDATE_INPUT('ogLocaleAlternateManual', e.target.value)}
-                                onFocus={() => hanldeSetLivePreview(1)}
-                                placeholder="Enter Pramary Locale"
-                                elementHeight="30%"
-                                noDivMargin
-                            />
-                        )}
-                    </div>
+                    <LanguageSelector
+                        name="ogLocale"
+                        label="Primary Locale:"
+                        value={ogLocale}
+                        onChange={UPDATE_INPUT}
+                        onFocus={() => hanldeSetLivePreview(1)}
+                        options={ogLocaleOptions}
+                        inputName="ogLocaleManual"
+                        inputPlaceholder="Enter Pramary Locale"
+                        manualInputValue={ogLocaleManual}
+                        handleManualInput={UPDATE_INPUT}
+                        showManualInput={ogLocale === 'manual'}
+                        inputStyles={{ marginLeft: '0' }}
+                    />
+                    <LanguageSelector
+                        name='ogLocaleAlternate'
+                        label="Alternate Locale:"
+                        value={ogLocaleAlternate}
+                        onChange={UPDATE_INPUT}
+                        onFocus={() => hanldeSetLivePreview(1)}
+                        options={[
+                            { text: "Don't Use This Tag", value: 'none' },
+                            ...ogLocaleOptions
+                        ]}
+                        inputName="ogLocaleAlternateManual"
+                        inputPlaceholder="Enter Pramary Locale"
+                        manualInputValue={ogLocaleAlternateManual}
+                        handleManualInput={UPDATE_INPUT}
+                        showManualInput={ogLocaleAlternate === 'manual'}
+                        inputStyles={{ marginLeft: '0' }}
+                    />
                 </div>
                 <div style={styles.flexStrech}>
                     <div style={{ height: '60px', width: '45.5%' }}>
                         <Input
+                            name="ogUrl"
                             label="Site URL:"
                             elementType="input"
                             value={ogUrl}
                             placeholder="URL of your website"
-                            handleInput={e => UPDATE_INPUT('ogUrl', e.target.value)}
+                            onChange={UPDATE_INPUT}
                             onFocus={() => hanldeSetLivePreview(1)}
                             styles={{ height: '26px', ...ogInputsFocused }}
                         />
                     </div>
                     <div style={{ flexGrow: '1', height: '60px', display: 'flex', width: '54%', paddingTop: '9px' }}>
-                        <div style={{ ...styles.selectorDiv, width: '46%', height: '60px' }}>
-                            <label style={labelStyles} htmlFor="ogType">Type</label>
-                            <select
-                                id="ogType"
-                                value={ogType}
-                                onClick={e => UPDATE_INPUT('ogType', e.target.value)}
-                                onFocus={() => hanldeSetLivePreview(1)}
-                                style={styles.selector}
-                            >{ogTypeOptions.map((type, index) => (
-                                <option key={index} value={type.value}>{type.text}</option>
-                            ))}
-                            </select>
-                        </div>
-                        <div style={{ ...styles.selectorDiv, width: '46%', }}>
-                            <label style={labelStyles} htmlFor="ogNumberOfImages">Number of Images</label>
+                        <SelectInput
+                            label="Type:"
+                            name="ogType"
+                            value={ogType}
+                            onChange={UPDATE_INPUT}
+                            options={ogTypeOptions}
+                            onFocus={() => hanldeSetLivePreview(1)}
+                        />
+                        <div style={{ height: '100px', marginLeft: '5px', marginRight: '5px', width: '46%', }}>
+                            <label style={styles.label} htmlFor="ogNumberOfImages">Number of Images</label>
                             <select
                                 id="ogNumberOfImages"
                                 value={ogNumberOfImages}
-                                // onClick={e => UPDATE_INPUT('ogNumberOfImages', e.target.value)}
                                 onFocus={() => hanldeSetLivePreview(1)}
                                 onChange={(e) => handleOgNumberOfImages(parseInt(e.target.value))}
-                                style={styles.selector}
+                                style={{ width: '100%', borderRadius: '2px', textAlign: 'center', }}
                             >{[...Array(10)].map((_, index) => (
                                 <option key={index + 1} value={index + 1}>{index + 1}</option>
                             ))}
@@ -789,26 +784,28 @@ export default function MetaTagsGenrator() {
                 <div>
                     {renderImagesInputs()}
                 </div>
-                <h2 style={styles.h2}>Twitter Card</h2>
+                <Heading text="Twitter Card" />
                 <div style={styles.flexStrech}>
                     <div style={{ flexGrow: '1', }}>
                         <Input
+                            name="tcTitle"
                             label="Site Title (Characters left: 70):"
                             elementType="input"
                             value={tcTitle}
                             placeholder="Title must be within 70 Characters"
-                            handleInput={e => UPDATE_INPUT('tcTitle', e.target.value)}
+                            onChange={UPDATE_INPUT}
                             onFocus={() => hanldeSetLivePreview(2)}
                             styles={{ height: '26px' }}
                             elementHeight="40%"
                         />
                         <div style={{ height: '60px' }}>
                             <Input
+                                name="tcUrl"
                                 label="Site Url: "
                                 elementType="input"
-                                // value={tcUrl}
+                                value={tcUrl}
                                 placeholder="URL of your website"
-                                handleInput={e => UPDATE_INPUT('tcUrl', e.target.value)}
+                                onChange={UPDATE_INPUT}
                                 onFocus={() => hanldeSetLivePreview(2)}
                                 styles={{ height: '26px', ...tcInputFocused }}
                             />
@@ -817,51 +814,49 @@ export default function MetaTagsGenrator() {
                     <div style={{ flexGrow: '1' }}>
                         <div style={{ height: '60px' }}>
                             <Input
+                                name="tcUserName"
                                 label="Site Username:"
                                 elementType="input"
                                 value={tcUserName}
                                 placeholder=" UserName must be within 60 Characters"
-                                handleInput={e => UPDATE_INPUT('tcUserName', e.target.value)}
+                                onChange={UPDATE_INPUT}
                                 onFocus={() => hanldeSetLivePreview(2)}
                                 styles={{ height: '26px' }}
                             />
                         </div>
                         <div style={{ height: '60px' }}>
-                            <div style={{ ...styles.selectorDiv, height: '60px', }}>
-                                <label style={labelStyles} htmlFor="tcType">Type:</label>
-                                <select
-                                    value={tcType}
-                                    onChange={e => UPDATE_INPUT('tcType', e.target.value)}
-                                    onFocus={() => hanldeSetLivePreview(2)}
-                                    id="tcType"
-                                    style={{ ...styles.selector, marginTop: '10px', height: '20px' }}
-                                >
-                                    {tcTypeOptions.map((option, index) => (
-                                        <option key={index} value={option.value}>{option.name}</option>
-                                    ))}
-                                </select>
-                            </div>
+                            <SelectInput
+                                name="tcType"
+                                label="Type:"
+                                value={tcType}
+                                onChange={UPDATE_INPUT}
+                                onFocus={() => hanldeSetLivePreview(2)}
+                                options={tcTypeOptions}
+                                styles={{ marginTop: '10px', height: '20px' }}
+                            />
                         </div>
                     </div>
                 </div>
                 <div style={styles.flexStrech}>
                     <Input
+                        name="tcImgUrl"
                         label="Image URL:"
                         elementType="input"
                         value={tcImgUrl}
                         placeholder="with http:// or https://"
-                        handleInput={e => UPDATE_INPUT('tcImgUrl', e.target.value)}
+                        onChange={UPDATE_INPUT}
                         onFocus={() => hanldeSetLivePreview(2)}
                         styles={{ height: '26px', ...tcInputFocused }}
                     />
                 </div>
                 <div style={styles.flexStrech}>
                     <Input
+                        name="tcDescription"
                         label="Description (Characters left: 200):"
                         elementType="textarea"
                         value={tcDescription}
                         placeholder="Up to 200 characters"
-                        handleInput={e => UPDATE_INPUT('tcDescription', e.target.value)}
+                        onChange={UPDATE_INPUT}
                         onFocus={() => hanldeSetLivePreview(2)}
                     />
                 </div>
@@ -880,7 +875,6 @@ export default function MetaTagsGenrator() {
                                 type="checkbox"
                                 checked={boilerPlate}
                                 onChange={e => UPDATE_INPUT('boilerPlate', e.target.checked)}
-                            // onFocus={handleFinalOutput}
                             />
                         </div>
                         <button style={styles.button} onClick={handleFinalOutput}>Genrate Meta Tags</button>
@@ -892,7 +886,12 @@ export default function MetaTagsGenrator() {
                         theme="vs-dark"
                         height={'87%'}
                         value={finalOutput}
-                        options={{ minimap: { enabled: false }, lineNumber: true, readOnly: true }}
+                        options={{
+                            minimap: { enabled: false },
+                            lineNumber: true,
+                            readOnly: true,
+                            fontSize: 12.5,
+                        }}
                     />
                 </div>
                 <div style={{ height: '54%' }}>
@@ -903,13 +902,34 @@ export default function MetaTagsGenrator() {
     );
 }
 
+function Heading({ text, styles }) {
+    const stylesObject = {
+        height: '40px',
+        marginBottom: '20px',
+        marginTop: '20px',
+        fontSize: '1.8rem',
+        color: '#cecece',
+        textAlign: 'center',
+        borderRadius: '10px',
+        background: 'linear-gradient(277deg, rgba(42, 42, 42, 1) 3%, rgba(92, 92, 92, 1) 32%, rgba(177, 176, 176, 1) 51%, rgba(92, 92, 92, 1) 68%, rgba(42, 42, 42, 1) 100%)',
+        ...styles
+    };
+
+    return <h2 style={stylesObject}>{text}</h2>
+}
+Heading.propTypes = {
+    text: PropTypes.string.isRequired,
+    styles: PropTypes.object,
+};
+
 function Input({
+    name,
     label = '',
     elementType = 'input',
     type = 'text',
     value,
     placeholder = '',
-    handleInput,
+    onChange,
     styles = {},
     elementHeight = '60%',
     noDivMargin,
@@ -918,20 +938,20 @@ function Input({
     const InputComponent = elementType === 'textarea' ? 'textarea' : 'input';
     const style = {
         div: { paddingLeft: noDivMargin ? '0' : '5px', paddingRight: noDivMargin ? '0' : '5px', flexGrow: '1', marginBottom: '10px', height: elementHeight },
-        input: { marginTop: '5px', marginBottom: '12px', width: '100%', height: '100%', borderRadius: '5px' },
+        input: { marginTop: '5px', marginBottom: '12px', width: '100%', height: '100%', borderRadius: '5px', resize: 'none', ...styles },
     }
 
     return (
         <div style={style.div}>
             {label && (
-                <label style={labelStyles} htmlFor={label}>{label + ' '}</label>
+                <label style={{ color: '#A6A6A6' }} htmlFor={name}>{label + ' '}</label>
             )}
             <InputComponent
-                style={{ ...style.input, ...styles, }}
-                id={label}
+                style={style.input}
+                id={name}
                 value={value}
                 type={type}
-                onChange={handleInput}
+                onChange={e => onChange(name, e.target.value)}
                 placeholder={'   ' + placeholder}
                 rows={elementType === 'textarea' ? 3 : null}
                 onFocus={onFocus}
@@ -940,14 +960,179 @@ function Input({
     );
 }
 Input.propTypes = {
+    name: PropTypes.string.isRequired,
     label: PropTypes.string,
     elementType: PropTypes.oneOf(['input', 'textarea']),
     type: PropTypes.string,
     value: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
-    handleInput: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     styles: PropTypes.object,
     elementHeight: PropTypes.string,
     noDivMargin: PropTypes.bool,
     onFocus: PropTypes.func,
+};
+
+function YesNoSelect({
+    label,
+    value,
+    onChange,
+    width = '50%',
+    height = '60px'
+}) {
+    const [name, valueState] = value.split('=');
+    const stylesObject = {
+        selectorDiv: { marginLeft: '5px', marginRight: '5px', width: width, height: height },
+        selector: { width: '100%', borderRadius: '2px', textAlign: 'center', }
+    }
+
+    return (
+        <div style={stylesObject.selectorDiv}>
+            <label style={{ color: '#A6A6A6' }} htmlFor={name}>{label}</label>
+            <select
+                id={name}
+                value={valueState}
+                onChange={e => onChange(name, e.target.value)}
+                style={stylesObject.selector}
+            >
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </div>
+    )
+}
+YesNoSelect.propTypes = {
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    width: PropTypes.string,
+    height: PropTypes.string
+};
+
+function SelectInput({
+    name,
+    label,
+    value,
+    onChange,
+    onFocus,
+    options,
+    width = '100%',
+    height = '60px',
+    styles = {}
+}) {
+    const stylesObject = {
+        selectorDiv: { marginLeft: '5px', marginRight: '5px', width: width, height: height },
+        selector: { width: '100%', borderRadius: '2px', textAlign: 'center', ...styles },
+    }
+
+    return (
+        <div style={stylesObject.selectorDiv}>
+            <label style={{ color: '#A6A6A6' }} htmlFor={name}>{label}</label>
+            <select
+                id={name}
+                value={value}
+                onChange={e => onChange(name, e.target.value)}
+                onFocus={onFocus}
+                style={stylesObject.selector}
+            >
+                {options.map((option, index) => (
+                    <option key={index} value={option.value}>{option.text}</option>
+                ))}
+            </select>
+        </div>
+    )
+}
+SelectInput.propTypes = {
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func,
+    options: PropTypes.arrayOf(PropTypes.shape({
+        text: PropTypes.string.isRequired,
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+    })).isRequired,
+    width: PropTypes.string,
+    height: PropTypes.string,
+    styles: PropTypes.object,
+};
+
+function LanguageSelector({
+    name,
+    label,
+    value,
+    onChange,
+    onFocus,
+    options,
+    inputName,
+    inputPlaceholder,
+    manualInputValue,
+    handleManualInput,
+    showManualInput,
+    divStyles = {},
+    inputStyles = {},
+}) {
+    const stylesObject = {
+        selectorDiv: { marginLeft: '5px', marginRight: '5px', width: '50%', height: '100px', ...divStyles },
+        selector: { width: '100%', borderRadius: '2px', textAlign: 'center', },
+        input: { marginLeft: '10px', marginRight: '10px', borderRadius: '4px', width: '100%', height: '22px', ...inputStyles },
+    }
+
+    return (
+        <div style={stylesObject.selectorDiv}>
+            <label style={{ color: '#A6A6A6' }} htmlFor={name}>{label}</label>
+            <select
+                style={stylesObject.selector}
+                value={value}
+                onChange={e => onChange(name, e.target.value)}
+                onFocus={onFocus}
+                id={name}
+            >
+                {options.map((option, index) => {
+                    if (name === 'primaryLanguage') {
+                        return (
+                            <option key={index} value={option.value}>{option.value}</option>
+                        )
+                    } else {
+                        return (
+                            <option key={index} value={option.value}>
+                                {option.value !== 'manual' && option.value !== 'none' ? '[' + option.value + '] ' + ' ' : ' '} {/** problem here */}
+                                {option.text}
+                            </option>
+                        )
+                    }
+                })}
+            </select>
+            {showManualInput && (
+                <Input
+                    name={inputName}
+                    styles={stylesObject.input}
+                    value={manualInputValue}
+                    onChange={handleManualInput}
+                    onFocus={onFocus}
+                    placeholder={inputPlaceholder}
+                    elementHeight="30%"
+                    noDivMargin
+                />
+            )}
+        </div>
+    );
+}
+LanguageSelector.propTypes = {
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onFocus: PropTypes.func,
+    options: PropTypes.arrayOf(PropTypes.shape({
+        text: PropTypes.string.isRequired,
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired
+    })).isRequired,
+    inputName: PropTypes.string.isRequired,
+    inputPlaceholder: PropTypes.string,
+    manualInputValue: PropTypes.string.isRequired,
+    handleManualInput: PropTypes.func.isRequired,
+    showManualInput: PropTypes.bool.isRequired,
+    divStyles: PropTypes.object,
+    inputStyles: PropTypes.object,
 };
