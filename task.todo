@@ -90,7 +90,8 @@ project progress:
 24/02 | 5hr    | added more inputs to openGraph meta tags 
 urus 
 26/02 | 8hr    | completed twitter card inputs, added boilderPlate checkbox with logic  
-27/02 |10.30hr | made components 3 reusable selection components and edited Input compoent , removed unused styles from styles object, in revist days if enter text show error and implemented regEx 
+27/02 |10.50hr | made components 3 reusable selection components and edited Input compoent , removed unused styles from styles object, in revist days if enter text show error and implemented regEx 
+28/02 |10.45hr | now user can see error for input in  
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴
@@ -100,3 +101,6 @@ _________DONE___________________________________________________________________
 * device detect and show show warning: 'this website not made for mobile please switch to desktop if possible' 🔵
 * need to give full height for inputs for better view in CharacterAndWordCounterComponent ✅
 * metatag suggetions done ✅ 
+
+
+1138

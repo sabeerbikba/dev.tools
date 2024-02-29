@@ -28,7 +28,7 @@ const initialState = {
     title: '',
     description: '',
     keywords: '',
-    canonicalUrl: '',
+    canonicalUrl: { value: '', isValid: true },
     revisitDays: 1,
     revisitDaysError: '',
     author: '',
@@ -50,41 +50,85 @@ const initialState = {
     ogLocaleManual: '',
     ogLocaleAlternate: 'none',
     ogLocaleAlternateManual: '',
-    ogUrl: '',
+    ogUrl: { value: '', isValid: true },
     ogType: 'website', //need to verify after done 
-    ogNumberOfImages: 1,
-    ogImagesLinks: [''],
+    ogImagesInputs: {
+        link1: '', 
+    },
+    ogImagesInputsErrors: {},
     // Twitter card section
     tcType: 'summary',
     tcTitle: '',
     tcUserName: '@',
-    tcImgUrl: '',
-    tcUrl: '',
+    tcImgUrl: { value: '', isValid: true },
+    tcUrl: { value: '', isValid: true },
     tcDescription: '',
 };
 const actionTypes = {
     UPDATE_INPUT: 'UPDATE_INPUT',
+    UPDATE_OBJECT: 'UPDATE_OBJECT',
+    VALIDATE_OBJECT: 'VALIDATE_OBJECT',
     CLEAR_INPUTS: 'CLEAR_INPUTS',
-    TOGGLE_OG_NUMBER_OF_IMAGES: 'TOGGLE_OG_NUMBER_OF_IMAGES',
-    SET_OG_IMAGES_LINKS: 'SET_OG_IMAGES_LINKS'
+    UPDATE_OG_IMAGES_INPUTS: 'UPDATE_OG_IMAGES_INPUTS',
+    UPDATE_OG_IMAGES_INPUTS_ERRORS: 'UPDATE_OG_IMAGES_INPUTS_ERRORS',
+
+
 };
 
 function inputsReducer(state, action) {
+    let newInputs = {};
+    let newErrors = {};
+
     switch (action.type) {
         case actionTypes.UPDATE_INPUT:
             return { ...state, [action.field]: action.value }
         case actionTypes.CLEAR_INPUTS:
             return initialState;
-        case actionTypes.TOGGLE_OG_NUMBER_OF_IMAGES:
+        case actionTypes.UPDATE_OG_IMAGES_INPUTS:
+            console.log(`Updating input: ${action.payload.name} - ${action.payload.value}`); // Debugging statement
             return {
                 ...state,
-                ogNumberOfImages: action.payload,
-                ogImagesLinks: Array.from({ length: action.payload }, (_, index) => state.ogImagesLinks[index] || '')
+                ogImagesInputs: {
+                    ...state.ogImagesInputs,
+                    [action.payload.name]: action.payload.value,
+                },
             };
-        case actionTypes.SET_OG_IMAGES_LINKS:
+        case actionTypes.UPDATE_OG_IMAGES_INPUTS_ERRORS:
             return {
                 ...state,
-                ogImagesLinks: state.ogImagesLinks.map((value, index) => index === action.index ? action.payload : value)
+                ogImagesInputsErrors: action.payload,
+            };
+        case 'SET_INPUT_COUNT':
+            for (let i = 1; i <= action.payload; i++) {
+                if (state.ogImagesInputs[`link${i}`]) {
+                    newInputs[`link${i}`] = state.ogImagesInputs[`link${i}`];
+                } else {
+                    newInputs[`link${i}`] = '';
+                }
+                if (state.ogImagesInputsErrors[`link${i}`]) {
+                    newErrors[`link${i}`] = state.ogImagesInputsErrors[`link${i}`];
+                }
+            }
+            return {
+                ...state,
+                ogImagesInputs: newInputs,
+                ogImagesInputsErrors: newErrors,
+            };
+        case actionTypes.UPDATE_OBJECT:
+            return {
+                ...state,
+                [action.field]: {
+                    ...state[action.field],
+                    value: action.value,
+                },
+            };
+        case actionTypes.VALIDATE_OBJECT:
+            return {
+                ...state,
+                [action.field]: {
+                    ...state[action.field],
+                    isValid: action.isValid,
+                },
             };
         default:
             console.error('Unknown action: ' + action.type);
@@ -94,7 +138,7 @@ function inputsReducer(state, action) {
 }
 
 export default function MetaTagsGenrator() {
-    const [inputs, dispatch] = useReducer(inputsReducer, initialState)
+    const [state, dispatch] = useReducer(inputsReducer, initialState)
     const {
         title,
         description,
@@ -123,8 +167,8 @@ export default function MetaTagsGenrator() {
         ogLocaleAlternateManual,
         ogUrl,
         ogType,
-        ogNumberOfImages,
-        ogImagesLinks,
+        ogImagesInputs,
+        ogImagesInputsErrors,
         // Twitter card section
         tcType,
         tcTitle,
@@ -132,15 +176,18 @@ export default function MetaTagsGenrator() {
         tcImgUrl,
         tcUrl,
         tcDescription,
-    } = inputs
+    } = state;
 
-    console.log(typeof revisitDays);
+    // console.log(ogImagesLinks);
 
-    const ogInputsFocused = { border: `${ogImagesLinks[0] || ogUrl || ogTitle || ogDescription ? '3px solid green' : ''}` }
-    const tcInputFocused = { border: `${tcUrl.trim() || tcImgUrl.trim() ? '3px solid green' : ''}` }
+    const ogInputsFocused = { border: `${ogImagesInputs.link1 || ogUrl.value || ogTitle || ogDescription ? '3px solid green' : ''}` }
+    const tcInputFocused = { border: `${tcUrl.value.trim() || tcImgUrl.value.trim() ? '3px solid green' : ''}` }
 
     const contentTypeOptions = ['UTF-8', 'UTF-16', 'ISO-8859-1', 'WINDOWS-1252', "Don't Use This Tag"];
-    const primaryLanguageOptions = ['English', 'French', 'Spanish', 'Russian', 'Arabic', 'Japanese', 'Korean', 'Hindi', 'Portuguese', 'No Language Tag', 'Manually Type'];
+    const primaryLanguageOptions = [
+        'English', 'French', 'Spanish', 'Russian', 'Arabic', 'Japanese', 'Korean',
+        'Hindi', 'Portuguese', 'No Language Tag', 'Manually Type'
+    ];
     const ogTypeOptions = [
         { text: 'Article', value: 'article' },
         { text: 'Book', value: 'book' },
@@ -195,30 +242,9 @@ export default function MetaTagsGenrator() {
         { text: 'Summary With Large Image', value: 'summary_large_image' }
     ];
 
-    const renderImagesInputs = () => {
-        const inputs = [];
-        for (let i = 0; i < ogNumberOfImages; i++) {
-            const label = i === 0 ? 'Image URL' : '';
-            inputs.push(
-                <Input
-                    key={i}
-                    label={label}
-                    styles={{ height: '24px', ...ogInputsFocused }}
-                    elementType="input"
-                    value={ogImagesLinks[i]}
-                    placeholder={`Image URL ${i + 1}`}
-                    elementHeight={i === 0 ? '45px' : '22px'}
-                    onChange={(e) => handleOgImagesLinks(i, e.target.value)}
-                    onFocus={() => hanldeSetLivePreview(1)}
-                />
-            );
-        }
-        return inputs;
-    };
-
     function renderPreview() {
-        const isOgPreview = livePreview === 1 && (ogTitle.trim() || ogDescription.trim() || ogImagesLinks[0].trim() || ogUrl.trim());
-        const isTcPreview = livePreview === 2 && (tcImgUrl.trim() || tcUrl.trim());
+        const isOgPreview = livePreview === 1 && (ogTitle.trim() || ogDescription.trim() || ogImagesInputs.link1.trim() || ogUrl.value.trim());
+        const isTcPreview = livePreview === 2 && (tcImgUrl.value.trim() || tcUrl.value.trim());
 
         if (isOgPreview || isTcPreview) {
             return (
@@ -243,12 +269,12 @@ export default function MetaTagsGenrator() {
             <div
                 style="border: 1px solid #dadde1; border-bottom: 0; background-size: cover; background-position: center; background-repeat: no-repeat;">
                 <div style="width: 100%; position: relative; padding-top: 52.5%;">
-                    <img style="height: 100%; width: 100%; position: absolute; top: 0; object-fit: cover; display: block;" src="${ogImagesLinks[0]}">
+                    <img style="height: 100%; width: 100%; position: absolute; top: 0; object-fit: cover; display: block;" src="${ogImagesInputs.link1}">
                 </div>
             </div>
             <div
                 style="overflow-wrap: break-word; border: 1px solid #dadde1; background-color: #f2f3f5; padding: 10px 12px; font-family: 'Helvetica';">
-                <div style="overflow: hidden; white-space: nowrap; font-size: 12px; color: #606770;">${formatUrl(ogUrl)}</div><div
+                <div style="overflow: hidden; white-space: nowrap; font-size: 12px; color: #606770;">${formatUrl(ogUrl.value)}</div><div
                     style="display: block; height: 46px; max-height: 46px; border-separate: 0; overflow: hidden; break-word; text-align: left; border-spacing: 0px;">
                     <div
                         style="margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 16px; font-weight: 600; line-height: 20px; color: #1d2129;">
@@ -271,12 +297,12 @@ export default function MetaTagsGenrator() {
             style="position: relative; max-width: 100%; cursor: pointer; overflow: hidden; border-radius: 14px; border: 1px solid #e1e8ed; line-height: 1.3em; color: #000; font-family: 'Helvetica', sans-serif;">
             <div style="background-size: cover; background-position: center; background-repeat: no-repeat;">
                 <div style="width: 100%; position: relative; padding-top: 52.33%;">
-                    <img style="height: 100%; width: 100%; position: absolute; top: 0; object-fit: cover; display: block;" src="${tcImgUrl.trim()}">
+                    <img style="height: 100%; width: 100%; position: absolute; top: 0; object-fit: cover; display: block;" src="${tcImgUrl.value.trim()}">
                 </div>
             </div>
             <div
                 style="position: absolute; bottom: 2px; left: 2px; font-size: 0.75rem; color: #fff; background-color: rgba(0, 0, 0, 0.4); padding: 2px 4px; border-radius: 4px;">
-                ${formatUrl(tcUrl)}</div>
+                ${formatUrl(tcUrl.value)}</div>
         </div>
     </body>
     </html>`;
@@ -311,8 +337,8 @@ export default function MetaTagsGenrator() {
             output += '    <meta name="keywords" content="' + keywords.trim() + '">\n';
         }
 
-        if (canonicalUrl.trim()) {
-            output += '    <link rel="canonical" href="' + canonicalUrl.trim() + '">\n';
+        if (canonicalUrl.value.trim()) {
+            output += '    <link rel="canonical" href="' + canonicalUrl.value.trim() + '">\n';
         }
 
         if (robotsAllowed === 'yes' && robotsFollowLink === 'yes') {
@@ -332,7 +358,8 @@ export default function MetaTagsGenrator() {
         if (primaryLanguage !== 'No Language Tag' && primaryLanguage !== 'Manually Type') {
             output += '<meta name="language" content="' + primaryLanguage + '">\n';
         } else if (primaryLanguage === 'Manually Type' && primaryLanguageManual.trim()) {
-            output += '<meta name="language" content="' + primaryLanguageManual.trim().charAt(0).toUpperCase() + primaryLanguageManual.slice(1) + '">\n';
+            output += '<meta name="language" content="' + primaryLanguageManual.trim().charAt(0).toUpperCase() +
+                primaryLanguageManual.slice(1) + '">\n';
         }
 
         if (revisitDays) {
@@ -351,9 +378,9 @@ export default function MetaTagsGenrator() {
             output += '<meta property="og:site_name" content="' + ogSiteName.trim() + '"></meta>\n';
         }
 
-        if (urlRegex.test(ogUrl.trim())) {
-            output += '<meta property="og:url" content="' + ogUrl.trim() + '">\n';
-        } else if (!urlRegex.test(ogUrl.trim()) && ogUrl.trim()) {
+        if (urlRegex.test(ogUrl.value.trim())) {
+            output += '<meta property="og:url" content="' + ogUrl.value.trim() + '">\n';
+        } else if (!urlRegex.test(ogUrl.value.trim()) && ogUrl.value.trim()) {
             console.log('true');
             toast.warn('URL is not valid', {
                 position: 'bottom-right',
@@ -370,9 +397,9 @@ export default function MetaTagsGenrator() {
             output += '<meta property="og:type" content="' + ogType + '">\n';
         }
 
-        ogImagesLinks.filter(link => link).forEach((link) => (
-            output += '<meta property="og:image" content="' + link + '">\n'
-        ));
+        // ogImagesLinks.filter(link => link).forEach((link) => (
+        //     output += '<meta property="og:image" content="' + link + '">\n'
+        // ));
 
         // not working as expected
         if (ogLocale !== ogLocaleAlternate || (ogLocale !== 'manual' || ogLocaleAlternate !== 'manual')) {
@@ -409,7 +436,10 @@ export default function MetaTagsGenrator() {
 
         if (ogLocaleAlternate !== 'manual' && ogLocaleAlternate !== 'none') {
             output += '<meta property="og:locale:alternate" content="' + ogLocaleAlternate + '">\n';
-        } else if (ogLocaleAlternate === 'manual' && ogLocaleAlternateManual.trim() && ogLocaleAlternate !== ogLocaleAlternateManual.trim() && ogLocale !== ogLocaleAlternateManual.trim()) {
+        } else if (
+            ogLocaleAlternate === 'manual' && ogLocaleAlternateManual.trim() &&
+            ogLocaleAlternate !== ogLocaleAlternateManual.trim() && ogLocale !== ogLocaleAlternateManual.trim()
+        ) {
             output += '<meta property="og:locale:alternate" content="' + ogLocaleAlternateManual.trim() + '">\n';
         } else {
             toast.warn('Open Graph Primary Locale and Alternate Locale not be same ', {
@@ -431,8 +461,8 @@ export default function MetaTagsGenrator() {
             output += '<meta name="twitter:site" content="' + tcUserName.trim() + '">\n';
         }
 
-        if (tcImgUrl.trim()) {
-            output += '<meta name="twitter:image" content="' + tcImgUrl.trim() + '">\n';
+        if (tcImgUrl.value.trim()) {
+            output += '<meta name="twitter:image" content="' + tcImgUrl.value.trim() + '">\n';
         }
 
         if (tcDescription.trim()) {
@@ -486,12 +516,61 @@ export default function MetaTagsGenrator() {
         dispatch({ type: actionTypes.UPDATE_INPUT, field: field, value: value })
     }
 
-    function handleOgNumberOfImages(count) {
-        dispatch({ type: actionTypes.TOGGLE_OG_NUMBER_OF_IMAGES, payload: count });
+    const handleUrlChange = (field, event) => {
+        const value = event.target.value;
+        dispatch({ type: actionTypes.UPDATE_OBJECT, field, value });
+    };
+
+    const validateUrl = (field) => {
+        const url = state[field].value.trim();
+        if (url === '') {
+            dispatch({ type: actionTypes.VALIDATE_OBJECT, field, isValid: true });
+            return;
+        }
+        const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+        const isValid = urlRegex.test(url);
+        console.log(isValid);
+        dispatch({ type: actionTypes.VALIDATE_OBJECT, field, isValid });
+    };
+
+
+    // function handleOgNumberOfImages(count) {
+    //     dispatch({ type: actionTypes.TOGGLE_OG_NUMBER_OF_IMAGES, payload: count });
+    // }
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        dispatch({ type: actionTypes.UPDATE_OG_IMAGES_INPUTS, payload: { name, value } });
+    };
+
+    const validateInput = (input) => {
+        const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+        return !!pattern.test(input);
+    };
+
+    function handleBlur(e) {
+        const { name, value } = e.target;
+        let newErrors = { ...ogImagesInputsErrors };
+
+        if (value === '') {
+            delete newErrors[name];
+        } else if (!validateInput(value)) {
+            newErrors[name] = 'Invalid URL';
+        } else { 
+            delete newErrors[name];
+        }
+
+        dispatch({ type: actionTypes.UPDATE_OG_IMAGES_INPUTS_ERRORS, payload: newErrors });
     }
 
-    function handleOgImagesLinks(index, value) {
-        dispatch({ type: actionTypes.SET_OG_IMAGES_LINKS, index, payload: value });
+
+    function handleOgNumberOfImages(count) {
+        dispatch({ type: 'SET_INPUT_COUNT', payload: count });
     }
 
     function hanldeSetLivePreview(previewTab) {
@@ -525,7 +604,10 @@ export default function MetaTagsGenrator() {
         mainDiv2: { width: '50%', height: 'auto', display: 'flex', flexDirection: 'column', padding: '14px' },
         flexStrech: { display: 'flex', alignItems: 'stretch' },
         label: { color: '#A6A6A6' },
-        button: { flexGrow: '1', backgroundColor: '#204e84', height: '50px', marginLeft: '5px', marginRight: '5px', borderRadius: '5px', color: 'white' },
+        button: {
+            flexGrow: '1', backgroundColor: '#204e84', height: '50px', marginLeft: '5px',
+            marginRight: '5px', borderRadius: '5px', color: 'white'
+        },
         h60px: { height: '60px', marginBottom: '10px' },
     }
 
@@ -578,9 +660,12 @@ export default function MetaTagsGenrator() {
                 <div style={styles.flexStrech}>
                     <Input
                         name="canonicalUrl"
+                        type="url"
                         label="Canonical URL:"
-                        value={canonicalUrl}
-                        onChange={UPDATE_INPUT}
+                        value={canonicalUrl.value}
+                        showError={canonicalUrl.isValid}
+                        onChange={handleUrlChange}
+                        onBlur={validateUrl}
                         placeholder="Enter canonical URL..."
                         elementHeight="35%"
                     />
@@ -748,12 +833,14 @@ export default function MetaTagsGenrator() {
                     <div style={{ height: '60px', width: '45.5%' }}>
                         <Input
                             name="ogUrl"
+                            type="url"
                             label="Site URL:"
-                            elementType="input"
-                            value={ogUrl}
+                            value={ogUrl.value}
+                            showError={ogUrl.isValid}
                             placeholder="URL of your website"
-                            onChange={UPDATE_INPUT}
+                            onChange={handleUrlChange}
                             onFocus={() => hanldeSetLivePreview(1)}
+                            onBlur={validateUrl}
                             styles={{ height: '26px', ...ogInputsFocused }}
                         />
                     </div>
@@ -770,19 +857,58 @@ export default function MetaTagsGenrator() {
                             <label style={styles.label} htmlFor="ogNumberOfImages">Number of Images</label>
                             <select
                                 id="ogNumberOfImages"
-                                value={ogNumberOfImages}
-                                onFocus={() => hanldeSetLivePreview(1)}
                                 onChange={(e) => handleOgNumberOfImages(parseInt(e.target.value))}
                                 style={{ width: '100%', borderRadius: '2px', textAlign: 'center', }}
-                            >{[...Array(10)].map((_, index) => (
-                                <option key={index + 1} value={index + 1}>{index + 1}</option>
-                            ))}
+                            >
+                                {[...Array(10)].map((_, index) => (
+                                    <option key={index + 1} value={index + 1}>{index + 1}</option>
+                                ))}
                             </select>
                         </div>
                     </div>
                 </div>
                 <div>
-                    {renderImagesInputs()}
+                    {Object.keys(ogImagesInputs).map((name, index) => (
+                        <>
+                            <label style={styles.label} htmlFor={name}>{index === 0 ? 'Images URL:' : ''}</label>
+                            {Object.keys(ogImagesInputsErrors).length > 0 && index === 0 && (
+                                <div style={{
+                                    position: 'relative', bottom: '1px', marginLeft: '25px', display: 'inline',
+                                    border: '2px solid orange', color: 'white', borderRadius: '8px',
+                                    paddingTop: '2.4px', paddingBottom: '3px', paddingRight: '8px',
+                                    fontSize: '0.78rem', backgroundColor: 'rgba(255, 87, 34, 0.1)'
+                                }}>
+                                    <span style={{
+                                        position: 'relative',
+                                        left: '-18px',
+                                        bottom: '-3px',
+                                        display: 'inline-block',
+                                        width: 0,
+                                        height: 0,
+                                        borderTop: '7px solid transparent',
+                                        borderBottom: '7px solid transparent',
+                                        borderRight: '10px solid orange',
+                                    }}></span>
+                                    Please enter Valid Url Image at {Object.keys(ogImagesInputsErrors).map((key) => key.replace('link', '')).join(', ')}
+                                </div>
+                            )}
+                            <input
+                                key={index}
+                                type="url"
+                                name={name}
+                                value={ogImagesInputs[name]}
+                                placeholder={`Image URL ${index + 1}`}
+                                onChange={handleInputChange}
+                                onBlur={handleBlur}
+                                style={{
+                                    marginTop: '5px', marginBottom: `2px`, width: '100%', height: '20px',
+                                    borderRadius: '5px', resize: 'none'
+                                }}
+                            />
+                        </>
+                    ))}
+
+                    {/* testing */}
                 </div>
                 <Heading text="Twitter Card" />
                 <div style={styles.flexStrech}>
@@ -801,11 +927,14 @@ export default function MetaTagsGenrator() {
                         <div style={{ height: '60px' }}>
                             <Input
                                 name="tcUrl"
+                                type="url"
                                 label="Site Url: "
                                 elementType="input"
-                                value={tcUrl}
+                                value={tcUrl.value}
+                                showError={tcUrl.isValid}
+                                onBlur={validateUrl}
                                 placeholder="URL of your website"
-                                onChange={UPDATE_INPUT}
+                                onChange={handleUrlChange}
                                 onFocus={() => hanldeSetLivePreview(2)}
                                 styles={{ height: '26px', ...tcInputFocused }}
                             />
@@ -840,11 +969,14 @@ export default function MetaTagsGenrator() {
                 <div style={styles.flexStrech}>
                     <Input
                         name="tcImgUrl"
+                        type="url"
                         label="Image URL:"
-                        elementType="input"
-                        value={tcImgUrl}
+                        value={tcImgUrl.value}
+                        showError={tcImgUrl.isValid}
+                        onBlur={validateUrl}
+
                         placeholder="with http:// or https://"
-                        onChange={UPDATE_INPUT}
+                        onChange={handleUrlChange}
                         onFocus={() => hanldeSetLivePreview(2)}
                         styles={{ height: '26px', ...tcInputFocused }}
                     />
@@ -904,13 +1036,7 @@ export default function MetaTagsGenrator() {
 
 function Heading({ text, styles }) {
     const stylesObject = {
-        height: '40px',
-        marginBottom: '20px',
-        marginTop: '20px',
-        fontSize: '1.8rem',
-        color: '#cecece',
-        textAlign: 'center',
-        borderRadius: '10px',
+        height: '40px', marginBottom: '20px', marginTop: '20px', fontSize: '1.8rem', color: '#cecece', textAlign: 'center', borderRadius: '10px',
         background: 'linear-gradient(277deg, rgba(42, 42, 42, 1) 3%, rgba(92, 92, 92, 1) 32%, rgba(177, 176, 176, 1) 51%, rgba(92, 92, 92, 1) 68%, rgba(42, 42, 42, 1) 100%)',
         ...styles
     };
@@ -930,6 +1056,8 @@ function Input({
     value,
     placeholder = '',
     onChange,
+    onBlur,
+    showError,
     styles = {},
     elementHeight = '60%',
     noDivMargin,
@@ -937,21 +1065,47 @@ function Input({
 }) {
     const InputComponent = elementType === 'textarea' ? 'textarea' : 'input';
     const style = {
-        div: { paddingLeft: noDivMargin ? '0' : '5px', paddingRight: noDivMargin ? '0' : '5px', flexGrow: '1', marginBottom: '10px', height: elementHeight },
-        input: { marginTop: '5px', marginBottom: '12px', width: '100%', height: '100%', borderRadius: '5px', resize: 'none', ...styles },
+        div: {
+            paddingLeft: noDivMargin ? '0' : '5px', paddingRight: noDivMargin ? '0' : '5px', flexGrow: '1',
+            marginBottom: '10px', height: elementHeight
+        },
+        input: {
+            marginTop: '5px', marginBottom: '12px', width: '100%', height: '100%',
+            borderRadius: '5px', resize: 'none', ...styles
+        },
+        tooltip: {
+            position: 'relative', bottom: '3.2px', marginLeft: '25px', display: 'inline',
+            border: '2px solid orange', color: 'white', borderRadius: '8px',
+            paddingTop: '2.4px', paddingBottom: '3px', paddingRight: '8px',
+            fontSize: '0.75rem', backgroundColor: 'rgba(255, 87, 34, 0.1)'
+        },
+        tooltipTringle: {
+            position: 'relative', left: '-16px', bottom: '-12px', display: 'inline-block',
+            width: 0, height: 0, borderTop: '7px solid transparent', borderBottom: '7px solid transparent',
+            borderRight: '14px solid orange', transform: 'rotate(90deg)'
+        },
     }
 
     return (
         <div style={style.div}>
             {label && (
-                <label style={{ color: '#A6A6A6' }} htmlFor={name}>{label + ' '}</label>
+                <div>
+                    <label style={{ color: '#A6A6A6' }} htmlFor={name}>{label + ' '}</label>
+                    {!showError && value !== '' && type === 'url' && (
+                        <div style={style.tooltip}>
+                            <span style={style.tooltipTringle}></span>
+                            Please enter valid url
+                        </div>
+                    )}
+                </div>
             )}
             <InputComponent
                 style={style.input}
                 id={name}
                 value={value}
                 type={type}
-                onChange={e => onChange(name, e.target.value)}
+                onChange={name ? e => onChange(name, type === 'url' ? e : e.target.value) : onChange}
+                onBlur={name ? () => onBlur(name) : onBlur}
                 placeholder={'   ' + placeholder}
                 rows={elementType === 'textarea' ? 3 : null}
                 onFocus={onFocus}
@@ -960,13 +1114,15 @@ function Input({
     );
 }
 Input.propTypes = {
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     label: PropTypes.string,
     elementType: PropTypes.oneOf(['input', 'textarea']),
     type: PropTypes.string,
     value: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func,
+    showError: PropTypes.bool,
     styles: PropTypes.object,
     elementHeight: PropTypes.string,
     noDivMargin: PropTypes.bool,
@@ -1075,7 +1231,10 @@ function LanguageSelector({
     const stylesObject = {
         selectorDiv: { marginLeft: '5px', marginRight: '5px', width: '50%', height: '100px', ...divStyles },
         selector: { width: '100%', borderRadius: '2px', textAlign: 'center', },
-        input: { marginLeft: '10px', marginRight: '10px', borderRadius: '4px', width: '100%', height: '22px', ...inputStyles },
+        input: {
+            marginLeft: '10px', marginRight: '10px', borderRadius: '4px', width: '100%',
+            height: '22px', ...inputStyles
+        },
     }
 
     return (
