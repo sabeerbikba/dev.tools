@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { findNearestNumber } from '../utils/findNearestNumber';
+import CopyBtn from '../components/CopyBtn';
 
 const tailwindUnits = [
     0, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 20, 24,
@@ -76,19 +77,19 @@ export default function UnitConverter() {
 
 function UnitInput(props) {
     const [value, setValue] = useState(0);
-    const [isDisabled, setDisabled] = useState(false);
+    const [copyBtnDisabled, setCopyBtnDisabled] = useState(false);
 
     const handleInput = (e) => {
         const num = parseInt(e.target.value);
         const realNum = isNaN(num) ? null : num;
         setValue(realNum);
-        setDisabled(isNaN(num));
+        setCopyBtnDisabled(isNaN(num));
         props.onChange(realNum, isNaN(num));
     };
 
     useEffect(() => {
         setValue(props.value);
-        setDisabled(isNaN(props.value));
+        setCopyBtnDisabled(isNaN(props.value));
     }, [props.value]);
 
     return (
@@ -103,16 +104,12 @@ function UnitInput(props) {
                     onChange={handleInput}
                     className="px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 />
-                <button
-                    type="button"
-                    className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm enabled:hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 disabled:opacity-80 disabled:cursor-not-allowed"
-                    onClick={() => {
-                        navigator.clipboard.writeText(`${value}`);
-                    }}
-                    disabled={isDisabled}
-                >
-                    Copy
-                </button>
+                <CopyBtn
+                    copyText={value}
+                    setCopyBtnDisabled={isDisabled => setCopyBtnDisabled(isDisabled)}
+                    copyBtnDisabled={copyBtnDisabled || value === 0}
+                    styles={{width: '90px', height: '40px'}}
+                />
             </div>
         </div>
     );

@@ -1,6 +1,8 @@
 import { useEffect, useReducer } from "react";
-import Selector from "../common/Selector";
 import MonacoEditor from '@monaco-editor/react'
+
+import Selector from "../common/Selector";
+import CopyBtn from "../components/CopyBtn";
 
 const FilterOption = {
     Character: "Character",
@@ -25,7 +27,8 @@ const initilaState = {
     output: '',
     count: '',
     currentFilterOption: filterOptions[0].value,
-    filter: ''
+    filter: '',
+    copyBtnDisabled: false,
 }
 
 function charctedCounterReducer(state, action) {
@@ -41,7 +44,7 @@ function charctedCounterReducer(state, action) {
 
 export default function CharacterAndWordCounterComponent() {
     const [state, dispatch] = useReducer(charctedCounterReducer, initilaState)
-    const { input, output, count, currentFilterOption, filter } = state;
+    const { input, output, count, currentFilterOption, filter, copyBtnDisabled } = state;
 
     function UPDATE_VALUE(field, value) {
         dispatch({ type: actionTypes.UPDATE_VALUE, field: field, value: value })
@@ -79,6 +82,8 @@ export default function CharacterAndWordCounterComponent() {
         },
         lineNumber: true,
     };
+
+    console.log(copyBtnDisabled);
 
     return (
         <div className="flex gap-4 m-4 h-full">
@@ -126,15 +131,11 @@ export default function CharacterAndWordCounterComponent() {
                         />
                         <p className="font-bold text-md text-white"> count: {count}</p>
                     </div>
-                    <button
-                        type="button"
-                        className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                        onClick={async () => {
-                            await navigator.clipboard.writeText(output);
-                        }}
-                    >
-                        Copy
-                    </button>
+                    <CopyBtn
+                        copyText={output}
+                        setCopyBtnDisabled={(isDisabled) => UPDATE_VALUE('copyBtnDisabled', isDisabled)}
+                        copyBtnDisabled={copyBtnDisabled || output === ''}
+                    />
                 </div>
                 <MonacoEditor
                     language="plaintext"

@@ -1,8 +1,11 @@
 import { useState } from "react";
 import QRCode from "react-qr-code";
 
+import CopyBtn from "../components/CopyBtn";
+
 export default function QrCodeGeneratorComponent() {
     const [qrText, setQrText] = useState("https://www.google.com/");
+    const [copyBtnDisabled, setCopyBtnDisabled] = useState(false);
 
     const handleTextChange = (input) => {
         setQrText(input);
@@ -44,7 +47,7 @@ export default function QrCodeGeneratorComponent() {
         p: "font-bold text-sm mb-2 text-white",
         inputDiv: "flex gap-2",
         input: "px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
-        copyBtn: "rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500",
+        btn: "rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500",
         qrDiv: "mt-5 flex gap-5 items-end",
         qrCode: "flex border-white border-8",
         qrDownloadBtn: "h-11 rounded-md mt-4 bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500",
@@ -60,17 +63,21 @@ export default function QrCodeGeneratorComponent() {
                         value={qrText}
                         onChange={(e) => handleTextChange(e.currentTarget.value)}
                     />
+                    <CopyBtn
+                        copyText={qrText}
+                        setCopyBtnDisabled={isDisabled => setCopyBtnDisabled(isDisabled)}
+                        copyBtnDisabled={copyBtnDisabled || qrText.trim() == ''}
+                    />
                     <button
-                        type="button"
-                        className={tailwindcss.copyBtn}
-                        onClick={async () => {
-                            await navigator.clipboard.writeText(qrText);
-                        }}
+                        className={tailwindcss.btn}
+                        onClick={() => setQrText('')}
+                        style={{ width: '110px', height: '42px', borderRadius: '11px', position: 'relative', left: '-2px', backgroundColor: `${qrText === '' ? '#4446a6' : '#6366f1'}` }}
+                        disabled={qrText === ''}
                     >
-                        Copy
+                        Clear
                     </button>
                 </div>
-                {qrText && (
+                {qrText.trim() && (
                     <div className={tailwindcss.qrDiv}>
                         <div className={tailwindcss.qrCode}>
                             <QRCode
@@ -78,7 +85,7 @@ export default function QrCodeGeneratorComponent() {
                                 bgColor="white"
                                 fgColor="black"
                                 viewBox={`0 0 256 256`}
-                                value={qrText}
+                                value={qrText.trim()}
                                 id="QRCode"
                             />
                         </div>

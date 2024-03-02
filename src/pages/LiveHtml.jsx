@@ -1,7 +1,8 @@
 import MonacoEditor from '@monaco-editor/react';
-import useLocalStorage from "../hooks/useLocalStorage";
 import { useState } from 'react';
-import { toast } from 'react-toastify';
+
+import useLocalStorage from "../hooks/useLocalStorage";
+import CopyBtn from '../components/CopyBtn';
 
 export default function LiveHtml() {
     const [copyBtnDisabled, setCopyBtnDisabled] = useState(false);
@@ -9,27 +10,6 @@ export default function LiveHtml() {
 
     function handleClear() {
         setCode('');
-    }
-
-    async function handleCopyBtn() {
-        try {
-            setCopyBtnDisabled(true);
-            await navigator.clipboard.writeText(code);
-            toast.success('text-copied', {
-                position: 'bottom-right',
-                theme: 'dark',
-                autoClose: 1700,
-                onClose: () => setCopyBtnDisabled(false)
-            });
-        } catch {
-            setCopyBtnDisabled(true);
-            toast.warn('text-not-copied', {
-                position: 'bottom-right',
-                theme: 'dark',
-                autoClose: 2400,
-                onClose: () => setCopyBtnDisabled(false)
-            })
-        }
     }
 
     const tailwindcss = {
@@ -50,16 +30,16 @@ export default function LiveHtml() {
             <div style={styles.div50}>
                 <div style={styles.btnDiv}>
                     <button
-                        style={{ ...styles.btn, backgroundColor: `${!code.trim() ? '#bbbbff' : ''}` }}
+                        style={{ ...styles.btn, backgroundColor: `${!code.trim() ? '#4446a6' : ''}` }}
                         className={tailwindcss.btn}
                         onClick={handleClear}
                     >Clear</button>
-                    <button
-                        style={{ ...styles.btn, backgroundColor: `${!code.trim() || copyBtnDisabled ? '#bbbbff' : ''}` }}
-                        className={tailwindcss.btn}
-                        onClick={handleCopyBtn}
-                        disabled={copyBtnDisabled || code.trim() === ''}
-                    >Copy</button>
+                    <CopyBtn
+                        copyText={code}
+                        styles={{ ...styles.btn }}
+                        setCopyBtnDisabled={isDisabled => setCopyBtnDisabled(isDisabled)}
+                        copyBtnDisabled={copyBtnDisabled || code.trim() === ''}
+                    />
                 </div>
                 <div style={styles['h95%']}>
                     <MonacoEditor

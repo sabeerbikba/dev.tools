@@ -1,6 +1,8 @@
-import useLocalStorageReducer from "../hooks/useLocalStorageReducer";
 import PropTypes from 'prop-types';
 import { PhotoshopPicker, SwatchesPicker, HuePicker, AlphaPicker, CirclePicker, SliderPicker } from 'react-color';
+
+import useLocalStorageReducer from "../hooks/useLocalStorageReducer";
+import CopyBtn from "../components/CopyBtn";
 
 const isHSLColor = /^hsl\(\s*(\d+)\s*,\s*(\d*(?:\.\d+)?%)\s*,\s*(\d*(?:\.\d+)?%)\)$/i;
 
@@ -9,14 +11,31 @@ const initialState = {
     rgba: "255, 255, 255, 1",
     hex: "#ffffff",
     hsl: "hsl(0, 0%, 100%)",
+    copyBtnDisabled: {
+        rgb: false,
+        rgba: false,
+        hex: false,
+        hsl: false
+    },
 }
 
-const actionTypes = { UPDATE_CODE: 'UPDATE_CODE' };
+const actionTypes = {
+    UPDATE_CODE: 'UPDATE_CODE',
+    CONTROL_COPY_BUTTON: 'CONTROL_COPY_BUTTON',
+};
 
 function colorConverterReducer(state, action) {
     switch (action.type) {
         case actionTypes.UPDATE_CODE:
             return { ...state, [action.field]: action.code }
+        case actionTypes.CONTROL_COPY_BUTTON:
+            return {
+                ...state,
+                copyBtnDisabled: {
+                    ...state.copyBtnDisabled,
+                    [action.field]: action.value,
+                },
+            };
         default:
             console.error('Unknown action: ' + action.type);
             console.warn('you not added action.type: ' + action.type + ' add and try');
@@ -25,11 +44,11 @@ function colorConverterReducer(state, action) {
 }
 
 export default function ColorConverterComponent() {
-    const [state, dispatch] = useLocalStorageReducer('colorCodes', colorConverterReducer, initialState)
-    const { rgb, rgba, hex, hsl } = state;
+    const [state, dispatch] = useLocalStorageReducer('colorCodes2', colorConverterReducer, initialState)
+    const { rgb, rgba, hex, hsl, copyBtnDisabled } = state;
 
     function UPDATE_CODE(field, code) {
-        dispatch({ type: actionTypes.UPDATE_CODE, field: field, code: code })
+        dispatch({ type: actionTypes.UPDATE_CODE, field, code })
     }
 
     const rgbToHex = (input) => {
@@ -350,12 +369,40 @@ export default function ColorConverterComponent() {
         }
     }
 
+    function UPDATE_BUTTON_STATE(field, value) {
+        dispatch({ type: actionTypes.CONTROL_COPY_BUTTON, field, value })
+    }
+
     return (
         <div style={{ userSelect: 'none' }} className='flex flex-col gap-4 m-4'>
-            <Output4CC title="RGB" colorCode={rgb} handleChange={e => handleRgbChange(e.currentTarget.value)} />
-            <Output4CC title="RGBA" colorCode={rgba} handleChange={e => handleRgbaChange(e.currentTarget.value)} />
-            <Output4CC title="HEX" colorCode={hex} handleChange={e => handleHexChange(e.currentTarget.value)} />
-            <Output4CC title="HSL" colorCode={hsl} handleChange={e => handleHslChange(e.currentTarget.value)} />
+            <Output4CC
+                title="RGB"
+                colorCode={rgb}
+                handleChange={e => handleRgbChange(e.currentTarget.value)}
+                setIsCopyBtnDisabled={isDisabled => UPDATE_BUTTON_STATE('rgb', isDisabled)}
+                isCopyBtnDisabled={copyBtnDisabled.rgb || rgb === ''}
+            />
+            <Output4CC
+                title="RGBA"
+                colorCode={rgba}
+                handleChange={e => handleRgbaChange(e.currentTarget.value)}
+                setIsCopyBtnDisabled={isDisabled => UPDATE_BUTTON_STATE('rgba', isDisabled)}
+                isCopyBtnDisabled={copyBtnDisabled.rgba || rgba === ''}
+            />
+            <Output4CC
+                title="HEX"
+                colorCode={hex}
+                handleChange={e => handleHexChange(e.currentTarget.value)}
+                setIsCopyBtnDisabled={isDisabled => UPDATE_BUTTON_STATE('hex', isDisabled)}
+                isCopyBtnDisabled={copyBtnDisabled.hex || hex === ''}
+            />
+            <Output4CC
+                title="HSL"
+                colorCode={hsl}
+                handleChange={e => handleHslChange(e.currentTarget.value)}
+                setIsCopyBtnDisabled={isDisabled => UPDATE_BUTTON_STATE('hsl', isDisabled)}
+                isCopyBtnDisabled={copyBtnDisabled.hsl || hsl === ''}
+            />
 
             <div>
                 <p className="font-bold text-sm mb-2 text-white">Preview:</p>
@@ -397,12 +444,17 @@ export default function ColorConverterComponent() {
     );
 }
 
-function Output4CC({ title = '', colorCode, handleChange }) {
+function Output4CC({
+    title = '',
+    colorCode,
+    handleChange,
+    setIsCopyBtnDisabled,
+    isCopyBtnDisabled,
+}) {
     const tailwindcss = {
         p: 'font-bold text-sm mb-2 text-white',
         div: 'flex gap-2',
         input: 'px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',
-        btn: 'rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'
     }
 
     return (
@@ -414,15 +466,12 @@ function Output4CC({ title = '', colorCode, handleChange }) {
                     value={colorCode}
                     onChange={handleChange}
                 />
-                <button
-                    type="button"
-                    className={tailwindcss.btn}
-                    onClick={async () => {
-                        await navigator.clipboard.writeText(colorCode);
-                    }}
-                >
-                    Copy
-                </button>
+                <CopyBtn
+                    copyText={colorCode}
+                    setCopyBtnDisabled={setIsCopyBtnDisabled}
+                    copyBtnDisabled={isCopyBtnDisabled}
+                    styles={{ height: '40px', width: '70px' }}
+                />
             </div>
         </div>
     );
@@ -431,4 +480,6 @@ Output4CC.propTypes = {
     title: PropTypes.string,
     colorCode: PropTypes.string.isRequired,
     handleChange: PropTypes.func.isRequired,
+    setIsCopyBtnDisabled: PropTypes.func,
+    isCopyBtnDisabled: PropTypes.bool,
 };

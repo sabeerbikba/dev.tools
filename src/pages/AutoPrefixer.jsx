@@ -2,10 +2,14 @@ import { useState, useEffect } from 'react';
 import { version as autoprefixerVersion } from 'autoprefixer/package.json';
 import { version as postcssVersion } from 'postcss/package.json';
 import store from 'store';
-// import 'monaco-editor/min/vs/editor/editor.main.css'; //need to check good to remove styles 
 import MonacoEditor from '@monaco-editor/react';
-import { toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+
+import CopyBtn from '../components/CopyBtn';
+
+/** TASK.TODO:
+ * setError not correctly shown in html 
+ * convert into reduducer 
+ */
 
 export default function AutoPrefixerTool() {
     const DEFAULT_BROWSERS = ['last 4 versions'];
@@ -16,27 +20,6 @@ export default function AutoPrefixerTool() {
     const [prefixedCode, setPrefixedCode] = useState('');
     const [error, setError] = useState(null);
     const [isCopyBtnDisabled, setIsCopyBtnDisabled] = useState(false);
-
-    async function handleCopyBtn() {
-        try {
-            setIsCopyBtnDisabled(true);
-            await navigator.clipboard.writeText(prefixedCode);
-            toast.success('text-copied', {
-                position: 'bottom-right',
-                theme: 'dark',
-                autoClose: 1700,
-                onClose: () => setIsCopyBtnDisabled(false),
-            });
-        } catch {
-            setIsCopyBtnDisabled(true);
-            toast.warn('text-not-copied', {
-                position: 'bottom-right',
-                theme: 'dark',
-                autoClose: 2400,
-                onClose: () => setIsCopyBtnDisabled(false),
-            })
-        }
-    }
 
     useEffect(() => {
         setBrowserList(browserList);
@@ -91,12 +74,9 @@ export default function AutoPrefixerTool() {
 
     return (
         <>
-            {/* <ToastContainer /> */}
             <div className={'monaco-container'}>
-
                 <div className='monaco-style monaco-editor'>
-
-                    <div className="flex justify-between items-center mb-4 gap-4 h-12" style={{backgroundColor: '#2a2a2a'}}>
+                    <div className="flex justify-between items-center mb-4 gap-4 h-12" style={{ backgroundColor: '#2a2a2a' }}>
                         <div className="flex gap-4 items-center">
                             <p className="font-bold text-xl text-white"> Input: </p>
                             <button
@@ -125,11 +105,13 @@ export default function AutoPrefixerTool() {
                         value={prefixedCode}
                         options={{ ...options, readOnly: true }}
                     />
-                    <button disabled={isCopyBtnDisabled} className={`monaco-copy-btn text-white ${isCopyBtnDisabled ? 'btn-disabled' : ''}`} onClick={handleCopyBtn}>Copy
-                        <svg style={{ display: 'inline', position: 'relative', left: '10px' }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
-                        </svg>
-                    </button>
+                    <CopyBtn
+                        copyText={prefixedCode}
+                        svg
+                        setCopyBtnDisabled={isDisable => setIsCopyBtnDisabled(isDisable)}
+                        copyBtnDisabled={isCopyBtnDisabled || prefixedCode === ''}
+                        styles={{ backgroundColor: `${isCopyBtnDisabled || prefixedCode === '' ? '#4446a6' : '#6366f1'}`, margin: '10px 10px 0 0' }}
+                    />
                     <label className='text-white'>
                         <input
                             type="checkbox"
@@ -139,7 +121,6 @@ export default function AutoPrefixerTool() {
                         {' '}
                         include comment with configuration to the result
                     </label>
-
                     {error}
                 </div>
             </div>

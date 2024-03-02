@@ -1,6 +1,8 @@
 import { useState } from "react";
+
 import Selector from "../common/Selector";
 import TextArea from "../common/TextArea";
+import CopyBtn from "../components/CopyBtn";
 
 const convertToSnakeCase = (input) =>
   input
@@ -76,6 +78,7 @@ export default function StringConverterComponent() {
   const [transformationOption, setTransformationOption] = useState(options[0].value);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
+  const [copyBtnDisabled, setCopyBtnDisabled] = useState(false);
 
   const transformText = (text) => {
     switch (transformationOption) {
@@ -126,15 +129,11 @@ export default function StringConverterComponent() {
               setTransformationOption(filterOption.value);
             }}
           />
-          <button
-            type="button"
-            className={tailwindcss.copyBtn}
-            onClick={async () => {
-              await navigator.clipboard.writeText(output);
-            }}
-          >
-            Copy
-          </button>
+          <CopyBtn
+            copyText={output}
+            setCopyBtnDisabled={isDisabled => setCopyBtnDisabled(isDisabled)}
+            copyBtnDisabled={copyBtnDisabled || output === ''}
+          />
         </div>
         <textarea
           readOnly

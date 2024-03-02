@@ -1,11 +1,14 @@
-import { useReducer, Fragment } from "react";
+import { useReducer, Fragment, useId } from "react";
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import MonacoEditor from '@monaco-editor/react';
+import CopyBtn from "../components/CopyBtn";
 
 /** TASK.TODO:
- * oglocale ogAlternateLocale bug click genrate to see
- * for exmple use slect ogLocale en_US and in ogLocaleAlternateManul type en_US show error 
+//  * oglocale ogAlternateLocale bug click genrate to see
+//  * for exmple use slect ogLocale en_US and in ogLocaleAlternateManul type en_US show error 
+ * need to test all input adding radom text more then 200 characters  they expaiding from thier actual size 
+ * set autoclose for 4 genrate code meta tag button 
  */
 
 const initialState = {
@@ -30,7 +33,7 @@ const initialState = {
     ogTitle: '',
     ogSiteName: '',
     ogDescription: '',
-    ogLocale: 'en_US',
+    ogLocale: 'none',
     ogLocaleManual: '',
     ogLocaleAlternate: 'none',
     ogLocaleAlternateManual: '',
@@ -161,7 +164,6 @@ export default function MetaTagsGenrator() {
         tcDescription,
     } = state;
 
-    // console.log(ogImagesInputs);
 
     const ogInputsFocused = { border: `${extractFirstLink(ogImagesInputs) || ogUrl.value || ogTitle || ogDescription ? '2.4px solid green' : ''}` }
     const tcInputFocused = { border: `${tcUrl.value.trim() || tcImgUrl.value.trim() ? '3px solid green' : ''}` }
@@ -201,6 +203,7 @@ export default function MetaTagsGenrator() {
         { text: 'Website (default)', value: 'website' },
     ];
     const ogLocaleOptions = [
+        { text: "Not Using This Tag", value: 'none' },
         { text: 'English (United States)', value: 'en_US' },
         { text: 'English (United Kingdom)', value: 'en_UK' },
         { text: 'Spanish (Spain)', value: 'es_ES' },
@@ -297,6 +300,14 @@ export default function MetaTagsGenrator() {
             return ogTitle.trim() !== '' || ogDescription.trim() !== '';
         };
 
+        function showWaningToast(warningText, time = 3000) {
+            toast.warn(warningText, {
+                position: 'bottom-right',
+                theme: 'dark',
+                autoClose: time,
+            });
+        }
+
         if (boilerPlate) {
             output += `
 <!DOCTYPE html>
@@ -381,41 +392,36 @@ export default function MetaTagsGenrator() {
         output += Object.entries(ogImagesInputs).filter(([_, link]) => link.trim() !== "") // lint error ignorable 
             .map(([_, link]) => `    <meta property="og:image" content="${link}">`).join('\n'); // lint error ignorable 
 
-        console.log('ogLocale', ogLocale);
-        console.log('ogLocaleAlternate', ogLocaleAlternate)
-        console.log('ogLocaleManual', ogLocaleManual)
-        console.log('ogLocaleAlternateManual', ogLocaleAlternateManual)
+
         if (
-            // ogLocale === ogLocaleAlternate ||
-            // ogLocaleManual.trim() === ogLocaleAlternateManual.trim() ||
-            // (ogLocale === ogLocaleAlternateManual.trim() &&
-            //     ogLocaleAlternate === ogLocaleManual.trim())
-            // (ogLocale === ogLocaleAlternateManual.trim() && ogLocale !== 'manual') ||
-            // (ogLocaleManual.trim() === ogLocaleAlternate.trim() && ogLocaleManual.trim().length > 0) ||
-            // (ogLocale === ogLocaleAlternateManual.trim() && ogLocaleAlternate === 'manual' && ogLocale !== 'manual') ||
-            // (ogLocaleManual.trim() === ogLocaleAlternate.trim() && ogLocaleAlternateManual.trim().length > 0 && ogLocaleManual.trim().length > 0)
-            (ogLocale === ogLocaleAlternateManual.trim() && ogLocale !== 'manual') ||
-            (ogLocaleManual.trim() === ogLocaleAlternate.trim() && ogLocaleManual.trim().length > 0) ||
-            (ogLocale === ogLocaleAlternateManual.trim() && ogLocaleAlternate === 'manual' && ogLocale !== 'manual') ||
-            (ogLocaleManual.trim() === ogLocaleAlternate.trim() && ogLocaleAlternateManual.trim().length > 0 && ogLocaleManual.trim().length > 0)
+            ((ogLocaleManual.trim() !== '' || ogLocaleAlternateManual.trim() !== '') && ogLocaleManual.trim() !== ogLocaleAlternateManual.trim() && ogLocale === 'manual' && ogLocaleAlternate === 'manual') ||
+            (ogLocale !== ogLocaleAlternate && ogLocale !== ogLocaleAlternateManual.trim() && ogLocaleAlternate !== ogLocaleManual.trim())
         ) {
-            console.log('condition true and error shown');
-            toast.warn('Open Graph Primary Locale and Alternate Locale cannot be the same', {
-                position: 'bottom-right',
-                theme: 'dark',
-                autoClose: 3400,
-            });
-        } else {
-            if (ogLocale !== 'manual') {
+            if (ogLocale !== 'manual' && ogLocale !== 'none') {
                 output += '    <meta property="og:locale" content="' + ogLocale + '">\n';
-            } else if (ogLocale === 'manual' && ogLocaleManual.trim()) {
+            } else if (ogLocaleManual.trim() !== '') {
                 output += '    <meta property="og:locale" content="' + ogLocaleManual.trim() + '">\n';
             }
             if (ogLocaleAlternate !== 'manual' && ogLocaleAlternate !== 'none') {
                 output += '    <meta property="og:locale:alternate" content="' + ogLocaleAlternate + '">\n';
-            } else if (ogLocaleAlternate === 'manual' && ogLocaleAlternateManual.trim()) {
+            } else if (ogLocaleAlternateManual.trim() !== '') {
                 output += '    <meta property="og:locale:alternate" content="' + ogLocaleAlternateManual.trim() + '">\n';
             }
+        } else if (
+            (ogLocale === 'manual' && ogLocaleAlternate === 'manual') &&
+            (ogLocaleManual.length > 0 || ogLocaleAlternateManual.length > 0) &&
+            (ogLocaleManual.trim() === ogLocaleAlternateManual.trim())
+        ) {
+            showWaningToast('Open Graph Primary Locale and Alternate Locale Enterd value not be same!!', 3800);
+        } else if (
+            (ogLocale === 'manual' && ogLocaleAlternate === 'manual') &&
+            (ogLocaleManual.trim() === '' && ogLocaleAlternateManual.trim() === '')
+        ) {
+            showWaningToast('Open Graph Primary Locale and Alternate Inputs are Empty!!', 3800)
+        } else if (ogLocale === 'none' && ogLocaleAlternate === 'none') {
+            null // if not used like this else condition will be excuted
+        } else {
+            showWaningToast('Open Graph Primary Locale and Alternate Locale cannot be the same', 3400)
         }
 
         if (tcType) {
@@ -459,27 +465,6 @@ export default function MetaTagsGenrator() {
         return formattedUrl;
     }
 
-    async function handleCopyBtn() {
-        try {
-            UPDATE_INPUT('copyBtnDisabled', true);
-            await navigator.clipboard.writeText(finalOutput);
-            toast.success('text-copied', {
-                position: 'bottom-right',
-                theme: 'dark',
-                autoClose: 1700,
-                onClose: () => UPDATE_INPUT('copyBtnDisabled', false)
-            });
-        } catch {
-            UPDATE_INPUT('copyBtnDisabled', true);
-            toast.warn('text-not-copied', {
-                position: 'bottom-right',
-                theme: 'dark',
-                autoClose: 2400,
-                onClose: () => UPDATE_INPUT('copyBtnDisabled', false)
-            })
-        }
-    }
-
     function UPDATE_INPUT(field, value) {
         dispatch({ type: actionTypes.UPDATE_INPUT, field: field, value: value })
     }
@@ -497,7 +482,6 @@ export default function MetaTagsGenrator() {
         }
         const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
         const isValid = urlRegex.test(url);
-        console.log(isValid);
         dispatch({ type: actionTypes.VALIDATE_OBJECT, field, isValid: !isValid, blur: true });
     };
 
@@ -561,13 +545,17 @@ export default function MetaTagsGenrator() {
         }
     }
 
+    function changeOgLocaleAndClear(field, value) {
+        UPDATE_INPUT(field, value);
+        UPDATE_INPUT(field + 'Manual', '')
+    }
+
     function extractFirstLink(links) {
         for (const key in links) {
             if (links[key] !== "") {
                 return links[key];
             }
         }
-        // Return null if no link is specified
         return null;
     }
 
@@ -778,10 +766,9 @@ export default function MetaTagsGenrator() {
                 </div>
                 <div style={{ ...styles.flexStrech, height: '75px' }}>
                     <LanguageSelector
-                        name="ogLocale"
                         label="Primary Locale:"
                         value={ogLocale}
-                        onChange={UPDATE_INPUT}
+                        onChange={e => changeOgLocaleAndClear('ogLocale', e.target.value)}
                         onFocus={() => hanldeSetLivePreview(1)}
                         options={ogLocaleOptions}
                         inputName="ogLocaleManual"
@@ -792,21 +779,18 @@ export default function MetaTagsGenrator() {
                         inputStyles={{ marginLeft: '0' }}
                     />
                     <LanguageSelector
-                        name='ogLocaleAlternate'
                         label="Alternate Locale:"
                         value={ogLocaleAlternate}
-                        onChange={UPDATE_INPUT}
+                        onChange={e => changeOgLocaleAndClear('ogLocaleAlternate', e.target.value)}
                         onFocus={() => hanldeSetLivePreview(1)}
-                        options={[
-                            { text: "Don't Use This Tag", value: 'none' },
-                            ...ogLocaleOptions
-                        ]}
+                        options={ogLocaleOptions}
                         inputName="ogLocaleAlternateManual"
                         inputPlaceholder="Enter Pramary Locale"
                         manualInputValue={ogLocaleAlternateManual}
                         handleManualInput={UPDATE_INPUT}
                         showManualInput={ogLocaleAlternate === 'manual'}
                         inputStyles={{ marginLeft: '0' }}
+                        inputsDisalbed={ogLocale === 'none'}
                     />
                 </div>
                 <div style={styles.flexStrech}>
@@ -997,7 +981,13 @@ export default function MetaTagsGenrator() {
                             />
                         </div>
                         <button style={styles.button} onClick={handleFinalOutput}>Genrate Meta Tags</button>
-                        <button style={styles.button} onClick={handleCopyBtn} disabled={copyBtnDisabled}>copy to clipboard</button>
+                        <CopyBtn
+                            btnText="Copy to ClipBoard"
+                            copyText={finalOutput}
+                            setCopyBtnDisabled={isDisabled => UPDATE_INPUT('copyBtnDisabled', isDisabled)}
+                            copyBtnDisabled={copyBtnDisabled || finalOutput === ''}
+                            styles={{ ...styles.button, backgroundColor: `${copyBtnDisabled || finalOutput === '' ? '#486484' : '#204e84'}` }}
+                        />
                         <button style={styles.button} onClick={() => dispatch({ type: actionTypes.CLEAR_INPUTS })}>clear Inputs</button>
                     </div>
                     <MonacoEditor
@@ -1050,6 +1040,7 @@ function Input({
     elementHeight = '60%',
     noDivMargin,
     onFocus,
+    inputDisalbed,
 }) {
     const InputComponent = elementType === 'textarea' ? 'textarea' : 'input';
     const style = {
@@ -1098,6 +1089,7 @@ function Input({
                 placeholder={'   ' + placeholder}
                 rows={elementType === 'textarea' ? 3 : null}
                 onFocus={onFocus}
+                disabled={inputDisalbed}
             />
         </div>
     );
@@ -1117,6 +1109,7 @@ Input.propTypes = {
     elementHeight: PropTypes.string,
     noDivMargin: PropTypes.bool,
     onFocus: PropTypes.func,
+    inputDisalbed: PropTypes.bool,
 };
 
 function YesNoSelect({
@@ -1217,7 +1210,10 @@ function LanguageSelector({
     showManualInput,
     divStyles = {},
     inputStyles = {},
+    inputsDisalbed = false,
 }) {
+    const nameId = useId();
+
     const stylesObject = {
         selectorDiv: { marginLeft: '5px', marginRight: '5px', width: '50%', height: '100px', ...divStyles },
         selector: { width: '100%', borderRadius: '2px', textAlign: 'center', },
@@ -1229,13 +1225,14 @@ function LanguageSelector({
 
     return (
         <div style={stylesObject.selectorDiv}>
-            <label style={{ color: '#A6A6A6' }} htmlFor={name}>{label}</label>
+            <label style={{ color: '#A6A6A6' }} htmlFor={name ? name : nameId}>{label}</label>
             <select
                 style={stylesObject.selector}
                 value={value}
-                onChange={e => onChange(name, e.target.value)}
+                onChange={name ? e => onChange(name, e.target.value) : onChange}
                 onFocus={onFocus}
-                id={name}
+                id={name ? name : nameId}
+                disabled={inputsDisalbed}
             >
                 {options.map((option, index) => {
                     if (name === 'primaryLanguage') {
@@ -1262,13 +1259,14 @@ function LanguageSelector({
                     placeholder={inputPlaceholder}
                     elementHeight="30%"
                     noDivMargin
+                    inputDisalbed={inputsDisalbed}
                 />
             )}
         </div>
     );
 }
 LanguageSelector.propTypes = {
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -1284,4 +1282,5 @@ LanguageSelector.propTypes = {
     showManualInput: PropTypes.bool.isRequired,
     divStyles: PropTypes.object,
     inputStyles: PropTypes.object,
+    inputsDisalbed: PropTypes.bool,
 };

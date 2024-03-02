@@ -726,6 +726,10 @@ video {
   display: block;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
 .inline {
   display: inline;
 }
@@ -1746,24 +1750,12 @@ li {
   margin-bottom: 20px;
 }
 
-.monaco-copy-btn {
-  background-color: #6366f1;
-  height: 40px;
-  width: 120px;
-  border-radius: 10px;
-  margin: 10px 10px 0 0;
-}
-
 .monaco-editor-suggest-container {
   font-size: 8px !important;
 }
 
 .monaco-editor-suggest-list {
   font-size: 8px !important;
-}
-
-.btn-disabled {
-  background-color: #4446a6;
 }
 
 /* searchEgnine component css  */
@@ -2090,19 +2082,6 @@ hr.hr {
 
 .focus-visible\:outline-indigo-500:focus-visible {
   outline-color: #6366f1;
-}
-
-.enabled\:hover\:bg-indigo-400:hover:enabled {
-  --tw-bg-opacity: 1;
-  background-color: rgb(129 140 248 / var(--tw-bg-opacity));
-}
-
-.disabled\:cursor-not-allowed:disabled {
-  cursor: not-allowed;
-}
-
-.disabled\:opacity-80:disabled {
-  opacity: 0.8;
 }
 
 @media (min-width: 640px) {

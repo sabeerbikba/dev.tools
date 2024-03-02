@@ -453,14 +453,6 @@ li {
   margin-bottom: 20px;
 }
 
-.monaco-copy-btn {
-  background-color: #6366f1;
-  height: 40px;
-  width: 120px;
-  border-radius: 10px;
-  margin: 10px 10px 0 0;
-}
-
 .monaco-editor-suggest-container {
   font-size: 8px !important;
 }
@@ -468,11 +460,6 @@ li {
 .monaco-editor-suggest-list {
   font-size: 8px !important;
 }
-
-.btn-disabled {
-  background-color: #4446a6;
-}
-
 
 /* searchEgnine component css  */
 

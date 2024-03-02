@@ -14,6 +14,7 @@ remove unncessary code files that not used any where test working as expented
 need to remove unuse1 dependencies 
 user-select implemet where need to implemet
 shift to reducer function
+need to use useReducer in AutoPrefixer component and check everyComponet used reducer where needed 
 
 --------------fix--------------------------------------------------------------------------
 ---- SearchEngines.jsx
@@ -92,7 +93,8 @@ urus
 26/02 | 8hr    | completed twitter card inputs, added boilderPlate checkbox with logic  
 27/02 |10.50hr | made components 3 reusable selection components and edited Input compoent , removed unused styles from styles object, in revist days if enter text show error and implemented regEx 
 28/02 |10.45hr | now user can see error for input in  
-29/02 | 6hr | added more error for inputs and fixed error of logs and 
+29/02 | 6hr    | added more error for inputs and fixed error of logs and 
+01/03 | 9:30hr | fixed ogLole and ogLocaleAlternate problem and added created reusable copy button used everywhere in code 
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴
