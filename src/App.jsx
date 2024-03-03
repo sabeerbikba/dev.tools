@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isMobile } from 'react-device-detect';
+
 import Layout from "./Layout";
 // import Home from "./pages/Home.jsx";
 import NoPage from "./pages/NoPage";

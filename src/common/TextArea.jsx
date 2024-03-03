@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import PropTypes from 'prop-types';
 
-const TextArea = ({ initialInput = "", onInputChange, title = "Input:"}) => {
+export default function TextArea({ initialInput = "", onInputChange, title = "Input:" }) {
     const [input, setInput] = useState(initialInput);
 
     useEffect(() => {
@@ -27,6 +28,9 @@ const TextArea = ({ initialInput = "", onInputChange, title = "Input:"}) => {
             />
         </div>
     );
+}
+TextArea.propTypes = {
+    initialInput: PropTypes.string,
+    onInputChange: PropTypes.func.isRequired,
+    title: PropTypes.string,
 };
-
-export default TextArea;

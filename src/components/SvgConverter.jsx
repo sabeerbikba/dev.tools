@@ -1,9 +1,11 @@
 import { useCallback } from "react";
 // import { EditorPanelProps } from "@components/EditorPanel";
+import svgToDataUrl from "svg-to-dataurl";
+import PropTypes from 'prop-types';
+import { Alert, Badge, Heading, Pane } from "evergreen-ui";
+
 import Form from "../components/Form";
 import ConversionPanel, { Transformer } from "../components/ConversionPanel";
-import { Alert, Badge, Heading, Pane } from "evergreen-ui";
-import svgToDataUrl from "svg-to-dataurl";
 
 export const SvgConverter = ({
   transformer,
@@ -109,4 +111,22 @@ export const SvgConverter = ({
       }}
     />
   );
+};
+SvgConverter.propTypes = {
+  transformer: PropTypes.func.isRequired,
+  resultTitle: PropTypes.string.isRequired,
+  formFields: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.number.isRequired,
+    key: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    isDisabled: PropTypes.func,
+    props: PropTypes.object,
+    options: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      value: PropTypes.any.isRequired,
+    }))
+  })).isRequired,
+  optimizedValue: PropTypes.string,
+  settings: PropTypes.object.isRequired,
+  setSettings: PropTypes.func.isRequired,
 };

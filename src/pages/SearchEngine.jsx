@@ -7,6 +7,7 @@ import {
     Accordion, AccordionItem, AccordionItemHeading,
     AccordionItemButton, AccordionItemPanel
 } from 'react-accessible-accordion';
+
 import useLocalStorage from '../hooks/useLocalStorage';
 import searchEngines, { defaultImgClassName, files } from '../data/searchEngine';
 
@@ -39,30 +40,41 @@ const initialState = {
 
 function searchReducer(state, action) {
     switch (action.type) {
-        case actionTypes.SET_SEARCH_QUERY:
+        case actionTypes.SET_SEARCH_QUERY: {
             return { ...state, searchQuery: action.payload };
-        case actionTypes.SET_SELECTED_ENGINE:
+        }
+        case actionTypes.SET_SELECTED_ENGINE: {
             return { ...state, selectedEngine: action.payload };
-        case actionTypes.TOGGLE_EDITOR_VISIBILITY:
+        }
+        case actionTypes.TOGGLE_EDITOR_VISIBILITY: {
             return { ...state, editorVisible: action.payload };
-        case actionTypes.SET_LANGUAGE:
+        }
+        case actionTypes.SET_LANGUAGE: {
             return { ...state, language: action.payload, editorKey: Date.now() };
-        case actionTypes.SET_EDITOR_VALUE:
+        }
+        case actionTypes.SET_EDITOR_VALUE: {
             return { ...state, editorValue: action.payload };
-        case actionTypes.SET_EDITOR_INPUTS:
+        }
+        case actionTypes.SET_EDITOR_INPUTS: {
             return { ...state, editorInputs: action.payload };
-        case actionTypes.SET_HISTORY_INDEX:
+        }
+        case actionTypes.SET_HISTORY_INDEX: {
             return { ...state, historyIndex: action.payload };
-        case actionTypes.SET_SAVE_INPUT:
+        }
+        case actionTypes.SET_SAVE_INPUT: {
             return { ...state, saveInput: action.payload };
-        case actionTypes.SET_SHOULD_FOCUS_EDITOR:
+        }
+        case actionTypes.SET_SHOULD_FOCUS_EDITOR: {
             return { ...state, shouldFocusEditor: action.payload }
-        case actionTypes.SET_SLASH_INFO:
+        }
+        case actionTypes.SET_SLASH_INFO: {
             return { ...state, showSlahsInfo: action.payload }
-        default:
+        }
+        default: {
             console.error('Unknown action: ' + action.type);
             console.warn('you not added action.type: ' + action.type + ' add and try');
             return state;
+        }
     }
 }
 

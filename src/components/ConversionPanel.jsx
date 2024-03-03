@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Pane, Alert, Spinner } from "evergreen-ui";
+import PropTypes from 'prop-types';
+
 // import EditorPanel, { EditorPanelProps } from "../components/EditorPanel";
 import EditorPanel from "../components/EditorPanel";
 import PrettierWorker from "prettier";
@@ -15,10 +17,6 @@ function getEditorLanguage(lang) {
 
     return mapping[lang] || lang;
 }
-
-export const Transformer = async ({ value, splitEditorValue }) => {
-    // Your transformer logic here
-};
 
 const ConversionPanel = function ({
     splitEditorProps,
@@ -178,6 +176,23 @@ const ConversionPanel = function ({
             )}
         </>
     );
+};
+ConversionPanel.propTypes = {
+    splitEditorProps: PropTypes.object,
+    editorProps: PropTypes.object,
+    resultEditorProps: PropTypes.object,
+    transformer: PropTypes.func.isRequired,
+    splitLanguage: PropTypes.string,
+    splitTitle: PropTypes.string,
+    editorLanguage: PropTypes.string.isRequired,
+    editorTitle: PropTypes.string,
+    resultLanguage: PropTypes.string.isRequired,
+    resultTitle: PropTypes.string,
+    editorSettingsElement: PropTypes.node,
+    settings: PropTypes.object,
+    editorDefaultValue: PropTypes.string,
+    splitEditorDefaultValue: PropTypes.string,
+    resultSettingsElement: PropTypes.node
 };
 
 export default React.memo(ConversionPanel);

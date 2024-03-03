@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { PhotoshopPicker, SwatchesPicker, HuePicker, AlphaPicker, CirclePicker, SliderPicker } from 'react-color';
 
 import useLocalStorageReducer from "../hooks/useLocalStorageReducer";
-import CopyBtn from "../components/CopyBtn";
+import CopyBtn from '../common/CopyBtn';
 
 const isHSLColor = /^hsl\(\s*(\d+)\s*,\s*(\d*(?:\.\d+)?%)\s*,\s*(\d*(?:\.\d+)?%)\)$/i;
 

@@ -1,6 +1,3 @@
-linux: 
-
-code --disable-gpu
 ___________________________________________________________________________________________________
 
 need to give better names 
@@ -14,7 +11,11 @@ remove unncessary code files that not used any where test working as expented
 need to remove unuse1 dependencies 
 user-select implemet where need to implemet
 shift to reducer function
-need to use useReducer in AutoPrefixer component and check everyComponet used reducer where needed 
+// need to use useReducer in AutoPrefixer component and check everyComponet used reducer where needed 
+need to give fixed width styles in like used in word counter component 
+need to fix all error in log 
+and remove all console.logs 
+need to remove unused dependencies on by one from package.json
 
 --------------fix--------------------------------------------------------------------------
 ---- SearchEngines.jsx
@@ -95,6 +96,7 @@ urus
 28/02 |10.45hr | now user can see error for input in  
 29/02 | 6hr    | added more error for inputs and fixed error of logs and 
 01/03 | 9:30hr | fixed ogLole and ogLocaleAlternate problem and added created reusable copy button used everywhere in code 
+02/03 | 9.20hr | impreoved autoprefixer coponent, used best practices for reducer, fixed handleFinaloutput button's errors, fixed tooltip input layout shifting problem, added proptypes all availble component, removed unused files 
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴

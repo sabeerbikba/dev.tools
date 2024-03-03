@@ -59,6 +59,7 @@ function Container({ img, head, pera, docsLink = '', downloadLink, openLink }) {
         </div>
     );
 }
+
 // function Container({ img, head, pera, docsLink = '', downloadLink, openLink }) {
 //     // TODO: implement the logic that if user downloaded the extension need to give open link else install link by detecting browser
 //     const link = downloadLink ? openLink : ''; 

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import Selector from "../common/Selector";
 import TextArea from "../common/TextArea";
-import CopyBtn from "../components/CopyBtn";
+import CopyBtn from '../common/CopyBtn';
 
 const convertToSnakeCase = (input) =>
   input

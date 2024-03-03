@@ -2,14 +2,8 @@ import { useReducer, Fragment, useId } from "react";
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import MonacoEditor from '@monaco-editor/react';
-import CopyBtn from "../components/CopyBtn";
 
-/** TASK.TODO:
-//  * oglocale ogAlternateLocale bug click genrate to see
-//  * for exmple use slect ogLocale en_US and in ogLocaleAlternateManul type en_US show error 
- * need to test all input adding radom text more then 200 characters  they expaiding from thier actual size 
- * set autoclose for 4 genrate code meta tag button 
- */
+import CopyBtn from '../common/CopyBtn';
 
 const initialState = {
     title: '',
@@ -20,6 +14,7 @@ const initialState = {
     revisitDaysError: '',
     author: '',
     finalOutput: '',
+    finalOutputBtnDisalbed: false,
     robotsAllowed: 'yes',
     robotsFollowLink: 'yes',
     contentType: 'UTF-8',
@@ -66,11 +61,13 @@ function inputsReducer(state, action) {
     let newErrors = {};
 
     switch (action.type) {
-        case actionTypes.UPDATE_INPUT:
+        case actionTypes.UPDATE_INPUT: {
             return { ...state, [action.field]: action.value }
-        case actionTypes.CLEAR_INPUTS:
+        }
+        case actionTypes.CLEAR_INPUTS: {
             return initialState;
-        case actionTypes.UPDATE_OG_IMAGES_INPUTS:
+        }
+        case actionTypes.UPDATE_OG_IMAGES_INPUTS: {
             return {
                 ...state,
                 ogImagesInputs: {
@@ -78,12 +75,14 @@ function inputsReducer(state, action) {
                     [action.payload.name]: action.payload.value,
                 },
             };
-        case actionTypes.UPDATE_OG_IMAGES_INPUTS_ERRORS:
+        }
+        case actionTypes.UPDATE_OG_IMAGES_INPUTS_ERRORS: {
             return {
                 ...state,
                 ogImagesInputsErrors: action.payload,
             };
-        case actionTypes.SET_OG_IMAGES_INPUT_COUNT:
+        }
+        case actionTypes.SET_OG_IMAGES_INPUT_COUNT: {
             for (let i = 1; i <= action.payload; i++) {
                 if (state.ogImagesInputs[`link${i}`]) {
                     newInputs[`link${i}`] = state.ogImagesInputs[`link${i}`];
@@ -99,7 +98,8 @@ function inputsReducer(state, action) {
                 ogImagesInputs: newInputs,
                 ogImagesInputsErrors: newErrors,
             };
-        case actionTypes.UPDATE_OBJECT:
+        }
+        case actionTypes.UPDATE_OBJECT: {
             return {
                 ...state,
                 [action.field]: {
@@ -107,7 +107,8 @@ function inputsReducer(state, action) {
                     value: action.value,
                 },
             };
-        case actionTypes.VALIDATE_OBJECT:
+        }
+        case actionTypes.VALIDATE_OBJECT: {
             return {
                 ...state,
                 [action.field]: {
@@ -116,10 +117,12 @@ function inputsReducer(state, action) {
                     blur: action.blur,
                 },
             };
-        default:
+        }
+        default: {
             console.error('Unknown action: ' + action.type);
             console.warn('you not added action.type: ' + action.type + ' add and try');
             return state;
+        }
     }
 }
 
@@ -139,6 +142,7 @@ export default function MetaTagsGenrator() {
         primaryLanguage,
         primaryLanguageManual,
         finalOutput,
+        finalOutputBtnDisalbed,
         boilerPlate,
         headTitle,
         copyBtnDisabled,
@@ -301,11 +305,15 @@ export default function MetaTagsGenrator() {
         };
 
         function showWaningToast(warningText, time = 3000) {
-            toast.warn(warningText, {
-                position: 'bottom-right',
-                theme: 'dark',
-                autoClose: time,
-            });
+            if (!finalOutputBtnDisalbed) {
+                toast.warn(warningText, {
+                    onOpen: () => UPDATE_INPUT('finalOutputBtnDisalbed', true),
+                    position: 'bottom-right',
+                    theme: 'dark',
+                    autoClose: time,
+                    onClose: () => UPDATE_INPUT('finalOutputBtnDisalbed', false),
+                });
+            }
         }
 
         if (boilerPlate) {
@@ -356,7 +364,7 @@ export default function MetaTagsGenrator() {
         }
 
         if (revisitDays) {
-            output += '    <meta name="revisit-after" content="' + revisitDays + ' days">\n'; //check description spelling 
+            output += '    <meta name="revisit-after" content="' + revisitDays + ' days">\n';
         }
 
         if (author.trim()) {
@@ -392,7 +400,6 @@ export default function MetaTagsGenrator() {
         output += Object.entries(ogImagesInputs).filter(([_, link]) => link.trim() !== "") // lint error ignorable 
             .map(([_, link]) => `    <meta property="og:image" content="${link}">`).join('\n'); // lint error ignorable 
 
-
         if (
             ((ogLocaleManual.trim() !== '' || ogLocaleAlternateManual.trim() !== '') && ogLocaleManual.trim() !== ogLocaleAlternateManual.trim() && ogLocale === 'manual' && ogLocaleAlternate === 'manual') ||
             (ogLocale !== ogLocaleAlternate && ogLocale !== ogLocaleAlternateManual.trim() && ogLocaleAlternate !== ogLocaleManual.trim())
@@ -417,11 +424,11 @@ export default function MetaTagsGenrator() {
             (ogLocale === 'manual' && ogLocaleAlternate === 'manual') &&
             (ogLocaleManual.trim() === '' && ogLocaleAlternateManual.trim() === '')
         ) {
-            showWaningToast('Open Graph Primary Locale and Alternate Inputs are Empty!!', 3800)
+            showWaningToast('Open Graph Primary Locale and Alternate Inputs are Empty!!', 3800);
         } else if (ogLocale === 'none' && ogLocaleAlternate === 'none') {
             null // if not used like this else condition will be excuted
         } else {
-            showWaningToast('Open Graph Primary Locale and Alternate Locale cannot be the same', 3400)
+            showWaningToast('Open Graph Primary Locale and Alternate Locale cannot be the same', 3400);
         }
 
         if (tcType) {
@@ -490,7 +497,7 @@ export default function MetaTagsGenrator() {
         dispatch({ type: actionTypes.UPDATE_OG_IMAGES_INPUTS, payload: { name, value } });
     };
 
-    const validateInput = (input) => {
+    function validateInput(input) {
         const pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
             '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
             '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
@@ -498,7 +505,7 @@ export default function MetaTagsGenrator() {
             '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
             '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
         return !!pattern.test(input);
-    };
+    }
 
     function handleBlur(e) {
         const { name, value } = e.target;
@@ -519,7 +526,7 @@ export default function MetaTagsGenrator() {
         dispatch({ type: actionTypes.SET_OG_IMAGES_INPUT_COUNT, payload: count });
     }
 
-    function hanldeSetLivePreview(previewTab) {
+    function setLivePreview(previewTab) {
         UPDATE_INPUT('livePreview', previewTab);
     }
 
@@ -536,7 +543,7 @@ export default function MetaTagsGenrator() {
         if (numericValue.startsWith('0')) {
             UPDATE_INPUT('revisitDays', numericValue);
             UPDATE_INPUT('revisitDaysError', 'Minimum value is 1');
-        } else if (parseInt(numericValue) > 120) { // Check if the value is greater than 120
+        } else if (parseInt(numericValue) > 120) {
             UPDATE_INPUT('revisitDays', numericValue);
             UPDATE_INPUT('revisitDaysError', 'Keep robots revisit below 120 for SEO');
         } else {
@@ -579,14 +586,15 @@ export default function MetaTagsGenrator() {
                     <div style={styles.flexStrech}>
                         <Input
                             name="headTitle"
-                            showError={headTitle.length > 50}
-                            tooltipError={`Siggested Character Limit is 50 entered ${headTitle.length}`}
+                            showError={headTitle.trim().length > 50}
+                            tooltipError={`Siggested Character Limit is 50 entered ${headTitle.trim().length}`}
                             label="Head Title:"
                             value={headTitle}
                             placeholder="Head title must be within 50 characters"
                             onChange={UPDATE_INPUT}
                             elementHeight="48px"
                             styles={{ height: '24px' }}
+                            tooltipPosition={{ bottom: '27px', left: '76px' }}
                         />
                     </div>
                 )}
@@ -595,12 +603,13 @@ export default function MetaTagsGenrator() {
                         name="title"
                         label="Site Title:"
                         value={title}
-                        showError={title.length > 70}
-                        tooltipError={`Suggested Character Limit is 70 entered ${title.length}`}
+                        showError={title.trim().length > 70}
+                        tooltipError={`Suggested Character Limit is 70 entered ${title.trim().length}`}
                         placeholder="Title must be within 70 characters"
                         onChange={UPDATE_INPUT}
                         elementHeight="48px"
                         styles={{ height: '24px' }}
+                        tooltipPosition={{ top: '1px', left: '70px' }}
                     />
                 </div>
                 <div style={{ ...styles.flexStrech, height: '90px' }}>
@@ -609,10 +618,11 @@ export default function MetaTagsGenrator() {
                         label="Site Description"
                         elementType="textarea"
                         value={description}
-                        showError={description.length > 150}
-                        tooltipError={`Suggested Character Limit is 150 entered ${description.length}`}
+                        showError={description.trim().length > 150}
+                        tooltipError={`Suggested Character Limit is 150 entered ${description.trim().length}`}
                         placeholder="Description must be within 150 characters"
                         onChange={UPDATE_INPUT}
+                        divStyles={{ flexGrow: '3' }}
                     />
                     <Input
                         name="keywords"
@@ -621,6 +631,7 @@ export default function MetaTagsGenrator() {
                         value={keywords}
                         placeholder="keyword1, keyword2, keyword3"
                         onChange={UPDATE_INPUT}
+                        divStyles={{ flexGrow: '1' }}
                     />
                 </div>
                 <div style={styles.flexStrech}>
@@ -634,6 +645,7 @@ export default function MetaTagsGenrator() {
                         onBlur={() => validateUrl('canonicalUrl')}
                         placeholder="Enter canonical URL..."
                         elementHeight="35%"
+                        tooltipPosition={{ bottom: '4px' }}
                     />
                 </div>
                 <div style={{ display: 'flex' }}>
@@ -733,7 +745,7 @@ export default function MetaTagsGenrator() {
                                 placeholder="Title of your content"
                                 onChange={UPDATE_INPUT}
                                 styles={{ height: '26px', ...ogInputsFocused }}
-                                onFocus={() => hanldeSetLivePreview(1)}
+                                onFocus={() => setLivePreview(1)}
                             />
                         </div>
                         <div style={{ height: '60px' }}>
@@ -745,7 +757,7 @@ export default function MetaTagsGenrator() {
                                 placeholder="Name of your website or brand"
                                 onChange={UPDATE_INPUT}
                                 styles={{ height: '26px' }}
-                                onFocus={() => hanldeSetLivePreview(1)}
+                                onFocus={() => setLivePreview(1)}
                             />
                         </div>
                     </div>
@@ -756,11 +768,12 @@ export default function MetaTagsGenrator() {
                             elementType="textarea"
                             value={ogDescription}
                             placeholder="Description must be within 200 characters"
-                            showError={ogDescription.length > 200}
-                            tooltipError={`Suggested Character Limit is 200 entered ${ogDescription.length}`}
+                            showError={ogDescription.trim().length > 200}
+                            tooltipError={`Suggested Character Limit is 200 entered ${ogDescription.trim().length}`}
                             onChange={UPDATE_INPUT}
-                            styles={ogInputsFocused}
-                            onFocus={() => hanldeSetLivePreview(1)}
+                            styles={{ ...ogInputsFocused, height: '86px' }}
+                            onFocus={() => setLivePreview(1)}
+                            tooltipPosition={{ bottom: '59px', left: '87px' }}
                         />
                     </div>
                 </div>
@@ -769,7 +782,7 @@ export default function MetaTagsGenrator() {
                         label="Primary Locale:"
                         value={ogLocale}
                         onChange={e => changeOgLocaleAndClear('ogLocale', e.target.value)}
-                        onFocus={() => hanldeSetLivePreview(1)}
+                        onFocus={() => setLivePreview(1)}
                         options={ogLocaleOptions}
                         inputName="ogLocaleManual"
                         inputPlaceholder="Enter Pramary Locale"
@@ -782,7 +795,7 @@ export default function MetaTagsGenrator() {
                         label="Alternate Locale:"
                         value={ogLocaleAlternate}
                         onChange={e => changeOgLocaleAndClear('ogLocaleAlternate', e.target.value)}
-                        onFocus={() => hanldeSetLivePreview(1)}
+                        onFocus={() => setLivePreview(1)}
                         options={ogLocaleOptions}
                         inputName="ogLocaleAlternateManual"
                         inputPlaceholder="Enter Pramary Locale"
@@ -803,9 +816,10 @@ export default function MetaTagsGenrator() {
                             showError={ogUrl.isValid && ogUrl.blur}
                             placeholder="URL of your website"
                             onChange={handleUrlChange}
-                            onFocus={() => hanldeSetLivePreview(1)}
+                            onFocus={() => setLivePreview(1)}
                             onBlur={() => validateUrl('ogUrl')}
                             styles={{ height: '26px', ...ogInputsFocused }}
+                            tooltipPosition={{ bottom: '12px', left: '68px' }}
                         />
                     </div>
                     <div style={{ flexGrow: '1', height: '60px', display: 'flex', width: '54%', paddingTop: '9px' }}>
@@ -815,7 +829,7 @@ export default function MetaTagsGenrator() {
                             value={ogType}
                             onChange={UPDATE_INPUT}
                             options={ogTypeOptions}
-                            onFocus={() => hanldeSetLivePreview(1)}
+                            onFocus={() => setLivePreview(1)}
                         />
                         <div style={{ height: '100px', marginLeft: '5px', marginRight: '5px', width: '46%', }}>
                             <label style={styles.label} htmlFor="ogNumberOfImages">Number of Images</label>
@@ -870,6 +884,7 @@ export default function MetaTagsGenrator() {
                                 placeholder={`Image URL ${index + 1}`}
                                 onChange={handleInputChange}
                                 onBlur={e => handleBlur(e)}
+                                onFocus={() => setLivePreview(1)}
                                 style={{
                                     marginTop: '5px', marginBottom: `2px`, width: '100%', height: '20px',
                                     borderRadius: '5px', resize: 'none', ...ogInputsFocused
@@ -883,14 +898,17 @@ export default function MetaTagsGenrator() {
                     <div style={{ flexGrow: '1', }}>
                         <Input
                             name="tcTitle"
-                            label="Site Title (Characters left: 70):"
+                            label="Site Title:"
                             elementType="input"
                             value={tcTitle}
+                            showError={tcTitle.trim().length > 70}
+                            tooltipError={`Suggested Character Limit is 70 entered ${tcTitle.trim().length}`}
                             placeholder="Title must be within 70 Characters"
                             onChange={UPDATE_INPUT}
-                            onFocus={() => hanldeSetLivePreview(2)}
+                            onFocus={() => setLivePreview(2)}
                             styles={{ height: '26px' }}
                             elementHeight="40%"
+                            tooltipPosition={{ left: '65px' }}
                         />
                         <div style={{ height: '60px' }}>
                             <Input
@@ -903,8 +921,9 @@ export default function MetaTagsGenrator() {
                                 onBlur={() => validateUrl('tcUrl')}
                                 placeholder="URL of your website"
                                 onChange={handleUrlChange}
-                                onFocus={() => hanldeSetLivePreview(2)}
+                                onFocus={() => setLivePreview(2)}
                                 styles={{ height: '26px', ...tcInputFocused }}
+                                tooltipPosition={{ bottom: '12px', left: '57px' }}
                             />
                         </div>
                     </div>
@@ -916,11 +935,12 @@ export default function MetaTagsGenrator() {
                                 elementType="input"
                                 value={tcUserName}
                                 placeholder=" UserName must be within 60 Characters"
-                                showError={tcUserName.length > 60}
-                                tooltipError={`Suggested Character Limit is 60 entered ${tcUserName.length}`}
+                                showError={tcUserName.trim().length > 60}
+                                tooltipError={`Suggested Character Limit is 60 entered ${tcUserName.trim().length}`}
                                 onChange={UPDATE_INPUT}
-                                onFocus={() => hanldeSetLivePreview(2)}
+                                onFocus={() => setLivePreview(2)}
                                 styles={{ height: '26px' }}
+                                tooltipPosition={{ bottom: '12px', left: '108px' }}
                             />
                         </div>
                         <div style={{ height: '60px' }}>
@@ -929,7 +949,7 @@ export default function MetaTagsGenrator() {
                                 label="Type:"
                                 value={tcType}
                                 onChange={UPDATE_INPUT}
-                                onFocus={() => hanldeSetLivePreview(2)}
+                                onFocus={() => setLivePreview(2)}
                                 options={tcTypeOptions}
                                 styles={{ marginTop: '10px', height: '20px', width: '97%' }}
                             />
@@ -946,8 +966,9 @@ export default function MetaTagsGenrator() {
                         onBlur={() => validateUrl('tcImgUrl')}
                         placeholder="with http:// or https://"
                         onChange={handleUrlChange}
-                        onFocus={() => hanldeSetLivePreview(2)}
+                        onFocus={() => setLivePreview(2)}
                         styles={{ height: '26px', ...tcInputFocused }}
+                        tooltipPosition={{ bottom: '22px', left: '79px' }}
                     />
                 </div>
                 <div style={styles.flexStrech}>
@@ -957,10 +978,11 @@ export default function MetaTagsGenrator() {
                         elementType="textarea"
                         value={tcDescription}
                         placeholder="Up to 200 characters"
-                        showError={tcDescription.length > 200}
-                        tooltipError={`Suggested Character Limit is 200 entered ${tcDescription.length}`}
+                        showError={tcDescription.trim().length > 200}
+                        tooltipError={`Suggested Character Limit is 200 entered ${tcDescription.trim().length}`}
                         onChange={UPDATE_INPUT}
-                        onFocus={() => hanldeSetLivePreview(2)}
+                        onFocus={() => setLivePreview(2)}
+                        tooltipPosition={{ bottom: '52px', left: '91px' }}
                     />
                 </div>
             </div>
@@ -1037,6 +1059,8 @@ function Input({
     showError = false,
     tooltipError = '',
     styles = {},
+    divStyles = {},
+    tooltipPosition = {},
     elementHeight = '60%',
     noDivMargin,
     onFocus,
@@ -1046,7 +1070,7 @@ function Input({
     const style = {
         div: {
             paddingLeft: noDivMargin ? '0' : '5px', paddingRight: noDivMargin ? '0' : '5px', flexGrow: '1',
-            marginBottom: '10px', height: elementHeight
+            marginBottom: '10px', height: elementHeight, position: 'relative', ...divStyles,
         },
         input: {
             marginTop: '5px', marginBottom: '12px', width: '100%', height: '100%',
@@ -1071,9 +1095,11 @@ function Input({
                 <div>
                     <label style={{ color: '#A6A6A6' }} htmlFor={name}>{label + ' '}</label>
                     {showError && value !== '' && (
-                        <div style={style.tooltip}>
-                            <span style={style.tooltipTringle}></span>
-                            {tooltipError.trim() ? tooltipError.trim() : 'Please enter valid url'}
+                        <div style={{ position: 'absolute', bottom: '30px', left: '110px', ...tooltipPosition }}>
+                            <div style={style.tooltip}>
+                                <span style={style.tooltipTringle}></span>
+                                {tooltipError.trim() ? tooltipError.trim() : 'Please enter valid url'}
+                            </div>
                         </div>
                     )}
                 </div>
@@ -1084,7 +1110,6 @@ function Input({
                 value={value}
                 type={type}
                 onChange={name ? e => onChange(name, type === 'url' ? e : e.target.value) : onChange}
-                // onBlur={name ? () => onBlur(name) : onBlur} // preventgin problem 
                 onBlur={onBlur}
                 placeholder={'   ' + placeholder}
                 rows={elementType === 'textarea' ? 3 : null}
@@ -1106,6 +1131,8 @@ Input.propTypes = {
     showError: PropTypes.bool,
     tooltipError: PropTypes.string,
     styles: PropTypes.object,
+    divStyles: PropTypes.object,
+    tooltipPosition: PropTypes.object,
     elementHeight: PropTypes.string,
     noDivMargin: PropTypes.bool,
     onFocus: PropTypes.func,

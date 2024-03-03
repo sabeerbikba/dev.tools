@@ -7,6 +7,7 @@ import {
     AccordionItemButton,
     AccordionItemPanel
 } from 'react-accessible-accordion';
+
 import { baseUrl, websites } from '../data/websites';
 
 export default function Websites() {

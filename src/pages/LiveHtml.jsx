@@ -2,7 +2,7 @@ import MonacoEditor from '@monaco-editor/react';
 import { useState } from 'react';
 
 import useLocalStorage from "../hooks/useLocalStorage";
-import CopyBtn from '../components/CopyBtn';
+import CopyBtn from '../common/CopyBtn';
 
 export default function LiveHtml() {
     const [copyBtnDisabled, setCopyBtnDisabled] = useState(false);

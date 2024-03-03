@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
+
 import { findNearestNumber } from '../utils/findNearestNumber';
-import CopyBtn from '../components/CopyBtn';
+import CopyBtn from '../common/CopyBtn';
 
 const tailwindUnits = [
     0, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 20, 24,

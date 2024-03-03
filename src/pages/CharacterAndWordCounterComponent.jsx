@@ -2,7 +2,7 @@ import { useEffect, useReducer } from "react";
 import MonacoEditor from '@monaco-editor/react'
 
 import Selector from "../common/Selector";
-import CopyBtn from "../components/CopyBtn";
+import CopyBtn from '../common/CopyBtn';
 
 const FilterOption = {
     Character: "Character",
@@ -33,8 +33,9 @@ const initilaState = {
 
 function charctedCounterReducer(state, action) {
     switch (action.type) {
-        case actionTypes.UPDATE_VALUE:
+        case actionTypes.UPDATE_VALUE: {
             return { ...state, [action.field]: action.value };
+        }
         default:
             console.error('Unknown action: ' + action.type);
             console.warn('you not added action.type: ' + action.type + ' add and try');

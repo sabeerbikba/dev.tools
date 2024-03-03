@@ -1,7 +1,6 @@
 import { useRef, useEffect } from 'react';
-import grapesjs from 'grapesjs';
-import 'grapesjs/dist/css/grapes.min.css';
 import gjsblockbasic from 'grapesjs-blocks-basic'
+import grapesjs from 'grapesjs';
 import gjsPresetWebpage from 'grapesjs-preset-webpage';
 import gjsPresetNewsletter from 'grapesjs-preset-newsletter';
 import gjsForms from 'grapesjs-plugin-forms';
@@ -13,6 +12,7 @@ import plugin3 from 'grapesjs-style-gradient';
 import gjsStyleFilter from 'grapesjs-style-filter';
 import gjsStyleBg from 'grapesjs-style-bg';
 import gjsPluginExport from 'grapesjs-plugin-export';
+import 'grapesjs/dist/css/grapes.min.css';
 
 export default function GrapesJSEditor() {
   const editorRef = useRef(null);

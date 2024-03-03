@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import * as CryptoJS from "crypto-js";
 
 import TextArea from "../common/TextArea";
-import CopyBtn from "../components/CopyBtn";
+import CopyBtn from '../common/CopyBtn';
 
 const initialState = {
     input: '',
@@ -33,11 +33,13 @@ const actionTypes = {
 
 function hashGenratorReducer(state, action) {
     switch (action.type) {
-        case actionTypes.UPDATE_VALUE:
+        case actionTypes.UPDATE_VALUE: {
             return { ...state, [action.field]: action.value };
-        case actionTypes.CLEAR_INPUTS:
+        }
+        case actionTypes.CLEAR_INPUTS: {
             return initialState;
-        case actionTypes.CONTROL_COPY_BUTTON:
+        }
+        case actionTypes.CONTROL_COPY_BUTTON: {
             return {
                 ...state,
                 copyBtnDisabled: {
@@ -45,10 +47,12 @@ function hashGenratorReducer(state, action) {
                     [action.field]: action.value,
                 },
             };
-        default:
+        }
+        default: {
             console.error('Unknown action: ' + action.type);
             console.warn('you not added action.type: ' + action.type + ' add and try');
             return state;
+        }
     }
 }
 
@@ -108,7 +112,6 @@ export default function HashGeneratorComponent() {
             <TextArea
                 initialInput="hello world"
                 onInputChange={(input) => {
-                    // setInput(input);
                     UPDATE_VALUE('input', input);
                     generateHashes(input);
                 }}

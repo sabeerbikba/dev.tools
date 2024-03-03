@@ -12,7 +12,7 @@ export default function CopyBtn({
 
     async function handleCopyBtn() {
         try {
-            setCopyBtnDisabled(true); // Use setIsCopyBtnDisabled from props
+            setCopyBtnDisabled(true);
             await navigator.clipboard.writeText(copyText);
             toast.success('text-copied', {
                 position: 'bottom-right',
@@ -21,7 +21,7 @@ export default function CopyBtn({
                 onClose: () => setCopyBtnDisabled(false),
             });
         } catch {
-            setCopyBtnDisabled(true); // Use setIsCopyBtnDisabled from props
+            setCopyBtnDisabled(true);
             toast.warn('text-not-copied', {
                 position: 'bottom-right',
                 theme: 'dark',

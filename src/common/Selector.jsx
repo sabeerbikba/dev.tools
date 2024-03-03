@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function Selector({ title, values, handleClick }) {
     return (
         <div className="flex gap-4 items-center">
@@ -26,3 +28,11 @@ export default function Selector({ title, values, handleClick }) {
         </div>
     );
 }
+Selector.propTypes = {
+    title: PropTypes.string,
+    values: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.string.isRequired,
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    })).isRequired,
+    handleClick: PropTypes.func.isRequired,
+};
