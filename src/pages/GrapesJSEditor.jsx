@@ -20,27 +20,29 @@ export default function GrapesJSEditor() {
   };
 
   return (
-    <GjsEditor
-      grapesjs={grapesjs}
-      options={{
-        height: '100vh',
-        storageManager: false,
-        plugins: [
-          plugin3,
-          gjsblockbasic,
-          gjsPresetWebpage,
-          gjsForms,
-          gjsPresetNewsletter,
-          gjsLorySlider,
-          gjsTabs,
-          customCodePlugin,
-          plugin2,
-          gjsStyleFilter,
-          gjsStyleBg,
-          gjsPluginExport,
-        ]
-      }}
-      onEditor={onEditor}
-    />
+    <main style={{ minWidth: '1620px' }}>
+      <GjsEditor
+        grapesjs={grapesjs}
+        options={{
+          height: '100vh',
+          storageManager: false,
+          plugins: [
+            plugin3,
+            gjsblockbasic,
+            gjsPresetWebpage,
+            gjsForms,
+            gjsPresetNewsletter,
+            gjsLorySlider,
+            gjsTabs,
+            customCodePlugin,
+            plugin2,
+            gjsStyleFilter,
+            gjsStyleBg,
+            gjsPluginExport,
+          ]
+        }}
+        onEditor={onEditor}
+      />
+    </main>
   );
 }

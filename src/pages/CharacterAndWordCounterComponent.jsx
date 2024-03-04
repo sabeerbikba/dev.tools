@@ -86,7 +86,7 @@ export default function CharacterAndWordCounterComponent() {
     };
 
     return (
-        <main className="flex gap-4 p-4 h-full">
+        <main className="flex gap-4 p-4 h-full" style={{ minWidth: '1620px' }}>
             <div className="w-full h-full">
                 <div className="flex justify-between items-center mb-4 gap-4">
                     <div className="flex gap-4 items-center">

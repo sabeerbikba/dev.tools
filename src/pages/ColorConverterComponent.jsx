@@ -377,7 +377,7 @@ export default function ColorConverterComponent() {
     }
 
     return (
-        <main style={{ userSelect: 'none' }} className='flex flex-col gap-4 p-4'>
+        <main style={{ userSelect: 'none', minWidth: '1620px' }} className='flex flex-col gap-4 p-4'>
             <Output4CC
                 title="RGB"
                 colorCode={rgb}

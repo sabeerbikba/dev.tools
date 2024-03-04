@@ -112,7 +112,7 @@ export default function StringConverterComponent() {
   }
 
   return (
-    <main className={tailwindcss.main}>
+    <main className={tailwindcss.main} style={{ minWidth: '1620px' }}>
       <TextArea
         initialInput="snake_case_to_camel_case"
         onInputChange={(input) => {

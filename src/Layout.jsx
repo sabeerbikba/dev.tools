@@ -18,7 +18,7 @@ export default function Layout() {
                     <li><NavLink className={classs} to="/ QrCodeGenerator"> QRCodeGenerator</NavLink></li>
                     <li><NavLink className={classs} to="Websites">Websites</NavLink></li>
                     <li><NavLink className={classs} to="/HashGenerator">HashGenerator</NavLink></li>
-                    <li><NavLink className={classs} to="Test" >Test</NavLink></li>
+                    {/* <li><NavLink className={classs} to="Test" >Test</NavLink></li> */}
                 </ul>
             </nav>
             <div className="main">

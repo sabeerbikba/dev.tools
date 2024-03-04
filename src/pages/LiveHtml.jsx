@@ -17,7 +17,7 @@ export default function LiveHtml() {
     }
 
     const styles = {
-        main: { width: '100%', height: '100%', display: 'flex' },
+        main: { width: '100%', height: '100%', display: 'flex', minWidth: '1620px' },
         div50: { width: '50%', height: '100%', display: 'flex', flexDirection: 'column', background: '#808080cc' },
         btnDiv: { display: 'flex', justifyContent: 'space-around', height: '5%' },
         btn: { width: '35%', height: '92%' },

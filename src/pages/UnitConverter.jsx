@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
+import { toast } from 'react-toastify';
 
 import { findNearestNumber } from '../utils/findNearestNumber';
 import CopyBtn from '../common/CopyBtn';
@@ -19,6 +20,7 @@ export default function UnitConverter() {
     const [em, setEm] = useState(0);
     const [px, setPx] = useState(0);
     const [tw, setTw] = useState(0);
+    const [showError, setShowError] = useState(false)
 
     const [style, setStyle] = useState({ '--w': `${px}px` });
 
@@ -29,13 +31,29 @@ export default function UnitConverter() {
         setStyle({ '--w': `${px}px` });
     }, [px]);
 
+    function showWaningToast() {
+        if (!showError) {
+            toast.warn('Only number are allowed!!', {
+                onOpen: () => setShowError(true),
+                position: 'bottom-right',
+                theme: 'dark',
+                autoClose: 2600,
+                onClose: () => setShowError(false),
+            });
+        }
+    }
+
     return (
-        <main className="flex flex-col gap-8 p-4">
+        <main className="flex flex-col gap-8 p-4" style={{ minWidth: '1620px' }}>
             <div className="flex flex-col gap-2">
                 <UnitInput
                     name="em"
                     value={em}
                     onChange={(n, d) => {
+                        if (!/^\d+$/.test(n)) {
+                            showWaningToast();
+                            return;
+                        }
                         if (!d && n !== null) {
                             setPx(emToPx(n));
                         }
@@ -45,6 +63,10 @@ export default function UnitConverter() {
                     name="px"
                     value={px}
                     onChange={(n, d) => {
+                        if (!/^\d+$/.test(n)) {
+                            showWaningToast();
+                            return;
+                        }
                         if (!d && n !== null) {
                             setPx(n);
                         }
@@ -54,6 +76,10 @@ export default function UnitConverter() {
                     name="Tailwind"
                     value={tw}
                     onChange={(n, d) => {
+                        if (!/^\d+$/.test(n)) {
+                            showWaningToast();
+                            return;
+                        }
                         if (!d && n !== null) {
                             setPx(twToPx(n));
                         }
@@ -107,7 +133,7 @@ function UnitInput(props) {
                     copyText={value}
                     setCopyBtnDisabled={isDisabled => setCopyBtnDisabled(isDisabled)}
                     copyBtnDisabled={copyBtnDisabled || value === 0}
-                    styles={{width: '90px', height: '40px'}}
+                    styles={{ width: '90px', height: '40px' }}
                 />
             </div>
         </div>

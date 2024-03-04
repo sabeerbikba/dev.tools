@@ -567,7 +567,7 @@ export default function MetaTagsGenrator() {
     }
 
     const styles = {
-        main: { height: '100%', width: '100%', display: 'flex', },
+        main: { height: '100%', width: '100%', display: 'flex', minWidth: '1620px' },
         mainDiv2: { width: '50%', height: 'auto', display: 'flex', flexDirection: 'column', padding: '14px' },
         flexStrech: { display: 'flex', alignItems: 'stretch' },
         label: { color: '#A6A6A6' },
@@ -576,6 +576,14 @@ export default function MetaTagsGenrator() {
             marginRight: '5px', borderRadius: '5px', color: 'white'
         },
         h60px: { height: '60px', marginBottom: '10px' },
+        toolTip: {
+            marginLeft: '25px', display: 'inline', border: '2px solid orange', color: 'white', borderRadius: '8px',
+            padding: '7px', fontSize: '0.85rem', backgroundColor: 'rgba(255, 87, 34, 0.1)'
+        },
+        tooltipTringle: {
+            position: 'relative', left: '-25px', bottom: '-3px', display: 'inline-block', width: 0, height: 0,
+            borderTop: '7px solid transparent', borderBottom: '7px solid transparent', borderRight: '10px solid orange',
+        },
     }
 
     return (
@@ -698,27 +706,8 @@ export default function MetaTagsGenrator() {
                     />
                     <span style={styles.label}>days</span>
                     {revisitDaysError && (
-                        <div style={{
-                            marginLeft: '25px',
-                            display: 'inline',
-                            border: '2px solid orange',
-                            color: 'white',
-                            borderRadius: '8px',
-                            padding: '7px',
-                            fontSize: '0.85rem',
-                            backgroundColor: 'rgba(255, 87, 34, 0.1)'
-                        }}>
-                            <span style={{
-                                position: 'relative',
-                                left: '-25px',
-                                bottom: '-3px',
-                                display: 'inline-block',
-                                width: 0,
-                                height: 0,
-                                borderTop: '7px solid transparent',
-                                borderBottom: '7px solid transparent',
-                                borderRight: '10px solid orange',
-                            }}></span>
+                        <div style={styles.toolTip}>
+                            <span style={styles.tooltipTringle}></span>
                             {revisitDaysError}
                         </div>
                     )}

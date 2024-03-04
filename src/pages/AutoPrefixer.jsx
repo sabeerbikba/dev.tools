@@ -182,7 +182,7 @@ export default function AutoPrefixerTool() {
         lineNumber: true,
     };
 
-    const styles = { // if found same value give single name for it 
+    const styles = {
         main: 'monaco-container', inputDiv: 'monaco-style monaco-editor',
         inputHead: "flex justify-between items-center mb-4 gap-4 h-12",
         inputHeadFlex: "flex gap-4 items-center", inputHeadText: "font-bold text-xl text-white",
@@ -199,7 +199,7 @@ export default function AutoPrefixerTool() {
     }
 
     return (
-        <main className={styles.main}>
+        <main className={styles.main} style={{ minWidth: '1620px' }}>
             <div className={styles.inputDiv}>
                 <div className={styles.inputHead} style={{ backgroundColor: '#2a2a2a' }}>
                     <div className={styles.inputHeadFlex}>

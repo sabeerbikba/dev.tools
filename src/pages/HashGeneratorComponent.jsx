@@ -108,7 +108,7 @@ export default function HashGeneratorComponent() {
     }
 
     return (
-        <main className={tailwindcss.main}>
+        <main className={tailwindcss.main} style={{ minWidth: '1620px' }}>
             <TextArea
                 onInputChange={(input) => {
                     UPDATE_VALUE('input', input);

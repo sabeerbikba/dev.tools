@@ -20,13 +20,15 @@ export default function Websites() {
     }
 
     return (
-        <Accordion className='accordion4Web' allowZeroExpanded={true} preExpanded={expandedSections.filter((expanded) => expanded)} onChange={handleAccordionChange}>
-            {Object.keys(websites).map((website, index) => (
-                <AccordionItem className='accordion-item4Web' key={index}>
-                    <AccordionGenrator heading={website} index={index} />
-                </AccordionItem>
-            ))}
-        </Accordion>
+        <main style={{ minWidth: '1620px' }}>
+            <Accordion className='accordion4Web' allowZeroExpanded={true} preExpanded={expandedSections.filter((expanded) => expanded)} onChange={handleAccordionChange}>
+                {Object.keys(websites).map((website, index) => (
+                    <AccordionItem className='accordion-item4Web' key={index}>
+                        <AccordionGenrator heading={website} index={index} />
+                    </AccordionItem>
+                ))}
+            </Accordion>
+        </main>
     );
 }
 
