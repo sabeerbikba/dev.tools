@@ -13,7 +13,7 @@ export default function CopyBtn({
     async function handleCopyBtn() {
         try {
             setCopyBtnDisabled(true);
-            await navigator.clipboard.writeText(copyText);
+            await navigator.clipboard.writeText(copyText.toString());
             toast.success('text-copied', {
                 position: 'bottom-right',
                 theme: 'dark',
@@ -62,7 +62,7 @@ export default function CopyBtn({
 
 CopyBtn.propTypes = {
     btnText: PropTypes.string,
-    copyText: PropTypes.string.isRequired,
+    copyText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     styles: PropTypes.object,
     svg: PropTypes.bool,
     setCopyBtnDisabled: PropTypes.func,

@@ -53,7 +53,7 @@ export default function LiveHtml() {
             </div>
             <div style={styles.iframeDiv}>
                 <iframe
-                    srcDoc={code}
+                    srcDoc={`<html><head></head><body style="color: white;">${code}</body></html>`}
                     title="Live Preview"
                     width={'100%'}
                     height={'100%'}

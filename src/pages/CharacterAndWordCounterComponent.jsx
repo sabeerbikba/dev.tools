@@ -67,6 +67,7 @@ export default function CharacterAndWordCounterComponent() {
             case FilterOption.Line:
                 UPDATE_VALUE('count', input.trim().split("\n").length);
                 UPDATE_VALUE('output', input);
+                break;
             default:
                 break;
         }
@@ -84,10 +85,8 @@ export default function CharacterAndWordCounterComponent() {
         lineNumber: true,
     };
 
-    console.log(copyBtnDisabled);
-
     return (
-        <div className="flex gap-4 m-4 h-full">
+        <main className="flex gap-4 p-4 h-full">
             <div className="w-full h-full">
                 <div className="flex justify-between items-center mb-4 gap-4">
                     <div className="flex gap-4 items-center">
@@ -107,15 +106,13 @@ export default function CharacterAndWordCounterComponent() {
                     value={input}
                     onChange={codeIn => UPDATE_VALUE('input', codeIn)}
                     options={options}
-                    height={'95vh'}
+                    height={'91.3vh'}
                 />
             </div>
-
             <div className="w-full h-full">
                 <div className="flex items-center mb-4 gap-4 justify-between">
                     <p className="font-bold text-xl text-white"> Output: </p>
                     <div className="flex gap-4 items-center justify-end w-full">
-
                         {currentFilterOption === FilterOption.CustomDelimiter && (
                             <input
                                 className={`block w-1/4 rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-gray-600`}
@@ -143,9 +140,9 @@ export default function CharacterAndWordCounterComponent() {
                     theme="vs-dark"
                     options={{ ...options, readOnly: true }}
                     value={output}
-                    height={'95vh'}
+                    height={'91vh'}
                 />
             </div>
-        </div>
+        </main>
     );
 }

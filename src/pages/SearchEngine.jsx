@@ -9,7 +9,7 @@ import {
 } from 'react-accessible-accordion';
 
 import useLocalStorage from '../hooks/useLocalStorage';
-import searchEngines, { defaultImgClassName, files } from '../data/searchEngine';
+import searchEngines, { files } from '../data/searchEngine';
 
 const actionTypes = {
     SET_SEARCH_QUERY: 'SET_SEARCH_QUERY',
@@ -119,7 +119,7 @@ export default function SearchEngine() {
 
         const finalSearchQuery = encodeURIComponent(addQuery);
         const searchUrl = `${selectedEngine.url}${finalSearchQuery}`;
-        window.open(searchUrl, '_blank');
+        window.open(searchUrl, '__blank');
     }
 
     function handleFileChange(event) {
@@ -157,7 +157,6 @@ export default function SearchEngine() {
             const keyEndIndex = inputValue.indexOf(" ", keyStartIndex);
             const key = inputValue.substring(keyStartIndex, keyEndIndex !== -1 ? keyEndIndex : undefined).trim();
             const keyLowerCase = key.toLowerCase();
-
 
             if (keyLowerCase === '!!clear') {
                 dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: "" });
@@ -229,7 +228,6 @@ export default function SearchEngine() {
         const inputCode = code;
         let newSelectedEngine = null;
 
-        // if (inputCode.includes("!!") && inputCode.endsWith(' ')) {
         if (/!![\w\d\S]*\s$/gi.test(inputCode)) {
             const keyStartIndex = inputCode.indexOf("!!");
             const keyEndIndex = inputCode.indexOf(" ", keyStartIndex);
@@ -363,32 +361,31 @@ export default function SearchEngine() {
         if (shouldFocusEditor && editorRef.current) {
             editorRef.current.focus();
             editorRef.current.revealLineInCenter(1);
-            dispatch({ type: 'actionTypes.SET_SHOULD_FOCUS_EDITOR', payload: false })
+            dispatch({ type: actionTypes.SET_SHOULD_FOCUS_EDITOR, payload: false })
         }
     }, [shouldFocusEditor]);
 
     const tailwindcss = {
-        main: 'm-4 flex h-full w-full',
+        main: 'pl-4 pt-4 flex h-full w-full',
         main2: 'box-border',
         selectDiv: ' flex items-center mb-4 gap-4 h-12',
         p: "font-bold text-xl text-white",
         select: `w-fit rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6`,
         textArea: 'resize-none px-4 py-2 rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 ',
-        btn: 'rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 h-12',
+        btn: 'rounded-md bg-indigo-500 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 h-12',
         img: 'inline h-4 mr-1.5',
         textWhite: 'text-white'
     };
 
     const styles = {
-        'textArea': { width: '96%', height: '18%' },
-        'editorDiv': { height: '69%', width: '96%', border: '1px solid white', fontSize: ' 5px' },
-        'imgDiv': { marginRight: '30%', marginLeft: '10%' },
-        'mainDiv2': { height: '96%', width: '38%' },
-        'descreptionDiv': { marginTop: '40px', textAlign: 'center', width: '94.5%' },
+        textArea: { width: '96%', height: '18%' },
+        editorDiv: { height: '69%', width: '96%', border: '1px solid white', fontSize: ' 5px' },
+        imgDiv: { marginRight: '30%', marginLeft: '10%' },
+        descreptionDiv: { marginTop: '40px', textAlign: 'center', width: '94.5%' },
     }
 
     return (
-        <div className={tailwindcss.main}>
+        <main className={tailwindcss.main}>
             <div className={`${tailwindcss.main2} w-3/5`}>
                 <div className={tailwindcss.selectDiv}>
                     <p className={tailwindcss.p}> InputQuery: </p>
@@ -434,7 +431,7 @@ export default function SearchEngine() {
                     onKeyDown={handleKeyDown}
                     className={tailwindcss.textArea}
                     placeholder="  Enter search query"
-                    style={styles['textArea']}
+                    style={styles.textArea}
                 />
                 {editorVisible && (
                     <div style={styles['editorDiv']}>
@@ -451,15 +448,15 @@ export default function SearchEngine() {
                     </div>
                 )}
             </div >
-            <div className={`${tailwindcss.main2} w-2/5 relative`} style={styles['mainDiv2']}>
+            <div className={`${tailwindcss.main2} w-2/5 relative`} >
                 <div className="mb-2 flex">
                     <button
                         onClick={handleSearch}
                         disabled={btnDisabled}
                         className={`${btnDisabled ? 'btn-disabled' : ''} ${tailwindcss.btn} mr-2 flex pt-3.5`}
-                        style={{ width: '60%' }}
+                        style={{ width: '61.5%' }}
                     >
-                        <div style={styles['imgDiv']} className={`eng-bg-${selectedEngine.imgClassName === '' ? defaultImgClassName : selectedEngine.imgClassName}`}></div>
+                        <div style={styles.imgDiv} className={`eng-bg-${selectedEngine.imgClassName === '' ? 'search' : selectedEngine.imgClassName}`}></div>
                         Search
                     </button>
                     <button
@@ -471,18 +468,21 @@ export default function SearchEngine() {
                     </button>
                 </div>
                 {advanceSearch !== undefined && (
-                    <button className={`${tailwindcss.btn}`} style={{ width: '94.5%' }}>
-                        <a className={tailwindcss.textWhite} href={advanceSearch} target="__blank"> AdvanceSearch</a>
+                    <button
+                        className={tailwindcss.btn}
+                        onClick={() => window.open(advanceSearch, '__blank')}
+                        style={{ width: '96%' }}
+                    >AdvanceSearch
                     </button>
                 )}
                 <div className={tailwindcss.textWhite}>
-                    <div style={styles['descreptionDiv']}>
+                    <div style={styles.descreptionDiv}>
                         {selectedEngine.description}
                     </div>
                     <SearchEngineShortcutsAccordion />
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
 
@@ -543,7 +543,6 @@ function ShortcutComponent() {
             <div className={tailwindcss2.shortcutItem}>
                 <div className={`text-center block mx-auto`}>
                     <span style={style}> ℹ </span>
-                    {/* All this input keys triggered only at last line or end of the input  */}
                     Commands work only when typed at the end of the inputs
                 </div>
             </div>
@@ -626,11 +625,7 @@ function ShortcutComponent() {
     );
 }
 
-
-
 function ShortcutItem({ title, keys }) {
-
-
     return (
         <div className={tailwindcss2.shortcutItem}>
             <div className={tailwindcss2.title}>

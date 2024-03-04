@@ -22,8 +22,6 @@ export default function UnitConverter() {
 
     const [style, setStyle] = useState({ '--w': `${px}px` });
 
-    console.log(px);
-
     useEffect(() => {
         setEm(pxToEm(px));
         setTw(pxToTw(px));
@@ -32,7 +30,7 @@ export default function UnitConverter() {
     }, [px]);
 
     return (
-        <div className="flex flex-col gap-8 m-4">
+        <main className="flex flex-col gap-8 p-4">
             <div className="flex flex-col gap-2">
                 <UnitInput
                     name="em"
@@ -72,7 +70,7 @@ export default function UnitConverter() {
                     </div>
                 </div>
             )}
-        </div>
+        </main>
     );
 }
 

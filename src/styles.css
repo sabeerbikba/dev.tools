@@ -246,7 +246,6 @@ li {
 }
 
 .accordion-panel4Web {
-  /* padding: 0; */
   background-color: #8c8ecc;
   height: 60px;
   width: 100%;
@@ -266,10 +265,11 @@ li {
 
 
 .accordion-panel4WebDiv, .Browser-extensionsDiv {
-  border-bottom: 2px solid #2a2a2a;
+  border-bottom: 0.2px solid #2a2a2a;
   display: flex;
   justify-content: space-between;
   height: 100%;
+  margin-bottom: 2px;
 }
 
 .Browser-extensionsDiv {
@@ -305,12 +305,11 @@ li {
   font-size: 1.2rem;
   border-left: 2px solid black;
   border-radius: 20px 0 0 0;
-
+  color: white;
 }
 
 .accordion-panel4WebBtnLink, .Browser-extensionsBtnLink {
   text-decoration: none;
-  color: white;
 }
 
 .web-bg-image1 {
@@ -622,7 +621,7 @@ li {
 .accordion4Eng {
   position: absolute;
   bottom: 0;
-  width: 94.5%;
+  width: 96%;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 2px;
 }
@@ -719,6 +718,7 @@ hr.hr {
 .accordion_panel4Eng {
   padding: 20px;
   animation: fadein4Eng 0.35s ease-in;
+  /* @apply saturate-0 */
 }
 
 @keyframes fadein4Eng {

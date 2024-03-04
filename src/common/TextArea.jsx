@@ -1,12 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from 'prop-types';
 
 export default function TextArea({ initialInput = "", onInputChange, title = "Input:" }) {
     const [input, setInput] = useState(initialInput);
 
-    useEffect(() => {
-        onInputChange(input);
-    }, [input, onInputChange]);
+    const handleInputChange = (e) => {
+        const inputValue = e.target.value;
+        setInput(inputValue);
+        onInputChange(inputValue);
+    };
+
+    const handleClearInput = () => {
+        setInput("");
+        onInputChange("");
+    };
 
     return (
         <div className="w-full h-full">
@@ -15,7 +22,7 @@ export default function TextArea({ initialInput = "", onInputChange, title = "In
                 <button
                     type="button"
                     className="rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                    onClick={() => setInput("")}
+                    onClick={handleClearInput}
                 >
                     Clear
                 </button>
@@ -24,7 +31,7 @@ export default function TextArea({ initialInput = "", onInputChange, title = "In
                 className="px-8 py-2 block w-full rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 style={{ height: "calc(100% - 44px)" }}
                 value={input}
-                onInput={(e) => setInput(e.currentTarget.value)}
+                onChange={handleInputChange}
             />
         </div>
     );

@@ -4,6 +4,10 @@ import { PhotoshopPicker, SwatchesPicker, HuePicker, AlphaPicker, CirclePicker, 
 import useLocalStorageReducer from "../hooks/useLocalStorageReducer";
 import CopyBtn from '../common/CopyBtn';
 
+/** TODO;
+ * add random color genrator 
+ */
+
 const isHSLColor = /^hsl\(\s*(\d+)\s*,\s*(\d*(?:\.\d+)?%)\s*,\s*(\d*(?:\.\d+)?%)\)$/i;
 
 const initialState = {
@@ -356,7 +360,6 @@ export default function ColorConverterComponent() {
     };
 
     function handleColorPickers(color) {
-        console.log(color.hex);
         try {
             UPDATE_CODE('hex', color.hex);
             UPDATE_CODE('rgb', color.rgb.r + ', ' + color.rgb.g + ', ' + color.rgb.b);
@@ -374,7 +377,7 @@ export default function ColorConverterComponent() {
     }
 
     return (
-        <div style={{ userSelect: 'none' }} className='flex flex-col gap-4 m-4'>
+        <main style={{ userSelect: 'none' }} className='flex flex-col gap-4 p-4'>
             <Output4CC
                 title="RGB"
                 colorCode={rgb}
@@ -440,7 +443,7 @@ export default function ColorConverterComponent() {
                     />
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
 

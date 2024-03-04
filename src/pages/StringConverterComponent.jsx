@@ -103,7 +103,7 @@ export default function StringConverterComponent() {
   };
 
   const tailwindcss = {
-    main: "flex flex-col gap-8 m-4",
+    main: "flex flex-col gap-8 p-4",
     wHFull: "w-full h-full",
     selectorDiv: "flex items-center mb-4 gap-4 justify-between",
     outputText: "font-bold text-xl text-white",

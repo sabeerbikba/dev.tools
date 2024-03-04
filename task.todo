@@ -1,22 +1,13 @@
 ___________________________________________________________________________________________________
 
-need to give better names 
 need to remove extra codes left after removed imports //tool: webpack i think 
 need to add copy code button in grapesjs section checkout grapesjs-plugin-codemirror-with-buttons lib and optimiz styles of the page for smaller screen
 learn how to use @ in improts and use in project after project complete
 need to explore all tools in transform.tools website 
 need to explore more convert tools from the internet
 creat section for beautiful ui lib with npm and docs link if avilable 
-remove unncessary code files that not used any where test working as expented 
-need to remove unuse1 dependencies 
-user-select implemet where need to implemet
-shift to reducer function
-// need to use useReducer in AutoPrefixer component and check everyComponet used reducer where needed 
 need to give fixed width styles in like used in word counter component 
-need to fix all error in log 
-and remove all console.logs 
-need to remove unused dependencies on by one from package.json
-
+need to fix metaTagsGenrator component error to reproducer error shift+s 
 --------------fix--------------------------------------------------------------------------
 ---- SearchEngines.jsx
 * added newly added keys inside shortcuts imporve shortcus tab 
@@ -25,6 +16,7 @@ need to remove unused dependencies on by one from package.json
 * open serach last opened window
 * how to use make button shortcuts
 * try control R and seee the effect fix that 
+* need to add image for you.com
 ---- colorConverterComponent compoenent: 
 * color line 100% width line not reflecting if used that line in color picker
 * also need to add user-select off in that compoenent
@@ -33,12 +25,13 @@ need to remove unused dependencies on by one from package.json
 --------------------------------------------------------------------------------------------
 
 toolsIdea's----------------------------------------------------------------------------------
-* meta tag generator
+// * meta tag generator
 * Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
-* Live preview code editor with support of html and css 
+// * Live preview code editor with support of html and css 
 * featureUpdate: live preview for hugo with editor markdown file live preview of website page will look like after upload css 
 * html beautifier
 * tailwind to cssinjs 
+* color shades genrator in colorConverterComponent
 ---------------------------------------------------------------------------------------------
 
 ____________________________________________________________________________________________________
@@ -56,7 +49,6 @@ tools need to explore if pass then need to add :
  yaml-to-toml.jsx
  json-to-toml.jsx
  json-to-yaml.jsx
-
 __________________________________________________________________________________________________________
 extras:
 convert this typescript next.js code to javascript react.js code 
@@ -97,6 +89,7 @@ urus
 29/02 | 6hr    | added more error for inputs and fixed error of logs and 
 01/03 | 9:30hr | fixed ogLole and ogLocaleAlternate problem and added created reusable copy button used everywhere in code 
 02/03 | 9.20hr | impreoved autoprefixer coponent, used best practices for reducer, fixed handleFinaloutput button's errors, fixed tooltip input layout shifting problem, added proptypes all availble component, removed unused files 
+03/03 | 8.10hr | remved scrool from main, delted simmilarWebsites component and moved website component, used reducer in autoprefixer component, removed unncessary code commnet and files and libraries, cleared all error and logs 
 _________DONE__________________________________________________________________________________________________
 * Support all browser css generator ✅ 
 * Search specific word from website 🔴
@@ -105,7 +98,4 @@ _________DONE___________________________________________________________________
 * Svg editor with oupput 🔴
 * device detect and show show warning: 'this website not made for mobile please switch to desktop if possible' 🔵
 * need to give full height for inputs for better view in CharacterAndWordCounterComponent ✅
-* metatag suggetions done ✅ 
-
-
-1138
+* metatag suggetions done ✅

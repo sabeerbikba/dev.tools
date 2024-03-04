@@ -1,5 +1,3 @@
-export const defaultImgClassName = 'search';
-
 const searchEngines = [
     {
         groupName: 'Web Search Engines',

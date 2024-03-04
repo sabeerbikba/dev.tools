@@ -16,16 +16,8 @@ export default function Layout() {
                     <li><NavLink className={classs} to="Browser-Ready-CSS">Browser-Ready-CSS</NavLink></li>
                     <li><NavLink className={classs} to="/StringConverter">StringConverter</NavLink></li>
                     <li><NavLink className={classs} to="/ QrCodeGenerator"> QRCodeGenerator</NavLink></li>
-                    {/* <li><NavLink to="/">Home</NavLink></li> */}
-                    {/* removed because don't need home page  */}
-                    {/* <li><NavLink to="SvgToReactNative">SvgToReactNative</NavLink></li> */}
                     <li><NavLink className={classs} to="Websites">Websites</NavLink></li>
-                    <li><NavLink className={classs} to="SimmilarWebsites">SimmilarWebsites</NavLink></li>
-                    {/* <li><NavLink to="SearchWord">SearchWord</NavLink></li> */} 
-                    {/* <li><NavLink to="SVGeditor"/>SVGeditor</li> */}
-                    {/* <li><NavLink className={classs} to="Apis">Apis</NavLink></li> */}
                     <li><NavLink className={classs} to="/HashGenerator">HashGenerator</NavLink></li>
-                    {/* <li><NavLink className={classs} to="BrowserExtensions">BrowserExtensions</NavLink></li> */}
                     <li><NavLink className={classs} to="Test" >Test</NavLink></li>
                 </ul>
             </nav>

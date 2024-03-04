@@ -49,9 +49,7 @@ function AccordionGenrator({ heading, index }) {
                         <div className='accordion-panel4WebHead'>{body.heading}</div>
                         <p className='accordion-panel4WebP' >{body.text}</p>
                         <div>
-                            <button className='accordion-panel4WebBtn'>
-                                <a href={body.link} target='_blank' rel="noreferrer" className='accordion-panel4WebBtnLink'>Visit</a>
-                            </button>
+                            <button className='accordion-panel4WebBtn' onClick={() => window.open(body.link, '__blank')}>Visit</button>
                         </div>
                     </div>
                 </AccordionItemPanel>
@@ -64,6 +62,7 @@ AccordionGenrator.propTypes = {
     index: PropTypes.number.isRequired,
 };
 
+//******** cards  */
 // import cards from "../data/websites";
 // // console.log(cards.length);
 

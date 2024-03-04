@@ -99,7 +99,7 @@ export default function HashGeneratorComponent() {
     };
 
     const tailwindcss = {
-        main: "flex gap-4 m-4",
+        main: "flex gap-4 p-4",
         hashOutputsDiv: "w-full h-full flex flex-col gap-4",
     }
 
@@ -110,7 +110,6 @@ export default function HashGeneratorComponent() {
     return (
         <main className={tailwindcss.main}>
             <TextArea
-                initialInput="hello world"
                 onInputChange={(input) => {
                     UPDATE_VALUE('input', input);
                     generateHashes(input);

@@ -110,7 +110,7 @@ export const websites = {
             heading: "PageSpeed Insights",
             text: "tool by Google that analyzes the performance of web pages on both mobile and desktop devices. It provides suggestions and optimizations to improve page loading speed and user experience, helping developers enhance their websites' performance and usability.",
             link: "https://pagespeed.web.dev/",
-            img: '', // need to add image 
+            img: 'pageinsights.png',// need to add image 
         }
     ],
     "Color Tools": [
@@ -128,7 +128,7 @@ export const websites = {
         },
         {
             heading: "SVG Backgrounds",
-            text: "Provides customizable SVG background with various patterns and colors",
+            text: "Provides customizable SVG backgrou// need to add image nd with various patterns and colors",
             link: "https://svgbackgrounds.com/",
             img: 'image14.png'
         },
@@ -154,7 +154,7 @@ export const websites = {
             heading: "Adobe Color Wheel",
             text: "Allow you to create, explore and save color schemes",
             link: "https://color.adobe.com/create",
-            img: 'image3.png'
+            img: 'image3.png'// need to add image 
         }
     ],
     "Font and Icon": [
@@ -177,13 +177,19 @@ export const websites = {
             img: 'image9.png'
         }
     ],
-    "Diagramming and Visualization": [
+    "Diagramming, Visualization and SVG": [
+        {
+            heading: 'Figma',
+            text: 'Figma is a web-based design tool for creating SVGs, prototypes, and diagrams. It offers intuitive features and collaborative capabilities, making it popular among designers and teams for efficient project creation and sharing',
+            link: 'https://www.figma.com/',
+            img: 'figma.png'
+        },
         {
             heading: "Draw.io",
             text: "Draw.io is a online diagramming website that allows users to create diagrams, flowcharts and various other visual representations (vscode extension avilable)",
             link: "https://app.diagrams.net/",
             img: 'image10.png'
-        }
+        },
     ],
     "Regular Expression": [
         {
@@ -198,5 +204,25 @@ export const websites = {
             link: "https://regex-generator.olafneumann.org/",
             img: 'regex-gen.ico'
         }
+    ],
+    "Simmilar Websites": [
+        {
+            heading: 'Devtoolbox.co',
+            text: 'Tools diff viewer, JSON validator, unix time converter, regex matcher, character counter, and more',
+            link: 'https://www.devtoolbox.co/',
+            img: 'devtoolbox_logo.png',
+        },
+        {
+            heading: 'Transform.tools',
+            text: 'Utilities for web development tasks, including formatting, validation, encoding/decoding, and manipulation of data formats such as JSON, XML, CSS, JavaScript, and HTML',
+            link: 'https://transform.tools/',
+            img: 'transform.png',
+        },
+        {
+            heading: 'CodeBeautify.org',
+            text: 'online tools for developers, including code formatting and beautification, JSON/XML/HTML validation and formatting, text manipulation, data conversion, encryption/decryption, and many other utilities to assist in coding and development tasks',
+            link: 'https://codebeautify.org/',
+            img: 'codebeautify.png',
+        },
     ]
 }
