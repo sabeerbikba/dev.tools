@@ -30,6 +30,7 @@
 		"grapesjs-style-gradient": "^3.0.3",
 		"grapesjs-tabs": "^1.0.6",
 		"grapesjs-tui-image-editor": "^1.0.2",
+		"prop-types": "^15.8.1",
 		"puppeteer": "^20.3.0",
 		"react": "^18.2.0",
 		"react-accessible-accordion": "^5.0.0",
