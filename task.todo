@@ -34,37 +34,3 @@ convert this typescript next.js code to javascript react.js code
 and remove User, ToolType and saveHistory
 and don't remove Selector, TextArea and useDebounce
 give full code don't even miss single line
-
-----------------------------------------------------------------------------------------------------------
-project progress:
-31/01 | 10hr   | project initialized and added 7 tools
-01/02 | 8hr    | removed unncessary code from 7 tools, created svg-to-react but not done
-02/02 | 9.30hr | improved website page appearnces, page simmilarWebsites added and page added browser-ready-css  
-03/02 | 8.30hr | added manoco editor in word counter and added monaco editor in browser ready css with 2 more functionality
-04/02 | 9.30hr | side nav appearnce, added colorpicker in color convertor component, global text color & background color, some adjustment in unitconvertor component, used Dry method in colorpicker component and hashgenrator, implement base logic for serach engine component
-05/02 | 9.30hr | added more functionality to searchEngine component
-06/02 | 8.30hr | added muliple code editor in searchEngine component and some extra functions 
-07/02 | 8.30hr | added code editor for nessary serach engines, added functionality select search engine from input using keys (need improvments)
-08/02 | 10hr   | made imporvements in select search engine from input with two extra keys !!code to open code editor and !!clear to clear input and added sprites in searchEngine component and website component
-09/02 | 6hr    | created in test simmilar to command functionality in input using top arrow key can access last inputs and created uselocalstroage hook  
-10/02 | 11hr   | added command line functionality into searchinput in searchEngines component, removed useState and instead used useReducer, tested according with commands need to implement after complete testing
-11/02 | 9.40hr | added shortcuts bar, now key support in also in upperCase, fixed bug code editor open close from input, fixed language selection error, added fancy hr inside shortcut inside searchEngine component 
-12/02 | 10hr   | added keys in sleection and created imporved hanldeInputs condition now only fixed bug now only work keys only work end of file, fixed simmilar website component key error
-13/02 | 7hr    | completed shortcuts tab, made code cleaner and use best Practices in search Engines component 
-14/02 | 9.15hr | added some mine standard in cssunitConverter compoenent added proptypes in all pages, entirely changed websites ui to accrdion, imporved styles in tab in simmilarWebsites component fixed bug in colroconvertComponent input not reflcting bug added some logic in serchEngies compoennt for example if user type youtube key from code editor user code editor will be close and textArea will be focused 
-15/02 | 8hr    | added shorcut /  in shorcuts tab, when user enter key without selecting input he will show info of press / to open or focus on serac query, marged array in of tailwindcss2 in sigle array 
-18/02 | 8hr    | corrected ui in and speels, created single function for UPDATE_INPUT 4 less code 
-19/02 | 5.30hr | created html strcuture for chrome extensions 
-20/02 | 9.45hr | written html structure 4 liveHtml and offlineGpt component, wordsCount and hashGenrator component converted into reducer and hashGenrator compoent tailwindcss createed object 
-21/02 | 9.10hr | finished liveHtml compponent, creted uselocalstroageReducer custom hook, and used that hook in colroconvertComponent, deleted website2.js and useSesstionStorage custom hook, completed live html component 
-22/02 | 9.15hr | created array of styles in liveHtml component for readability and added openGraph inputs logic
-23/02 | 5.30hr | completed openGraph logic inside metaTagsGenrator component, implement button disable logic in live html code 
-24/02 | 5hr    | added more inputs to openGraph meta tags 
-26/02 | 8hr    | completed twitter card inputs, added boilderPlate checkbox with logic  
-27/02 |10.50hr | made components 3 reusable selection components and edited Input compoent , removed unused styles from styles object, in revist days if enter text show error and implemented regEx 
-28/02 |10.45hr | now user can see error for input in metaTags genrator compoent
-29/02 | 6hr    | added more error for inputs and fixed error of logs and 
-01/03 | 9:30hr | fixed ogLole and ogLocaleAlternate problem and added created reusable copy button used everywhere in code 
-02/03 | 9.20hr | impreoved autoprefixer coponent, used best practices for reducer, fixed handleFinaloutput button's errors, fixed tooltip input layout shifting problem, added proptypes all availble component, removed unused files 
-03/03 | 8.10hr | remved scrool from main, delted simmilarWebsites component and moved website component, used reducer in autoprefixer component, removed unncessary code commnet and files and libraries, cleared all error and logs 
-__________________________________________________________________________________________________
