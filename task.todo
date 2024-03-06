@@ -1,14 +1,12 @@
 ___________________________________________TASK.TODO:______________________________________________
-___________________________________________________________________________________________________
-
 --------------fix--------------------------------------------------------------------------
 ---- SearchEngines.jsx
 need to fix metaTagsGenrator component error to reproducer error shift+s 
 * vsCode press f12 check fix that probelm try importing styles 
 * need to add image for you.com
---------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
-toolsIdea's----------------------------------------------------------------------------------
+toolsIdea's---------------------------------------------------------------------------------
 // * meta tag generator
 * Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
 // * Live preview code editor with support of html and css 
@@ -17,8 +15,7 @@ toolsIdea's---------------------------------------------------------------------
 * tailwind to cssinjs 
 * color shades genrator in colorConverterComponent
  * html-to-jsx.jsx and jsx-to-html
----------------------------------------------------------------------------------------------
-____________________________________________________________________________________________________
+
 
  css-to-js.jsx
  css-to-tailwind.jsx
@@ -30,7 +27,8 @@ ________________________________________________________________________________
  yaml-to-toml.jsx
  json-to-toml.jsx
  json-to-yaml.jsx
-__________________________________________________________________________________________________________
+
+
 extras:
 convert this typescript next.js code to javascript react.js code 
 and remove User, ToolType and saveHistory
@@ -55,7 +53,6 @@ project progress:
 13/02 | 7hr    | completed shortcuts tab, made code cleaner and use best Practices in search Engines component 
 14/02 | 9.15hr | added some mine standard in cssunitConverter compoenent added proptypes in all pages, entirely changed websites ui to accrdion, imporved styles in tab in simmilarWebsites component fixed bug in colroconvertComponent input not reflcting bug added some logic in serchEngies compoennt for example if user type youtube key from code editor user code editor will be close and textArea will be focused 
 15/02 | 8hr    | added shorcut /  in shorcuts tab, when user enter key without selecting input he will show info of press / to open or focus on serac query, marged array in of tailwindcss2 in sigle array 
-2days taken 4 install linux and successfully installed with little bit problems
 18/02 | 8hr    | corrected ui in and speels, created single function for UPDATE_INPUT 4 less code 
 19/02 | 5.30hr | created html strcuture for chrome extensions 
 20/02 | 9.45hr | written html structure 4 liveHtml and offlineGpt component, wordsCount and hashGenrator component converted into reducer and hashGenrator compoent tailwindcss createed object 
@@ -63,10 +60,9 @@ project progress:
 22/02 | 9.15hr | created array of styles in liveHtml component for readability and added openGraph inputs logic
 23/02 | 5.30hr | completed openGraph logic inside metaTagsGenrator component, implement button disable logic in live html code 
 24/02 | 5hr    | added more inputs to openGraph meta tags 
-urus 
 26/02 | 8hr    | completed twitter card inputs, added boilderPlate checkbox with logic  
 27/02 |10.50hr | made components 3 reusable selection components and edited Input compoent , removed unused styles from styles object, in revist days if enter text show error and implemented regEx 
-28/02 |10.45hr | now user can see error for input in  
+28/02 |10.45hr | now user can see error for input in metaTags genrator compoent
 29/02 | 6hr    | added more error for inputs and fixed error of logs and 
 01/03 | 9:30hr | fixed ogLole and ogLocaleAlternate problem and added created reusable copy button used everywhere in code 
 02/03 | 9.20hr | impreoved autoprefixer coponent, used best practices for reducer, fixed handleFinaloutput button's errors, fixed tooltip input layout shifting problem, added proptypes all availble component, removed unused files 
