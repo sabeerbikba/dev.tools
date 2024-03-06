@@ -1,7 +1,7 @@
 
 # Dev.tools Collection
 
-This project is a collection of useful developer tools built with React and Vite.
+This project is a collection of useful developer tools built with React.
 
 ## Tools Included:
 
@@ -14,7 +14,7 @@ This project is a collection of useful developer tools built with React and Vite
 - Meta Tags Generator
 - QR Code Generator
 - Collection of Search Engines with Single Input
-- Unit Converter (e.g., px to rem)
+- Unit Converter (e.g., px to em)
 - Website Links for Developers
 
 ## Installation and Usage
