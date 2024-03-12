@@ -38,7 +38,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="*" element={<NoPage />} />
-            <Route index path="SearchEngine" element={<SearchEngine />} />
+            <Route index element={<SearchEngine />} />
+            <Route path="SearchEngine" element={<SearchEngine />} />
             <Route path="LiveHtml" element={<LiveHtml />} />
             <Route path="MetaTagsGenrator" element={useSuspenseWithFallback(<MetaTagsGenrator />)} />
             <Route path="GrapesJSEditor" element={useSuspenseWithFallback(<GrapesJSEditor />)} />
