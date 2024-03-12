@@ -199,7 +199,7 @@ export default function AutoPrefixerTool() {
     }
 
     return (
-        <main className={styles.main} style={{ minWidth: '1620px' }}>
+        <div className={styles.main} style={{ minWidth: '1620px' }}>
             <div className={styles.inputDiv}>
                 <div className={styles.inputHead} style={{ backgroundColor: '#2a2a2a' }}>
                     <div className={styles.inputHeadFlex}>
@@ -278,6 +278,6 @@ export default function AutoPrefixerTool() {
                     {/* {error} */}
                 </div>
             </div>
-        </main>
+        </div>
     );
 }

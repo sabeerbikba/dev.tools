@@ -26,7 +26,7 @@ export default function LiveHtml() {
     }
 
     return (
-        <main style={styles.main}>
+        <div style={styles.main}>
             <div style={styles.div50}>
                 <div style={styles.btnDiv}>
                     <button
@@ -59,6 +59,6 @@ export default function LiveHtml() {
                     height={'100%'}
                 />
             </div>
-        </main>
+        </div>
     );
 }

@@ -54,7 +54,7 @@ export default function QrCodeGeneratorComponent() {
     }
 
     return (
-        <main className={tailwindcss.main} style={{ minWidth: '1620px' }}>
+        <div className={tailwindcss.main} style={{ minWidth: '1620px' }}>
             <div>
                 <p className={tailwindcss.p}>Text: </p>
                 <div className={tailwindcss.inputDiv}>
@@ -99,6 +99,6 @@ export default function QrCodeGeneratorComponent() {
                     </div>
                 )}
             </div>
-        </main>
+        </div>
     );
 }

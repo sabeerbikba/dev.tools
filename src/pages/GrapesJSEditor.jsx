@@ -20,7 +20,7 @@ export default function GrapesJSEditor() {
   };
 
   return (
-    <main style={{ minWidth: '1620px' }}>
+    <div style={{ minWidth: '1620px' }}>
       <GjsEditor
         grapesjs={grapesjs}
         options={{
@@ -43,6 +43,6 @@ export default function GrapesJSEditor() {
         }}
         onEditor={onEditor}
       />
-    </main>
+    </div>
   );
 }

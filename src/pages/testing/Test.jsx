@@ -1,11 +1,10 @@
-import BrowserExtensions from "./BrowserExtensions";
+import Fallback from "../Fallback";
 
 export default function Test() {
 
     return (
         <>
-        <BrowserExtensions />
-            sabeer bikba
+            <Fallback />
         </>
     );
 }

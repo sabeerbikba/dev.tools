@@ -20,7 +20,7 @@ export default function Websites() {
     }
 
     return (
-        <main style={{ minWidth: '1620px' }}>
+        <div style={{ minWidth: '1620px' }}>
             <Accordion className='accordion4Web' allowZeroExpanded={true} preExpanded={expandedSections.filter((expanded) => expanded)} onChange={handleAccordionChange}>
                 {Object.keys(websites).map((website, index) => (
                     <AccordionItem className='accordion-item4Web' key={index}>
@@ -28,7 +28,7 @@ export default function Websites() {
                     </AccordionItem>
                 ))}
             </Accordion>
-        </main>
+        </div>
     );
 }
 
@@ -63,45 +63,3 @@ AccordionGenrator.propTypes = {
     heading: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
 };
-
-//******** cards  */
-// import cards from "../data/websites";
-// // console.log(cards.length);
-
-// export default function Websites() {
-//     return (
-//         <>
-//             <div className="card-container" >
-//                 {cards.map((card, index) => (
-//                     <Card
-//                         key={index}
-//                         heading={card.heading}
-//                         text={card.text}
-//                         link={card.link}
-//                         // image={card.image}
-//                         imgClassNumber={card.imgClassNumber}
-                        
-//                     />
-//                 ))}
-//             </div>
-//             {/* sabeer bikba */}
-//         </>
-//     );
-// }
-
-// function Card({ heading, text, link, imgClassNumber }) {
-//     return (
-//         <div className="card text-white">
-//             <div className="card-body overflow-hidden ">
-//                 <h4 className="card-heading">{heading}</h4>
-//                 <p className="card-text">{text}</p>
-//             </div>
-//             <button className="card-button " >
-//                 <a href={link} target="_blank" rel="noreferrer">
-//                     Visit Site
-//                     <div className={`card-image  ${'web-bg-image' + imgClassNumber}`} ></div>
-//                 </a>
-//             </button>
-//         </div >
-//     );
-// }

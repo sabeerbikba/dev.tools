@@ -108,7 +108,7 @@ export default function HashGeneratorComponent() {
     }
 
     return (
-        <main className={tailwindcss.main} style={{ minWidth: '1620px' }}>
+        <div className={tailwindcss.main} style={{ minWidth: '1620px' }}>
             <TextArea
                 onInputChange={(input) => {
                     UPDATE_VALUE('input', input);
@@ -159,7 +159,7 @@ export default function HashGeneratorComponent() {
                     isCopyBtnDisabled={copyBtnDisabled.keccak256Hash}
                 />
             </div>
-        </main>
+        </div>
     );
 }
 

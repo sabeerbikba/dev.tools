@@ -587,7 +587,7 @@ export default function MetaTagsGenrator() {
     }
 
     return (
-        <main style={styles.main}>
+        <div style={styles.main}>
             <div style={{ ...styles.mainDiv2, overflow: 'scroll' }}>
                 <Heading text="Basic SEO" styles={{ marginTop: '0', marginBottom: '8px' }} />
                 {boilerPlate && (
@@ -1018,7 +1018,7 @@ export default function MetaTagsGenrator() {
                     {renderPreview()}
                 </div>
             </div>
-        </main >
+        </div >
     );
 }
 

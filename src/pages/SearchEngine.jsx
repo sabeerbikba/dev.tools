@@ -385,7 +385,7 @@ export default function SearchEngine() {
     }
 
     return (
-        <main className={tailwindcss.main} style={{ minWidth: '1620px' }}>
+        <div className={tailwindcss.main} style={{ minWidth: '1620px' }}>
             <div className={`${tailwindcss.main2} w-3/5`}>
                 <div className={tailwindcss.selectDiv}>
                     <p className={tailwindcss.p}> InputQuery: </p>
@@ -482,7 +482,7 @@ export default function SearchEngine() {
                     <SearchEngineShortcutsAccordion />
                 </div>
             </div>
-        </main>
+        </div>
     );
 }
 
