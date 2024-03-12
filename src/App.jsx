@@ -20,7 +20,6 @@ import StringConverterComponent from './pages/StringConverterComponent.jsx';
 import QrCodeGeneratorComponent from './pages/QRCodeGenratorComponent.jsx';
 const HashGeneratorComponent = lazy(() => import('./pages/HashGeneratorComponent.jsx'));
 import Websites from "./pages/Websites.jsx";
-// import Test from "./pages/testing/Test.jsx";
 
 export default function App() {
   useEffect(() => {
@@ -37,7 +36,6 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="*" element={<NoPage />} />
             <Route index element={<SearchEngine />} />
             <Route path="SearchEngine" element={<SearchEngine />} />
             <Route path="LiveHtml" element={<LiveHtml />} />
@@ -51,7 +49,7 @@ export default function App() {
             <Route path="QrCodeGenerator" element={<QrCodeGeneratorComponent />} />
             <Route path="HashGenerator" element={useSuspenseWithFallback(<HashGeneratorComponent />)} />
             <Route path="Websites" element={<Websites />} />
-            {/* <Route path="Test" element={<Test />} /> */}
+            <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
