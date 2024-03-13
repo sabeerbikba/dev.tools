@@ -4,18 +4,5 @@
             "source": "/(.*)",
             "destination": "/index.html"
         }
-    ],
-    "version": 2,
-    "builds": [
-        {
-            "src": "package.json",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*\\.(jpg|jpeg|png|gif|webp|svg|ico))",
-            "dest": "/$1"
-        }
     ]
 }
