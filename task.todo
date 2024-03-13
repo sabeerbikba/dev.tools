@@ -14,19 +14,19 @@ toolsIdea's---------------------------------------------------------------------
 * html beautifier
 * tailwind to cssinjs 
 * color shades genrator in colorConverterComponent
- * html-to-jsx.jsx and jsx-to-html
+* html-to-jsx.jsx and jsx-to-html
+* css filters 
 
-
- css-to-js.jsx
- css-to-tailwind.jsx
- json-to-mysql.jsx
- json-schema-to-openapi-schema.jsx
- toml-to-json.jsx
- toml-to-yaml.jsx
- yaml-to-json.jsx
- yaml-to-toml.jsx
- json-to-toml.jsx
- json-to-yaml.jsx
+ * css-to-js.jsx
+ * css-to-tailwind.jsx
+ * json-to-mysql.jsx
+ * json-schema-to-openapi-schema.jsx
+ * toml-to-json.jsx
+ * toml-to-yaml.jsx
+ * yaml-to-json.jsx
+ * yaml-to-toml.jsx
+ * json-to-toml.jsx
+ * json-to-yaml.jsx
 
 
 extras:
