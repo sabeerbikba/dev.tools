@@ -1,4 +1,4 @@
-export const baseUrl = './src/public/'
+export const baseUrl = '/src/public/'
 export const websites = {
     "Image Optimization": [
         {
