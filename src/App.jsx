@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Layout from "./Layout";
 import NoPage from "./pages/NoPage";
-import useSuspenseWithFallback from "./hooks/useSuspenseWithFallback.jsx";
+import SuspenseWithFallback from "./components/SuspenseWithFallback.jsx";
 
 import SearchEngine from "./pages/SearchEngine.jsx";
 const LiveHtml = lazy(() => import("./pages/LiveHtml.jsx"));
@@ -18,8 +18,9 @@ const ColorConverterComponent = lazy(() => import('./pages/ColorConverterCompone
 const AutoprefixerTool = lazy(() => import("./pages/AutoPrefixer.jsx"));
 import StringConverterComponent from './pages/StringConverterComponent.jsx';
 const QrCodeGeneratorComponent = lazy(() => import('./pages/QRCodeGenratorComponent.jsx'));
-import Websites from "./pages/Websites.jsx";
 const HashGeneratorComponent = lazy(() => import('./pages/HashGeneratorComponent.jsx'));
+import Websites from "./pages/Websites.jsx";
+// import Test from "./pages/testing/Test.jsx" // Testing purpose
 
 export default function App() {
   useEffect(() => {
@@ -38,17 +39,18 @@ export default function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<SearchEngine />} />
             <Route path="SearchEngine" element={<SearchEngine />} />
-            <Route path="LiveHtml" element={<LiveHtml />} />
-            <Route path="MetaTagsGenrator" element={useSuspenseWithFallback(<MetaTagsGenrator />)} />
-            <Route path="GrapesJSEditor" element={useSuspenseWithFallback(<GrapesJSEditor />)} />
+            <Route path="LiveHtml" element={<SuspenseWithFallback><LiveHtml /></SuspenseWithFallback>} />
+            <Route path="MetaTagsGenrator" element={<SuspenseWithFallback><MetaTagsGenrator /></SuspenseWithFallback>} />
+            <Route path="GrapesjsEditor" element={<SuspenseWithFallback><GrapesJSEditor /></SuspenseWithFallback>} />
             <Route path="UnitConverter" element={<UnitConverter />} />
             <Route path="CharacterAndWordCounter" element={<CharacterAndWordCounterComponent />} />
-            <Route path="ColorConverter" element={<ColorConverterComponent />} />
-            <Route path="Browser-Ready-CSS" element={useSuspenseWithFallback(<AutoprefixerTool />)} />
+            <Route path="ColorConverter" element={<SuspenseWithFallback><ColorConverterComponent /></SuspenseWithFallback>} />
+            <Route path="Browser-Ready-CSS" element={<SuspenseWithFallback><AutoprefixerTool /></SuspenseWithFallback>} />
             <Route path="StringConverter" element={<StringConverterComponent />} />
-            <Route path="QrCodeGenerator" element={<QrCodeGeneratorComponent />} />
-            <Route path="HashGenerator" element={useSuspenseWithFallback(<HashGeneratorComponent />)} />
+            <Route path="QrCodeGenerator" element={<SuspenseWithFallback><QrCodeGeneratorComponent /></SuspenseWithFallback>} />
+            <Route path="HashGenerator" element={<SuspenseWithFallback><HashGeneratorComponent /></SuspenseWithFallback>} />
             <Route path="Websites" element={<Websites />} />
+            {/* <Route path="Test" element={<Test />} /> */}
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>
