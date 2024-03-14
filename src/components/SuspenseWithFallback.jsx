@@ -1,6 +1,18 @@
-import { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
+import PropTypes from "prop-types";
 
-export default function Fallback() {
+export default function SuspenseWithFallback({ children }) {
+    return (
+        <Suspense fallback={<Fallback />}>
+            {children}
+        </Suspense>
+    );
+}
+SuspenseWithFallback.propTypes = {
+    children: PropTypes.node.isRequired,
+};
+
+function Fallback() {
     useEffect(() => {
         const style = document.createElement('style');
         style.innerHTML = `
