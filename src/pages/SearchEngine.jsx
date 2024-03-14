@@ -150,9 +150,7 @@ export default function SearchEngine() {
         let newSelectedEngine = null;
         dispatch({ type: actionTypes.SET_SAVE_INPUT, payload: inputValue });
 
-        // if (inputValue.includes("!!") && inputValue.endsWith()) {
         if (/!![\w\d\S]*\s$/gi.test(inputValue)) {
-
             const keyStartIndex = inputValue.indexOf("!!");
             const keyEndIndex = inputValue.indexOf(" ", keyStartIndex);
             const key = inputValue.substring(keyStartIndex, keyEndIndex !== -1 ? keyEndIndex : undefined).trim();
@@ -326,19 +324,21 @@ export default function SearchEngine() {
                 if ((!textAreaRef.current?.contains(event.target) &&
                     !editorRef.current?.contains(event.target)) &&
                     event.key !== '/') {
-                    if (showSlahsInfo) {
-                        dispatch({ type: actionTypes.SET_SLASH_INFO, payload: false });
-                        toast.info('Press / to jump to the search box!', {
-                            position: "bottom-right",
-                            autoClose: 4000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "dark",
-                            transition: Bounce,
-                        });
+                    if (!event.ctrlKey && !event.altKey && !event.shiftKey) {
+                        if (showSlahsInfo) {
+                            dispatch({ type: actionTypes.SET_SLASH_INFO, payload: false });
+                            toast.info('Press / to jump to the search box!', {
+                                position: "bottom-right",
+                                autoClose: 4000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "dark",
+                                transition: Bounce,
+                            });
+                        }
                     }
                 }
             }
