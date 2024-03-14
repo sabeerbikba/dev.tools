@@ -7,15 +7,22 @@ need to fix metaTagsGenrator component error to reproducer error shift+s
 -------------------------------------------------------------------------------------------
 
 toolsIdea's---------------------------------------------------------------------------------
-// * meta tag generator
 * Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
-// * Live preview code editor with support of html and css 
 * featureUpdate: live preview for hugo with editor markdown file live preview of website page will look like after upload css 
 * html beautifier
 * tailwind to cssinjs 
 * color shades genrator in colorConverterComponent
 * html-to-jsx.jsx and jsx-to-html
 * css filters 
+
+* Need to add meta tags 
+* Live react code
+* Css filters tool with opacity to
+* Convert css in js or vanilla css to tailwind css or vice versa 
+* Css gradient 
+* Html tables code genrater
+* Send html templates from client
+* add html formatter in live html
 
  * css-to-js.jsx
  * css-to-tailwind.jsx
@@ -28,9 +35,4 @@ toolsIdea's---------------------------------------------------------------------
  * json-to-toml.jsx
  * json-to-yaml.jsx
 
-
-extras:
-convert this typescript next.js code to javascript react.js code 
-and remove User, ToolType and saveHistory
-and don't remove Selector, TextArea and useDebounce
-give full code don't even miss single line
+ other----------------------------------

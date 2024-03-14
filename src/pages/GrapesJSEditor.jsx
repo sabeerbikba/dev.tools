@@ -23,7 +23,7 @@ export default function GrapesJSEditor() {
         grapesjs={grapesjs}
         options={{
           height: '100vh',
-          storageManager: false,
+          storageManager: true,
           plugins: [
             gjsblockbasic,
             customCodePlugin,
