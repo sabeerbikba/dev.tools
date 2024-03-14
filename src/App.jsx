@@ -9,17 +9,17 @@ import NoPage from "./pages/NoPage";
 import useSuspenseWithFallback from "./hooks/useSuspenseWithFallback.jsx";
 
 import SearchEngine from "./pages/SearchEngine.jsx";
-import LiveHtml from "./pages/LiveHtml.jsx";
+const LiveHtml = lazy(() => import("./pages/LiveHtml.jsx"));
 const MetaTagsGenrator = lazy(() => import("./pages/MetaTagsGenrator.jsx"));
 const GrapesJSEditor = lazy(() => import("./pages/GrapesJSEditor.jsx"));
 import UnitConverter from "./pages/UnitConverter.jsx";
 import CharacterAndWordCounterComponent from "./pages/CharacterAndWordCounterComponent.jsx";
-import ColorConverterComponent from './pages/ColorConverterComponent.jsx';
+const ColorConverterComponent = lazy(() => import('./pages/ColorConverterComponent.jsx'));
 const AutoprefixerTool = lazy(() => import("./pages/AutoPrefixer.jsx"));
 import StringConverterComponent from './pages/StringConverterComponent.jsx';
-import QrCodeGeneratorComponent from './pages/QRCodeGenratorComponent.jsx';
-const HashGeneratorComponent = lazy(() => import('./pages/HashGeneratorComponent.jsx'));
+const QrCodeGeneratorComponent = lazy(() => import('./pages/QRCodeGenratorComponent.jsx'));
 import Websites from "./pages/Websites.jsx";
+const HashGeneratorComponent = lazy(() => import('./pages/HashGeneratorComponent.jsx'));
 
 export default function App() {
   useEffect(() => {
