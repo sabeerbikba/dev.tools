@@ -3,10 +3,9 @@
         {
             "source": "/(.*)",
             "destination": "/index.html"
-        },
-        {
-            "source": "/robots.txt",
-            "destination": "/robots.txt"
         }
-    ]
+    ],
+    "scripts": {
+        "postbuild": "shx cp robots.txt dist"
+    }
 }
