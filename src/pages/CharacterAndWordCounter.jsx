@@ -43,7 +43,7 @@ function charctedCounterReducer(state, action) {
     }
 }
 
-export default function CharacterAndWordCounterComponent() {
+export default function CharacterAndWordCounter() {
     const [state, dispatch] = useReducer(charctedCounterReducer, initilaState)
     const { input, output, count, currentFilterOption, filter, copyBtnDisabled } = state;
 

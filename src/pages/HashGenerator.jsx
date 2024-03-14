@@ -56,7 +56,7 @@ function hashGenratorReducer(state, action) {
     }
 }
 
-export default function HashGeneratorComponent() {
+export default function HashGenerator() {
     const [state, dispatch] = useReducer(hashGenratorReducer, initialState);
     const {
         input,

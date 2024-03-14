@@ -1,10 +1,11 @@
-import Fallback from "../Fallback";
+// import Fallback from "../Fallback";
 
 export default function Test() {
 
     return (
         <>
-            <Fallback />
+            {/* <Fallback /> */}
+            waiting...
         </>
     );
 }

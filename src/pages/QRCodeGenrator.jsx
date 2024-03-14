@@ -3,7 +3,7 @@ import QRCode from "react-qr-code";
 
 import CopyBtn from '../common/CopyBtn';
 
-export default function QrCodeGeneratorComponent() {
+export default function QrCodeGenerator() {
     const [qrText, setQrText] = useState("https://www.google.com/");
     const [copyBtnDisabled, setCopyBtnDisabled] = useState(false);
 

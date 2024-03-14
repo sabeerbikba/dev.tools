@@ -13,12 +13,12 @@ const LiveHtml = lazy(() => import("./pages/LiveHtml.jsx"));
 const MetaTagsGenrator = lazy(() => import("./pages/MetaTagsGenrator.jsx"));
 const GrapesJSEditor = lazy(() => import("./pages/GrapesJSEditor.jsx"));
 import UnitConverter from "./pages/UnitConverter.jsx";
-import CharacterAndWordCounterComponent from "./pages/CharacterAndWordCounterComponent.jsx";
-const ColorConverterComponent = lazy(() => import('./pages/ColorConverterComponent.jsx'));
+import CharacterAndWordCounter from "./pages/CharacterAndWordCounter.jsx";
+const ColorConverter = lazy(() => import('./pages/ColorConverter.jsx'));
 const AutoprefixerTool = lazy(() => import("./pages/AutoPrefixer.jsx"));
-import StringConverterComponent from './pages/StringConverterComponent.jsx';
-const QrCodeGeneratorComponent = lazy(() => import('./pages/QRCodeGenratorComponent.jsx'));
-const HashGeneratorComponent = lazy(() => import('./pages/HashGeneratorComponent.jsx'));
+import StringConverter from './pages/StringConverter.jsx';
+const QrCodeGenerator = lazy(() => import('./pages/QRCodeGenrator.jsx'));
+const HashGenerator = lazy(() => import('./pages/HashGenerator.jsx'));
 import Websites from "./pages/Websites.jsx";
 // import Test from "./pages/testing/Test.jsx" // Testing purpose
 
@@ -43,12 +43,12 @@ export default function App() {
             <Route path="MetaTagsGenrator" element={<SuspenseWithFallback><MetaTagsGenrator /></SuspenseWithFallback>} />
             <Route path="GrapesjsEditor" element={<SuspenseWithFallback><GrapesJSEditor /></SuspenseWithFallback>} />
             <Route path="UnitConverter" element={<UnitConverter />} />
-            <Route path="CharacterAndWordCounter" element={<CharacterAndWordCounterComponent />} />
-            <Route path="ColorConverter" element={<SuspenseWithFallback><ColorConverterComponent /></SuspenseWithFallback>} />
+            <Route path="CharacterAndWordCounter" element={<CharacterAndWordCounter />} />
+            <Route path="ColorConverter" element={<SuspenseWithFallback><ColorConverter /></SuspenseWithFallback>} />
             <Route path="Browser-Ready-CSS" element={<SuspenseWithFallback><AutoprefixerTool /></SuspenseWithFallback>} />
-            <Route path="StringConverter" element={<StringConverterComponent />} />
-            <Route path="QrCodeGenerator" element={<SuspenseWithFallback><QrCodeGeneratorComponent /></SuspenseWithFallback>} />
-            <Route path="HashGenerator" element={<SuspenseWithFallback><HashGeneratorComponent /></SuspenseWithFallback>} />
+            <Route path="StringConverter" element={<StringConverter />} />
+            <Route path="QrCodeGenerator" element={<SuspenseWithFallback><QrCodeGenerator /></SuspenseWithFallback>} />
+            <Route path="HashGenerator" element={<SuspenseWithFallback><HashGenerator /></SuspenseWithFallback>} />
             <Route path="Websites" element={<Websites />} />
             {/* <Route path="Test" element={<Test />} /> */}
             <Route path="*" element={<NoPage />} />

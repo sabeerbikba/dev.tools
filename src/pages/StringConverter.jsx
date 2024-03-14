@@ -74,7 +74,7 @@ const options = [
   },
 ];
 
-export default function StringConverterComponent() {
+export default function StringConverter() {
   const [transformationOption, setTransformationOption] = useState(options[0].value);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");

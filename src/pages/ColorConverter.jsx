@@ -47,7 +47,7 @@ function colorConverterReducer(state, action) {
     }
 }
 
-export default function ColorConverterComponent() {
+export default function ColorConverter() {
     const [state, dispatch] = useLocalStorageReducer('colorCodes2', colorConverterReducer, initialState)
     const { rgb, rgba, hex, hsl, copyBtnDisabled } = state;
 
