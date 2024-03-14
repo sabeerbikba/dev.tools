@@ -1,11 +1,10 @@
-// import Fallback from "../Fallback";
+import NoPage from "../NoPage";
 
 export default function Test() {
 
     return (
         <>
-            {/* <Fallback /> */}
-            waiting...
+            <NoPage />
         </>
     );
 }
