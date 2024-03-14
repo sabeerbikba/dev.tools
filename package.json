@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
-		"postbuild": "echo 'Running postbuild script...' && shx cp $VERCEL_PROJECT_ROOT/robots.txt $VERCEL_PROJECT_ROOT/dist",
+		"postbuild": "echo 'Running postbuild script...' && cp robots.txt dist",
+		"copy-robots": "ncp robots.txt dist/robots.txt",
 		"lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview",
 		"build:styles": "npx tailwindcss ./src/styles.css -o ./src/output.css --watch"
@@ -48,8 +49,8 @@
 		"eslint-plugin-react": "^7.33.2",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-plugin-react-refresh": "^0.4.5",
+		"ncp": "^2.0.0",
 		"postcss": "^8.4.33",
-		"shx": "^0.3.4",
 		"tailwindcss": "^3.4.1",
 		"vite": "^5.0.12",
 		"webpack-cli": "^5.1.4",
