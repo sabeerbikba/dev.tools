@@ -18,7 +18,7 @@ const initialState = {
     robotsAllowed: 'yes',
     robotsFollowLink: 'yes',
     contentType: 'UTF-8',
-    primaryLanguage: 'EngLish',
+    primaryLanguage: 'English',
     primaryLanguageManual: '',
     boilerPlate: false,
     headTitle: '',
