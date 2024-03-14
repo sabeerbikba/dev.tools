@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
-		"postbuild": "cp robots.txt dist",
+		"postbuild": "cp $VERCEL_PROJECT_ROOT/robots.txt $VERCEL_PROJECT_ROOT/dist",
 		"lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview",
 		"build:styles": "npx tailwindcss ./src/styles.css -o ./src/output.css --watch"
