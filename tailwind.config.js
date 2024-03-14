@@ -4,7 +4,6 @@ export default {
     './src/**/*.html',
     './src/**/*.js',
     './src/**/*.jsx',
-    // Add paths to your CSS files if they are not imported in JS/JSX files
     './src/index.jsx',
     './src/**/*.css',
   ],
