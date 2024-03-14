@@ -6,6 +6,6 @@
         }
     ],
     "scripts": {
-        "postbuild": "echo 'Running postbuild script...' && shx cp robots.txt dist"
+        "postbuild": "echo 'Running postbuild script...' && cp robots.txt dist"
     }
 }

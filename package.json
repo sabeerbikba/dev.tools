@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
-		"postbuild": "echo 'Running postbuild script...' && shx cp robots.txt dist",
+		"postbuild": "echo 'Running postbuild script...' && cp robots.txt dist",
 		"lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview",
 		"build:styles": "npx tailwindcss ./src/styles.css -o ./src/output.css --watch"
