@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import { isMobile } from 'react-device-detect';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Layout from "./Layout";
@@ -57,7 +58,9 @@ export default function App() {
         </Routes>
       </BrowserRouter>
       <ToastContainer />
+      {/* vercel */}
       <SpeedInsights />
+      <Analytics />
     </>
   );
 }
