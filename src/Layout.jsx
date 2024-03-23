@@ -32,9 +32,9 @@ export default function Layout() {
 function GithubStar() {
     const styles = {
         a: {
-            position: 'fixed', bottom: '0', left: '0', backgroundColor: '#2a3951', fontSize: '1.2rem',
+            position: 'fixed', bottom: '0', left: '0', backgroundColor: '#2a3951', fontSize: '1.1rem',
             padding: "6px 8px 6px 16px", textDecoration: 'none', borderTop: '2px solid black',
-            borderRadius: '10px 10px 0 0', display: 'block', width: '210px'
+            borderRadius: '10px 10px 0 0', display: 'block', width: '200px'
         },
         li: { border: 'none', color: '#d9d9d9' },
         svg: { display: 'inline', marginBottom: '4px' },
