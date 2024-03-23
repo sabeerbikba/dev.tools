@@ -4,11 +4,15 @@ import QRCode from "react-qr-code";
 import CopyBtn from '../common/CopyBtn';
 
 export default function QrCodeGenerator() {
-    const [qrText, setQrText] = useState("https://www.google.com/");
+    const [qrText, setQrText] = useState("https://www.google.com/"); console.log(qrText.length);
     const [copyBtnDisabled, setCopyBtnDisabled] = useState(false);
 
     const handleTextChange = (input) => {
-        setQrText(input);
+        const trimmedInput = input.trim();
+        if (trimmedInput.length > 1500) {
+            return;
+        }
+        setQrText(trimmedInput);
     };
 
     const onImageDownload = () => {
@@ -51,12 +55,32 @@ export default function QrCodeGenerator() {
         qrDiv: "mt-5 flex gap-5 items-end",
         qrCode: "flex border-white border-8",
         qrDownloadBtn: "h-11 rounded-md mt-4 bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500",
+        button: { width: '110px', height: '42px', borderRadius: '11px', position: 'relative', left: '-2px', backgroundColor: `${qrText === '' ? '#4446a6' : '#6366f1'}` },
+        tooltip: {
+            position: 'relative', bottom: '3.2px', marginLeft: '25px', display: 'inline',
+            border: '2px solid orange', color: 'white', borderRadius: '8px',
+            paddingTop: '2.4px', paddingBottom: '3px', paddingRight: '8px',
+            fontSize: '0.75rem', backgroundColor: 'rgba(255, 87, 34, 0.1)'
+        },
+        tooltipTringle: {
+            position: 'relative', left: '-16px', bottom: '-12px', display: 'inline-block',
+            width: 0, height: 0, borderTop: '7px solid transparent', borderBottom: '7px solid transparent',
+            borderRight: '14px solid orange', transform: 'rotate(90deg)'
+        },
     }
 
     return (
         <div className={tailwindcss.main} style={{ minWidth: '1620px' }}>
             <div>
                 <p className={tailwindcss.p}>Text: </p>
+                {qrText.length == 1500 && (
+                    <div style={{ position: 'absolute', top: "10px", left: "250px" }}>
+                        <div style={tailwindcss.tooltip}>
+                            <span style={tailwindcss.tooltipTringle}></span>
+                            Character limit reached: 1500 characters max.
+                        </div>
+                    </div>
+                )}
                 <div className={tailwindcss.inputDiv}>
                     <input
                         className={tailwindcss.input}
@@ -71,7 +95,7 @@ export default function QrCodeGenerator() {
                     <button
                         className={tailwindcss.btn}
                         onClick={() => setQrText('')}
-                        style={{ width: '110px', height: '42px', borderRadius: '11px', position: 'relative', left: '-2px', backgroundColor: `${qrText === '' ? '#4446a6' : '#6366f1'}` }}
+                        style={tailwindcss.button}
                         disabled={qrText === ''}
                     >
                         Clear
