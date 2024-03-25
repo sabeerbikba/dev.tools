@@ -9,13 +9,9 @@ need to fix metaTagsGenrator component error to reproducer error shift+s
 toolsIdea's---------------------------------------------------------------------------------
 * Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
 * featureUpdate: live preview for hugo with editor markdown file live preview of website page will look like after upload css 
-* html beautifier
-* tailwind to cssinjs 
 * color shades genrator in colorConverterComponent
 * html-to-jsx.jsx and jsx-to-html
 * css filters 
-
-* Need to add meta tags 
 * Live react code
 * Css filters tool with opacity to
 * Convert css in js or vanilla css to tailwind css or vice versa 
@@ -23,11 +19,11 @@ toolsIdea's---------------------------------------------------------------------
 * Html tables code genrater
 * Send html templates from client
 * add html formatter in live html
+* photo crop tools 
+* fake data genrator using faker 
+* need to add https://gist.github.com/sabeerbikba/baa8d4dda596e9ca94b4894e8599d0a7 in metaTagsGenrator 
 
- * css-to-js.jsx
- * css-to-tailwind.jsx
- * json-to-mysql.jsx
- * json-schema-to-openapi-schema.jsx
+ * json-schema-to-openapi-schema.jsx ??
  * toml-to-json.jsx
  * toml-to-yaml.jsx
  * yaml-to-json.jsx
