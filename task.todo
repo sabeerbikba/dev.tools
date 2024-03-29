@@ -7,8 +7,6 @@ need to fix metaTagsGenrator component error to reproducer error shift+s
 -------------------------------------------------------------------------------------------
 
 toolsIdea's---------------------------------------------------------------------------------
-* Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
-* featureUpdate: live preview for hugo with editor markdown file live preview of website page will look like after upload css 
 * color shades genrator in colorConverterComponent
 * html-to-jsx.jsx and jsx-to-html
 * css filters 
@@ -22,6 +20,11 @@ toolsIdea's---------------------------------------------------------------------
 * photo crop tools 
 * fake data genrator using faker 
 * need to add https://gist.github.com/sabeerbikba/baa8d4dda596e9ca94b4894e8599d0a7 in metaTagsGenrator 
+* images corp and compression tool using lib react-image-file-resizer and react-image-crop
+* add google fonts and google all developer helping products in websites component
+ - add google console 
+ - more compression tools 
+* screen width and height live  
 
  * json-schema-to-openapi-schema.jsx ??
  * toml-to-json.jsx
@@ -31,4 +34,8 @@ toolsIdea's---------------------------------------------------------------------
  * json-to-toml.jsx
  * json-to-yaml.jsx
 
+       -- advance --
+* Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
+* featureUpdate: live preview for hugo with editor markdown file live preview of website page will look like after upload css 
+       -- advance --
  other----------------------------------
