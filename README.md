@@ -19,10 +19,20 @@ This project is a collection of useful developer tools built with React.
 
 ## Installation and Usage
 
+1. Clone the repository from GitHub
 ```bash
 git clone https://github.com/sabeerbikba/dev.tools.git
+```
+2. Change directory to the cloned repository
+```bash
 cd dev.tools
+```
+3. Install dependencies using npm
+```bash
 npm install
+```
+4. Run the development server
+```bash
 npm run dev
 ```
-Open your web browser and navigate to http://localhost:3004.
+##### It will automatically open a web browser. If it doesn't open, please open your web browser and navigate to http://localhost:3004.
