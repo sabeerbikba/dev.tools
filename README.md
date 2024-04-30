@@ -5,6 +5,7 @@ This project is a collection of useful developer tools built with React.
 
 ## Tools Included:
 
+- All in One SearchEngines
 - CSS Autoprefixer
 - Character and Words Counter
 - Color Code Converter
