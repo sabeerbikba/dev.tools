@@ -9,12 +9,21 @@ need to fix metaTagsGenrator component error to reproducer error shift+s
 * base64 viewer what that is image or video or auto if better use selectors 
 * need open link in another tab of borser list in autoprefixer tab 
 * always show last selected search engine
+* make website PWA, offline site: https://github.com/YourAverageTechBro/DevToolboxWeb/issues/50 
+* convert this file into task.md file or simmilar 
 -------------------------------------------------------------------------------------------
 
 toolsIdea's---------------------------------------------------------------------------------
 * need to add comment in index.html file like this <!--**  Github: https://github.com/sabeerbikba/dev.tools  **-->
 * color shades genrator in colorConverterComponent
 * html-to-jsx.jsx and jsx-to-html
+* loremIpsum genrator: https://www.mobilefish.com/services/lipsum/lipsum.php
+* html css javascript code minifier 
+ to minify css use <style></style> and for javascript <script></script> and html default
+* live .md editor
+* robots.txt genrator 
+ - if user set every site allow to crow notify to use that if all pages allow not reason to add robots.txt file 
+* typescript play that simmilar to https://www.typescriptlang.org/play/ copy from https://github.com/microsoft/TypeScript-Website repo
 * css filters 
 * Live react code
 * css tools [ * html-css-js.com || + GPT || ]
@@ -63,7 +72,7 @@ toolsIdea's---------------------------------------------------------------------
  - css filters also opacity 
  - css cursor testing 
  - https://cssgenerator.org/
-k
+
     Box Shadow
     Text Shadow
     CSS Cursor
@@ -83,8 +92,10 @@ k
 * add html formatter in live html
 * fake data genrator using faker 
 * need to add https://gist.github.com/sabeerbikba/baa8d4dda596e9ca94b4894e8599d0a7 in metaTagsGenrator 
-* photo crop tools 
-* images corp and compression tool using lib react-image-file-resizer and react-image-crop
+* images
+ - corp
+ - compress
+ [ images corp and compression tool using lib react-image-file-resizer and react-image-crop ]
 * add google fonts and google all developer helping products in websites component
  - add google console 
  - more compression tools 
