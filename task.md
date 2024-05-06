@@ -10,11 +10,11 @@
 ## Others
 
 - [ ] need to add og:image with website name and tools availble
-- [ ] add in title and meta title , live html for SEO
-- [ ] need open link in another tab of borser list in autoprefixer tab also check for all links  
-- [ ] make website PWA, offline site: link: <https://github.com/YourAverageTechBro/DevToolboxWeb/issues/50>
-- [ ] add google console in websites.jsx
-- [ ] delete task.todo file from repo
+- [x] add in title and meta title , live html for SEO - completed 06/05/24
+- [x] need open link in another tab of borser list in autoprefixer tab also check for all links - completed 06/05/24
+- [ ] make website PWA, offline site: link: </DevToolboxWeb/issues/50>
+- [x] add google console in websites.jsx - completed 06/05/24
+- [x] delete task.todo file from repo - completed 06/05/24
 
 ## Tools Ideas
 
