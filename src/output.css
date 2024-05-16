@@ -803,6 +803,10 @@ video {
   height: 100%;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
 .w-1 {
   width: 0.25rem;
 }
@@ -1371,7 +1375,7 @@ body {
 
 ul {
   height: 100%;
-  width: 200px;
+  width: 210px;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -1405,7 +1409,7 @@ li {
 }
 
 .main {
-  margin-left: 200px;
+  margin-left: 210px;
   padding: 0;
   height: 100vh;
   /* overflow: hidden;  */
@@ -1529,7 +1533,8 @@ li {
   }
 }
 
-.accordion-panel4WebDiv, .Browser-extensionsDiv {
+.accordion-panel4WebDiv,
+.Browser-extensionsDiv {
   border-bottom: 0.2px solid #2a2a2a;
   display: flex;
   justify-content: space-between;
@@ -1543,18 +1548,22 @@ li {
   background-color: #8c8ecc;
 }
 
-.accordion-panel4WebImg, .Browser-extensionsImg {
+.accordion-panel4WebImg,
+.Browser-extensionsImg {
+  border-radius: 8px;
   height: 60px;
 }
 
-.accordion-panel4WebHead, .Browser-extensionsHead {
+.accordion-panel4WebHead,
+.Browser-extensionsHead {
   /* text-align: center; */
   margin-top: auto;
   margin-bottom: auto;
   font-size: 1.2rem;
 }
 
-.accordion-panel4WebP, .Browser-extensionsP {
+.accordion-panel4WebP,
+.Browser-extensionsP {
   width: 420px;
   height: 60px;
   padding: 4px;
@@ -1563,7 +1572,8 @@ li {
   border: 1px solid transparent;
 }
 
-.accordion-panel4WebBtn, .Browser-extensionsBtn {
+.accordion-panel4WebBtn,
+.Browser-extensionsBtn {
   background-color: #6677b5;
   height: 100%;
   width: 12rem;
@@ -1573,7 +1583,8 @@ li {
   color: white;
 }
 
-.accordion-panel4WebBtnLink, .Browser-extensionsBtnLink {
+.accordion-panel4WebBtnLink,
+.Browser-extensionsBtnLink {
   text-decoration: none;
 }
 
@@ -1856,13 +1867,13 @@ hr.hr {
   border-width: 0 0 1px;
   color: #aaaaaa;
   -o-border-image: linear-gradient(90deg,
-      rgba(135, 206, 235, 0),
-      #aaaaaa 50%,
-      rgba(135, 206, 235, 0) 100%) 0 0 100%;
+         rgba(135, 206, 235, 0),
+         #aaaaaa 50%,
+         rgba(135, 206, 235, 0) 100%) 0 0 100%;
      border-image: linear-gradient(90deg,
-      rgba(135, 206, 235, 0),
-      #aaaaaa 50%,
-      rgba(135, 206, 235, 0) 100%) 0 0 100%;
+         rgba(135, 206, 235, 0),
+         #aaaaaa 50%,
+         rgba(135, 206, 235, 0) 100%) 0 0 100%;
   border-style: solid;
   padding-top: 12px;
   margin-bottom: 8px;

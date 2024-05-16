@@ -2,7 +2,6 @@ import { useState, useReducer, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { toast, Bounce } from 'react-toastify';
 import MonacoEditor from '@monaco-editor/react';
-// import '../../node_modules/monaco-editor/min/vs/editor/editor.main.css'
 import {
    Accordion, AccordionItem, AccordionItemHeading,
    AccordionItemButton, AccordionItemPanel
@@ -14,7 +13,7 @@ import useOpenLink from '../hooks/useOpenLink';
 
 const actionTypes = {
    SET_SEARCH_QUERY: 'SET_SEARCH_QUERY',
-   SET_SELECTED_ENGINE: 'SET_SELECTED_ENGINE',
+   SET_SELECTED_ENGINE: 'SET_SELECTED_ENGINE', // localStorage's
    TOGGLE_EDITOR_VISIBILITY: 'TOGGLE_EDITOR_VISIBILITY',
    SET_LANGUAGE: 'SET_LANGUAGE',
    SET_EDITOR_VALUE: 'SET_EDITOR_VALUE',
@@ -27,7 +26,6 @@ const actionTypes = {
 
 const initialState = {
    searchQuery: '',
-   selectedEngine: searchEngines[0].engines[0],
    editorVisible: false,
    language: Object.keys(files)[0],
    editorKey: Date.now(),
@@ -43,9 +41,6 @@ function searchReducer(state, action) {
    switch (action.type) {
       case actionTypes.SET_SEARCH_QUERY: {
          return { ...state, searchQuery: action.payload };
-      }
-      case actionTypes.SET_SELECTED_ENGINE: {
-         return { ...state, selectedEngine: action.payload };
       }
       case actionTypes.TOGGLE_EDITOR_VISIBILITY: {
          return { ...state, editorVisible: action.payload };
@@ -82,11 +77,12 @@ function searchReducer(state, action) {
 export default function SearchEngine() {
    const textAreaRef = useRef(null);
    const editorRef = useRef(null);
+   const openLink = useOpenLink();
    const [history, setHistory] = useLocalStorage('history', [], 30);
+   const [selectedEngine, setSelectedEngine] = useLocalStorage('selectedEngine', searchEngines[0].engines[0]);
    const [state, dispatch] = useReducer(searchReducer, initialState);
    const {
       searchQuery,
-      selectedEngine,
       editorVisible,
       language,
       editorKey,
@@ -200,7 +196,7 @@ export default function SearchEngine() {
          }
 
          if (newSelectedEngine) {
-            dispatch({ type: actionTypes.SET_SELECTED_ENGINE, payload: newSelectedEngine });
+            setSelectedEngine(newSelectedEngine);
             const newQuery = inputValue.replace(key, '').trim();
             dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: newQuery });
             return;
@@ -260,12 +256,12 @@ export default function SearchEngine() {
          } else if (newSelectedEngine) {
             if (validEngineNames.includes(newSelectedEngine.name)) {
                dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: true })
-               dispatch({ type: actionTypes.SET_SELECTED_ENGINE, payload: newSelectedEngine });
+               setSelectedEngine(newSelectedEngine);
                dispatch({ type: actionTypes.SET_EDITOR_VALUE, payload: inputCode.replace(key, '').trim() });
                return;
             } else {
                dispatch({ type: actionTypes.SET_EDITOR_VALUE, payload: inputCode.replace(key, ' ').trim() });
-               dispatch({ type: actionTypes.SET_SELECTED_ENGINE, payload: newSelectedEngine });
+               setSelectedEngine(newSelectedEngine);
                dispatch({ type: actionTypes.TOGGLE_EDITOR_VISIBILITY, payload: !state.editorVisible })
                textAreaRef.current.focus();
                return;
@@ -391,7 +387,7 @@ export default function SearchEngine() {
             <div className={tailwindcss.selectDiv}>
                <p className={tailwindcss.p}> InputQuery: </p>
                <select
-                  onChange={(e) => dispatch({ type: actionTypes.SET_SELECTED_ENGINE, payload: JSON.parse(e.target.value) })}
+                  onChange={(e) => setSelectedEngine(JSON.parse(e.target.value))}
                   value={JSON.stringify(selectedEngine)}
                   className={tailwindcss.select}
                >
@@ -471,7 +467,7 @@ export default function SearchEngine() {
             {advanceSearch !== undefined && (
                <button
                   className={tailwindcss.btn}
-                  onClick={useOpenLink(advanceSearch)}
+                  onClick={() => openLink(advanceSearch)}
                   style={{ width: '96%' }}
                >AdvanceSearch
                </button>

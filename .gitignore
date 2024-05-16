@@ -22,3 +22,6 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
+
+# temporary
+typescript-play

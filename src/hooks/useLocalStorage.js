@@ -10,20 +10,20 @@ import { useState } from 'react';
  */
 
 export default function useLocalStorage(key, initialValue, maxLength = Infinity) {
-    const storedValue = localStorage.getItem(key);
-    const initial = storedValue ? JSON.parse(storedValue) : initialValue;
-    const [value, setValue] = useState(initial);
+   const storedValue = localStorage.getItem(key);
+   const initial = storedValue ? JSON.parse(storedValue) : initialValue;
+   const [value, setValue] = useState(initial);
 
-    /**
-     * Update localStorage whenever the value changes.
-     * @param {any} newValue - The new value to set and store in local storage.
-     */
+   /**
+    * Update localStorage whenever the value changes.
+    * @param {any} newValue - The new value to set and store in local storage.
+    */
 
-    const setStoredValue = (newValue) => {
-        const updatedValue = maxLength < Infinity ? newValue.slice(0, maxLength) : newValue;
-        setValue(updatedValue);
-        localStorage.setItem(key, JSON.stringify(updatedValue));
-    };
+   const setStoredValue = (newValue) => {
+      const updatedValue = maxLength < Infinity ? newValue.slice(0, maxLength) : newValue;
+      setValue(updatedValue);
+      localStorage.setItem(key, JSON.stringify(updatedValue));
+   };
 
-    return [value, setStoredValue];
+   return [value, setStoredValue];
 }

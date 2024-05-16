@@ -38,7 +38,8 @@
 		"react-qr-code": "^2.0.12",
 		"react-router-dom": "^6.21.3",
 		"react-toastify": "^10.0.4",
-		"store": "^2.0.12"
+		"store": "^2.0.12",
+		"typescript": "^5.4.5"
 	},
 	"devDependencies": {
 		"@types/react": "^18.2.43",

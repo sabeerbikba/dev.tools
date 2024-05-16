@@ -23,7 +23,7 @@ import StringConverter from './pages/StringConverter.jsx';
 const QrCodeGenerator = lazy(() => import('./pages/QRCodeGenrator.jsx'));
 const HashGenerator = lazy(() => import('./pages/HashGenerator.jsx'));
 import Websites from "./pages/Websites.jsx";
-// import Test from "./pages/testing/Test.jsx" // Testing purpose
+import Test from "./pages/testing/Test.jsx" // Testing purpose
 
 export default function App() {
    useEffect(() => {
@@ -53,15 +53,15 @@ export default function App() {
                   <Route path="QrCodeGenerator" element={<SuspenseWithFallback><QrCodeGenerator /></SuspenseWithFallback>} />
                   <Route path="HashGenerator" element={<SuspenseWithFallback><HashGenerator /></SuspenseWithFallback>} />
                   <Route path="Websites" element={<Websites />} />
-                  {/* <Route path="Test" element={<Test />} /> */}
+                  <Route path="Test" element={<Test />} />
                   <Route path="*" element={<NoPage />} />
                </Route>
             </Routes>
          </BrowserRouter>
          <ToastContainer />
          {/* vercel */}
-         <SpeedInsights />
-         <Analytics />
+         {/* <SpeedInsights /> */}
+         {/* <Analytics /> */}
       </>
    );
 }
