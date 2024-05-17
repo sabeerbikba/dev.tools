@@ -29,6 +29,7 @@
 		"grapesjs-style-filter": "^1.0.2",
 		"grapesjs-style-gradient": "^3.0.3",
 		"grapesjs-tui-image-editor": "^1.0.2",
+		"lodash": "^4.17.21",
 		"prop-types": "^15.8.1",
 		"react": "^18.2.0",
 		"react-accessible-accordion": "^5.0.0",

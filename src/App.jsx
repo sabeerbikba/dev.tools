@@ -10,10 +10,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import Layout from "./Layout";
 import NoPage from "./pages/NoPage";
 import SuspenseWithFallback from "./components/SuspenseWithFallback.jsx";
+import { TypescriptPlaygroundFallback } from './pages/testing/TypescriptPlayground.jsx';
 
 import SearchEngine from "./pages/SearchEngine.jsx";
 const LiveHtml = lazy(() => import("./pages/LiveHtml.jsx"));
 const MetaTagsGenrator = lazy(() => import("./pages/MetaTagsGenrator.jsx"));
+const TypescriptPlayground = lazy(() => import('./pages/testing/TypescriptPlayground.jsx'));
 const GrapesJSEditor = lazy(() => import("./pages/GrapesJSEditor.jsx"));
 import UnitConverter from "./pages/UnitConverter.jsx";
 import CharacterAndWordCounter from "./pages/CharacterAndWordCounter.jsx";
@@ -23,7 +25,7 @@ import StringConverter from './pages/StringConverter.jsx';
 const QrCodeGenerator = lazy(() => import('./pages/QRCodeGenrator.jsx'));
 const HashGenerator = lazy(() => import('./pages/HashGenerator.jsx'));
 import Websites from "./pages/Websites.jsx";
-import Test from "./pages/testing/Test.jsx" // Testing purpose
+// import Test from "./pages/testing/Test.jsx" // Testing purpose
 
 export default function App() {
    useEffect(() => {
@@ -44,6 +46,7 @@ export default function App() {
                   <Route path="SearchEngine" element={<SearchEngine />} />
                   <Route path="LiveHtml" element={<SuspenseWithFallback><LiveHtml /></SuspenseWithFallback>} />
                   <Route path="MetaTagsGenrator" element={<SuspenseWithFallback><MetaTagsGenrator /></SuspenseWithFallback>} />
+                  <Route path="TypescriptPlayground" element={<SuspenseWithFallback fallback={<TypescriptPlaygroundFallback />}><TypescriptPlayground /></SuspenseWithFallback>} />
                   <Route path="GrapesjsEditor" element={<SuspenseWithFallback><GrapesJSEditor /></SuspenseWithFallback>} />
                   <Route path="UnitConverter" element={<UnitConverter />} />
                   <Route path="CharacterAndWordCounter" element={<CharacterAndWordCounter />} />
@@ -53,13 +56,13 @@ export default function App() {
                   <Route path="QrCodeGenerator" element={<SuspenseWithFallback><QrCodeGenerator /></SuspenseWithFallback>} />
                   <Route path="HashGenerator" element={<SuspenseWithFallback><HashGenerator /></SuspenseWithFallback>} />
                   <Route path="Websites" element={<Websites />} />
-                  <Route path="Test" element={<Test />} />
+                  {/* <Route path="Test" element={<Test />} /> */}
                   <Route path="*" element={<NoPage />} />
                </Route>
             </Routes>
          </BrowserRouter>
          <ToastContainer />
-         {/* vercel */}
+         {/* // vercel */}
          {/* <SpeedInsights /> */}
          {/* <Analytics /> */}
       </>

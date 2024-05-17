@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import * as ts from 'typescript';
 import MonacoEditor from '@monaco-editor/react';
 import CopyBtn from '../../common/CopyBtn';
@@ -14,25 +14,27 @@ export default function Test() {
       lineNumber: true,
    };
 
-   useEffect(() => {
-      setInputCode(getInitialCode());
-      compileCode(inputCode); // Compile initial code
-   }, []);
-
-   const handleCodeChange = newCode => {
-      setInputCode(newCode);
-      compileCode(newCode);
-   };
-
    const getInitialCode = () => {
       return `const message: string = 'hello world';
 console.log(message);
 `.trim();
    };
 
-   async function compileCode() {
+   useEffect(() => {
+      setInputCode(getInitialCode());
+      compileCode(getInitialCode()); // Compile initial code
+   }, []);
+
+
+
+   const handleCodeChange = newCode => {
+      setInputCode(newCode);
+      compileCode(newCode);
+   };
+
+   async function compileCode(code) {
       try {
-         const result = ts.transpileModule(inputCode, {
+         const result = ts.transpileModule(code, {
             compilerOptions: {
                target: ts.ScriptTarget.ES2017,
                module: ts.ModuleKind.None,
@@ -45,27 +47,6 @@ console.log(message);
          console.error('Error compiling code:', error);
       }
    };
-
-
-   // useEffect(() => {
-   //    (async function compileCode() {
-   //       try {
-   //          const result = ts.transpileModule(inputCode, {
-   //             compilerOptions: {
-   //                target: ts.ScriptTarget.ES2017,
-   //                module: ts.ModuleKind.None,
-   //                jsx: ts.JsxEmit.None,
-   //             },
-   //          });
-
-   //          setOutputCode(result.outputText);
-   //       } catch (error) {
-   //          console.error('Error compiling code:', error);
-   //       }
-   //    })();
-   // }, [inputCode, compileCode])
-
-
 
    const styles = {
       main: 'monaco-container', inputDiv: 'monaco-style monaco-editor',
@@ -97,6 +78,12 @@ console.log(message);
                      Clear
                   </button>
                </div>
+
+               {/* {loading && (
+                  <div>loading</div>
+               )} */}
+
+
             </div>
             <div className={styles.inputHead} style={{ backgroundColor: '#2a2a2a', width: '50%' }}>
                <div className={styles.inputHeadFlex}>
@@ -111,8 +98,11 @@ console.log(message);
                </div>
             </div>
 
-            
          </div>
+
+         <Suspense fallback={<b>loading</b>}>
+
+
          <div className={styles.main} style={{ minWidth: '1620px' }}>
             <div className={styles.outputDiv}>
                <MonacoEditor
@@ -132,12 +122,18 @@ console.log(message);
                />
             </div>
          </div>
+         </Suspense>
+
       </>
    );
 }
+
 
 /** TODO:
  * when relaod page also need to refresh 
  * also when press clear input button need to refresh typescript reason: show error like redeclare some time 
  * need to remove unused styles from object 
+ * PropTypes
  */
+
+
