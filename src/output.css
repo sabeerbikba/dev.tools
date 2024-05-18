@@ -723,6 +723,10 @@ video {
   margin-top: 1.25rem;
 }
 
+.mb-3 {
+  margin-bottom: 0.75rem;
+}
+
 .box-border {
   box-sizing: border-box;
 }
@@ -1387,7 +1391,7 @@ ul {
   list-style-type: none;
 }
 
-li {
+.sidenav li {
   border-bottom: 2px solid #1f3151;
 }
 

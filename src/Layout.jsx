@@ -5,7 +5,7 @@ export default function Layout() {
    return (
       <>
          <nav>
-            <ul className="sidnav">
+            <ul className="sidenav">
                <li><NavLink className={classs} to="/SearchEngine">SearchEngines</NavLink></li>
                <li><NavLink className={classs} to="/LiveHtml">LiveHtml</NavLink></li>
                <li><NavLink className={classs} to="/MetaTagsGenrator">MetaTagsGenrator</NavLink></li>

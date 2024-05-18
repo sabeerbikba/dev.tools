@@ -53,7 +53,7 @@ ul {
    list-style-type: none;
 }
 
-li {
+.sidenav li {
    border-bottom: 2px solid #1f3151;
 }
 
