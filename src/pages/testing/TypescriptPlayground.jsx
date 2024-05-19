@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useReducer, useEffect, useRef } from 'react';
 import * as ts from 'typescript';
 import MonacoEditor from '@monaco-editor/react';
 import CopyBtn from '../../common/CopyBtn';
@@ -21,263 +21,314 @@ const compilerOption = {
 
 const compilerOptionTicks = {
    "Output Formatting": [{
+      check: true,
       label: "preserveWatchOutput",
       link: "https://www.typescriptlang.org/tsconfig#preserveWatchOutput",
       linkAlt: "Look up preserveWatchOutput in the TSConfig Reference",
       text: "Disable wiping the console in watch mode."
    }, {
+      check: false,
       label: "pretty",
       link: "https://www.typescriptlang.org/tsconfig/#pretty",
       linkAlt: "Look up pretty in the TSConfig Reference",
       text: "Enable color and formatting in TypeScript's output to make compiler errors easier to read."
    }, {
+      check: false,
       label: "noErrorTruncation",
       link: "https://www.typescriptlang.org/tsconfig#noErrorTruncation",
       linkAlt: "Look up noErrorTruncation in the TSConfig Reference",
       text: "Disable truncating types in error messages."
    }],
    "Emit": [{
+      check: false,
       label: "declaration",
       link: "https://www.typescriptlang.org/tsconfig#declaration",
       linkAlt: "Look up declaration in the TSConfig Reference",
       text: "Generate .d.ts files from TypeScript and JavaScript files in your project."
    }, {
+      check: false,
       label: "inlineSourceMap",
       link: "https://www.typescriptlang.org/tsconfig#inlineSourceMap",
       linkAlt: "Look up inlineSourceMap in the TSConfig Reference",
       text: "Include sourcemap files inside the emitted JavaScript."
    }, {
+      check: false,
       label: "removeComments",
       link: "https://www.typescriptlang.org/tsconfig#removeComments",
       linkAlt: "Look up removeComments in the TSConfig Reference",
       text: "Disable emitting comments."
    }, {
+      check: false,
       label: "importHelpers",
       link: "https://www.typescriptlang.org/tsconfig#importHelpers",
       linkAlt: "Look up importHelpers in the TSConfig Reference",
       text: "Allow importing helper functions from tslib once per project, instead of including them per-file."
    }, {
+      check: false,
       label: "downlevelIteration",
       link: "https://www.typescriptlang.org/tsconfig#downlevelIteration",
       linkAlt: "Look up downlevelIteration in the TSConfig Reference",
       text: "Emit more compliant, but verbose and less performant JavaScript for iteration."
    }, {
+      check: false,
       label: "inlineSources",
       link: "https://www.typescriptlang.org/tsconfig#inlineSources",
       linkAlt: "Look up inlineSources in the TSConfig Reference",
       text: "Include source code in the sourcemaps inside the emitted JavaScript."
    }, {
+      check: false,
       label: "stripInternal",
       link: "https://www.typescriptlang.org/tsconfig#stripInternal",
       linkAlt: "Look up stripInternal in the TSConfig Reference",
       text: "Disable emitting declarations that have <code>@internal</code> in their JSDoc comments."
    }, {
+      check: false,
       label: "noEmitHelpers",
       link: "https://www.typescriptlang.org/tsconfig#noEmitHelpers",
       linkAlt: "Look up noEmitHelpers in the TSConfig Reference",
       text: "Disable generating custom helper functions like __extends in compiled output."
    }, {
+      check: false,
       label: "preserveConstEnums",
       link: "https://www.typescriptlang.org/tsconfig#preserveConstEnums",
       linkAlt: "Look up preserveConstEnums in the TSConfig Reference",
       text: "Disable erasing <code>const enum</code> declarations in generated code."
    }, {
+      check: false,
       label: "preserveValueImports",
       link: "https://www.typescriptlang.org/tsconfig#preserveValueImports",
       linkAlt: "Look up preserveValueImports in the TSConfig Reference",
       text: "Preserve unused imported values in the JavaScript output that would otherwise be removed."
    }],
    "Interop Constraints": [{
+      check: false,
       label: "isolatedModules",
       link: "https://www.typescriptlang.org/tsconfig#isolatedModules",
       linkAlt: "Look up isolatedModules in the TSConfig Reference",
       text: "Ensure that each file can be safely transpiled without relying on other imports."
    }, {
+      check: false,
       label: "verbatimModuleSyntax",
       link: "https://www.typescriptlang.org/tsconfig#verbatimModuleSyntax",
       linkAlt: "Look up verbatimModuleSyntax in the TSConfig Reference",
       text: "Do not transform or elide any imports or exports not marked as type-only, ensuring they are written in the output file's format based on the 'module' setting."
    }, {
+      check: false,
       label: "allowSyntheticDefaultImports",
       link: "https://www.typescriptlang.org/tsconfig#allowSyntheticDefaultImports",
       linkAlt: "Look up allowSyntheticDefaultImports in the TSConfig Reference",
       text: "Allow 'import x from y' when a module doesn't have a default export."
    }, {
+      check: false,
       label: "esModuleInterop",
       link: "https://www.typescriptlang.org/tsconfig#esModuleInterop",
       linkAlt: "Look up esModuleInterop in the TSConfig Reference",
       text: "Emit additional JavaScript to ease support for importing CommonJS modules. This enables allowSyntheticDefaultImports for type compatibility."
    }],
    "Type Checking": [{
+      check: false,
       label: "strict",
       link: "https://www.typescriptlang.org/tsconfig#strict",
       linkAlt: "Look up strict in the TSConfig Reference",
       text: "Enable all strict type-checking options."
    }, {
+      check: false,
       label: "noImplicitAny",
       link: "https://www.typescriptlang.org/tsconfig#noImplicitAny",
       linkAlt: "Look up noImplicitAny in the TSConfig Reference",
       text: "Enable error reporting for expressions and declarations with an implied <code>any</code> type."
    }, {
+      check: false,
       label: "strictNullChecks",
       link: "https://www.typescriptlang.org/tsconfig#strictNullChecks",
       linkAlt: "Look up strictNullChecks in the TSConfig Reference",
       text: "When type checking, take into account <code>null</code> and <code>undefined</code>."
    }, {
+      check: false,
       label: "strictFunctionTypes",
       link: "https://www.typescriptlang.org/tsconfig#strictFunctionTypes",
       linkAlt: "Look up strictFunctionTypes in the TSConfig Reference",
       text: "When assigning functions, check to ensure parameters and the return values are subtype-compatible"
    }, {
+      check: false,
       label: "strictBindCallApply",
       link: "https://www.typescriptlang.org/tsconfig#strictBindCallApply",
       linkAlt: "Look up strictBindCallApply in the TSConfig Reference",
       text: "Check that the arguments for <code>bind</code>, <code>call</code>, and <code>apply</code> methods match the original function."
    }, {
+      check: false,
       label: "strictPropertyInitialization",
       link: "https://www.typescriptlang.org/tsconfig#strictPropertyInitialization",
       linkAlt: "Look up strictPropertyInitialization in the TSConfig Reference",
       text: "Check for class properties that are declared but not set in the constructor."
    }, {
+      check: false,
       label: "noImplicitThis",
       link: "https://www.typescriptlang.org/tsconfig#noImplicitThis",
       linkAlt: "Look up noImplicitThis in the TSConfig Reference",
       text: "Enable error reporting when <code>this</code> is given the type <code>any</code>."
    }, {
+      check: false,
       label: "useUnknownInCatchVariables",
       link: "https://www.typescriptlang.org/tsconfig#useUnknownInCatchVariables",
       linkAlt: "Look up useUnknownInCatchVariables in the TSConfig Reference",
       text: "Default catch clause variables as <code>unknown</code> instead of <code>any</code>."
    }, {
+      check: false,
       label: "alwaysStrict",
       link: "https://www.typescriptlang.org/tsconfig#alwaysStrict",
       linkAlt: "Look up alwaysStrict in the TSConfig Reference",
       text: "Ensure 'use strict' is always emitted."
    }, {
+      check: false,
       label: "noUnusedLocals",
       link: "https://www.typescriptlang.org/tsconfig#noUnusedLocals",
       linkAlt: "Look up noUnusedLocals in the TSConfig Reference",
       text: "Enable error reporting when local variables aren't read."
    }, {
+      check: false,
       label: "noUnusedParameters",
       link: "https://www.typescriptlang.org/tsconfig#noUnusedParameters",
       linkAlt: "Look up noUnusedParameters in the TSConfig Reference",
       text: "Raise an error when a function parameter isn't read."
    }, {
+      check: false,
       label: "exactOptionalPropertyTypes",
       link: "https://www.typescriptlang.org/tsconfig#exactOptionalPropertyTypes",
       linkAlt: "Look up exactOptionalPropertyTypes in the TSConfig Reference",
       text: "Interpret optional property types as written, rather than adding <code>undefined</code>"
    }, {
+      check: false,
       label: "noImplicitReturns",
       link: "https://www.typescriptlang.org/tsconfig#noImplicitReturns",
       linkAlt: "Look up noImplicitReturns in the TSConfig Reference",
       text: "Enable error reporting for codepaths that do not explicitly return in a function."
    }, {
+      check: false,
       label: "noFallthroughCasesInSwitch",
       link: "https://www.typescriptlang.org/tsconfig#noFallthroughCasesInSwitch",
       linkAlt: "Look up noFallthroughCasesInSwitch in the TSConfig Reference",
       text: "Enable error reporting for fallthrough cases in switch statements."
    }, {
+      check: false,
       label: "noUncheckedIndexedAccess",
       link: "https://www.typescriptlang.org/tsconfig#noUncheckedIndexedAccess",
       linkAlt: "Look up noUncheckedIndexedAccess in the TSConfig Reference",
       text: "Add <code>undefined</code> to a type when accessed using an index."
    }, {
+      check: false,
       label: "noImplicitOverride",
       link: "https://www.typescriptlang.org/tsconfig#noImplicitOverride",
       linkAlt: "Look up noImplicitOverride in the TSConfig Reference",
       text: "Ensure overriding members in derived classes are marked with an override modifier."
    }, {
+      check: false,
       label: "noPropertyAccessFromIndexSignature",
       link: "https://www.typescriptlang.org/tsconfig#noPropertyAccessFromIndexSignature",
       linkAlt: "Look up noPropertyAccessFromIndexSignature in the TSConfig Reference",
       text: "Enforces using indexed accessors for keys declared using an indexed type."
    }, {
+      check: false,
       label: "allowUnusedLabels",
       link: "https://www.typescriptlang.org/tsconfig#allowUnusedLabels",
       linkAlt: "Look up allowUnusedLabels in the TSConfig Reference",
       text: "Disable error reporting for unused labels."
    }, {
+      check: false,
       label: "allowUnreachableCode",
       link: "https://www.typescriptlang.org/tsconfig#allowUnreachableCode",
       linkAlt: "Look up allowUnreachableCode in the TSConfig Reference",
       text: "Disable error reporting for unreachable code."
    }],
    "Modules": [{
+      check: false,
       label: "allowUmdGlobalAccess",
       link: "https://www.typescriptlang.org/tsconfig#allowUmdGlobalAccess",
       linkAlt: "Look up allowUmdGlobalAccess in the TSConfig Reference",
       text: "Allow accessing UMD globals from modules."
    }, {
+      check: false,
       label: "allowImportingTsExtensions",
       link: "https://www.typescriptlang.org/tsconfig#allowImportingTsExtensions",
       linkAlt: "Look up allowImportingTsExtensions in the TSConfig Reference",
       text: "Allow imports to include TypeScript file extensions."
    }, {
+      check: false,
       label: "resolvePackageJsonExports",
       link: "https://www.typescriptlang.org/tsconfig#resolvePackageJsonExports",
       linkAlt: "Look up resolvePackageJsonExports in the TSConfig Reference",
       text: "Use the package.json 'exports' field when resolving package imports."
    }, {
+      check: false,
       label: "resolvePackageJsonImports",
       link: "https://www.typescriptlang.org/tsconfig#resolvePackageJsonImports",
       linkAlt: "Look up resolvePackageJsonImports in the TSConfig Reference",
       text: "Use the package.json 'imports' field when resolving imports."
    }, {
+      check: false,
       label: "allowArbitraryExtensions",
       link: "https://www.typescriptlang.org/tsconfig#allowArbitraryExtensions",
       linkAlt: "Look up allowArbitraryExtensions in the TSConfig Reference",
       text: "Enable importing files with any extension, provided a declaration file is present."
    }],
    "Language and Environment": [{
+      check: false,
       label: "experimentalDecorators",
       link: "https://www.typescriptlang.org/tsconfig#experimentalDecorators",
       linkAlt: "Look up experimentalDecorators in the TSConfig Reference",
       text: "Enable experimental support for TC39 stage 2 draft decorators."
    }, {
+      check: false,
       label: "emitDecoratorMetadata",
       link: "https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata",
       linkAlt: "Look up emitDecoratorMetadata in the TSConfig Reference",
       text: "Emit design-type metadata for decorated declarations in source files."
    }, {
+      check: true,
       label: "noLib",
       link: "https://www.typescriptlang.org/tsconfig#noLib",
       linkAlt: "Look up noLib in the TSConfig Reference",
       text: " Disable including any library files, including the default lib.d.ts."
    }, {
+      check: false,
       label: "useDefineForClassFields",
       link: "https://www.typescriptlang.org/tsconfig#useDefineForClassFields",
       linkAlt: "Look up useDefineForClassFields in the TSConfig Reference",
       text: "Emit ECMAScript-standard-compliant class fields."
    }],
    "Projects": [{
+      check: false,
       label: "disableSourceOfProjectReferenceRedirect",
       link: "https://www.typescriptlang.org/tsconfig#disableSourceOfProjectReferenceRedirect",
       linkAlt: "Look up disableSourceOfProjectReferenceRedirect in the TSConfig Reference",
       text: "Disable preferring source files instead of declaration files when referencing composite projects."
    },],
    "Backwards Compatibility": [{
+      check: false,
       label: "noImplicitUseStrict",
       link: "https://www.typescriptlang.org/tsconfig#noImplicitUseStrict",
       linkAlt: "Look up noImplicitUseStrict in the TSConfig Reference",
       text: "Disable adding 'use strict' directives in emitted JavaScript files."
    }, {
+      check: false,
       label: "suppressExcessPropertyErrors",
       link: "https://www.typescriptlang.org/tsconfig#suppressExcessPropertyErrors",
       linkAlt: "Look up suppressExcessPropertyErrors in the TSConfig Reference",
       text: "Disable reporting of excess property errors during the creation of object literals."
    }, {
+      check: false,
       label: "suppressImplicitAnyIndexErrors",
       link: "https://www.typescriptlang.org/tsconfig#suppressImplicitAnyIndexErrors",
       linkAlt: "Look up suppressImplicitAnyIndexErrors in the TSConfig Reference",
       text: "Suppress <code>noImplicitAny</code> errors when indexing objects that lack index signatures."
    }, {
+      check: false,
       label: "noStrictGenericChecks",
       link: "https://www.typescriptlang.org/tsconfig#noStrictGenericChecks",
       linkAlt: "Look up noStrictGenericChecks in the TSConfig Reference",
       text: "Disable strict checking of generic signatures in function types."
    }, {
+      check: false,
       label: "keyofStringsOnly",
       link: "https://www.typescriptlang.org/tsconfig#keyofStringsOnly",
       linkAlt: "Look up keyofStringsOnly in the TSConfig Reference",
@@ -285,6 +336,35 @@ const compilerOptionTicks = {
    },]
 };
 
+const actionTypes = {
+   UPDATE_VALUE: 'UPDATE_VALUE',
+}
+
+const createInitialState = (compilerOptions) => {
+   const initialState = {};
+
+   for (const category in compilerOptions) {
+      compilerOptions[category].forEach(option => {
+         initialState[option.label] = option.check;
+      });
+   }
+
+   return initialState;
+};
+
+const initialState = createInitialState(compilerOptionTicks);
+console.log(initialState);
+
+
+function checkboxReducer(state, action) {
+   console.log(action); // Debugging line
+   switch (action.type) {
+      case actionTypes.UPDATE_VALUE:
+         return { ...state, [action.field]: action.value };
+      default:
+         throw new Error('Invalid action');
+   }
+}
 
 
 export default function TypescriptPlayground() {
@@ -299,6 +379,80 @@ export default function TypescriptPlayground() {
    const [target, setTarget] = useState(compilerOption.Target.options[0]);
    const [JSX, setJSX] = useState(compilerOption.JSX.options[0]);
    const [module, setModule] = useState(compilerOption.Module.options[0]);
+
+   const [checkboxState, dispatch] = useReducer(checkboxReducer, initialState);
+
+   const {
+      // "Output Formatting"
+      preserveWatchOutput,
+      pretty,
+      noErrorTruncation,
+
+      // "Emit"
+      declaration,
+      inlineSourceMap,
+      removeComments,
+      importHelpers,
+      downlevelIteration,
+      inlineSources,
+      stripInternal,
+      noEmitHelpers,
+      preserveConstEnums,
+      preserveValueImports,
+
+      // "Interop Constraints"
+      isolatedModules,
+      verbatimModuleSyntax,
+      allowSyntheticDefaultImports,
+      esModuleInterop,
+
+      // "Type Checking"
+      strict,
+      noImplicitAny,
+      strictNullChecks,
+      strictFunctionTypes,
+      strictBindCallApply,
+      strictPropertyInitialization,
+      noImplicitThis,
+      useUnknownInCatchVariables,
+      alwaysStrict,
+      noUnusedLocal,
+      noUnusedParameters,
+      exactOptionalPropertyTypes,
+      noImplicitReturns,
+      noFallthroughCasesInSwitch,
+      noUncheckedIndexedAccess,
+      noImplicitOverride,
+      noPropertyAccessFromIndexSignature,
+      allowUnusedLabels,
+      allowUnreachableCode,
+      allowUmdGlobalAccess,
+      allowImportingTsExtensions,
+      resolvePackageJsonExports,
+      resolvePackageJsonImports,
+      allowArbitraryExtensions,
+
+      // "Language and Environment"
+      experimentalDecorators,
+      emitDecoratorMetadata,
+      noLib,
+      useDefineForClassFields,
+
+      // "Projects"
+      disableSourceOfProjectReferenceRedirect,
+
+      // "Backwards Compatibility"
+      noImplicitUseStrict,
+      suppressExcessPropertyErrors,
+      suppressImplicitAnyIndexErrors,
+      noStrictGenericChecks,
+      keyofStringsOnly,
+   } = checkboxState;
+
+
+   console.log('checkArr::: ' + compilerOptionTicks["Output Formatting"][0].check);
+   console.log('checkInit::: ' + initialState.preserveWatchOutput);
+   console.log('checkStat::: ' + preserveWatchOutput);
 
    const options = {
       minimap: {
@@ -408,6 +562,16 @@ console.log(message);
       };
    }, [showOptions]);
 
+   const handleChange = (e) => {
+      const { name, checked } = e.target;
+      console.log(name);
+      dispatch({
+         type: actionTypes.UPDATE_VALUE,
+         field: name,
+         value: checked,
+      });
+   };
+
    const styles = {
       main: 'monaco-container', inputDiv: 'monaco-style monaco-editor',
       inputHead: "flex justify-between items-center mt-4 gap-4 h-12",
@@ -456,25 +620,6 @@ console.log(message);
                >
                   <div className="info" id="config-container">
 
-                     {/* <div style={{ display: 'flex', margin: '10px 0' }}>
-                        {Object.entries(compilerOption).map(([key, { options, text }]) => (
-                           <label key={key} style={{ flex: '1', margin: '5px', }}>
-                              <span style={{ fontWeight: 'bold' }}>{key}:</span>
-                              <select style={{ marginLeft: '12px', marginTop: '10px', height: '20px', borderRadius: '4px', textAlign: 'center', color: 'black' }}>
-                                 {options.map((option, index) => (
-                                    <option key={index} value={option}>
-                                       {option}
-                                    </option>
-                                 ))}
-                              </select>
-                              <span>
-                                 <p>{text}</p>
-                              </span>
-                           </label>
-                        ))}
-                     </div> */}
-
-
                      {/* <div> */}
                      <div style={{ display: 'flex', margin: '10px 0' }}>
                         {Object.entries(compilerOption).map(([key, { options, text }]) => {
@@ -511,19 +656,19 @@ console.log(message);
                      </div>
 
 
-
-                     {/* <div>
+                     <div>
                         {Object.entries(compilerOptionTicks).map(([category, items]) => (
                            <div key={category}>
                               <h4>{category}</h4>
                               <ol>
-                                 {items.map(({ label, link, linkAlt, text }) => (
+                                 {items.map(({ label, link, linkAlt, text, check }) => (
                                     <li key={label} aria-expanded="false">
                                        <input
                                           type="checkbox"
-                                          defaultValue={label}
                                           name={label}
+                                          checked={checkboxState[label]} // Use state managed by the reducer
                                           id={`option-${label}`}
+                                          onChange={handleChange}
                                        />
                                        <label style={{ position: "relative", width: "100%" }} htmlFor={`option-${label}`}>
                                           <span>{label}</span>
@@ -559,9 +704,9 @@ console.log(message);
                               </ol>
                            </div>
                         ))}
-                     </div> */}
+                     </div>
 
-                     <div>
+                     {/* <div>
                         {Object.entries(compilerOptionTicks).map(([category, items]) => (
                            <div key={category}>
                               <h4>{category}</h4>
@@ -572,9 +717,9 @@ console.log(message);
                               </ol>
                            </div>
                         ))}
-                     </div>
+                     </div> */}
 
-                     <div>
+                     {/* <div>
                         <div>
                            <h4 style={{ fontSize: '19px', fontWeight: 'bold' }}>Output Formatting</h4>
                            <ol>
@@ -596,7 +741,7 @@ console.log(message);
                                        alt="Look up preserveWatchOutput in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -642,7 +787,7 @@ console.log(message);
                                        alt="Look up pretty in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -691,7 +836,7 @@ console.log(message);
                                        alt="Look up noErrorTruncation in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -742,7 +887,7 @@ console.log(message);
                                        alt="Look up declaration in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -791,7 +936,7 @@ console.log(message);
                                        alt="Look up inlineSourceMap in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -837,7 +982,7 @@ console.log(message);
                                        alt="Look up removeComments in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -883,7 +1028,7 @@ console.log(message);
                                        alt="Look up importHelpers in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -932,7 +1077,7 @@ console.log(message);
                                        alt="Look up downlevelIteration in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -981,7 +1126,7 @@ console.log(message);
                                        alt="Look up inlineSources in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1030,7 +1175,7 @@ console.log(message);
                                        alt="Look up stripInternal in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1079,7 +1224,7 @@ console.log(message);
                                        alt="Look up noEmitHelpers in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1128,7 +1273,7 @@ console.log(message);
                                        alt="Look up preserveConstEnums in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1177,7 +1322,7 @@ console.log(message);
                                        alt="Look up preserveValueImports in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1231,7 +1376,7 @@ console.log(message);
                                        alt="Look up isolatedModules in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1280,7 +1425,7 @@ console.log(message);
                                        alt="Look up verbatimModuleSyntax in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1330,7 +1475,7 @@ console.log(message);
                                        alt="Look up allowSyntheticDefaultImports in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1379,7 +1524,7 @@ console.log(message);
                                        alt="Look up esModuleInterop in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1437,7 +1582,7 @@ console.log(message);
                                        alt="Look up strict in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1483,7 +1628,7 @@ console.log(message);
                                        alt="Look up noImplicitAny in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1532,7 +1677,7 @@ console.log(message);
                                        alt="Look up strictNullChecks in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1581,7 +1726,7 @@ console.log(message);
                                        alt="Look up strictFunctionTypes in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1630,7 +1775,7 @@ console.log(message);
                                        alt="Look up strictBindCallApply in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1680,7 +1825,7 @@ console.log(message);
                                        alt="Look up strictPropertyInitialization in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1729,7 +1874,7 @@ console.log(message);
                                        alt="Look up noImplicitThis in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1778,7 +1923,7 @@ console.log(message);
                                        alt="Look up useUnknownInCatchVariables in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1827,7 +1972,7 @@ console.log(message);
                                        alt="Look up alwaysStrict in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1873,7 +2018,7 @@ console.log(message);
                                        alt="Look up noUnusedLocals in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1919,7 +2064,7 @@ console.log(message);
                                        alt="Look up noUnusedParameters in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -1965,7 +2110,7 @@ console.log(message);
                                        alt="Look up exactOptionalPropertyTypes in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2014,7 +2159,7 @@ console.log(message);
                                        alt="Look up noImplicitReturns in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2063,7 +2208,7 @@ console.log(message);
                                        alt="Look up noFallthroughCasesInSwitch in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2112,7 +2257,7 @@ console.log(message);
                                        alt="Look up noUncheckedIndexedAccess in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2161,7 +2306,7 @@ console.log(message);
                                        alt="Look up noImplicitOverride in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2210,7 +2355,7 @@ console.log(message);
                                        alt="Look up noPropertyAccessFromIndexSignature in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2259,7 +2404,7 @@ console.log(message);
                                        alt="Look up allowUnusedLabels in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2305,7 +2450,7 @@ console.log(message);
                                        alt="Look up allowUnreachableCode in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2356,7 +2501,7 @@ console.log(message);
                                        alt="Look up allowUmdGlobalAccess in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2402,7 +2547,7 @@ console.log(message);
                                        alt="Look up allowImportingTsExtensions in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2448,7 +2593,7 @@ console.log(message);
                                        alt="Look up resolvePackageJsonExports in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2497,7 +2642,7 @@ console.log(message);
                                        alt="Look up resolvePackageJsonImports in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2545,7 +2690,7 @@ console.log(message);
                                        alt="Look up allowArbitraryExtensions in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2599,7 +2744,7 @@ console.log(message);
                                        alt="Look up experimentalDecorators in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2647,7 +2792,7 @@ console.log(message);
                                        alt="Look up emitDecoratorMetadata in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2696,7 +2841,7 @@ console.log(message);
                                        alt="Look up noLib in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2745,7 +2890,7 @@ console.log(message);
                                        alt="Look up useDefineForClassFields in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2796,7 +2941,7 @@ console.log(message);
                                        alt="Look up disableSourceOfProjectReferenceRedirect in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2850,7 +2995,7 @@ console.log(message);
                                        alt="Look up noImplicitUseStrict in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2899,7 +3044,7 @@ console.log(message);
                                        alt="Look up suppressExcessPropertyErrors in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -2948,7 +3093,7 @@ console.log(message);
                                        alt="Look up suppressImplicitAnyIndexErrors in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
+                                       
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -3000,7 +3145,6 @@ console.log(message);
                                        alt="Look up noStrictGenericChecks in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -3048,7 +3192,6 @@ console.log(message);
                                        alt="Look up keyofStringsOnly in the TSConfig Reference"
                                        target="_blank"
                                     >
-                                       {/*?xml version="1.0" encoding="UTF-8"?*/}
                                        <svg
                                           width="20px"
                                           height="20px"
@@ -3081,7 +3224,7 @@ console.log(message);
                               </li>
                            </ol>
                         </div>
-                     </div>
+                     </div> */}
                   </div>
                </div>
             )};
