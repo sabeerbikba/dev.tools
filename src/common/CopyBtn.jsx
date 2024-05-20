@@ -8,6 +8,7 @@ export default function CopyBtn({
    svg,
    setCopyBtnDisabled,
    copyBtnDisabled,
+   className,
 }) {
 
    async function handleCopyBtn() {
@@ -40,6 +41,7 @@ export default function CopyBtn({
          disabled={copyBtnDisabled}
          onClick={handleCopyBtn}
          style={{ ...style.btn, ...styles, }}
+         className={className}
       >
          {btnText}
          {svg && (
@@ -67,4 +69,5 @@ CopyBtn.propTypes = {
    svg: PropTypes.bool,
    setCopyBtnDisabled: PropTypes.func,
    copyBtnDisabled: PropTypes.bool,
+   className: PropTypes.string,
 };

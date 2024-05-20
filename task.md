@@ -15,6 +15,7 @@
 - [ ] make website PWA, offline site: link: </DevToolboxWeb/issues/50>
 - [x] add google console in websites.jsx - completed 06/05/24
 - [x] delete task.todo file from repo - completed 06/05/24
+- [ ] need to correct stringConverter component logic when [ chnage case with selector ]
 
 ## Tools Ideas
 
