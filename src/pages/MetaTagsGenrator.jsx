@@ -46,6 +46,7 @@ const initialState = {
    tcUrl: { value: '', isValid: true, blur: false },
    tcDescription: '',
 };
+
 const actionTypes = {
    UPDATE_INPUT: 'UPDATE_INPUT',
    CLEAR_INPUTS: 'CLEAR_INPUTS',

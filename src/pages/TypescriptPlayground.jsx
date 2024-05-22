@@ -6,22 +6,11 @@ import CopyBtn from '../common/CopyBtn';
 import { compilerOption, compilerOptionTicks } from '../data/typescriptPlayground';
 import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
 
-const actionTypes = {
-   SET_COPY_BTN_DISABLED: 'SET_COPY_BTN_DISABLED',
-   UPDATE_SHOW_OPTIONS: 'UPDATE_SHOW_OPTIONS',
-   MANAGE_CONSOLE_LOGS: 'MANAGE_CONSOLE_LOGS',
-
-   // localStorage
-   UPDATE_COMPILER_TICKS: 'UPDATE_COMPILER_TICKS',
-   UPDATE_COMPILER_OPTIONS: 'UPDATE_COMPILER_OPTIONS',
-   UPDATE_CODE: 'UPDATE_CODE',
-}
-
 const initCode = `const message: string = 'hello world';
 // console.log(message);
 // `.trim();
 
-const createInitialState = (compilerOptions) => {
+function createInitialState(compilerOptions) {
    const initialState = {};
 
    for (const category in compilerOptions) {
@@ -48,6 +37,17 @@ localStorageInitialState = {
    module: compilerOption.Module.options[8],
    ...localStorageInitialState,
 };
+
+const actionTypes = {
+   SET_COPY_BTN_DISABLED: 'SET_COPY_BTN_DISABLED',
+   UPDATE_SHOW_OPTIONS: 'UPDATE_SHOW_OPTIONS',
+   MANAGE_CONSOLE_LOGS: 'MANAGE_CONSOLE_LOGS',
+
+   // localStorage
+   UPDATE_COMPILER_TICKS: 'UPDATE_COMPILER_TICKS',
+   UPDATE_COMPILER_OPTIONS: 'UPDATE_COMPILER_OPTIONS',
+   UPDATE_CODE: 'UPDATE_CODE',
+}
 
 function reducer(state, action) {
    switch (action.type) {
@@ -103,11 +103,10 @@ function localStorageReducer(state, action) {
    }
 }
 
-
 export default function TypescriptPlayground() {
    const tsConfigRef = useRef(null);
    const [state, dispatch] = useReducer(reducer, initialState)
-   const [localStorageState, localStorageDispatch] = useLocalStorageReducer('typescriptPlayground', localStorageReducer, localStorageInitialState); // TODO: need to use localStorage reducer 
+   const [localStorageState, localStorageDispatch] = useLocalStorageReducer('typescriptPlayground', localStorageReducer, localStorageInitialState);
 
    const {
       consoleLogs,
@@ -351,8 +350,15 @@ export default function TypescriptPlayground() {
 
    const styles = {
       main: 'monaco-container', inputHeadFlex: "flex gap-4 items-center mb-3", inputHeadText: "font-bold text-xl text-white",
-      btnsClass: "rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500",
       outputDiv: 'monaco-style monaco-result', btns: { height: '37px', width: '120px' },
+      configMain: { height: "100%", overflow: 'scroll', width: '100%', color: '#d5d5d5' }, dropdownsDiv: { display: 'flex', margin: '10px 0' },
+      dropdownsLabel: { flex: '1', margin: '5px', }, dropdownsSelect: { marginLeft: '12px', marginTop: '10px', height: '20px', borderRadius: '4px', textAlign: 'center', color: 'black', minWidth: '100px' },
+      checkboxDiv: { borderBottom: '2px solid white' }, checkboxH4: { fontSize: '17.5px', fontWeight: 'bold' }, checkboxOl: { display: 'flex', flexWrap: 'wrap', marginBottom: '20px' },
+      checkboxLi: { display: 'flex', width: '49%' }, checkboxLabel: { position: "relative", width: "100%", position: 'relative', margin: 'auto 0' }, checkboxLabelSpan: { width: '100%', display: 'inline-block', fontWeight: 'bold', fontStyle: 'oblique' },
+      btnsDiv: { display: 'flex', justifyContent: 'space-around', margin: '15px 0' },
+      btnsClass: "rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500",
+      consoleDiv: { border: '2px solid grey', borderRadius: '5px', overflowY: 'scroll', height: '37%', color: 'white', backgroundColor: '#232327' },
+      consoleH2: { fontSize: '20px', margin: '0 8px', paddingLeft: '4px', borderBottom: '1px solid white' },
    }
 
    return (
@@ -384,10 +390,9 @@ export default function TypescriptPlayground() {
                   options={{ readOnly: true, ...options }}
                />
             ) : (
-               <div ref={tsConfigRef} style={{ height: "100%", overflow: 'scroll', width: '100%', color: '#d5d5d5' }}>
+               <div ref={tsConfigRef} style={styles.configMain}>
                   <div className="info" id="config-container">
-
-                     <div style={{ display: 'flex', margin: '10px 0' }}>
+                     <div style={styles.dropdownsDiv}>
                         {Object.entries(compilerOption).map(([key, { options, text }]) => {
                            const stateValue =
                               key === 'Target' ? target :
@@ -403,9 +408,9 @@ export default function TypescriptPlayground() {
                            };
 
                            return (
-                              <label key={key} style={{ flex: '1', margin: '5px', }}>
+                              <label key={key} style={styles.dropdownsLabel}>
                                  <span style={{ fontWeight: 'bold' }}>{key}:</span>
-                                 <select value={stateValue} onChange={handleChangeCompilerOption} style={{ marginLeft: '12px', marginTop: '10px', height: '20px', borderRadius: '4px', textAlign: 'center', color: 'black', minWidth: '100px' }}>
+                                 <select value={stateValue} onChange={handleChangeCompilerOption} style={styles.dropdownsSelect}>
                                     {options.map((option, index) => (
                                        <option key={index} value={option}>
                                           {option}
@@ -419,15 +424,13 @@ export default function TypescriptPlayground() {
                            );
                         })}
                      </div>
-
-
-                     <div style={{ borderBottom: '2px solid white' }}>
+                     <div style={styles.checkboxDiv}>
                         {Object.entries(compilerOptionTicks).map(([category, items]) => (
                            <div key={category}>
-                              <h4 style={{ fontSize: '17.5px', fontWeight: 'bold' }}>{category}</h4>
-                              <ol style={{ display: 'flex', flexWrap: 'wrap', marginBottom: '20px  ' }}>
+                              <h4 style={styles.checkboxH4}>{category}</h4>
+                              <ol style={styles.checkboxOl}>
                                  {items.map(({ label, text }) => (
-                                    <li key={label} onClick={(e) => handleClickOnListItem(e, label)} style={{ display: 'flex', width: '49%' }}>
+                                    <li key={label} onClick={(e) => handleClickOnListItem(e, label)} style={styles.checkboxLi}>
                                        <input
                                           type="checkbox"
                                           name={label}
@@ -435,8 +438,8 @@ export default function TypescriptPlayground() {
                                           onChange={handleChangeCompilerOptionTicks}
                                           style={{ marginRight: '8px' }}
                                        />
-                                       <label style={{ position: "relative", width: "100%", position: 'relative', margin: 'auto 0' }} htmlFor={`option-${label}`}>
-                                          <span style={{ width: '100%', display: 'inline-block', fontWeight: 'bold', fontStyle: 'oblique' }} >{label}</span>
+                                       <label style={styles.checkboxLabel} htmlFor={`option-${label}`}>
+                                          <span style={styles.checkboxLabelSpan} >{label}</span>
                                           <a
                                              href={'https://www.typescriptlang.org/tsconfig/#' + label}
                                              className="compiler_info_link"
@@ -472,12 +475,10 @@ export default function TypescriptPlayground() {
                            </div>
                         ))}
                      </div>
-
                   </div>
                </div>
             )};
-
-            <div style={{ display: 'flex', justifyContent: 'space-around', margin: '15px 0' }}>
+            <div style={styles.btnsDiv}>
                <button type="button" className={styles.btnsClass} style={styles.btns} onClick={clearInputs}>
                   ClearCode
                </button>
@@ -501,9 +502,8 @@ export default function TypescriptPlayground() {
                   TypeOptions
                </button>
             </div>
-
-            <div style={{ border: '2px solid grey', borderRadius: '5px', overflowY: 'scroll', height: '37%', color: 'white', backgroundColor: '#232327' }}>
-               <h2 style={{ fontSize: '20px', margin: '0 8px', paddingLeft: '4px', borderBottom: '1px solid white' }}>LOGS</h2>
+            <div style={styles.consoleDiv}>
+               <h2 style={styles.consoleH2}>LOGS</h2>
                <ol>
                   {consoleLogs.slice().reverse().map((log, index) => (
                      <li style={{ borderBottom: '1px solid grey' }} key={index}>
@@ -551,23 +551,3 @@ export function TypescriptPlaygroundFallback() {
       </div>
    );
 }
-
-
-/** TODO:
-//  * PropTypes
-//  * need to crate custom fallback for this component create here and use in app.jsx
-//  * last code need to show 
-//  * show which version is using 
-//  * remvoe unused styles from styles array 
-//  * hover button color change 
-//  * need to use localstorage reducer 
-//  * nammings 
-//  * clearLogs button crating error 
-//  * if tick removed not work if tick not tick it work fine compiling code 
-//  * fix for <code> elment in 2nd array text 
- * 
- * 
- * 818cf8
- */
-
-
