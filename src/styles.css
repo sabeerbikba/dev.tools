@@ -558,3 +558,11 @@ hr.hr {
       opacity: 1;
    }
 }
+
+.compiler_info_link {
+   display: none;
+}
+
+li:hover .compiler_info_link {
+   display: block;
+}

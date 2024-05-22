@@ -10,12 +10,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import Layout from "./Layout";
 import NoPage from "./pages/NoPage";
 import SuspenseWithFallback from "./components/SuspenseWithFallback.jsx";
-import { TypescriptPlaygroundFallback } from './pages/testing/TypescriptPlayground.jsx';
+import { TypescriptPlaygroundFallback } from './pages/TypescriptPlayground.jsx';
 
 import SearchEngine from "./pages/SearchEngine.jsx";
 const LiveHtml = lazy(() => import("./pages/LiveHtml.jsx"));
 const MetaTagsGenrator = lazy(() => import("./pages/MetaTagsGenrator.jsx"));
-const TypescriptPlayground = lazy(() => import('./pages/testing/TypescriptPlayground.jsx'));
+const TypescriptPlayground = lazy(() => import('./pages/TypescriptPlayground.jsx'));
 const GrapesJSEditor = lazy(() => import("./pages/GrapesJSEditor.jsx"));
 import UnitConverter from "./pages/UnitConverter.jsx";
 import CharacterAndWordCounter from "./pages/CharacterAndWordCounter.jsx";
