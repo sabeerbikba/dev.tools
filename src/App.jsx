@@ -1,16 +1,14 @@
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 
-import { useEffect, lazy } from "react";
+import { lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import { isMobile } from 'react-device-detect';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Layout from "./Layout";
 import NoPage from "./pages/NoPage";
 import SuspenseWithFallback from "./components/SuspenseWithFallback.jsx";
-import { TypescriptPlaygroundFallback } from './pages/TypescriptPlayground.jsx';
 
 import SearchEngine from "./pages/SearchEngine.jsx";
 const LiveHtml = lazy(() => import("./pages/LiveHtml.jsx"));
@@ -28,14 +26,6 @@ import Websites from "./pages/Websites.jsx";
 // import Test from "./pages/testing/Test.jsx" // Testing purpose
 
 export default function App() {
-   useEffect(() => {
-      if (isMobile) {
-         toast.warn('Warning: This website is best viewed on a larger screen.', {
-            position: toast.POSITION.BOTTOM_CENTER,
-            autoClose: 5000,
-         });
-      }
-   }, []);
 
    return (
       <>
@@ -46,7 +36,7 @@ export default function App() {
                   <Route path="SearchEngine" element={<SearchEngine />} />
                   <Route path="LiveHtml" element={<SuspenseWithFallback><LiveHtml /></SuspenseWithFallback>} />
                   <Route path="MetaTagsGenrator" element={<SuspenseWithFallback><MetaTagsGenrator /></SuspenseWithFallback>} />
-                  <Route path="TypescriptPlayground" element={<SuspenseWithFallback fallback={<TypescriptPlaygroundFallback />}><TypescriptPlayground /></SuspenseWithFallback>} />
+                  <Route path="TypescriptPlayground" element={<SuspenseWithFallback text='Downloading TypeScript...'><TypescriptPlayground /></SuspenseWithFallback>} />
                   <Route path="GrapesjsEditor" element={<SuspenseWithFallback><GrapesJSEditor /></SuspenseWithFallback>} />
                   <Route path="UnitConverter" element={<UnitConverter />} />
                   <Route path="CharacterAndWordCounter" element={<CharacterAndWordCounter />} />

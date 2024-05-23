@@ -1,20 +1,22 @@
 import React, { useEffect, Suspense } from "react";
 import PropTypes from "prop-types";
 
-export default function SuspenseWithFallback({ children, fallback = <Fallback /> }) {
+export default function SuspenseWithFallback({ children, fallback = <Fallback />, text = "Loading..." }) {
+   const fallbackComponent = React.cloneElement(fallback, { text });
 
    return (
-      <Suspense fallback={fallback}>
+      <Suspense fallback={fallbackComponent}>
          {children}
       </Suspense>
    );
 }
 SuspenseWithFallback.propTypes = {
    children: PropTypes.node.isRequired,
-   fallback: PropTypes.node
+   fallback: PropTypes.node, // lazy or dynamic import not supported with this prop
+   text: PropTypes.string,
 };
 
-function Fallback() {
+function Fallback({ text }) {
    useEffect(() => {
       const style = document.createElement('style');
       style.innerHTML = `
@@ -44,7 +46,7 @@ function Fallback() {
    return (
       <div style={styles.containerStyle}>
          <div style={styles.spinnerStyle}></div>
-         <p style={styles.messageStyle}>Loading...</p>
+         <p style={styles.messageStyle}>{text}</p>
       </div>
    );
 }

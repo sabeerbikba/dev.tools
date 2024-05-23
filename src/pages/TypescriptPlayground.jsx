@@ -201,9 +201,11 @@ export default function TypescriptPlayground() {
             target: ts.ScriptTarget[target],
             module: ts.ModuleKind[module],
             jsx: ts.JsxEmit[JSX],
+            // Output Formatting
             preserveWatchOutput,
             pretty,
             noErrorTruncation,
+            // Emit
             declaration,
             inlineSourceMap,
             removeComments,
@@ -214,10 +216,12 @@ export default function TypescriptPlayground() {
             noEmitHelpers,
             preserveConstEnums,
             preserveValueImports,
+            // Interop Constraints
             isolatedModules,
             verbatimModuleSyntax,
             allowSyntheticDefaultImports,
             esModuleInterop,
+            // Type Checking
             strict,
             noImplicitAny,
             strictNullChecks,
@@ -237,16 +241,20 @@ export default function TypescriptPlayground() {
             noPropertyAccessFromIndexSignature,
             allowUnusedLabels,
             allowUnreachableCode,
+            // Modules
             allowUmdGlobalAccess,
             allowImportingTsExtensions,
             resolvePackageJsonExports,
             resolvePackageJsonImports,
             allowArbitraryExtensions,
+            // Language and Environment
             experimentalDecorators,
             emitDecoratorMetadata,
             noLib,
             useDefineForClassFields,
+            // Projects
             disableSourceOfProjectReferenceRedirect,
+            // Backwards Compatibility
             noImplicitUseStrict,
             suppressExcessPropertyErrors,
             suppressImplicitAnyIndexErrors,
@@ -354,7 +362,7 @@ export default function TypescriptPlayground() {
       configMain: { height: "100%", overflow: 'scroll', width: '100%', color: '#d5d5d5' }, dropdownsDiv: { display: 'flex', margin: '10px 0' },
       dropdownsLabel: { flex: '1', margin: '5px', }, dropdownsSelect: { marginLeft: '12px', marginTop: '10px', height: '20px', borderRadius: '4px', textAlign: 'center', color: 'black', minWidth: '100px' },
       checkboxDiv: { borderBottom: '2px solid white' }, checkboxH4: { fontSize: '17.5px', fontWeight: 'bold' }, checkboxOl: { display: 'flex', flexWrap: 'wrap', marginBottom: '20px' },
-      checkboxLi: { display: 'flex', width: '49%' }, checkboxLabel: { position: "relative", width: "100%", position: 'relative', margin: 'auto 0' }, checkboxLabelSpan: { width: '100%', display: 'inline-block', fontWeight: 'bold', fontStyle: 'oblique' },
+      checkboxLi: { display: 'flex', width: '49%' }, checkboxLabel: { position: "relative", width: "100%", margin: 'auto 0' }, checkboxLabelSpan: { width: '100%', display: 'inline-block', fontWeight: 'bold', fontStyle: 'oblique' },
       btnsDiv: { display: 'flex', justifyContent: 'space-around', margin: '15px 0' },
       btnsClass: "rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500",
       consoleDiv: { border: '2px solid grey', borderRadius: '5px', overflowY: 'scroll', height: '37%', color: 'white', backgroundColor: '#232327' },
@@ -513,41 +521,6 @@ export default function TypescriptPlayground() {
                </ol>
             </div>
          </div>
-      </div>
-   );
-}
-
-export function TypescriptPlaygroundFallback() {
-   useEffect(() => {
-      const style = document.createElement('style');
-      style.innerHTML = `
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-        `;
-      document.head.appendChild(style);
-
-      return () => {
-         document.head.removeChild(style);
-      };
-   }, []);
-
-   const styles = {
-      spinnerStyle: {
-         border: '4px solid rgba(0, 0, 0, 0.1)', width: '40px', height: '40px', borderRadius: '50%',
-         borderLeftColor: '#09f', animation: 'spin 1s ease infinite', marginBottom: '20px',
-      },
-      messageStyle: { fontSize: '18px', color: '#ffffff', },
-      containerStyle: {
-         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-         height: '100vh', backgroundColor: '#2a2a2a', fontFamily: "'Arial', sans-serif",
-      }
-   }
-   return (
-      <div style={styles.containerStyle}>
-         <div style={styles.spinnerStyle}></div>
-         <p style={styles.messageStyle}>Donwloading typescirpt...</p>
       </div>
    );
 }
