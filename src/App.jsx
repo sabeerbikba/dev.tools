@@ -63,8 +63,8 @@ export default function App() {
          </BrowserRouter>
          <ToastContainer />
          {/* // vercel */}
-         {/* <SpeedInsights /> */}
-         {/* <Analytics /> */}
+         <SpeedInsights />
+         <Analytics />
       </>
    );
 }
