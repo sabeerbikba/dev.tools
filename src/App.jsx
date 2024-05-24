@@ -16,6 +16,7 @@ import LiveReact from './pages/LiveReact.jsx';
 const MetaTagsGenrator = lazy(() => import("./pages/MetaTagsGenrator.jsx"));
 const TypescriptPlayground = lazy(() => import('./pages/TypescriptPlayground.jsx'));
 const GrapesJSEditor = lazy(() => import("./pages/GrapesJSEditor.jsx"));
+const LoremIpsumGenerator = lazy(() => import("./pages/LoremIpsumGenrator.jsx"));
 import UnitConverter from "./pages/UnitConverter.jsx";
 import CharacterAndWordCounter from "./pages/CharacterAndWordCounter.jsx";
 const ColorConverter = lazy(() => import('./pages/ColorConverter.jsx'));
@@ -40,6 +41,7 @@ export default function App() {
                   <Route path="MetaTagsGenrator" element={<SuspenseWithFallback><MetaTagsGenrator /></SuspenseWithFallback>} />
                   <Route path="TypescriptPlayground" element={<SuspenseWithFallback text='Downloading TypeScript...'><TypescriptPlayground /></SuspenseWithFallback>} />
                   <Route path="GrapesjsEditor" element={<SuspenseWithFallback><GrapesJSEditor /></SuspenseWithFallback>} />
+                  <Route path="LoremIpsumGenrator" element={<SuspenseWithFallback><LoremIpsumGenerator /></SuspenseWithFallback>} />
                   <Route path="UnitConverter" element={<UnitConverter />} />
                   <Route path="CharacterAndWordCounter" element={<CharacterAndWordCounter />} />
                   <Route path="ColorConverter" element={<SuspenseWithFallback><ColorConverter /></SuspenseWithFallback>} />

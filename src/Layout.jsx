@@ -12,6 +12,7 @@ export default function Layout() {
                <li><NavLink className={classs} to="/MetaTagsGenrator">MetaTagsGenrator</NavLink></li>
                <li><NavLink className={classs} to="/TypescriptPlayground">TypescriptPlayground</NavLink></li>
                <li><NavLink className={classs} to="/GrapesJSEditor">GrapesJSEditor</NavLink></li>
+               <li><NavLink className={classs} to="/LoremIpsumGenrator">LoremIpsumGenrator</NavLink></li>
                <li><NavLink className={classs} to="/UnitConverter">UnitConverter</NavLink></li>
                <li><NavLink className={classs} to="/CharacterAndWordCounter">WordCounter</NavLink></li>
                <li><NavLink className={classs} to="/ColorConverter">ColorConverter</NavLink></li>

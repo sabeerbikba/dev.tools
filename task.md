@@ -24,7 +24,7 @@
 - [x] html css javascript formater in single code editor  [ to format css need to use style tag same for javascript script tag ] - COMPLETED 24/05/24
 - [ ] color shades genrator in colorConverterComponent
 - [ ] html-to-jsx.jsx and jsx-to-html
-- [ ] loremIpsum genrator: <https://www.mobilefish.com/services/lipsum/lipsum.php>
+- [x] loremIpsum genrator: <https://www.mobilefish.com/services/lipsum/lipsum.php> - COMPLETED 24/05/24
 - [ ] html css javascript code minifier
  to minify css use <style></style> and for javascript <script></script> and html default
 - [ ] live .md editor

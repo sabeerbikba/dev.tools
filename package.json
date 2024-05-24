@@ -30,6 +30,7 @@
 		"grapesjs-tui-image-editor": "^1.0.2",
 		"js-beautify": "^1.15.1",
 		"lodash": "^4.17.21",
+		"lorem-ipsum": "^2.0.8",
 		"prop-types": "^15.8.1",
 		"react": "^18.3.1",
 		"react-accessible-accordion": "^5.0.0",
