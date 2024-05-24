@@ -7,7 +7,7 @@ import {
    AccordionItemButton, AccordionItemPanel
 } from 'react-accessible-accordion';
 
-import useLocalStorage from '../hooks/useLocalStorage';
+import useLocalStorageState from '../hooks/useLocalStorageState';
 import searchEngines, { files } from '../data/searchEngine';
 import useOpenLink from '../hooks/useOpenLink';
 
@@ -78,8 +78,8 @@ export default function SearchEngine() {
    const textAreaRef = useRef(null);
    const editorRef = useRef(null);
    const openLink = useOpenLink();
-   const [history, setHistory] = useLocalStorage('history', [], 30);
-   const [selectedEngine, setSelectedEngine] = useLocalStorage('selectedEngine', searchEngines[0].engines[0]);
+   const [history, setHistory] = useLocalStorageState('history', [], 30);
+   const [selectedEngine, setSelectedEngine] = useLocalStorageState('selectedEngine', searchEngines[0].engines[0]);
    const [state, dispatch] = useReducer(searchReducer, initialState);
    const {
       searchQuery,

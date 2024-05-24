@@ -12,6 +12,7 @@ import SuspenseWithFallback from "./components/SuspenseWithFallback.jsx";
 
 import SearchEngine from "./pages/SearchEngine.jsx";
 const LiveHtml = lazy(() => import("./pages/LiveHtml.jsx"));
+import LiveReact from './pages/LiveReact.jsx';
 const MetaTagsGenrator = lazy(() => import("./pages/MetaTagsGenrator.jsx"));
 const TypescriptPlayground = lazy(() => import('./pages/TypescriptPlayground.jsx'));
 const GrapesJSEditor = lazy(() => import("./pages/GrapesJSEditor.jsx"));
@@ -35,6 +36,7 @@ export default function App() {
                   <Route index element={<SearchEngine />} />
                   <Route path="SearchEngine" element={<SearchEngine />} />
                   <Route path="LiveHtml" element={<SuspenseWithFallback><LiveHtml /></SuspenseWithFallback>} />
+                  <Route path='LiveReact' element={<LiveReact />} />
                   <Route path="MetaTagsGenrator" element={<SuspenseWithFallback><MetaTagsGenrator /></SuspenseWithFallback>} />
                   <Route path="TypescriptPlayground" element={<SuspenseWithFallback text='Downloading TypeScript...'><TypescriptPlayground /></SuspenseWithFallback>} />
                   <Route path="GrapesjsEditor" element={<SuspenseWithFallback><GrapesJSEditor /></SuspenseWithFallback>} />

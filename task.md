@@ -2,19 +2,18 @@
 
 ## SearchEngines.js
 
-- [ ] Need to fix metaTagsGenrator component error to reproducer error shift+s
-- [ ] vsCode press f12 check fix that probelm try importing styles
 - [ ] need to add image for you.com
-- [ ] always show last selected search engine
+- [x] always show last selected search engine - COMPLETED 10/05/24
 
 ## Others
 
+- [ ] Need to fix metaTagsGenrator component error to reproducer error shift+s
 - [ ] need to add og:image with website name and tools availble
-- [x] add in title and meta title , live html for SEO - completed 06/05/24
-- [x] need open link in another tab of borser list in autoprefixer tab also check for all links - completed 06/05/24
+- [x] add in title and meta title , live html for SEO - COMPLETED 06/05/24
+- [x] need open link in another tab of borser list in autoprefixer tab also check for all links - COMPLETED 06/05/24
 - [ ] make website PWA, offline site: link: </DevToolboxWeb/issues/50>
-- [x] add google console in websites.jsx - completed 06/05/24
-- [x] delete task.todo file from repo - completed 06/05/24
+- [x] add google console in websites.jsx - COMPLETED 06/05/24
+- [x] delete task.todo file from repo - COMPLETED 06/05/24
 - [ ] need to correct stringConverter component logic when [ chnage case with selector ]
 
 ## Tools Ideas
@@ -22,7 +21,7 @@
 - [ ] base64 viewer what that is image or video or auto if better use selectors
 - [ ] need to add comment in index.html file like this <!--**  Github: https://github.com/sabeerbikba/dev.tools  **-->
 - [ ] jsx and tsx code formaatter 
-- [ ] html css javascript formater in single code editor  [ to format css need to use style tag same for javascript script tag ]
+- [x] html css javascript formater in single code editor  [ to format css need to use style tag same for javascript script tag ] - COMPLETED 24/05/24
 - [ ] color shades genrator in colorConverterComponent
 - [ ] html-to-jsx.jsx and jsx-to-html
 - [ ] loremIpsum genrator: <https://www.mobilefish.com/services/lipsum/lipsum.php>
@@ -33,9 +32,8 @@
   - if user set every site allow to crow notify to use that if all pages allow not reason to add robots.txt file
 - typescript play that simmilar to <https://www.typescriptlang.org/play/> copy from <https://github.com/microsoft/TypeScript-Website> repo
 - [ ] css filters
-- [ ] Live react code
+- [x] Live react code - COMPLETED 24/05/24 
 - [ ] css tools [ * html-css-js.com || + GPT || ]
-
 - [ ] boxShadow *
 - [ ] textShadow and styling spacing what can do with text - also need to support google fonts  
 - [ ] gradient*
@@ -97,11 +95,10 @@
 - [ ] Convert css in js or vanilla css to tailwind css or vice versa
 - [ ] Html tables code genrater
 - [ ] Send html templates from client
-- [ ] add html formatter in live html
+- [x] add html formatter in live html - COMPLETED 24/05/24
 - [ ] fake data genrator using faker
 - [ ] need to add <https://gist.github.com/sabeerbikba/baa8d4dda596e9ca94b4894e8599d0a7> in metaTagsGenrator
 - [ ] images
-
 - [ ] corp
 - [ ] compress
  [ images corp and compression tool using lib react-image-file-resizer and react-image-crop ]
@@ -112,9 +109,7 @@
   - <https://fffuel.co/>
   - <https://animista.net/play/basic/shadow-inset/shadow-inset-lr>
   - <https://svgartista.net/?referrer=animista>
-
-* [ ] screen width and height live  
-
+- [ ] screen width and height live  
 - [ ] json-schema-to-openapi-schema.jsx ??
 - [ ] toml-to-json.jsx
 - [ ] toml-to-yaml.jsx

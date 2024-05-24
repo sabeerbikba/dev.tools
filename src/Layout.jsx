@@ -8,6 +8,7 @@ export default function Layout() {
             <ul className="sidenav">
                <li><NavLink className={classs} to="/SearchEngine">SearchEngines</NavLink></li>
                <li><NavLink className={classs} to="/LiveHtml">LiveHtml</NavLink></li>
+               <li><NavLink className={classs} to="/LiveReact">LiveReact</NavLink></li>
                <li><NavLink className={classs} to="/MetaTagsGenrator">MetaTagsGenrator</NavLink></li>
                <li><NavLink className={classs} to="/TypescriptPlayground">TypescriptPlayground</NavLink></li>
                <li><NavLink className={classs} to="/GrapesJSEditor">GrapesJSEditor</NavLink></li>
@@ -35,7 +36,7 @@ function GithubStar() {
       a: {
          position: 'fixed', bottom: '0', left: '0', backgroundColor: '#2a3951', fontSize: '1.1rem',
          padding: "6px 8px 6px 16px", textDecoration: 'none', borderTop: '2px solid black',
-         borderRadius: '10px 10px 0 0', display: 'block', width: '200px'
+         borderRadius: '10px 10px 0 0', display: 'block', width: '210px'
       },
       li: { border: 'none', color: '#d9d9d9' },
       svg: { display: 'inline', marginBottom: '4px' },
