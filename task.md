@@ -22,6 +22,7 @@
 - [ ] need to add comment in index.html file like this <!--**  Github: https://github.com/sabeerbikba/dev.tools  **-->
 - [ ] jsx and tsx code formaatter 
 - [x] html css javascript formater in single code editor  [ to format css need to use style tag same for javascript script tag ] - COMPLETED 24/05/24
+- [ ] device info with navigator API 
 - [ ] color shades genrator in colorConverterComponent
 - [ ] html-to-jsx.jsx and jsx-to-html
 - [ ] loremIpsum genrator: <https://www.mobilefish.com/services/lipsum/lipsum.php>
