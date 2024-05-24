@@ -7,8 +7,8 @@ import { compilerOption, compilerOptionTicks } from '../data/typescriptPlaygroun
 import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
 
 const initCode = `const message: string = 'hello world';
-// console.log(message);
-// `.trim();
+console.log(message);
+`.trim();
 
 function createInitialState(compilerOptions) {
    const initialState = {};
