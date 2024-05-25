@@ -1,5 +1,6 @@
 import { useReducer } from 'react';
 import { LoremIpsum } from 'lorem-ipsum';
+import PropTypes from 'prop-types';
 
 import Input from '../common/Input';
 import CopyBtn from '../common/CopyBtn';
@@ -136,7 +137,7 @@ function Checkbox({ value, checkedValue, labelText, onChange }) {
    }
 
    return (
-      <div style={{ marginBottom: '11px'}}>
+      <div style={{ marginBottom: '11px' }}>
          <label style={styles.label} onClick={() => onChange(value)}>
             <input
                type="checkbox"
@@ -149,3 +150,9 @@ function Checkbox({ value, checkedValue, labelText, onChange }) {
    );
 }
 
+Checkbox.propTypes = {
+   value: PropTypes.any.isRequired, // You can specify the type you expect for value
+   checkedValue: PropTypes.any.isRequired, // Same for checkedValue
+   labelText: PropTypes.string.isRequired,
+   onChange: PropTypes.func.isRequired
+};
