@@ -7,7 +7,7 @@
 		"build": "vite build",
 		"lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview",
-		"build:styles": "npx tailwindcss ./src/styles.css -o ./src/output.css --watch"
+		"build:styles": "npx tailwindcss ./src/styles/styles.css -o ./src/styles/output.css --watch"
 	},
 	"dependencies": {
 		"@babel/standalone": "^7.24.5",
@@ -17,6 +17,7 @@
 		"@vercel/speed-insights": "^1.0.10",
 		"autoprefixer": "^10.4.19",
 		"crypto-js": "^4.2.0",
+		"github-markdown-css": "^5.5.1",
 		"grapesjs": "^0.19.5",
 		"grapesjs-blocks-basic": "^1.0.2",
 		"grapesjs-custom-code": "^1.0.2",
@@ -37,9 +38,13 @@
 		"react-color": "^2.19.3",
 		"react-dom": "^18.3.1",
 		"react-live": "^4.1.6",
+		"react-markdown": "^9.0.1",
 		"react-qr-code": "^2.0.13",
 		"react-router-dom": "^6.23.1",
+		"react-syntax-highlighter": "^15.5.0",
 		"react-toastify": "^10.0.5",
+		"rehype-raw": "^7.0.0",
+		"remark-gfm": "^4.0.0",
 		"store": "^2.0.12",
 		"typescript": "^5.4.5"
 	},

@@ -18,6 +18,7 @@ const TypescriptPlayground = lazy(() => import('./pages/TypescriptPlayground.jsx
 const GrapesJSEditor = lazy(() => import("./pages/GrapesJSEditor.jsx"));
 const LoremIpsumGenerator = lazy(() => import("./pages/LoremIpsumGenrator.jsx"));
 import UnitConverter from "./pages/UnitConverter.jsx";
+const MarkdownEditor = lazy(() => import("./pages/MarkdownEditor.jsx"));
 import CharacterAndWordCounter from "./pages/CharacterAndWordCounter.jsx";
 const ColorConverter = lazy(() => import('./pages/ColorConverter.jsx'));
 const AutoprefixerTool = lazy(() => import("./pages/AutoPrefixer.jsx"));
@@ -27,6 +28,28 @@ const HashGenerator = lazy(() => import('./pages/HashGenerator.jsx'));
 import Websites from "./pages/Websites.jsx";
 // import Test from "./pages/testing/Test.jsx" // Testing purpose
 
+const routes = [
+   { path: "/", element: <SearchEngine />, index: true },
+   { path: "SearchEngine", element: <SearchEngine /> },
+   { path: "LiveHtml", element: <LiveHtml />, isLazy: true },
+   { path: "LiveReact", element: <LiveReact /> },
+   { path: "MetaTagsGenrator", element: <MetaTagsGenrator />, isLazy: true },
+   { path: "TypescriptPlayground", element: <TypescriptPlayground />, isLazy: true, fallbackText: 'Downloading TypeScript...' },
+   { path: "GrapesjsEditor", element: <GrapesJSEditor />, isLazy: true },
+   { path: "LoremIpsumGenrator", element: <LoremIpsumGenerator />, isLazy: true },
+   { path: "UnitConverter", element: <UnitConverter /> },
+   { path: "MarkdownEditor", element: <MarkdownEditor />, isLazy: true },
+   { path: "CharacterAndWordCounter", element: <CharacterAndWordCounter /> },
+   { path: "ColorConverter", element: <ColorConverter />, isLazy: true },
+   { path: "Browser-Ready-CSS", element: <AutoprefixerTool />, isLazy: true },
+   { path: "StringConverter", element: <StringConverter /> },
+   { path: "QrCodeGenerator", element: <QrCodeGenerator />, isLazy: true },
+   { path: "HashGenerator", element: <HashGenerator />, isLazy: true },
+   { path: "Websites", element: <Websites /> },
+   // { path: "Test", element: <Test /> },
+   { path: "*", element: <NoPage /> },
+];
+
 export default function App() {
 
    return (
@@ -34,24 +57,22 @@ export default function App() {
          <BrowserRouter>
             <Routes>
                <Route path="/" element={<Layout />}>
-                  <Route index element={<SearchEngine />} />
-                  <Route path="SearchEngine" element={<SearchEngine />} />
-                  <Route path="LiveHtml" element={<SuspenseWithFallback><LiveHtml /></SuspenseWithFallback>} />
-                  <Route path='LiveReact' element={<LiveReact />} />
-                  <Route path="MetaTagsGenrator" element={<SuspenseWithFallback><MetaTagsGenrator /></SuspenseWithFallback>} />
-                  <Route path="TypescriptPlayground" element={<SuspenseWithFallback text='Downloading TypeScript...'><TypescriptPlayground /></SuspenseWithFallback>} />
-                  <Route path="GrapesjsEditor" element={<SuspenseWithFallback><GrapesJSEditor /></SuspenseWithFallback>} />
-                  <Route path="LoremIpsumGenrator" element={<SuspenseWithFallback><LoremIpsumGenerator /></SuspenseWithFallback>} />
-                  <Route path="UnitConverter" element={<UnitConverter />} />
-                  <Route path="CharacterAndWordCounter" element={<CharacterAndWordCounter />} />
-                  <Route path="ColorConverter" element={<SuspenseWithFallback><ColorConverter /></SuspenseWithFallback>} />
-                  <Route path="Browser-Ready-CSS" element={<SuspenseWithFallback><AutoprefixerTool /></SuspenseWithFallback>} />
-                  <Route path="StringConverter" element={<StringConverter />} />
-                  <Route path="QrCodeGenerator" element={<SuspenseWithFallback><QrCodeGenerator /></SuspenseWithFallback>} />
-                  <Route path="HashGenerator" element={<SuspenseWithFallback><HashGenerator /></SuspenseWithFallback>} />
-                  <Route path="Websites" element={<Websites />} />
-                  {/* <Route path="Test" element={<Test />} /> */}
-                  <Route path="*" element={<NoPage />} />
+                  {routes.map(({ path, element, isLazy, index, fallbackText }) => (
+                     <Route
+                        key={path}
+                        path={path}
+                        index={index}
+                        element={
+                           isLazy ? (
+                              <SuspenseWithFallback text={fallbackText}>
+                                 {element}
+                              </SuspenseWithFallback>
+                           ) : (
+                              element
+                           )
+                        }
+                     />
+                  ))}
                </Route>
             </Routes>
          </BrowserRouter>
