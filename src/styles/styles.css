@@ -4,7 +4,7 @@
 
 /* global styles */
 :root {
-   --sprite-eng-url: url('./public/css_sprites.png');
+   --sprite-eng-url: url('./css_sprites.png');
 }
 
 * {
@@ -48,7 +48,7 @@ input[type=number] {
    -moz-appearance: textfield;
 }
 
-ul {
+.sidenav {
    height: 100%;
    width: 210px;
    position: fixed;

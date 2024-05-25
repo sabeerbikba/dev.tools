@@ -641,6 +641,14 @@ video {
   z-index: 10;
 }
 
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+
 .m-1 {
   margin: 0.25rem;
 }
@@ -747,6 +755,10 @@ video {
 
 .inline-block {
   display: inline-block;
+}
+
+.\!inline {
+  display: inline !important;
 }
 
 .inline {
@@ -1354,7 +1366,7 @@ video {
 /* global styles */
 
 :root {
-  --sprite-eng-url: url('./public/css_sprites.png');
+  --sprite-eng-url: url('./css_sprites.png');
 }
 
 * {
@@ -1398,7 +1410,7 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-ul {
+.sidenav {
   height: 100%;
   width: 210px;
   position: fixed;
