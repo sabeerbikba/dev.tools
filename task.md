@@ -25,10 +25,10 @@
 - [ ] device info with navigator API 
 - [ ] color shades genrator in colorConverterComponent
 - [ ] html-to-jsx.jsx and jsx-to-html
-- [ ] loremIpsum genrator: <https://www.mobilefish.com/services/lipsum/lipsum.php>
+- [x] loremIpsum genrator: <https://www.mobilefish.com/services/lipsum/lipsum.php> - COMPLETED 24/05/24
 - [ ] html css javascript code minifier
  to minify css use <style></style> and for javascript <script></script> and html default
-- [ ] live .md editor
+- [x] live .md editor - COMPLETED 25/05/24
 - [ ] robots.txt genrator
   - if user set every site allow to crow notify to use that if all pages allow not reason to add robots.txt file
 - typescript play that simmilar to <https://www.typescriptlang.org/play/> copy from <https://github.com/microsoft/TypeScript-Website> repo

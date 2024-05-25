@@ -1,26 +1,34 @@
 import { Outlet, NavLink } from "react-router-dom";
 
+const links = [
+   { to: "/SearchEngine", text: "SearchEngines" },
+   { to: "/LiveHtml", text: "LiveHtml" },
+   { to: "/LiveReact", text: "LiveReact" },
+   { to: "/MetaTagsGenrator", text: "MetaTagsGenrator" },
+   { to: "/TypescriptPlayground", text: "TypescriptPlayground" },
+   { to: "/GrapesJSEditor", text: "GrapesJSEditor" },
+   { to: "/LoremIpsumGenrator", text: "LoremIpsumGenrator" },
+   { to: "/UnitConverter", text: "UnitConverter" },
+   { to: "/MarkdownEditor", text: "MarkdownEditor" },
+   { to: "/CharacterAndWordCounter", text: "WordCounter" },
+   { to: "/ColorConverter", text: "ColorConverter" },
+   { to: "/Browser-Ready-CSS", text: "Browser-Ready-CSS" },
+   { to: "/StringConverter", text: "StringConverter" },
+   { to: "/QrCodeGenerator", text: "QRCodeGenerator" },
+   { to: "/HashGenerator", text: "HashGenerator" },
+   { to: "/Websites", text: "Websites" },
+   // { to: "/Test", text: "Test" },
+];
+
+
 export default function Layout() {
-   const classs = 'nav-a';
    return (
       <>
          <nav>
             <ul className="sidenav">
-               <li><NavLink className={classs} to="/SearchEngine">SearchEngines</NavLink></li>
-               <li><NavLink className={classs} to="/LiveHtml">LiveHtml</NavLink></li>
-               <li><NavLink className={classs} to="/LiveReact">LiveReact</NavLink></li>
-               <li><NavLink className={classs} to="/MetaTagsGenrator">MetaTagsGenrator</NavLink></li>
-               <li><NavLink className={classs} to="/TypescriptPlayground">TypescriptPlayground</NavLink></li>
-               <li><NavLink className={classs} to="/GrapesJSEditor">GrapesJSEditor</NavLink></li>
-               <li><NavLink className={classs} to="/UnitConverter">UnitConverter</NavLink></li>
-               <li><NavLink className={classs} to="/CharacterAndWordCounter">WordCounter</NavLink></li>
-               <li><NavLink className={classs} to="/ColorConverter">ColorConverter</NavLink></li>
-               <li><NavLink className={classs} to="/Browser-Ready-CSS">Browser-Ready-CSS</NavLink></li>
-               <li><NavLink className={classs} to="/StringConverter">StringConverter</NavLink></li>
-               <li><NavLink className={classs} to="/QrCodeGenerator"> QRCodeGenerator</NavLink></li>
-               <li><NavLink className={classs} to="/HashGenerator">HashGenerator</NavLink></li>
-               <li><NavLink className={classs} to="/Websites">Websites</NavLink></li>
-               {/* <li><NavLink className={classs} to="/Test">Test</NavLink></li> */}
+               {links.map((link, index) => (
+                  <li key={index}><NavLink className="nav-a" to={link.to}>{link.text}</NavLink></li>
+               ))}
                <GithubStar />
             </ul>
          </nav >
