@@ -4,7 +4,7 @@
 
 /* global styles */
 :root {
-   --sprite-eng-url: url('./css_sprites.png');
+   --sprite-eng-url: url('../public/css_sprites.png');
 }
 
 * {
