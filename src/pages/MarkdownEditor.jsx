@@ -36,10 +36,8 @@ export default function MarkdownEditor() {
    };
 
    const styles = {
-      outputDiv: 'monaco-style monaco-result', btns: { height: '37px', width: '120px', backgroundColor: !markdown === '' ? '#6366f1' : '#4446a6' },
-      btnsDiv: { display: 'flex', justifyContent: 'space-around', marginBottom: '15px' },
+      outputDiv: 'monaco-style monaco-result', btnsDiv: { display: 'flex', justifyContent: 'space-around', marginBottom: '15px' }, btns: { backgroundColor: markdown === '' ? '#4446a6' : '', width: '30%', height: '44px' },
       btnsClass: "rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500",
-      btns: { backgroundColor: markdown === '' ? '#4446a6' : '', width: '30%' }
    }
 
    return (
