@@ -4,6 +4,7 @@
 
 - [ ] need to add image for you.com
 - [x] always show last selected search engine - COMPLETED 10/05/24
+- [ ] need to rename link and Component name and link name to SearchEngines
 
 ## Others
 
@@ -15,9 +16,15 @@
 - [x] add google console in websites.jsx - COMPLETED 06/05/24
 - [x] delete task.todo file from repo - COMPLETED 06/05/24
 - [ ] need to correct stringConverter component logic when [ chnage case with selector ]
+- [ ] inside typescriptPlayground component reset config  option reset buttons in inside optionBtns btn
+- [ ] in typescriptplayground component need to crate save option function 
+
 
 ## Tools Ideas
 
+- [ ] svg editor using lib <https://github.com/SVG-Edit/svgedit>
+- [ ] if possible better use <https://github.com/givanz/VvvebJs> drag and drop web editor better then grapejs 
+- [ ] code snippets saving block to save code snippets 
 - [ ] base64 viewer what that is image or video or auto if better use selectors
 - [ ] need to add comment in index.html file like this <!--**  Github: https://github.com/sabeerbikba/dev.tools  **-->
 - [ ] jsx and tsx code formaatter 
