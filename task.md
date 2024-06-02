@@ -18,6 +18,8 @@
 - [ ] need to correct stringConverter component logic when [ chnage case with selector ]
 - [ ] inside typescriptPlayground component reset config  option reset buttons in inside optionBtns btn
 - [ ] in typescriptplayground component need to crate save option function 
+- [x] need to add comment in index.html file like this <!--**  Github: https://github.com/sabeerbikba/dev.tools  **--> - COMPLETED 02/06/24
+- [ ] give word-wrap button in markdownEditor component 
 
 
 ## Tools Ideas
@@ -26,7 +28,6 @@
 - [ ] if possible better use <https://github.com/givanz/VvvebJs> drag and drop web editor better then grapejs 
 - [ ] code snippets saving block to save code snippets 
 - [ ] base64 viewer what that is image or video or auto if better use selectors
-- [ ] need to add comment in index.html file like this <!--**  Github: https://github.com/sabeerbikba/dev.tools  **-->
 - [ ] jsx and tsx code formaatter 
 - [x] html css javascript formater in single code editor  [ to format css need to use style tag same for javascript script tag ] - COMPLETED 24/05/24
 - [ ] device info with navigator API 
