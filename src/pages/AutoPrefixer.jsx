@@ -51,7 +51,6 @@ function reducer(state, action) {
       case actionTypes.SET_COPY_BTN_DISABLED: {
          return { ...state, isCopyBtnDisabled: action.payload };
       }
-
       default: {
          console.error('Unknown action: ' + action.type);
          console.warn('you not added action.type: ' + action.type + ' add and try');
@@ -194,7 +193,7 @@ export default function AutoPrefixerTool() {
          position: 'relative', left: `${lastVersion.error === 'Only up to three-digit numbers are allowed' ? '280px' : lastVersion.error === 'Minimum value is 1' ? '140px' : '254px'}`, bottom: '-1.3',
          display: 'inline-block', width: 0, height: 0, borderTop: '7px solid transparent', borderBottom: '7px solid transparent', borderRight: '10px solid orange',
       },
-      lastVersionInput: { width: '50px', backgroundColor: '#2a2a2a', outline: 'none', borderBottom: `2px solid ${lastVersion.error ? 'red' : 'grey'}` },
+      lastVersionInput: { width: '50px', backgroundColor: '#2a2a2a', outline: 'none', borderBottom: `2px solid ${lastVersion.error ? 'red' : 'blue'}` },
       copyBtn: { backgroundColor: `${isCopyBtnDisabled || prefixedCode === '' ? '#4446a6' : '#6366f1'}`, margin: '10px 10px 0 0' },
    }
 
