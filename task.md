@@ -8,24 +8,31 @@
 
 ## Others
 
-- [ ] Need to fix metaTagsGenrator component error to reproducer error shift+s
 - [ ] need to add og:image with website name and tools availble
 - [x] add in title and meta title , live html for SEO - COMPLETED 06/05/24
 - [x] need open link in another tab of borser list in autoprefixer tab also check for all links - COMPLETED 06/05/24
-- [ ] make website PWA, offline site: link: </DevToolboxWeb/issues/50>
+- [ ] make website available offline not PWA
+- [ ] all button need to looks like same 
+- [ ] integation tailwind css in LiveReact and LiveHtml component give toggle button in Livehtml component  
 - [x] add google console in websites.jsx - COMPLETED 06/05/24
 - [x] delete task.todo file from repo - COMPLETED 06/05/24
-- [ ] need to correct stringConverter component logic when [ chnage case with selector ]
+- [x] need to correct stringConverter component logic when [ chnage case with selector ] - COMPLETE 13/06/24
+- [x] in string convertor component give option convert text LowerCase and UpperCase - COMPLETE 13/06/24
 - [ ] inside typescriptPlayground component reset config  option reset buttons in inside optionBtns btn
 - [ ] in typescriptplayground component need to crate save option function 
 - [x] need to add comment in index.html file like this <!--**  Github: https://github.com/sabeerbikba/dev.tools  **--> - COMPLETED 02/06/24
 - [ ] give word-wrap button in markdownEditor component 
+- [ ] in wordCounter componennt in character counter options give checkbox including spces  or exclude space 
+- [ ] also give sort option to WordCounter component 
+- [ ] need to remove Monaco Editor from WordCounter component 
+- [ ] some time monaco editor did't load because of server give fallback editor after specific time editor did't load
 
 
 ## Tools Ideas
 
 - [ ] svg editor using lib <https://github.com/SVG-Edit/svgedit>
 - [ ] if possible better use <https://github.com/givanz/VvvebJs> drag and drop web editor better then grapejs 
+- [ ] CSV to Table inspired by this vsCode extension : <https://github.com/Plasma/csv-to-table>
 - [ ] code snippets saving block to save code snippets 
 - [ ] base64 viewer what that is image or video or auto if better use selectors
 - [ ] jsx and tsx code formaatter 
