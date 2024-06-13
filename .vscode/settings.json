@@ -1,5 +1,5 @@
 {
-    "editor.tabSize": 3,
-    "editor.detectIndentation": false,
-    "editor.wordWrap": "off"
+   "editor.tabSize": 3,
+   "editor.detectIndentation": false,
+   "editor.wordWrap": "off"
 }
