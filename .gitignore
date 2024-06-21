@@ -23,6 +23,5 @@ dist-ssr
 *.sw?
 .vercel
 
-# temporary
-typescript-play
-typescript-website
+# locale
+UPDATE.md

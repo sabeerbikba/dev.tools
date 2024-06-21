@@ -61,7 +61,7 @@ export default function CharacterAndWordCounter() {
             UPDATE_VALUE('count', input.split(filter).length - 1);
             break;
          case FilterOption.Word:
-            UPDATE_VALUE('count', input.split(" ").length - 1);
+            UPDATE_VALUE('count', input.split(" ").length);
             UPDATE_VALUE('output', input.split(" ").join("\n"));
             break;
          case FilterOption.Line:
@@ -113,9 +113,9 @@ export default function CharacterAndWordCounter() {
             <div className="flex items-center mb-4 gap-4 justify-between">
                <p className="font-bold text-xl text-white"> Output: </p>
                <div className="flex gap-4 items-center justify-end w-full">
-                  {currentFilterOption === FilterOption.CustomDelimiter && (
+                  {currentFilterOption === filterOptions[3].value && (
                      <input
-                        className={`block w-1/4 rounded-md border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-gray-600`}
+                        className={`block w-1/3 rounded-md pl-2 h-7 border-0 py-1.5 text-white shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 bg-gray-600`}
                         placeholder={currentFilterOption}
                         value={filter}
                         onChange={handleChange}
@@ -123,8 +123,9 @@ export default function CharacterAndWordCounter() {
                   )}
                   <Selector
                      values={filterOptions}
+                     value={currentFilterOption}
                      handleClick={(filterOption) => {
-                        UPDATE_VALUE('currentFilterOption', filterOption.value);
+                        UPDATE_VALUE('currentFilterOption', filterOption.target.value);
                      }}
                   />
                   <p className="font-bold text-md text-white"> count: {count}</p>

@@ -31,13 +31,7 @@ function reducer(state, action) {
 
 export default function LoremIpsumGenerator() {
    const [state, dispatch] = useReducer(reducer, initialState)
-
-   const {
-      text,
-      length,
-      checked,
-      copyBtnDisabled,
-   } = state;
+   const { text, length, checked, copyBtnDisabled } = state;
 
    function UPDATE_INPUT(field, value) {
       dispatch({ type: actionTypes.UPDATE_INPUT, field: field, value: value })
@@ -76,8 +70,8 @@ export default function LoremIpsumGenerator() {
       main: { width: '100%', height: '100%', display: 'flex', minWidth: '1620px' },
       div50: { width: '50%', height: '100%', padding: '10px', display: 'flex', flexDirection: 'column' },
       btn: { height: '50%', width: '50%', color: 'white', borderRadius: '5px', marginBottom: '5px' },
-      outputArea: { width: '50%', height: '100%', padding: '10px', color: 'white' },
-
+      outputAreaDiv: { width: '50%', height: '100%', padding: '10px', color: 'white' },
+      outputArea: { backgroundColor: '#374151', padding: '12px', border: '1px solid white', color: '#9ca3a6' },
    };
 
    return (
@@ -119,11 +113,11 @@ export default function LoremIpsumGenerator() {
                </div>
             </div>
          </div>
-         <div style={styles.outputArea}>
+         <div style={styles.outputAreaDiv}>
             <Input
                elementType='textarea'
                value={text}
-               styles={{ backgroundColor: 'grey', padding: '8px', border: '1px solid white' }}
+               styles={styles.outputArea}
                elementHeight='99%'
             />
          </div>
@@ -151,8 +145,8 @@ function Checkbox({ value, checkedValue, labelText, onChange }) {
 }
 
 Checkbox.propTypes = {
-   value: PropTypes.any.isRequired, // You can specify the type you expect for value
-   checkedValue: PropTypes.any.isRequired, // Same for checkedValue
+   value: PropTypes.any.isRequired,
+   checkedValue: PropTypes.any.isRequired,
    labelText: PropTypes.string.isRequired,
    onChange: PropTypes.func.isRequired
 };
