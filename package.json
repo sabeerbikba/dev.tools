@@ -1,7 +1,11 @@
 {
 	"name": "dev.tools",
-	"private": true,
 	"version": "0.0.24",
+	"description": "A collection of useful developer tools built with React.",
+   "homepage": "https://devtools-sabeerbikba.vercel.app",
+   "repository": "https://github.com/sabeerbikba/dev.tools",
+   "author": "sabeer bikba <sabeerbikba02@gmail.com>",
+   "license": "MIT",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
@@ -59,10 +63,5 @@
 		"postcss": "^8.4.38",
 		"tailwindcss": "^3.4.3",
 		"vite": "^5.2.11"
-	},
-	"description": "Dev.tools | CSS Autoprefixer, Character Counter, Color Code Converter, and More",
-	"main": "postcss.config.js",
-	"keywords": [],
-	"author": "sabeer bikba",
-	"license": "MIT"
+	}
 }
