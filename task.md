@@ -4,20 +4,27 @@
 
 ## Tasks for allready exist component
 
-- [ ] need to add image for you.com in  SearchEngines Component
-- [ ] need to rename link and Component name and link name in to SearchEngines Component
-- [ ] need to add og:image with website name and tools availble
+- [ ] need to add image for you.com in `SearchEngines` Component
+- [ ] need to rename link and Component name and link name in to `SearchEngines` Component
+- [ ] integation tailwind css in `LiveReact` and LiveHtml component give toggle button in Livehtml component
+  - once toggletoggle button click if it javascript - need to save that JavaScript to indexedDB if indexedDB is better option
+- [ ] inside `typescriptPlayground` component reset config  option reset buttons in inside optionBtns btn
+- [ ] in `typescriptplayground` component need to create save option function 
+- [ ] give word-wrap button in `markdownEditor` component 
+- [ ] In `wordCounter` componennt in character counter options give checkbox including spces  or exclude space 
+  - also give sort option to `WordCounter` component 
+- [ ] need to remove Monaco Editor from `WordCounter` component 
+- [ ] Add website links in `Websites` component
+  - <<!--** https://easings.net/ **-->> 
+
+### Other Tasks
+
 - [ ] make website available offline not PWA
-- [ ] all button need to looks like same 
-- [ ] integation tailwind css in LiveReact and LiveHtml component give toggle button in Livehtml component  
-- [ ] inside typescriptPlayground component reset config  option reset buttons in inside optionBtns btn
-- [ ] in typescriptplayground component need to crate save option function 
-- [ ] give word-wrap button in markdownEditor component 
-- [ ] in wordCounter componennt in character counter options give checkbox including spces  or exclude space 
-- [ ] also give sort option to WordCounter component 
-- [ ] need to remove Monaco Editor from WordCounter component 
+- [ ] if website opened in mobile show error in Banner that no good experice
+  - and use normal inputs instead of monaco editor
+- [ ] all button need to looks like same
+- [ ] need to add og:image with website name and tools availble
 - [ ] some time monaco editor did't load because of server give fallback editor after specific time editor did't load
-- [ ] Easing functions Add website in Websites component - <<!--** https://easings.net/ **-->> 
 
 ### COMPLETED
 
@@ -33,8 +40,6 @@
 
 
 
-
-
 ## New Tools Ideas
 
 - json server direcly from browser without server or node inside broswer if possible <<!--** https://github.com/typicode/json-server -->>
@@ -47,19 +52,18 @@
    - [ ] URL encoder/decoder - <<!--** https://mothereff.in/url **-->>    console.log("broswer support storage!!");
    - [ ] ES2015 Unicode regular expression transpiler - <<!--** https://mothereff.in/regexpu **-->>
    - [ ] UTF-8 string length & byte counter - <<!--** https://mothereff.in/byte-counter **-->>
-   - [ ] Lua minifier - <<!--** https://mothereff.in/lua-minifier **-->>
 -  <<!--** https://github.com/jaywcjlove/tools **-->>
    - [ ] Generate Password - <<!--** https://wangchujiang.com/tools/#/generate-password **-->>
+     - password complexity options 
    - [ ] PDF to IMG -  <<!--** https://wangchujiang.com/tools/#/pdf-to-img **-->> 
    - [ ] exif-viewer <<!--** https://wangchujiang.com/tools/#/exif-viewer **-->> 
    - [ ] generate-github-badges - <<!--** https://wangchujiang.com/tools/#/generate-github-badges **-->>
 - [ ] svg editor using lib <<!--** https://github.com/SVG-Edit/svgedit **-->>
-- [ ] if possible better use <<!--** https://github.com/givanz/VvvebJs **-->> drag and drop web editor better then grapejs 
+- [ ] if possible better to use use <<!--** https://github.com/givanz/VvvebJs **-->> vvveb drag and drop web editor better then grapejs 
 - [ ] CSV to Table inspired by this vsCode extension - <<!--** https://github.com/Plasma/csv-to-table **-->>
    - [ ] and also json table
-
 - [ ] social media id link genrator : <<!--** https://faq.whatsapp.com/5913398998672934 **-->> : <<!--** https://web.whatsapp.com/send?phone=yourphonenumber **-->>
-   * *also include instrction how find usernames
+   * *also include instrction how find usernames in. wiki
    - instagram
    - whatsApp - inclue two links 
    - facebook
@@ -67,12 +71,12 @@
    - telegram group join - user link
    - other apps open with a tag like - genrator 
    - <a href="mailto:hege@example.com">hege@example.com</a>
-   - normal sms app
+   - normal sms <<!--** https://salam.qanawat-me.com/Alnufais/ **-->>
    - *find more
 - [ ] (Browser Info) browser all api support need to show table with api name and supprt yes or no example 
    - [ ] screen width and height live 
    - [ ] device info with navigator API 
-```javascipt
+```javascript
 // this code check localStorage api support or not
 if (typeof(Storage) !== "undefined") {
   // Code for yes in table
@@ -82,28 +86,26 @@ if (typeof(Storage) !== "undefined") {
 ```
 | keySomething | value |
 |----------|----------|
-| height | `45`px | <-- need to change as screen size change
-| width | `120`px | <-- same for it 
+| height | `45px` | <-- need to change as screen size change
+| width | `120px` | <-- same for it 
 | localStoage Supported | yes|
 | ISE supported | no |
 
-
-- [ ] code snippets saving block to save code snippets 
+- [ ] code snippets saving block to save code snippets
+- [ ] All-in-one code beautifier and minifier if possible give options
 - [ ] fake data genrator using faker
 - [ ] HTML and CSS basic all color names and preview with also color code need to show in  code * made design
 - [ ] base64 viewer what that is image or video or auto if better use selectors
-- [ ] jsx and tsx code formaatter 
-- [ ] color shades genrator in colorConverterComponent
-- [ ] html-to-jsx.jsx and jsx-to-html
+   - also genrate base64
+- [ ] color shades genrator
 - [ ] robots.txt genrator
   - if user set every site allow to crow notify to use that if all pages allow not reason to add robots.txt file
 - [ ] css filters
 - [ ] css tools <<!--** [ * html-css-js.com || + GPT || ] **-->>
-- [ ] boxShadow *
 - [ ] textShadow and styling spacing what can do with text - also need to support google fonts  
-- [ ] gradient*
 - [ ] font *
   - [ ] font-family: Specifies the font family for text.
+    - give toggle somthing that specify all browser supported built on fonts
   - [ ] font-size: Sets the size of the font.
   - [ ] font-style: Specifies the style of the font (normal, italic, oblique).
   - [ ] font-weight: Sets the weight or thickness of the font (normal, bold, bolder, lighter, 100-900).
@@ -145,7 +147,6 @@ if (typeof(Storage) !== "undefined") {
 - [ ] css cursor testing
 - [ ] <<!--** https://cssgenerator.org/ **-->>
 - [ ] Box Shadow
-- [ ] Text Shadow
 - [ ] CSS Cursor
 - [ ] Border
 - [ ] Border Radius
@@ -154,20 +155,23 @@ if (typeof(Storage) !== "undefined") {
 - [ ] RGBA & Hex Color
 - [ ] Multiple Columns
 - [ ] Filter
-* [ ] code minifiers
-- [ ] Convert css in js or vanilla css to tailwind css or vice versa
 - [ ] Html tables code genrater
 - [ ] Send html templates from client
 - add google fonts and google all developer helping products in websites component
 - [ ] images
-   - [ ] corp
+   - [ ] crop
    - [ ] compress
+   - [ ] convert format
    * [ images corp and compression tool using lib react-image-file-resizer and react-image-crop ]
 - [ ] more compression tools
   - <<!--** https://fffuel.co/ **-->>
   - <<!--** https://animista.net/play/basic/shadow-inset/shadow-inset-lr **-->>
   - <<!--** https://svgartista.net/?referrer=animista **-->>
-- Convert Tools
+- All-in-one Convert Tools
+   - as change selector need to chamge link
+   - link need to be; .vercel.app/toolName/html-to-jsx and .vercel.app/toolName/jsx-to-html
+   - and directly open that particular convertor with link
+   - link need to be memorable 
    - [ ] json-schema-to-openapi-schema.jsx ??
    - [ ] toml-to-json.jsx
    - [ ] toml-to-yaml.jsx
@@ -175,6 +179,9 @@ if (typeof(Storage) !== "undefined") {
    - [ ] yaml-to-toml.jsx
    - [ ] json-to-toml.jsx
    - [ ] json-to-yaml.jsx
+   - [ ] html-to-jsx.jsx and jsx-to-html
+   - [ ] Convert css in js or vanilla css to tailwind css or vice versa
+
 
 ### COMPLETED
 
@@ -182,7 +189,7 @@ if (typeof(Storage) !== "undefined") {
 - [x] live .md editor - 25/05/24 : [/MarkdownEditor](https://devtools-sabeerbikba.vercel.app/MarkdownEditor)
 - [x] loremIpsum genrator: <<!--**https://www.mobilefish.com/services/lipsum/lipsum.php **-->> - 24/05/24 : [/LoremIpsumGenrator](https://devtools-sabeerbikba.vercel.app/LoremIpsumGenrator)
 - [x] typescript play that simmilar to <<!--**https://www.typescriptlang.org/play/ **-->> <<!--**https://github.com/microsoft/TypeScript-Website **-->> -  [/TypescriptPlayground](https://devtools-sabeerbikba.vercel.app/TypescriptPlayground)
-- [x] html css javascript code minifier -  [/LiveHtml](https://devtools-sabeerbikba.vercel.app/LiveHtml)
+- [x] html css javascript code beautifier -  [/LiveHtml](https://devtools-sabeerbikba.vercel.app/LiveHtml)
 
 ## Advance
 
