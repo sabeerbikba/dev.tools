@@ -42,7 +42,16 @@
 
 ## New Tools Ideas
 
-- json server direcly from browser without server or node inside broswer if possible <<!--** https://github.com/typicode/json-server -->>
+[ ] Random data generator : front-end if better
+   - inspired by : <<!--** https://github.com/helixquar/randomeverything **-->>
+   - main :<<!--** https://chancejs.com/index.html **-->>
+   - can be used faker.js
+   - MOCK.api: in website url
+   - inspired by.:<<!--** mockapi.io **-->>
+   - <<!--** https://jsonplaceholder.typicode.com/ **-->>
+   - <<!--** https://chatgpt.com/c/c9e5351e-bbb2-481c-bc59-5662fc1bcbab **-->>
+   - we can achive by MSW or PUPPITER lib
+
 - [ ] <<!--** https://github.com/mathiasbynens/mothereff.in **-->>
    - [ ]  HTML entity encoder/decoder - <<!--** https://mothereff.in/html-entities **-->>
       - need to show all entities 
