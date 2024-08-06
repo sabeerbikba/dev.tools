@@ -5,6 +5,7 @@
 ## Tasks for allready exist component
 
 - [ ] need to add image for you.com in `SearchEngines` Component
+- [ ] `LoremIpsumGenrator` component need to use English Lorem ipsum generator use diff lib that starts with Lorem ipsum
 - [ ] need to rename link and Component name and link name in to `SearchEngines` Component
 - [ ] integation tailwind css in `LiveReact` and LiveHtml component give toggle button in Livehtml component
   - once toggletoggle button click if it javascript - need to save that JavaScript to indexedDB if indexedDB is better option
@@ -20,11 +21,94 @@
 ### Other Tasks
 
 - [ ] make website available offline not PWA
+- [ ]  Need to create eco-system inside website 
+     - like when I copy something I can paste with button any inputs
+- [ ] Remove tracking of vercel:: reason - it's open-source
+- [ ] Convert url link to kebeb-case for seo reasons
 - [ ] if website opened in mobile show error in Banner that no good experice
-  - and use normal inputs instead of monaco editor
+     - and use normal inputs instead of monaco editor
 - [ ] all button need to looks like same
 - [ ] need to add og:image with website name and tools availble
 - [ ] some time monaco editor did't load because of server give fallback editor after specific time editor did't load
+- [ ] Need to use keyboard function keys like `F1`, `F9`
+     - Example: In TypescriptPlayground component user press `F9` code will be run
+- [ ] Need to use import alias @import
+- [ ] Create Error Boundary for application 
+      - If internet connection is offline and press any link page shows blank without showing error to resolve: 
+         - see online status with navigator api if possible and show error look like -your internet is not work... give better text 
+         - give try again button 
+         - if still not issue resolved if 3 or more try agians give rise issue button
+         - Error page can be stored in localStorage
+- [ ] Cache pages or to make page load faster 
+- [ ] Use better variable names
+- [ ] Need to use comments in code 
+- [ ] max length of input text is how browser or system can handle
+- [ ] Need to use code standard or limiting in code
+      - if it is good: <<!--** https://github.com/airbnb/javascript **-->>
+      - or use eslint
+- [ ] add author and wiki link
+- [ ] Responsiveness:: create reponsive website using `grid`, `position: fixed;` and `shadcn/ui Resizable` or use lib `react-resizable-panels`
+     - <<!--** https://ui.shadcn.com/docs/components/resizable **-->>
+     - use manual instead of cli
+         - import { cn } from "@/lib/utils"    ⬇️
+```javascript
+import classNames from 'classnames';
+
+export function cn(...classes) {
+  return classNames(...classes);
+}
+```
+- [ ] Use sandbox and every security feature in every single iframe tag
+- [ ] Entirely Depend on tailwindcss arbitrary feature
+     1. **colors**:
+        - `bg-[color]`, `text-[color]`, `border-[color]`
+        - example: `bg-[#ff5733]`
+
+    2. **spacing**:
+        - `p-[value]`, `pt-[value]`, `pr-[value]`, `pb-[value]`, `pl-[value]`
+        - `m-[value]`, `mt-[value]`, `mr-[value]`, `mb-[value]`, `ml-[value]`
+        - example: `p-[20px]`
+
+    3. **sizing**:
+        - `w-[value]`, `h-[value]`
+        - example: `w-[300px]`, `h-[200px]`
+
+    4. **typography**:
+        - `text-[value]`, `font-[value]`, `leading-[value]`, `tracking-[value]`
+        - example: `text-[18px]`, `font-[400]`
+
+    5. **borders**:
+        - `border-[value]`, `border-t-[value]`, `border-r-[value]`, `border-b-[value]`, `border-l-[value]`
+        - example: `border-[2px]`
+
+    6. **border radius**:
+        - `rounded-[value]`, `rounded-t-[value]`, `rounded-r-[value]`, `rounded-b-[value]`, `rounded-l-[value]`
+        - example: `rounded-[10px]`
+
+    7. **grid and flexbox**:
+        - `grid-cols-[value]`, `grid-rows-[value]`
+        - `flex-[value]`
+        - example: `grid-cols-[1fr_2fr_1fr]`
+
+    8. **z-index**:
+        - `z-[value]`
+        - example: `z-[10]`
+
+    9. **transforms**:
+        - `translate-x-[value]`, `translate-y-[value]`, `rotate-[value]`, `scale-[value]`
+        - example: `translate-x-[10px]`, `rotate-[45deg]`
+
+    10. **custom breakpoints**:
+        - `lg:[value]`, `xl:[value]`
+        - example: `lg:[400px]`
+
+    11. **opacity**:
+        - `opacity-[value]`
+        - example: `opacity-[0.5]`
+
+    12. **shadow**:
+        - `shadow-[value]`
+        - example: `shadow-[0_4px_6px_rgba(0,0,0,0.1)]`
 
 ### COMPLETED
 
@@ -99,7 +183,6 @@ if (typeof(Storage) !== "undefined") {
 | width | `120px` | <-- same for it 
 | localStoage Supported | yes|
 | ISE supported | no |
-
 - [ ] code snippets saving block to save code snippets
 - [ ] All-in-one code beautifier and minifier if possible give options
 - [ ] fake data genrator using faker
@@ -202,5 +285,6 @@ if (typeof(Storage) !== "undefined") {
 
 ## Advance
 
-* [ ] Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
+- [ ] electron app:: if app is good enough reponsive create electron app
+- [ ] Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
 - [ ] **featureUpdate:** live preview for hugo with editor markdown file live preview of website page will look like after upload css
