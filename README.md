@@ -1,4 +1,3 @@
-
 # Dev.tools Collection
 
 This project is a collection of useful developer tools built with React.
@@ -16,7 +15,7 @@ This project is a collection of useful developer tools built with React.
 - Live Markdown Preview (github style)
 - LoremIpsum Generator
 - Meta Tags Generator
-- NameCase Converter (e.g., camelCase to UPPETCASE)
+- NameCase Converter (e.g., camelCase to UPPERCASE)
 - QR Code Generator
 - Typescript Playground
 - Unit Converter (e.g., px to em)
@@ -45,6 +44,8 @@ npm run dev
 We welcome contributions from everyone! Whether you're a developer, designer, or just passionate about the project, there are many ways to contribute.
 
 If you're interested in contributing, take a look at our [task.md](task.md) file for a list of tasks and milestones. Feel free to pick up any task you're interested in or suggest new ones!
+
+**Let's create a better place for developers together!**
 
 ### **License**
 
