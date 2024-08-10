@@ -22,8 +22,14 @@ const searchEngines = [
          description: 'Bing offers a comprehensive search experience with features like visual search and integration with Microsoft services.'
       }]
    }, {
-      groupName: 'Other Search Engines',
+      groupName: 'AI based Search',
       engines: [{
+         name: 'ChatGPT (Code)',
+         key: '!!c',
+         url: 'https://chatgpt.com/?q=',
+         imgClassName: '',
+         description: 'ChatGPT is an AI language model by OpenAI that generates human-like text and assists with various tasks.'
+      }, {
          name: 'Phind (Code)',
          key: '!!p',
          url: 'https://phind.com/search?q=',
@@ -143,7 +149,7 @@ const searchEngines = [
          description: 'Stack Overflow is a community of developers helping each other solve coding problems through a question-and-answer format.'
       }, {
          name: 'CodePen',
-         key: '!!c',
+         key: '!!c1',
          url: 'https://codepen.io/search/pens?q=',
          imgClassName: 'codepen',
          description: 'CodePen is an online community for testing and showcasing user-created HTML, CSS, and JavaScript code snippets, often used for front-end web development.'
