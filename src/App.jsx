@@ -1,10 +1,8 @@
-import { SpeedInsights } from '@vercel/speed-insights/react';
-import { Analytics } from '@vercel/analytics/react';
-
 import { lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Analytics } from '@vercel/analytics/react';
 
 import Layout from "./Layout";
 import NoPage from "./pages/NoPage";
@@ -78,7 +76,6 @@ export default function App() {
          </BrowserRouter>
          <ToastContainer />
          {/* // vercel */}
-         <SpeedInsights />
          <Analytics />
       </>
    );
