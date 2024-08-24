@@ -77,7 +77,6 @@ function searchReducer(state, action) {
 export default function SearchEngine() {
    const textAreaRef = useRef(null);
    const editorRef = useRef(null);
-   const openLink = useOpenLink();
    const [history, setHistory] = useLocalStorageState('history', [], 30);
    const [selectedEngine, setSelectedEngine] = useLocalStorageState('selectedEngine', searchEngines[0].engines[0]);
    const [state, dispatch] = useReducer(searchReducer, initialState);
@@ -93,8 +92,9 @@ export default function SearchEngine() {
       shouldFocusEditor,
       showSlahsInfo,
    } = state;
-
+   
    const advanceSearch = selectedEngine.advanceSearchBtn;
+   const openAdvanceSearchTab = useOpenLink(advanceSearch);
    const btnDisabled = !selectedEngine || searchQuery === '';
    const file = files[language];
    const validEngineNames = ['Google', 'Bing', 'DuckDuckGo', 'Phind (Code)', 'You.com'];
@@ -467,7 +467,7 @@ export default function SearchEngine() {
             {advanceSearch !== undefined && (
                <button
                   className={tailwindcss.btn}
-                  onClick={() => openLink(advanceSearch)}
+                  onClick={() => openAdvanceSearchTab()}
                   style={{ width: '96%' }}
                >AdvanceSearch
                </button>
