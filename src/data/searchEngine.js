@@ -134,7 +134,8 @@ const searchEngines = [
          key: '!!g1',
          url: 'https://github.com/search?q=',
          imgClassName: 'github',
-         description: 'GitHub is a web-based hosting service for version control using Git, offering access to millions of software projects and facilitating collaboration among developers.'
+         description: 'GitHub is a web-based hosting service for version control using Git, offering access to millions of software projects and facilitating collaboration among developers.',
+         advanceSearchBtn: 'https://github.com/search/advanced',
       }, {
          name: 'GitLab',
          key: '!!g2',
