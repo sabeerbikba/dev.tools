@@ -4,6 +4,15 @@
 
 ## Tasks for allready exist component
 
+- [ ] need to add website : <<!--** https://www.fffuel.co/ **-->> in websites component in svg group 
+```html 
+<!-- text -->
+ fffuel is a collection of color tools and free SVG generators for gradients, patterns, textures, shapes & backgrounds
+```
+- Renaming
+   - [ ] MarkdownEditor to LiveMarkDown or LiveMD
+   - [ ] Browser-Ready-Css to CssAutoprefixer : spell  
+- In MetaTagsGenrator component when user not specified og:image or twitter:image give fall add fall-back image wait 5 second before fetching image  
 - [ ] need to add image for you.com in  SearchEngines Component
 - [ ] need to rename link and Component name and link name in to SearchEngines Component
 - [ ] need to add og:image with website name and tools availble
@@ -37,7 +46,14 @@
 
 ## New Tools Ideas
 
+- screenshot saver - when we take screen shot we can't save directly need paste in paits and resize then save 
+   - when user open screenshot saver component and press `ctrl + v` screenshot directly need to save 
+   - if user selected toggle rename before save. need give dailog when pressed `ctrl + v` with input to image current name as a placeholder 
+      - if better give image format changing option 
 - json server direcly from browser without server or node inside broswer if possible <<!--** https://github.com/typicode/json-server -->>
+- need to add chatbot to using window.ai() that will realease in 6-12 weeks from now date today: 01/07/24 
+   - <<!-- https://github.com/nicoalbanese/ai-sdk-chrome-ai -->>
+   - <<!-- https://github.com/jeasonstudio/chrome-ai -->>
 - [ ] <<!--** https://github.com/mathiasbynens/mothereff.in **-->>
    - [ ]  HTML entity encoder/decoder - <<!--** https://mothereff.in/html-entities **-->>
       - need to show all entities 
@@ -82,8 +98,8 @@ if (typeof(Storage) !== "undefined") {
 ```
 | keySomething | value |
 |----------|----------|
-| height | `45`px | <-- need to change as screen size change
-| width | `120`px | <-- same for it 
+| height | 45px | <-- need to change as screen size change
+| width | 120px | <-- same for it 
 | localStoage Supported | yes|
 | ISE supported | no |
 
