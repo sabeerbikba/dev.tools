@@ -1,7 +1,12 @@
 import { useState } from "react";
 import PropTypes from 'prop-types';
 
-export default function TextArea({ initialInput = "", onInputChange, title = "Input:" }) {
+export default function TextArea({
+   initialInput = "",
+   onInputChange,
+   title = "Input:",
+   inputStyles = {}
+}) {
    const [input, setInput] = useState(initialInput);
 
    const handleInputChange = (e) => {
@@ -29,7 +34,7 @@ export default function TextArea({ initialInput = "", onInputChange, title = "In
          </div>
          <textarea
             className="px-8 py-2 block w-full rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            style={{ height: "calc(100% - 44px)" }}
+            style={{ height: "calc(100% - 44px)", ...inputStyles }}
             value={input}
             onChange={handleInputChange}
          />
@@ -40,4 +45,5 @@ TextArea.propTypes = {
    initialInput: PropTypes.string,
    onInputChange: PropTypes.func.isRequired,
    title: PropTypes.string,
+   inputStyles: PropTypes.object,
 };
