@@ -1,10 +1,8 @@
-import { SpeedInsights } from '@vercel/speed-insights/react';
-import { Analytics } from '@vercel/analytics/react';
-
 import { lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Analytics } from '@vercel/analytics/react';
 
 import Layout from "./Layout";
 import NoPage from "./pages/NoPage";
@@ -19,6 +17,7 @@ const GrapesJSEditor = lazy(() => import("./pages/GrapesJSEditor.jsx"));
 const LoremIpsumGenerator = lazy(() => import("./pages/LoremIpsumGenrator.jsx"));
 import UnitConverter from "./pages/UnitConverter.jsx";
 const MarkdownEditor = lazy(() => import("./pages/MarkdownEditor.jsx"));
+const DiffViewer = lazy(() => import("./pages/DiffViewer.jsx"));
 import CharacterAndWordCounter from "./pages/CharacterAndWordCounter.jsx";
 const ColorConverter = lazy(() => import('./pages/ColorConverter.jsx'));
 const AutoprefixerTool = lazy(() => import("./pages/AutoPrefixer.jsx"));
@@ -39,6 +38,7 @@ const routes = [
    { path: "LoremIpsumGenrator", element: <LoremIpsumGenerator />, isLazy: true },
    { path: "UnitConverter", element: <UnitConverter /> },
    { path: "MarkdownEditor", element: <MarkdownEditor />, isLazy: true },
+   { path: "diff-viewer", element: <DiffViewer />, isLazy: true },
    { path: "CharacterAndWordCounter", element: <CharacterAndWordCounter /> },
    { path: "ColorConverter", element: <ColorConverter />, isLazy: true },
    { path: "Browser-Ready-CSS", element: <AutoprefixerTool />, isLazy: true },
@@ -78,7 +78,6 @@ export default function App() {
          </BrowserRouter>
          <ToastContainer />
          {/* // vercel */}
-         <SpeedInsights />
          <Analytics />
       </>
    );

@@ -4,29 +4,98 @@
 
 ## Tasks for allready exist component
 
-- [ ] need to add website : <<!--** https://www.fffuel.co/ **-->> in websites component in svg group 
-```html 
-<!-- text -->
- fffuel is a collection of color tools and free SVG generators for gradients, patterns, textures, shapes & backgrounds
-```
-- Renaming
-   - [ ] MarkdownEditor to LiveMarkDown or LiveMD
-   - [ ] Browser-Ready-Css to CssAutoprefixer : spell  
-- In MetaTagsGenrator component when user not specified og:image or twitter:image give fall add fall-back image wait 5 second before fetching image  
 - [ ] need to add image for you.com in  SearchEngines Component
 - [ ] need to rename link and Component name and link name in to SearchEngines Component
 - [ ] need to add og:image with website name and tools availble
 - [ ] make website available offline not PWA
-- [ ] all button need to looks like same 
-- [ ] integation tailwind css in LiveReact and LiveHtml component give toggle button in Livehtml component  
-- [ ] inside typescriptPlayground component reset config  option reset buttons in inside optionBtns btn
-- [ ] in typescriptplayground component need to crate save option function 
-- [ ] give word-wrap button in markdownEditor component 
-- [ ] in wordCounter componennt in character counter options give checkbox including spces  or exclude space 
-- [ ] also give sort option to WordCounter component 
-- [ ] need to remove Monaco Editor from WordCounter component 
+- [ ]  Need to create eco-system inside website 
+     - like when I copy something I can paste with button any inputs
+- [ ] Remove tracking of vercel:: reason - it's open-source
+- [ ] Convert url link to kebeb-case for seo reasons
+- [ ] if website opened in mobile show error in Banner that no good experice
+     - and use normal inputs instead of monaco editor
+- [ ] all button need to looks like same
+- [ ] need to add og:image with website name and tools availble
 - [ ] some time monaco editor did't load because of server give fallback editor after specific time editor did't load
-- [ ] Easing functions Add website in Websites component - <<!--** https://easings.net/ **-->> 
+- [ ] Need to use keyboard function keys like `F1`, `F9`
+     - Example: In TypescriptPlayground component user press `F9` code will be run
+- [ ] Need to use import alias @import
+- [ ] Create Error Boundary for application 
+      - If internet connection is offline and press any link page shows blank without showing error to resolve: 
+         - see online status with navigator api if possible and show error look like -your internet is not work... give better text 
+         - give try again button 
+         - if still not issue resolved if 3 or more try agians give rise issue button
+         - Error page can be stored in localStorage
+- [ ] Cache pages or to make page load faster 
+- [ ] Use better variable names
+- [ ] Need to use comments in code 
+- [ ] max length of input text is how browser or system can handle
+- [ ] Need to use code standard or limiting in code
+      - if it is good: <<!--** https://github.com/airbnb/javascript **-->>
+      - or use eslint
+- [ ] add author and wiki link
+- [ ] Responsiveness:: create reponsive website using `grid`, `position: fixed;` and `shadcn/ui Resizable` or use lib `react-resizable-panels`
+     - <<!--** https://ui.shadcn.com/docs/components/resizable **-->>
+     - use manual instead of cli
+         - import { cn } from "@/lib/utils"    ⬇️
+```javascript
+import classNames from 'classnames';
+
+export function cn(...classes) {
+  return classNames(...classes);
+}
+```
+- [ ] Use sandbox and every security feature in every single iframe tag
+- [ ] Entirely Depend on tailwindcss arbitrary feature
+     1. **colors**:
+        - `bg-[color]`, `text-[color]`, `border-[color]`
+        - example: `bg-[#ff5733]`
+
+    2. **spacing**:
+        - `p-[value]`, `pt-[value]`, `pr-[value]`, `pb-[value]`, `pl-[value]`
+        - `m-[value]`, `mt-[value]`, `mr-[value]`, `mb-[value]`, `ml-[value]`
+        - example: `p-[20px]`
+
+    3. **sizing**:
+        - `w-[value]`, `h-[value]`
+        - example: `w-[300px]`, `h-[200px]`
+
+    4. **typography**:
+        - `text-[value]`, `font-[value]`, `leading-[value]`, `tracking-[value]`
+        - example: `text-[18px]`, `font-[400]`
+
+    5. **borders**:
+        - `border-[value]`, `border-t-[value]`, `border-r-[value]`, `border-b-[value]`, `border-l-[value]`
+        - example: `border-[2px]`
+
+    6. **border radius**:
+        - `rounded-[value]`, `rounded-t-[value]`, `rounded-r-[value]`, `rounded-b-[value]`, `rounded-l-[value]`
+        - example: `rounded-[10px]`
+
+    7. **grid and flexbox**:
+        - `grid-cols-[value]`, `grid-rows-[value]`
+        - `flex-[value]`
+        - example: `grid-cols-[1fr_2fr_1fr]`
+
+    8. **z-index**:
+        - `z-[value]`
+        - example: `z-[10]`
+
+    9. **transforms**:
+        - `translate-x-[value]`, `translate-y-[value]`, `rotate-[value]`, `scale-[value]`
+        - example: `translate-x-[10px]`, `rotate-[45deg]`
+
+    10. **custom breakpoints**:
+        - `lg:[value]`, `xl:[value]`
+        - example: `lg:[400px]`
+
+    11. **opacity**:
+        - `opacity-[value]`
+        - example: `opacity-[0.5]`
+
+    12. **shadow**:
+        - `shadow-[value]`
+        - example: `shadow-[0_4px_6px_rgba(0,0,0,0.1)]`
 
 ### COMPLETED
 
@@ -42,18 +111,9 @@
 
 
 
-
-
 ## New Tools Ideas
 
-- screenshot saver - when we take screen shot we can't save directly need paste in paits and resize then save 
-   - when user open screenshot saver component and press `ctrl + v` screenshot directly need to save 
-   - if user selected toggle rename before save. need give dailog when pressed `ctrl + v` with input to image current name as a placeholder 
-      - if better give image format changing option 
 - json server direcly from browser without server or node inside broswer if possible <<!--** https://github.com/typicode/json-server -->>
-- need to add chatbot to using window.ai() that will realease in 6-12 weeks from now date today: 01/07/24 
-   - <<!-- https://github.com/nicoalbanese/ai-sdk-chrome-ai -->>
-   - <<!-- https://github.com/jeasonstudio/chrome-ai -->>
 - [ ] <<!--** https://github.com/mathiasbynens/mothereff.in **-->>
    - [ ]  HTML entity encoder/decoder - <<!--** https://mothereff.in/html-entities **-->>
       - need to show all entities 
@@ -63,19 +123,18 @@
    - [ ] URL encoder/decoder - <<!--** https://mothereff.in/url **-->>    console.log("broswer support storage!!");
    - [ ] ES2015 Unicode regular expression transpiler - <<!--** https://mothereff.in/regexpu **-->>
    - [ ] UTF-8 string length & byte counter - <<!--** https://mothereff.in/byte-counter **-->>
-   - [ ] Lua minifier - <<!--** https://mothereff.in/lua-minifier **-->>
 -  <<!--** https://github.com/jaywcjlove/tools **-->>
    - [ ] Generate Password - <<!--** https://wangchujiang.com/tools/#/generate-password **-->>
+     - password complexity options 
    - [ ] PDF to IMG -  <<!--** https://wangchujiang.com/tools/#/pdf-to-img **-->> 
    - [ ] exif-viewer <<!--** https://wangchujiang.com/tools/#/exif-viewer **-->> 
    - [ ] generate-github-badges - <<!--** https://wangchujiang.com/tools/#/generate-github-badges **-->>
 - [ ] svg editor using lib <<!--** https://github.com/SVG-Edit/svgedit **-->>
-- [ ] if possible better use <<!--** https://github.com/givanz/VvvebJs **-->> drag and drop web editor better then grapejs 
+- [ ] if possible better to use use <<!--** https://github.com/givanz/VvvebJs **-->> vvveb drag and drop web editor better then grapejs 
 - [ ] CSV to Table inspired by this vsCode extension - <<!--** https://github.com/Plasma/csv-to-table **-->>
    - [ ] and also json table
-
 - [ ] social media id link genrator : <<!--** https://faq.whatsapp.com/5913398998672934 **-->> : <<!--** https://web.whatsapp.com/send?phone=yourphonenumber **-->>
-   * *also include instrction how find usernames
+   * *also include instrction how find usernames in. wiki
    - instagram
    - whatsApp - inclue two links 
    - facebook
@@ -83,12 +142,12 @@
    - telegram group join - user link
    - other apps open with a tag like - genrator 
    - <a href="mailto:hege@example.com">hege@example.com</a>
-   - normal sms app
+   - normal sms <<!--** https://salam.qanawat-me.com/Alnufais/ **-->>
    - *find more
 - [ ] (Browser Info) browser all api support need to show table with api name and supprt yes or no example 
    - [ ] screen width and height live 
    - [ ] device info with navigator API 
-```javascipt
+```javascript
 // this code check localStorage api support or not
 if (typeof(Storage) !== "undefined") {
   // Code for yes in table
@@ -98,28 +157,25 @@ if (typeof(Storage) !== "undefined") {
 ```
 | keySomething | value |
 |----------|----------|
-| height | 45px | <-- need to change as screen size change
-| width | 120px | <-- same for it 
+| height | `45`px | <-- need to change as screen size change
+| width | `120`px | <-- same for it 
 | localStoage Supported | yes|
 | ISE supported | no |
-
-
-- [ ] code snippets saving block to save code snippets 
+- [ ] code snippets saving block to save code snippets
+- [ ] All-in-one code beautifier and minifier if possible give options
 - [ ] fake data genrator using faker
 - [ ] HTML and CSS basic all color names and preview with also color code need to show in  code * made design
 - [ ] base64 viewer what that is image or video or auto if better use selectors
-- [ ] jsx and tsx code formaatter 
-- [ ] color shades genrator in colorConverterComponent
-- [ ] html-to-jsx.jsx and jsx-to-html
+   - also genrate base64
+- [ ] color shades genrator
 - [ ] robots.txt genrator
   - if user set every site allow to crow notify to use that if all pages allow not reason to add robots.txt file
 - [ ] css filters
 - [ ] css tools <<!--** [ * html-css-js.com || + GPT || ] **-->>
-- [ ] boxShadow *
 - [ ] textShadow and styling spacing what can do with text - also need to support google fonts  
-- [ ] gradient*
 - [ ] font *
   - [ ] font-family: Specifies the font family for text.
+    - give toggle somthing that specify all browser supported built on fonts
   - [ ] font-size: Sets the size of the font.
   - [ ] font-style: Specifies the style of the font (normal, italic, oblique).
   - [ ] font-weight: Sets the weight or thickness of the font (normal, bold, bolder, lighter, 100-900).
@@ -161,7 +217,6 @@ if (typeof(Storage) !== "undefined") {
 - [ ] css cursor testing
 - [ ] <<!--** https://cssgenerator.org/ **-->>
 - [ ] Box Shadow
-- [ ] Text Shadow
 - [ ] CSS Cursor
 - [ ] Border
 - [ ] Border Radius
@@ -170,20 +225,23 @@ if (typeof(Storage) !== "undefined") {
 - [ ] RGBA & Hex Color
 - [ ] Multiple Columns
 - [ ] Filter
-* [ ] code minifiers
-- [ ] Convert css in js or vanilla css to tailwind css or vice versa
 - [ ] Html tables code genrater
 - [ ] Send html templates from client
 - add google fonts and google all developer helping products in websites component
 - [ ] images
-   - [ ] corp
+   - [ ] crop
    - [ ] compress
+   - [ ] convert format
    * [ images corp and compression tool using lib react-image-file-resizer and react-image-crop ]
 - [ ] more compression tools
   - <<!--** https://fffuel.co/ **-->>
   - <<!--** https://animista.net/play/basic/shadow-inset/shadow-inset-lr **-->>
   - <<!--** https://svgartista.net/?referrer=animista **-->>
-- Convert Tools
+- All-in-one Convert Tools
+   - as change selector need to chamge link
+   - link need to be; .vercel.app/toolName/html-to-jsx and .vercel.app/toolName/jsx-to-html
+   - and directly open that particular convertor with link
+   - link need to be memorable 
    - [ ] json-schema-to-openapi-schema.jsx ??
    - [ ] toml-to-json.jsx
    - [ ] toml-to-yaml.jsx
@@ -191,6 +249,9 @@ if (typeof(Storage) !== "undefined") {
    - [ ] yaml-to-toml.jsx
    - [ ] json-to-toml.jsx
    - [ ] json-to-yaml.jsx
+   - [ ] html-to-jsx.jsx and jsx-to-html
+   - [ ] Convert css in js or vanilla css to tailwind css or vice versa
+
 
 ### COMPLETED
 
@@ -198,9 +259,10 @@ if (typeof(Storage) !== "undefined") {
 - [x] live .md editor - 25/05/24 : [/MarkdownEditor](https://devtools-sabeerbikba.vercel.app/MarkdownEditor)
 - [x] loremIpsum genrator: <<!--**https://www.mobilefish.com/services/lipsum/lipsum.php **-->> - 24/05/24 : [/LoremIpsumGenrator](https://devtools-sabeerbikba.vercel.app/LoremIpsumGenrator)
 - [x] typescript play that simmilar to <<!--**https://www.typescriptlang.org/play/ **-->> <<!--**https://github.com/microsoft/TypeScript-Website **-->> -  [/TypescriptPlayground](https://devtools-sabeerbikba.vercel.app/TypescriptPlayground)
-- [x] html css javascript code minifier -  [/LiveHtml](https://devtools-sabeerbikba.vercel.app/LiveHtml)
+- [x] html css javascript code beautifier -  [/LiveHtml](https://devtools-sabeerbikba.vercel.app/LiveHtml)
 
 ## Advance
 
-* [ ] Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
+- [ ] electron app:: if app is good enough reponsive create electron app
+- [ ] Logo Color Matcher: Recommend colors for a logo based on industry standards or psychological impact.
 - [ ] **featureUpdate:** live preview for hugo with editor markdown file live preview of website page will look like after upload css

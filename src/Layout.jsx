@@ -10,6 +10,7 @@ const links = [
    { to: "/LoremIpsumGenrator", text: "LoremIpsumGenrator" },
    { to: "/UnitConverter", text: "UnitConverter" },
    { to: "/MarkdownEditor", text: "MarkdownEditor" },
+   { to: "/diff-viewer", text: "DiffViewer" },
    { to: "/CharacterAndWordCounter", text: "WordCounter" },
    { to: "/ColorConverter", text: "ColorConverter" },
    { to: "/Browser-Ready-CSS", text: "Browser-Ready-CSS" },

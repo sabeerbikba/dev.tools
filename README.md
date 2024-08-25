@@ -1,20 +1,23 @@
-
 # Dev.tools Collection
 
 This project is a collection of useful developer tools built with React.
 
 ## Tools Included
 
-- All in One SearchEngines
-- CSS Autoprefixer
+- All In One SearchEngines
+- CSS Autoprefixer (add vendor prefixes)
 - Character and Words Counter
 - Color Code Converter
 - GrapeJS Editor
 - Hash Generator
 - Live HTML Preview
+- Live React Preview
+- Live Markdown Preview (github style)
+- LoremIpsum Generator
 - Meta Tags Generator
-- NameCase Converter
+- NameCase Converter (e.g., camelCase to UPPERCASE)
 - QR Code Generator
+- Typescript Playground
 - Unit Converter (e.g., px to em)
 - Website Links for Developers
 
@@ -41,6 +44,8 @@ npm run dev
 We welcome contributions from everyone! Whether you're a developer, designer, or just passionate about the project, there are many ways to contribute.
 
 If you're interested in contributing, take a look at our [task.md](task.md) file for a list of tasks and milestones. Feel free to pick up any task you're interested in or suggest new ones!
+
+**Let's create a better place for developers together!**
 
 ### **License**
 

@@ -9,8 +9,8 @@ import { useCallback } from 'react';
 
 export default function useOpenLink(url, newTab = true) {
 
-   const openLink = useCallback(() => {
-      // Check if URL is provided
+   const openLink = () => {
+
       if (url) {
          // Open link in new tab if specified
          if (newTab) {
@@ -20,13 +20,9 @@ export default function useOpenLink(url, newTab = true) {
             window.location.href = url;
          }
       } else {
-         // If no URL provided, log error
          console.error('URL is required to open');
       }
-   }, []);
+   }
 
-   // Return the function to be used in components
    return openLink;
 };
-
-// <button className='accordion-panel4WebBtn' onClick={useOpenLink(body.link)}>Visit</button>
