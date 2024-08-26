@@ -18,7 +18,7 @@ const links = [
    { to: "/QrCodeGenerator", text: "QRCodeGenerator" },
    { to: "/HashGenerator", text: "HashGenerator" },
    { to: "/Websites", text: "Websites" },
-   // { to: "/Test", text: "Test" },
+   { to: "/Test", text: "BlurhashGenerator[Test]" },
 ];
 
 

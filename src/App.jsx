@@ -25,7 +25,7 @@ import StringConverter from './pages/StringConverter.jsx';
 const QrCodeGenerator = lazy(() => import('./pages/QRCodeGenrator.jsx'));
 const HashGenerator = lazy(() => import('./pages/HashGenerator.jsx'));
 import Websites from "./pages/Websites.jsx";
-// import Test from "./pages/testing/Test.jsx" // Testing purpose
+import Test from "./pages/testing/Test.jsx" // Testing purpose
 
 const routes = [
    { path: "/", element: <SearchEngine />, index: true },
@@ -46,7 +46,7 @@ const routes = [
    { path: "QrCodeGenerator", element: <QrCodeGenerator />, isLazy: true },
    { path: "HashGenerator", element: <HashGenerator />, isLazy: true },
    { path: "Websites", element: <Websites /> },
-   // { path: "Test", element: <Test /> },
+   { path: "Test", element: <Test /> },
    { path: "*", element: <NoPage /> },
 ];
 

@@ -5,7 +5,7 @@ export default function SuspenseWithFallback({ children, fallback = <Fallback />
    const fallbackComponent = React.cloneElement(fallback, { text });
 
    return (
-      <Suspense fallback={fallbackComponent}>
+      <Suspense fallback={fallbackComponent }>
          {children}
       </Suspense>
    );
@@ -16,7 +16,7 @@ SuspenseWithFallback.propTypes = {
    text: PropTypes.string,
 };
 
-function Fallback({ text }) {
+export function Fallback({ text = '', height = '100vh' }) {
    useEffect(() => {
       const style = document.createElement('style');
       style.innerHTML = `
@@ -40,13 +40,17 @@ function Fallback({ text }) {
       messageStyle: { fontSize: '18px', color: '#ffffff', },
       containerStyle: {
          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-         height: '100vh', backgroundColor: '#2a2a2a', fontFamily: "'Arial', sans-serif",
+         height, backgroundColor: '#2a2a2a', fontFamily: "'Arial', sans-serif",
       }
    }
    return (
       <div style={styles.containerStyle}>
          <div style={styles.spinnerStyle}></div>
-         <p style={styles.messageStyle}>{text}</p>
+         {text && (<p style={styles.messageStyle}>{text}</p>)}
       </div>
    );
 }
+Fallback.propTypes = {
+   text: PropTypes.string,
+   height: PropTypes.string,
+};
