@@ -129,12 +129,12 @@ export default function CharacterAndWordCounter() {
                      }}
                   />
                   <p className="font-bold text-md text-white"> count: {count}</p>
+                  <CopyBtn
+                     copyText={output}
+                     setCopyBtnDisabled={(isDisabled) => UPDATE_VALUE('copyBtnDisabled', isDisabled)}
+                     copyBtnDisabled={copyBtnDisabled || output === ''}
+                  />
                </div>
-               <CopyBtn
-                  copyText={output}
-                  setCopyBtnDisabled={(isDisabled) => UPDATE_VALUE('copyBtnDisabled', isDisabled)}
-                  copyBtnDisabled={copyBtnDisabled || output === ''}
-               />
             </div>
             <MonacoEditor
                language="plaintext"
