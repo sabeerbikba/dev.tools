@@ -21,11 +21,11 @@
      - Example: In TypescriptPlayground component user press `F9` code will be run
 - [ ] Need to use import alias @import
 - [ ] Create Error Boundary for application 
-      - If internet connection is offline and press any link page shows blank without showing error to resolve: 
-         - see online status with navigator api if possible and show error look like -your internet is not work... give better text 
-         - give try again button 
-         - if still not issue resolved if 3 or more try agians give rise issue button
-         - Error page can be stored in localStorage
+   - If internet connection is offline and press any link page shows blank without showing error to resolve: 
+      - see online status with navigator api if possible and show error look like -your internet is not work... give better text 
+      - give try again button 
+      - if still not issue resolved if 3 or more try agians give rise issue button
+      - Error page can be stored in localStorage
 - [ ] Cache pages or to make page load faster 
 - [ ] Use better variable names
 - [ ] Need to use comments in code 
@@ -113,7 +113,15 @@ export function cn(...classes) {
 
 ## New Tools Ideas
 
-- json server direcly from browser without server or node inside broswer if possible <<!--** https://github.com/typicode/json-server -->>
+[ ] Random data generator : front-end if better
+   - inspired by : <<!--** https://github.com/helixquar/randomeverything **-->>
+   - main :<<!--** https://chancejs.com/index.html **-->>
+   - can be used faker.js
+   - MOCK.api: in website url
+   - inspired by.:<<!--** mockapi.io **-->>
+   - <<!--** https://jsonplaceholder.typicode.com/ **-->>
+   - <<!--** https://chatgpt.com/c/c9e5351e-bbb2-481c-bc59-5662fc1bcbab **-->>
+   - we can achive by MSW or PUPPITER lib
 - [ ] <<!--** https://github.com/mathiasbynens/mothereff.in **-->>
    - [ ]  HTML entity encoder/decoder - <<!--** https://mothereff.in/html-entities **-->>
       - need to show all entities 
