@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 /**
  * A custom hook for storing and retrieving data in local storage.
@@ -11,8 +11,26 @@ import { useState } from 'react';
 
 export default function useLocalStorageState(key, initialValue, maxLength = Infinity) {
    const storedValue = localStorage.getItem(key);
-   const initial = storedValue ? JSON.parse(storedValue) : initialValue;
+   let initial;
+
+   if (storedValue !== null) {
+      try {
+         initial = JSON.parse(storedValue);
+      } catch {
+         initial = initialValue;
+      }
+   } else {
+      initial = initialValue;
+      localStorage.setItem(key, JSON.stringify(initialValue));  // Force the initial value into localStorage
+   }
+
    const [value, setValue] = useState(initial);
+
+   useEffect(() => {
+      if (storedValue === null) {
+         localStorage.setItem(key, JSON.stringify(initialValue));
+      }
+   }, [key, initialValue]);
 
    /**
     * Update localStorage whenever the value changes.
