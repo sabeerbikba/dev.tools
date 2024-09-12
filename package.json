@@ -11,7 +11,7 @@
 		"build": "vite build",
 		"lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview",
-		"build:styles": "npx tailwindcss ./src/styles/styles.css -o ./src/styles/output.css --watch"
+		"build:styles": "npx tailwindcss -i ./src/styles/styles.css -o ./src/styles/output.css --watch"
 	},
 	"dependencies": {
 		"@babel/standalone": "^7.24.5",
