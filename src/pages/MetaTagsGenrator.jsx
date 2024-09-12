@@ -5,6 +5,7 @@ import MonacoEditor from '@monaco-editor/react';
 
 import Input from "../common/Input";
 import CopyBtn from '../common/CopyBtn';
+import EndLink from "../common/Endink";
 
 const initialState = {
    title: '',
@@ -980,13 +981,10 @@ export default function MetaTagsGenrator() {
                   tooltipPosition={{ bottom: '52px', left: '91px' }}
                />
             </div>
-            <hr className="hr" />
-            <p style={styles.moreMetaTags}>Discover more meta tags options{' '}
-               <a href="https://gist.github.com/sabeerbikba/baa8d4dda596e9ca94b4894e8599d0a7" target='__blank' style={styles.moreMetaTagsA}>
-                  here
-               </a>
-            </p>
-            <hr className="hr" />
+            <EndLink
+               text="Discover more meta tags options"
+               link="https://gist.github.com/sabeerbikba/baa8d4dda596e9ca94b4894e8599d0a7"
+            />
          </div>
          <div style={styles.mainDiv2}>
             <div style={{ height: '46%', border: '2px solid transparent', zIndex: '10' }}>
