@@ -46,7 +46,7 @@ export default function Input({
       <div style={style.div}>
          {label && (
             <div>
-               <label style={{ color: '#A6A6A6' }} htmlFor={name}>{label + ' '}</label>
+               <label style={{ color: '#A6A6A6' }} htmlFor={name || label}>{label + ' '}</label>
                {showError && value !== '' && (
                   <div style={{ position: 'absolute', bottom: '30px', left: '110px', ...tooltipPosition }}>
                      <div style={style.tooltip}>
@@ -59,7 +59,7 @@ export default function Input({
          )}
          <InputComponent
             style={style.input}
-            id={name}
+            id={name || label}
             value={value}
             type={type}
             onChange={name ? e => onChange(name, type === 'url' ? e : e.target.value) : onChange}
