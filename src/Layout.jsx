@@ -5,6 +5,7 @@ const links = [
    { to: "/LiveHtml", text: "LiveHtml" },
    { to: "/LiveReact", text: "LiveReact" },
    { to: "/MetaTagsGenrator", text: "MetaTagsGenrator" },
+   { to: "/image-placeholder-generator", text: "ImgPlaceholderGen" },
    { to: "/TypescriptPlayground", text: "TypescriptPlayground" },
    { to: "/GrapesJSEditor", text: "GrapesJSEditor" },
    { to: "/LoremIpsumGenrator", text: "LoremIpsumGenrator" },
@@ -18,7 +19,7 @@ const links = [
    { to: "/QrCodeGenerator", text: "QRCodeGenerator" },
    { to: "/HashGenerator", text: "HashGenerator" },
    { to: "/Websites", text: "Websites" },
-   { to: "/Test", text: "BlurhashGenerator[Test]" },
+   // { to: "/Test", text: "BlurhashGenerator[Test]" },
 ];
 
 

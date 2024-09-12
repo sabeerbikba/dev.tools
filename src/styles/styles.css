@@ -22,6 +22,16 @@ body {
    background-color: rgb(42, 42, 42);
 }
 
+@layer utilities {
+   .scrollbar-hide::-webkit-scrollbar {
+      width: 0;
+   }
+
+   .scrollbar-show::-webkit-scrollbar {
+      width: 8px;
+   }
+}
+
 ::-webkit-scrollbar {
    width: 10px;
 }
@@ -46,6 +56,23 @@ input[type=number]::-webkit-inner-spin-button {
 input[type=number] {
    appearance: textfield;
    -moz-appearance: textfield;
+}
+
+button.btn {
+   color: white;
+   height: 44px;
+   width: 120px;
+   padding: 10px 40px;
+   border-radius: 10px;
+   background-color: #6366f1;
+}
+
+button.btn:hover {
+   opacity: .9;
+}
+
+button.btn:disabled {
+   background-color: #4446a6;
 }
 
 .sidenav {

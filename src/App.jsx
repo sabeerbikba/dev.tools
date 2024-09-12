@@ -12,6 +12,7 @@ import SearchEngine from "./pages/SearchEngine.jsx";
 const LiveHtml = lazy(() => import("./pages/LiveHtml.jsx"));
 import LiveReact from './pages/LiveReact.jsx';
 const MetaTagsGenrator = lazy(() => import("./pages/MetaTagsGenrator.jsx"));
+const ImgPlaceholderGen = lazy(() => import("./pages/ImgPlaceholderGen.jsx"));
 const TypescriptPlayground = lazy(() => import('./pages/TypescriptPlayground.jsx'));
 const GrapesJSEditor = lazy(() => import("./pages/GrapesJSEditor.jsx"));
 const LoremIpsumGenerator = lazy(() => import("./pages/LoremIpsumGenrator.jsx"));
@@ -25,7 +26,7 @@ import StringConverter from './pages/StringConverter.jsx';
 const QrCodeGenerator = lazy(() => import('./pages/QRCodeGenrator.jsx'));
 const HashGenerator = lazy(() => import('./pages/HashGenerator.jsx'));
 import Websites from "./pages/Websites.jsx";
-import Test from "./pages/testing/Test.jsx" // Testing purpose
+// import Test from "./pages/testing/Test.jsx" // Testing purpose
 
 const routes = [
    { path: "/", element: <SearchEngine />, index: true },
@@ -33,6 +34,7 @@ const routes = [
    { path: "LiveHtml", element: <LiveHtml />, isLazy: true },
    { path: "LiveReact", element: <LiveReact /> },
    { path: "MetaTagsGenrator", element: <MetaTagsGenrator />, isLazy: true },
+   { path: "image-placeholder-generator", element: <ImgPlaceholderGen />, isLazy: true },
    { path: "TypescriptPlayground", element: <TypescriptPlayground />, isLazy: true, fallbackText: 'Downloading TypeScript...' },
    { path: "GrapesjsEditor", element: <GrapesJSEditor />, isLazy: true },
    { path: "LoremIpsumGenrator", element: <LoremIpsumGenerator />, isLazy: true },
@@ -46,7 +48,7 @@ const routes = [
    { path: "QrCodeGenerator", element: <QrCodeGenerator />, isLazy: true },
    { path: "HashGenerator", element: <HashGenerator />, isLazy: true },
    { path: "Websites", element: <Websites /> },
-   { path: "Test", element: <Test /> },
+   // { path: "Test", element: <Test /> },
    { path: "*", element: <NoPage /> },
 ];
 
