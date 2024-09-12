@@ -4,6 +4,16 @@
 
 ## Tasks for allready exist component
 
+- [ ] remove `useOpenLink` hook and instead use `OpenLinkBtn` component
+- [ ] in `CopyBtn` component have prop copyBtnDisabled instead rename to btnDisabled
+- [ ] need to use component `ToolBox` and `ToolBoxLayout` where it can be usable  
+- [ ] need to use component `PasteBtn` where it can be usable  
+- [ ] need to use component `BasicBtn` where it can be usable for simplicity  
+- [ ] error in `LiveReact` component : development
+- [ ] error in `GrapejSEditor` component: both
+- [ ] error in `ColorConverter` component: development 
+- [ ] remove `store` lib instead use locaStorageState hook if it is good option,  
+- [ ] clear all console 
 - [ ] need to add image for you.com in  SearchEngines Component
 - [ ] need to rename link and Component name and link name in to SearchEngines Component
 - [ ] need to add og:image with website name and tools availble
@@ -109,6 +119,9 @@ export function cn(...classes) {
 - [x] need to add comment in index.html file like this <!--**  Github: https://github.com/sabeerbikba/dev.tools  **--> - 02/06/24
 - [X] minify css use `<style></style>` and for javascript `<script></script>` and html default : COMPLETED - `LiveHtml` Compoent
 
+## other task 
+
+ - [ ] use precommit hook that generate just run build:styles script  and wait few second 
 
 
 ## New Tools Ideas
