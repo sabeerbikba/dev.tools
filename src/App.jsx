@@ -78,7 +78,7 @@ export default function App() {
          </BrowserRouter>
          <ToastContainer />
          {/* // vercel */}
-         <Analytics />
+         {process.env.NODE_ENV === 'production' && <Analytics />}
       </>
    );
 }
