@@ -1,250 +1,111 @@
+import { useReducer } from 'react';
+import clsx from 'clsx';
+
+// TODO: use @ import alias : '@/common/BasicBtn';
+import ToolBoxLayout from '../../common/ToolBoxLayout';
+import ToolBox from '../../common/ToolBox';
+import CopyBtn from '../../common/CopyBtn'
+import Input from '../../common/Input';
+import OpenLinkBtn from '../../common/OpenLinkBtn';
+import PasteBtn from '../../common/PasteBtn';
+import Selector from '../../common/Selector';
+import TextArea from '../../common/TextArea';
+import Btn from '../../common/BasicBtn';
+import EndLink from '../../common/Endink';
+
+// code that used in child component
+//   --  constantTailwind
+//   --  utility function 
+
 const actionTypes = {
-   SET_COPY_BTN_DISABLED: 'SET_COPY_BTN_DISABLED',
-   UPDATE_SHOW_OPTIONS: 'UPDATE_SHOW_OPTIONS',
-   MANAGE_CONSOLE_LOGS: 'MANAGE_CONSOLE_LOGS',
-
-   // localStorage
-   UPDATE_COMPILER_TICKS: 'UPDATE_COMPILER_TICKS',
-   UPDATE_COMPILER_OPTIONS: 'UPDATE_COMPILER_OPTIONS',
-   UPDATE_CODE: 'UPDATE_CODE',
-
-}
-
-const initCode = `const message: string = 'hello world';
-// console.log(message);
-// `.trim();
-
-const createInitialState = (compilerOptions) => {
-   const initialState = {};
-
-   for (const category in compilerOptions) {
-      compilerOptions[category].forEach(option => {
-         initialState[option.label] = option.check;
-      });
-   }
-
-   return initialState;
+   UPDATE_VALUE: 'UPDATE_VALUE',
+   UPDATE_OBJECT_VALUE: 'UPDATE_OBJECT_VALUE',
 };
 
 const initialState = {
-   consoleLogs: [],
-   showOptions: false,
-   copyBtnDisabled: false,
+
 };
 
-let localStorageInitialState = createInitialState(compilerOptionTicks);
-localStorageInitialState = {
-   inputCode: initCode,
-   outputCode: '',
-   target: compilerOption.Target.options[4],
-   JSX: compilerOption.JSX.options[2],
-   module: compilerOption.Module.options[8],
-   ...localStorageInitialState,
-};
-
-function reducer(state, action) {
+const reducer = (state, action) => {
    switch (action.type) {
-      case actionTypes.MANAGE_CONSOLE_LOGS: {
-         if (action.payload === 'clear') {
-            return {
-               ...state,
-               consoleLogs: [],
-            };
-         } else {
-            return {
-               ...state,
-               consoleLogs: [
-                  ...state.consoleLogs,
-                  ...action.logs,
-               ],
-            };
-         }
+      case actionTypes.UPDATE_VALUE: {
+         return { ...state, [action.field]: action.value };
       }
-      case actionTypes.UPDATE_SHOW_OPTIONS: {
+      case actionTypes.UPDATE_OBJECT_VALUE: {
          return {
             ...state,
-            showOptions: action.payload.hasOwnProperty('value') ? action.payload.value : !state.showOptions,
+            [action.payload.field]: {
+               ...state[action.payload.field],
+               ...action.payload.value,
+            },
          };
       }
-      case actionTypes.SET_COPY_BTN_DISABLED: {
-         return { ...state, copyBtnDisabled: action.value };
-      }
       default: {
-         console.error('Unknown action: reducer : ' + action.type);
+         console.error('Unknown action: ' + action.type);
          console.warn('you not added action.type: ' + action.type + ' add and try');
          return state;
       }
    }
-}
+};
 
-function localStorageReducer(state, action) {
-   switch (action.type) {
-      case actionTypes.UPDATE_COMPILER_TICKS: {
-         return { ...state, [action.field]: action.value };
-      }
-      case actionTypes.UPDATE_COMPILER_OPTIONS: {
-         return { ...state, [action.field]: action.value };
-      }
-      case actionTypes.UPDATE_CODE: {
-         return { ...state, [action.field]: action.value };
-      }
-      default: {
-         console.error('Unknown action: localStorageRedcer : ' + action.type);
-         console.warn('you not added action.type: ' + action.type + ' add and try');
-         return state;
-      }
-   }
-}
-
-
-export default function Test2() {
-   const [localStorageState, localStorageDispatch] = useLocalStorageReducer('typescriptPlayground', localStorageReducer, localStorageInitialState); // TODO: need to use localStorage reducer 
-
+const Name = () => {
+   const [state, dispatch] = useReducer(reducer, initialState);
 
    const {
-      inputCode,
-      outputCode,
 
-      //                 COMPILER_OPTIONS
-      target,
-      JSX,
-      module,
-      preserveWatchOutput,
-      pretty,
-      noErrorTruncation,
-      declaration,
-      inlineSourceMap,
-      removeComments,
-      importHelpers,
-      downlevelIteration,
-      inlineSources,
-      stripInternal,
-      noEmitHelpers,
-      preserveConstEnums,
-      preserveValueImports,
-      isolatedModules,
-      verbatimModuleSyntax,
-      allowSyntheticDefaultImports,
-      esModuleInterop,
-      strict,
-      noImplicitAny,
-      strictNullChecks,
-      strictFunctionTypes,
-      strictBindCallApply,
-      strictPropertyInitialization,
-      noImplicitThis,
-      useUnknownInCatchVariables,
-      alwaysStrict,
-      noUnusedLocal,
-      noUnusedParameters,
-      exactOptionalPropertyTypes,
-      noImplicitReturns,
-      noFallthroughCasesInSwitch,
-      noUncheckedIndexedAccess,
-      noImplicitOverride,
-      noPropertyAccessFromIndexSignature,
-      allowUnusedLabels,
-      allowUnreachableCode,
-      allowUmdGlobalAccess,
-      allowImportingTsExtensions,
-      resolvePackageJsonExports,
-      resolvePackageJsonImports,
-      allowArbitraryExtensions,
-      experimentalDecorators,
-      emitDecoratorMetadata,
-      noLib,
-      useDefineForClassFields,
-      disableSourceOfProjectReferenceRedirect,
-      noImplicitUseStrict,
-      suppressExcessPropertyErrors,
-      suppressImplicitAnyIndexErrors,
-      noStrictGenericChecks,
-      keyofStringsOnly,
-   } = localStorageState;
+   } = state;
 
-   const options = {
-      minimap: {
-         enabled: false,
-      },
-      lineNumber: true,
+
+
+   // //   Utility Functions   // //
+
+
+
+   // //   Functions for Updating Reducer   // //
+
+   const updateValues = (values) => {
+      Object.keys(values).forEach((field) => {
+         dispatch({ type: actionTypes.UPDATE_VALUE, field, value: values[field] });
+      });
    };
 
-   function compileCode(code) {
-      try {
-         const result = ts.transpileModule(code, {
-            compilerOptions: {
-               target: ts.ScriptTarget[target],
-               jsx: ts.JsxEmit[JSX],
-               module: ts.ModuleKind[module],
-               // Output Formatting
-               preserveWatchOutput: preserveWatchOutput,
-               pretty: pretty,
-               noErrorTruncation: noErrorTruncation,
-               // Emit
-               declaration: declaration,
-               inlineSourceMap: inlineSourceMap,
-               removeComments: removeComments,
-               importHelpers: importHelpers,
-               downlevelIteration: downlevelIteration,
-               inlineSources: inlineSources,
-               stripInternal: stripInternal,
-               noEmitHelpers: noEmitHelpers,
-               preserveConstEnums: preserveConstEnums,
-               preserveValueImports: preserveValueImports,
-               // Interop Constraints
-               isolatedModules: isolatedModules,
-               verbatimModuleSyntax: verbatimModuleSyntax,
-               allowSyntheticDefaultImports: allowSyntheticDefaultImports,
-               esModuleInterop: esModuleInterop,
-               // Type Checking
-               strict: strict,
-               noImplicitAny: noImplicitAny,
-               strictNullChecks: strictNullChecks,
-               strictFunctionTypes: strictFunctionTypes,
-               strictBindCallApply: strictBindCallApply,
-               strictPropertyInitialization: strictPropertyInitialization,
-               noImplicitThis: noImplicitThis,
-               useUnknownInCatchVariables: useUnknownInCatchVariables,
-               alwaysStrict: alwaysStrict,
-               noUnusedLocal: noUnusedLocal,
-               noUnusedParameters: noUnusedParameters,
-               exactOptionalPropertyTypes: exactOptionalPropertyTypes,
-               noImplicitReturns: noImplicitReturns,
-               noFallthroughCasesInSwitch: noFallthroughCasesInSwitch,
-               noUncheckedIndexedAccess: noUncheckedIndexedAccess,
-               noImplicitOverride: noImplicitOverride,
-               noPropertyAccessFromIndexSignature: noPropertyAccessFromIndexSignature,
-               allowUnusedLabels: allowUnusedLabels,
-               allowUnreachableCode: allowUnreachableCode,
-               allowUmdGlobalAccess: allowUmdGlobalAccess,
-               allowImportingTsExtensions: allowImportingTsExtensions,
-               resolvePackageJsonExports: resolvePackageJsonExports,
-               resolvePackageJsonImports: resolvePackageJsonImports,
-               allowArbitraryExtensions: allowArbitraryExtensions,
-               // Language and Environment
-               experimentalDecorators: experimentalDecorators,
-               emitDecoratorMetadata: emitDecoratorMetadata,
-               noLib: noLib,
-               useDefineForClassFields: useDefineForClassFields,
-               // Projects
-               disableSourceOfProjectReferenceRedirect: disableSourceOfProjectReferenceRedirect,
-               // Backwards Compatibility
-               noImplicitUseStrict: noImplicitUseStrict,
-               suppressExcessPropertyErrors: suppressExcessPropertyErrors,
-               suppressImplicitAnyIndexErrors: suppressImplicitAnyIndexErrors,
-               noStrictGenericChecks: noStrictGenericChecks,
-               keyofStringsOnly: keyofStringsOnly,
-            }
-         });
-         updateCode('outputCode', result.outputText);
-      } catch (error) {
-         console.error('Error compiling code:', error);
-      }
+   const updateObjectValue = (field, valueUpdater) => {
+      const currentValue = state[field];
+      const updatedValue = typeof valueUpdater === 'function' ? valueUpdater(currentValue) : valueUpdater;
+
+      dispatch({
+         type: actionTypes.UPDATE_OBJECT_VALUE,
+         payload: { field, value: updatedValue },
+      });
+   };
+
+   // 
+   //
+
+   // //   Event Handlers   // //
+
+
+   // //   Main Functions   // //
+
+
+   const tailwind = {
+
    };
 
    return (
-      <>
-         sabeer bikba
-      </>
-   )
+      <ToolBoxLayout height=''>
+         <ToolBox title='Input' border>
+
+         </ToolBox>
+         <ToolBox title='Output' border>
+
+         </ToolBox>
+      </ToolBoxLayout >
+   );
 };
+
+// child compoents
+
+// all prop-types
+
+export default Name;
