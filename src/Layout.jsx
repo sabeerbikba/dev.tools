@@ -6,6 +6,7 @@ const links = [
    { to: "/LiveReact", text: "LiveReact" },
    { to: "/MetaTagsGenrator", text: "MetaTagsGenrator" },
    { to: "/image-placeholder-generator", text: "ImgPlaceholderGen" },
+   { to: "/sqip-previewer", text: "SQIPPreviewer" },
    { to: "/TypescriptPlayground", text: "TypescriptPlayground" },
    { to: "/GrapesJSEditor", text: "GrapesJSEditor" },
    { to: "/LoremIpsumGenrator", text: "LoremIpsumGenrator" },

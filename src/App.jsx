@@ -13,6 +13,7 @@ const LiveHtml = lazy(() => import("./pages/LiveHtml.jsx"));
 import LiveReact from './pages/LiveReact.jsx';
 const MetaTagsGenrator = lazy(() => import("./pages/MetaTagsGenrator.jsx"));
 const ImgPlaceholderGen = lazy(() => import("./pages/ImgPlaceholderGen.jsx"));
+const SQIPPreviewer = lazy(() => import("./pages/SQIPPreviewer.jsx"));
 const TypescriptPlayground = lazy(() => import('./pages/TypescriptPlayground.jsx'));
 const GrapesJSEditor = lazy(() => import("./pages/GrapesJSEditor.jsx"));
 const LoremIpsumGenerator = lazy(() => import("./pages/LoremIpsumGenrator.jsx"));
@@ -35,6 +36,7 @@ const routes = [
    { path: "LiveReact", element: <LiveReact /> },
    { path: "MetaTagsGenrator", element: <MetaTagsGenrator />, isLazy: true },
    { path: "image-placeholder-generator", element: <ImgPlaceholderGen />, isLazy: true },
+   { path: "sqip-previewer", element: <SQIPPreviewer />, isLazy: true },
    { path: "TypescriptPlayground", element: <TypescriptPlayground />, isLazy: true, fallbackText: 'Downloading TypeScript...' },
    { path: "GrapesjsEditor", element: <GrapesJSEditor />, isLazy: true },
    { path: "LoremIpsumGenrator", element: <LoremIpsumGenerator />, isLazy: true },
