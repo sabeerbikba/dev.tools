@@ -12,6 +12,7 @@ export default function Input({
    showError = false,
    tooltipError = '',
    styles = {},
+   classNames = '',
    divStyles = {},
    tooltipPosition = {},
    elementHeight = '60%',
@@ -59,6 +60,7 @@ export default function Input({
          )}
          <InputComponent
             style={style.input}
+            className={classNames}
             id={name || label}
             value={value}
             type={type}
