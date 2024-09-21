@@ -82,7 +82,12 @@ const Name = () => {
    // 
    //
 
+
    // //   Event Handlers   // //
+
+   const handlePaste = (value) => {
+      updateValues({ blurhash: value });
+   };
 
 
    // //   Main Functions   // //
@@ -109,4 +114,3 @@ const Name = () => {
 // all prop-types
 
 export default Name;
-
