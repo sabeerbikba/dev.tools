@@ -36,7 +36,7 @@ const routes = [
    { path: "LiveReact", element: <LiveReact /> },
    { path: "MetaTagsGenrator", element: <MetaTagsGenrator />, isLazy: true },
    { path: "image-placeholder-generator", element: <ImgPlaceholderGen />, isLazy: true },
-   { path: "sqip-previewer", element: <SQIPPreviewer />, isLazy: true },
+   { path: "sqip-lqip-previewer", element: <SQIPPreviewer />, isLazy: true },
    { path: "TypescriptPlayground", element: <TypescriptPlayground />, isLazy: true, fallbackText: 'Downloading TypeScript...' },
    { path: "GrapesjsEditor", element: <GrapesJSEditor />, isLazy: true },
    { path: "LoremIpsumGenrator", element: <LoremIpsumGenerator />, isLazy: true },

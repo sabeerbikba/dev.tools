@@ -5,6 +5,7 @@ import ToolBoxLayout from '@/common/ToolBoxLayout';
 import ToolBox from '@/common/ToolBox';
 import Input from '@/common/Input';
 import Btn from '@/common/BasicBtn';
+import CopyBtn from '@/common/CopyBtn';
 
 const actionTypes = {
    UPDATE_VALUE: 'UPDATE_VALUE',
@@ -81,10 +82,14 @@ const SQIPPreviewer = () => {
    };
 
    const isValidBase64 = (base64String) => {
-      const base64Prefix = 'data:image/svg+xml;base64,';
-      if (!base64String.startsWith(base64Prefix)) return false;
+      const validMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/webp'];
+      const base64PrefixMatch = base64String.match(/^data:(image\/[a-zA-Z]+);base64,/);
+      if (!base64PrefixMatch) return false;
 
-      const base64Content = base64String.slice(base64Prefix.length);
+      const mimeType = base64PrefixMatch[1];
+      if (!validMimeTypes.includes(mimeType)) return false;
+
+      const base64Content = base64String.slice(base64PrefixMatch[0].length);
       const base64Regex = /^[A-Za-z0-9+/]+={0,2}$/;
       return base64Regex.test(base64Content) && base64Content.length % 4 === 0;
    };
@@ -204,7 +209,7 @@ const SQIPPreviewer = () => {
    const tailwind = {
       btnsDiv: "flex justify-between px-2",
       previewPlaceholder: 'text-white text-center text-2xl border-2 border-gray-500 rounded-[10px] h-[745px] min-w-[1600px] !w-[99%] flex flex-wrap content-center justify-center flex-col m-2.5 my-0 p-[5px]',
-      input: "resize-none px-4 py-2 rounded-lg border-0 bg-gray-700 !text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 disabled:bg-gray-500 disabled:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:pt-2 placeholder-gray-500",
+      input: "!h-[88%] resize-none px-4 py-2 rounded-lg border-0 bg-gray-700 !text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 disabled:bg-gray-500 disabled:text-gray-400 disabled:opacity-50 disabled:cursor-not-allowed disabled:pt-2 placeholder-gray-500",
    };
 
    return (
@@ -264,15 +269,22 @@ const SQIPPreviewer = () => {
                </div>
             </ToolBox>
             <ToolBox title='Output'>
-               <Input
-                  label={`${Object.keys(initialState)[1]}:`}
-                  value={base64String}
-                  onChange={e => updateValues({ base64String: e.target.value })}
-                  placeholder={isBase64String.editing ? 'data:image/svg+xml;base64,....' : ''}
-                  inputDisalbed={!isBase64String.editing}
-                  classNames={tailwind.input}
-                  divStyles={{ height: '73px', width: 'auto' }}
-               />
+               <div className="flex">
+                  <Input
+                     label={`${Object.keys(initialState)[1]}:`}
+                     value={base64String}
+                     onChange={e => updateValues({ base64String: e.target.value })}
+                     placeholder={isBase64String.editing ? 'data:image/svg+xml;base64,....' : ''}
+                     inputDisalbed={!isBase64String.editing}
+                     classNames={tailwind.input}
+                     divStyles={{ height: '73px', width: 'auto' }}
+                  />
+                  <CopyBtn
+                     copyText={base64String}
+                     copyBtnDisabled={!isValidBase64String}
+                     className='mt-7 !h-16'
+                  />
+               </div>
                <div className='flex pt-5'>
                   <Input
                      label='Width:'

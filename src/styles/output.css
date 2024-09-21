@@ -882,6 +882,22 @@ video {
   margin-top: 5px;
 }
 
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+.mt-7 {
+  margin-top: 1.75rem;
+}
+
 .box-border {
   box-sizing: border-box;
 }
@@ -1038,6 +1054,26 @@ video {
   height: 100vh;
 }
 
+.\!h-\[88\%\] {
+  height: 88% !important;
+}
+
+.\!h-4 {
+  height: 1rem !important;
+}
+
+.\!h-10 {
+  height: 2.5rem !important;
+}
+
+.\!h-12 {
+  height: 3rem !important;
+}
+
+.\!h-16 {
+  height: 4rem !important;
+}
+
 .max-h-full {
   max-height: 100%;
 }
@@ -1186,6 +1222,10 @@ video {
   width: 81%;
 }
 
+.w-\[88\%\] {
+  width: 88%;
+}
+
 .w-fit {
   width: -moz-fit-content;
   width: fit-content;
@@ -1193,6 +1233,10 @@ video {
 
 .w-full {
   width: 100%;
+}
+
+.\!w-\[88\%\] {
+  width: 88% !important;
 }
 
 .min-w-\[1600px\] {
@@ -2147,36 +2191,6 @@ video {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.placeholder-gray-300::-moz-placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(209 213 219 / var(--tw-placeholder-opacity));
-}
-
-.placeholder-gray-300::placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(209 213 219 / var(--tw-placeholder-opacity));
-}
-
-.placeholder-gray-100::-moz-placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(243 244 246 / var(--tw-placeholder-opacity));
-}
-
-.placeholder-gray-100::placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(243 244 246 / var(--tw-placeholder-opacity));
-}
-
-.placeholder-gray-700::-moz-placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(55 65 81 / var(--tw-placeholder-opacity));
-}
-
-.placeholder-gray-700::placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(55 65 81 / var(--tw-placeholder-opacity));
-}
-
 .placeholder-gray-500::-moz-placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(107 114 128 / var(--tw-placeholder-opacity));
@@ -2185,16 +2199,6 @@ video {
 .placeholder-gray-500::placeholder {
   --tw-placeholder-opacity: 1;
   color: rgb(107 114 128 / var(--tw-placeholder-opacity));
-}
-
-.placeholder-gray-400::-moz-placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-placeholder-opacity));
-}
-
-.placeholder-gray-400::placeholder {
-  --tw-placeholder-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-placeholder-opacity));
 }
 
 .opacity-50 {
