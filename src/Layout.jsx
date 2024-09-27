@@ -19,8 +19,9 @@ const links = [
    { to: "/StringConverter", text: "StringConverter" },
    { to: "/QrCodeGenerator", text: "QRCodeGenerator" },
    { to: "/HashGenerator", text: "HashGenerator" },
+   { to: "/image-metadata-viewer", text: "ImgMetadataViewer" },
    { to: "/Websites", text: "Websites" },
-   // { to: "/Test", text: "BlurhashGenerator[Test]" },
+   // { to: "/Test", text: "Test" },
 ];
 
 

@@ -26,6 +26,7 @@ const AutoprefixerTool = lazy(() => import("./pages/AutoPrefixer.jsx"));
 import StringConverter from './pages/StringConverter.jsx';
 const QrCodeGenerator = lazy(() => import('./pages/QRCodeGenrator.jsx'));
 const HashGenerator = lazy(() => import('./pages/HashGenerator.jsx'));
+const ImageMetadataViewer = lazy(() => import('./pages/ImageMetadataViewer.jsx'));
 import Websites from "./pages/Websites.jsx";
 // import Test from "./pages/testing/Test.jsx" // Testing purpose
 
@@ -49,6 +50,7 @@ const routes = [
    { path: "StringConverter", element: <StringConverter /> },
    { path: "QrCodeGenerator", element: <QrCodeGenerator />, isLazy: true },
    { path: "HashGenerator", element: <HashGenerator />, isLazy: true },
+   { path: "image-metadata-viewer", element: <ImageMetadataViewer />, isLazy: true },
    { path: "Websites", element: <Websites /> },
    // { path: "Test", element: <Test /> },
    { path: "*", element: <NoPage /> },
