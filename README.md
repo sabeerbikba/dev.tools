@@ -37,7 +37,7 @@ npm install
 npm run dev
 ```
 
-##### It will automatically open a web browser. If it doesn't open, please open your web browser and navigate to <http://localhost:3004>
+**It will automatically open a web browser. If it doesn't open, please open your web browser and navigate to <http://localhost:3004>**
 
 ## Feel Free to Contribute
 
