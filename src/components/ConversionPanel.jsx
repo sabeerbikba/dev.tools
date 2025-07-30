@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Pane, Alert, Spinner } from "evergreen-ui";
+import PrettierWorker from "prettier";
 import PropTypes from 'prop-types';
 
 // import EditorPanel, { EditorPanelProps } from "../components/EditorPanel";
-import EditorPanel from "../components/EditorPanel";
-import PrettierWorker from "prettier";
-import { getWorker } from "../utils/workerWrapper";
-import { useData } from "../hooks/useData";
+import EditorPanel from "@/components/EditorPanel";
+import { getWorker } from "@/utils/workerWrapper";
+import { useData } from "@/hooks/useData";
 
 let prettierWorker;
 

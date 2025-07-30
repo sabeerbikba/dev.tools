@@ -2,8 +2,8 @@ import { useReducer } from 'react';
 import { LoremIpsum } from 'lorem-ipsum';
 import PropTypes from 'prop-types';
 
-import Input from '../common/Input';
-import CopyBtn from '../common/CopyBtn';
+import Input from '@/common/Input';
+import CopyBtn from '@/common/CopyBtn';
 
 const actionTypes = {
    UPDATE_INPUT: 'UPDATE_INPUT',
@@ -90,6 +90,7 @@ export default function LoremIpsumGenerator() {
                <div style={{ width: '49%', paddingLeft: '30px', }}>
                   {['words', 'sentences', 'paragraphs'].map((label, index) => (
                      <Checkbox
+                        key={index}
                         value={index + 1}
                         checkedValue={checked}
                         labelText={label}
@@ -108,7 +109,7 @@ export default function LoremIpsumGenerator() {
                      copyText={text}
                      styles={styles.btn}
                      setCopyBtnDisabled={isDisabled => UPDATE_INPUT('copyBtnDisabled', isDisabled)}
-                     copyBtnDisabled={copyBtnDisabled || text === ''}
+                     disabled={copyBtnDisabled || text === ''}
                   />
                </div>
             </div>

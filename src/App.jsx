@@ -4,54 +4,54 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Analytics } from '@vercel/analytics/react';
 
-import Layout from "./Layout";
-import NoPage from "./pages/NoPage";
-import SuspenseWithFallback from "./components/SuspenseWithFallback.jsx";
+import Layout from "@/Layout";
+import NoPage from "@/pages/NoPage";
+import SuspenseWithFallback from "@/components/SuspenseWithFallback";
 
-import SearchEngine from "./pages/SearchEngine.jsx";
-const LiveHtml = lazy(() => import("./pages/LiveHtml.jsx"));
-import LiveReact from './pages/LiveReact.jsx';
-const MetaTagsGenrator = lazy(() => import("./pages/MetaTagsGenrator.jsx"));
-const ImgPlaceholderGen = lazy(() => import("./pages/ImgPlaceholderGen.jsx"));
-const SQIPPreviewer = lazy(() => import("./pages/SQIPPreviewer.jsx"));
-const TypescriptPlayground = lazy(() => import('./pages/TypescriptPlayground.jsx'));
-const GrapesJSEditor = lazy(() => import("./pages/GrapesJSEditor.jsx"));
-const LoremIpsumGenerator = lazy(() => import("./pages/LoremIpsumGenrator.jsx"));
-import UnitConverter from "./pages/UnitConverter.jsx";
-const MarkdownEditor = lazy(() => import("./pages/MarkdownEditor.jsx"));
-const DiffViewer = lazy(() => import("./pages/DiffViewer.jsx"));
-import CharacterAndWordCounter from "./pages/CharacterAndWordCounter.jsx";
-const ColorConverter = lazy(() => import('./pages/ColorConverter.jsx'));
-const AutoprefixerTool = lazy(() => import("./pages/AutoPrefixer.jsx"));
-import StringConverter from './pages/StringConverter.jsx';
-const QrCodeGenerator = lazy(() => import('./pages/QRCodeGenrator.jsx'));
-const HashGenerator = lazy(() => import('./pages/HashGenerator.jsx'));
-const ImageMetadataViewer = lazy(() => import('./pages/ImageMetadataViewer.jsx'));
-import Websites from "./pages/Websites.jsx";
-// import Test from "./pages/testing/Test.jsx" // Testing purpose
+import SearchEngine from "./pages/SearchEngine";
+const LiveHtml = lazy(() => import("./pages/LiveHtml"));
+import LiveReact from './pages/LiveReact';
+const MetaTagsGenrator = lazy(() => import("@/pages/MetaTagsGenrator"));
+const ImgPlaceholderGen = lazy(() => import("@/pages/ImgPlaceholderGen"));
+const SQIPPreviewer = lazy(() => import("@/pages/SQIPPreviewer"));
+const TypescriptPlayground = lazy(() => import('@/pages/TypescriptPlayground'));
+const GrapesJSEditor = lazy(() => import("@/pages/GrapesJSEditor"));
+const LoremIpsumGenerator = lazy(() => import("@/pages/LoremIpsumGenrator"));
+import UnitConverter from "@/pages/UnitConverter";
+const MarkdownEditor = lazy(() => import("@/pages/MarkdownEditor"));
+const DiffViewer = lazy(() => import("@/pages/DiffViewer"));
+import CharacterAndWordCounter from "@/pages/CharacterAndWordCounter";
+const ColorConverter = lazy(() => import('@/pages/ColorConverter'));
+const AutoprefixerTool = lazy(() => import("@/pages/AutoPrefixer"));
+import StringConverter from '@/pages/StringConverter';
+const QrCodeGenerator = lazy(() => import('@/pages/QRCodeGenrator'));
+const HashGenerator = lazy(() => import('@/pages/HashGenerator'));
+const ImageMetadataViewer = lazy(() => import('@/pages/ImageMetadataViewer'));
+import Websites from "@/pages/Websites";
+// import Test from "./pages/testing/Test" // Testing purpose
 
 const routes = [
    { path: "/", element: <SearchEngine />, index: true },
-   { path: "SearchEngine", element: <SearchEngine /> },
-   { path: "LiveHtml", element: <LiveHtml />, isLazy: true },
-   { path: "LiveReact", element: <LiveReact /> },
-   { path: "MetaTagsGenrator", element: <MetaTagsGenrator />, isLazy: true },
+   { path: "search-engines", element: <SearchEngine /> },
+   { path: "live-html", element: <LiveHtml />, isLazy: true },
+   { path: "live-react", element: <LiveReact /> },
+   { path: "meta-tags-genrator", element: <MetaTagsGenrator />, isLazy: true },
    { path: "image-placeholder-generator", element: <ImgPlaceholderGen />, isLazy: true },
    { path: "sqip-lqip-previewer", element: <SQIPPreviewer />, isLazy: true },
-   { path: "TypescriptPlayground", element: <TypescriptPlayground />, isLazy: true, fallbackText: 'Downloading TypeScript...' },
-   { path: "GrapesjsEditor", element: <GrapesJSEditor />, isLazy: true },
-   { path: "LoremIpsumGenrator", element: <LoremIpsumGenerator />, isLazy: true },
-   { path: "UnitConverter", element: <UnitConverter /> },
-   { path: "MarkdownEditor", element: <MarkdownEditor />, isLazy: true },
+   { path: "typescript-playground", element: <TypescriptPlayground />, isLazy: true, fallbackText: 'Downloading TypeScript...' },
+   { path: "grapes-js-editor", element: <GrapesJSEditor />, isLazy: true },
+   { path: "lorem-ipsum-genrator", element: <LoremIpsumGenerator />, isLazy: true },
+   { path: "unit-converter", element: <UnitConverter /> },
+   { path: "markdown-editor", element: <MarkdownEditor />, isLazy: true },
    { path: "diff-viewer", element: <DiffViewer />, isLazy: true },
-   { path: "CharacterAndWordCounter", element: <CharacterAndWordCounter /> },
-   { path: "ColorConverter", element: <ColorConverter />, isLazy: true },
-   { path: "Browser-Ready-CSS", element: <AutoprefixerTool />, isLazy: true },
-   { path: "StringConverter", element: <StringConverter /> },
-   { path: "QrCodeGenerator", element: <QrCodeGenerator />, isLazy: true },
-   { path: "HashGenerator", element: <HashGenerator />, isLazy: true },
+   { path: "character-and-word-counter", element: <CharacterAndWordCounter /> },
+   { path: "color-converter", element: <ColorConverter />, isLazy: true },
+   { path: "browser-ready-css", element: <AutoprefixerTool />, isLazy: true },
+   { path: "string-converter", element: <StringConverter /> },
+   { path: "qr-code-generator", element: <QrCodeGenerator />, isLazy: true },
+   { path: "hash-generator", element: <HashGenerator />, isLazy: true },
    { path: "image-metadata-viewer", element: <ImageMetadataViewer />, isLazy: true },
-   { path: "Websites", element: <Websites /> },
+   { path: "websites", element: <Websites /> },
    // { path: "Test", element: <Test /> },
    { path: "*", element: <NoPage /> },
 ];

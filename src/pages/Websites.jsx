@@ -8,8 +8,8 @@ import {
    AccordionItemPanel
 } from 'react-accessible-accordion';
 
-import useOpenLink from '../hooks/useOpenLink';
-import { baseUrl, websites } from '../data/websites';
+import useOpenLink from '@/hooks/useOpenLink';
+import { baseUrl, websites } from '@/data/websites';
 
 export default function Websites() {
    const [expandedSections, setExpandedSections] = useState(new Array(Object.keys(websites).length).fill(false));

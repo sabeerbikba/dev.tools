@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 import { toast } from 'react-toastify';
 
-import { findNearestNumber } from '../utils/findNearestNumber';
-import CopyBtn from '../common/CopyBtn';
+import { findNearestNumber } from '@/utils/findNearestNumber';
+import CopyBtn from '@/common/CopyBtn';
 
 const tailwindUnits = [
    0, 1, 1.5, 2, 2.5, 3, 3.5, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 20, 24,
@@ -132,7 +132,7 @@ function UnitInput(props) {
             <CopyBtn
                copyText={value}
                setCopyBtnDisabled={isDisabled => setCopyBtnDisabled(isDisabled)}
-               copyBtnDisabled={copyBtnDisabled || value === 0}
+               disabled={copyBtnDisabled || value === 0}
                styles={{ width: '90px', height: '40px' }}
             />
          </div>

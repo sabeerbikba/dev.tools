@@ -4,8 +4,8 @@ import * as Babel from '@babel/standalone';
 import MonacoEditor from '@monaco-editor/react';
 // TODO: need to add code formatter 
 
-import CopyBtn from '../common/CopyBtn';
-import useLocalStorageState from "../hooks/useLocalStorageState";
+import CopyBtn from '@/common/CopyBtn';
+import useLocalStorageState from "@/hooks/useLocalStorageState";
 
 const initCode = `const App = () => (
    <div>
@@ -67,7 +67,7 @@ export default function LiveReactEditor() {
                      copyText={code}
                      styles={styles.btn}
                      setCopyBtnDisabled={isDisabled => setCopyBtnDisabled(isDisabled)}
-                     copyBtnDisabled={copyBtnDisabled || code.trim() === ''}
+                     disabled={copyBtnDisabled || code.trim() === ''}
                   />
                </div>
                <div style={styles['h95%']}>

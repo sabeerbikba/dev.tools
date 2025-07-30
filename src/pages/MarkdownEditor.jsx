@@ -6,9 +6,9 @@ import rehypeRaw from 'rehype-raw';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialOceanic } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-import useLocalStorageState from "../hooks/useLocalStorageState";
-import CopyBtn from '../common/CopyBtn';
-import '../styles/github-markdown-dark.css'
+import useLocalStorageState from "@/hooks/useLocalStorageState";
+import CopyBtn from '@/common/CopyBtn';
+import '@/styles/github-markdown-dark.css'
 
 const initCode = `## Hello World!`
 
@@ -57,7 +57,7 @@ export default function MarkdownEditor() {
                   styles={styles.btns}
                   className={styles.btnsClass}
                   setCopyBtnDisabled={isDisabled => setCopyBtnDisabled(isDisabled)}
-                  copyBtnDisabled={copyBtnDisabled || markdown === ''}
+                  disabled={copyBtnDisabled || markdown === ''}
                />
             </div>
             <div style={{ height: '92.5%' }}>

@@ -1,6 +1,6 @@
 import { useReducer, useEffect, useRef, forwardRef } from "react";
 import PropTypes from 'prop-types';
-import CopyBtn from "../common/CopyBtn";
+import CopyBtn from "@/common/CopyBtn";
 
 function detectInputFormat(input) {
    const camelCasePattern = /^[a-z]+([A-Z][a-z]*)*$/;
@@ -309,7 +309,7 @@ export default function StringConverter() {
             <CopyBtn
                copyText={output}
                setCopyBtnDisabled={isDisabled => UPDATE_INPUT("copyBtnDisabled", isDisabled)}
-               copyBtnDisabled={copyBtnDisabled || output === ''}
+               disabled={copyBtnDisabled || output === ''}
             />
          </InputOutputSection>
       </div>

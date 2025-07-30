@@ -7,9 +7,9 @@ import {
    AccordionItemButton, AccordionItemPanel
 } from 'react-accessible-accordion';
 
-import useLocalStorageState from '../hooks/useLocalStorageState';
-import searchEngines, { files } from '../data/searchEngine';
-import useOpenLink from '../hooks/useOpenLink';
+import useLocalStorageState from '@/hooks/useLocalStorageState';
+import searchEngines, { files } from '@/data/searchEngine';
+import useOpenLink from '@/hooks/useOpenLink';
 
 const actionTypes = {
    SET_SEARCH_QUERY: 'SET_SEARCH_QUERY',

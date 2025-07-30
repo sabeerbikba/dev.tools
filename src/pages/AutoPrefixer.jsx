@@ -4,8 +4,8 @@ import { version as postcssVersion } from 'postcss/package.json';
 import store from 'store';
 import MonacoEditor from '@monaco-editor/react';
 
-import CopyBtn from '../common/CopyBtn';
-import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
+import CopyBtn from '@/common/CopyBtn';
+import useLocalStorageReducer from '@/hooks/useLocalStorageReducer';
 
 const CSS_EXAMPLE = '/* Your default CSS example here */';
 
@@ -256,7 +256,7 @@ export default function AutoPrefixerTool() {
                   copyText={prefixedCode}
                   svg
                   setCopyBtnDisabled={(isDisable) => dispatch({ type: actionTypes.SET_COPY_BTN_DISABLED, payload: isDisable })}
-                  copyBtnDisabled={isCopyBtnDisabled || prefixedCode === ''}
+                  disabled={isCopyBtnDisabled || prefixedCode === ''}
                   styles={styles.copyBtn}
                />
                <label className='text-white' style={{ marginTop: '4px' }}>

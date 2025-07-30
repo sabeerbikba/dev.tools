@@ -1,30 +1,25 @@
 # Dev.tools TODO:s
 
-
-
 ## Tasks for allready exist component
-
-- [ ] remove `useOpenLink` hook and instead use `OpenLinkBtn` component
-- [ ] in `CopyBtn` component have prop copyBtnDisabled instead rename to btnDisabled
+seo
+- [ ] Create home page 
+- [ ] create all pages responsive /live-html first priority
+- [ ] remove `useOpenLink` hook and instead use `OpenLinkBtn` component, or create seprate component for this task 
 - [ ] need to use component `ToolBox` and `ToolBoxLayout` where it can be usable  
-- [ ] need to use component `PasteBtn` where it can be usable  
 - [ ] need to use component `BasicBtn` where it can be usable for simplicity  
 - [ ] error in `LiveReact` component : development
 - [ ] error in `GrapejSEditor` component: both
 - [ ] error in `ColorConverter` component: development 
 - [ ] remove `store` lib instead use locaStorageState hook if it is good option,  
 - [ ] clear all console 
-- [ ] need to add image for you.com in  SearchEngines Component
+- [ ] need to add tip in stringConvertor component that this task can do with vs code using select text want to convert and ctrl+shift+p and search whatever case want to convert for example see this video
 - [ ] need to rename link and Component name and link name in to SearchEngines Component
 - [ ] need to add og:image with website name and tools availble
-- [ ] make website available offline not PWA
-- [ ]  Need to create eco-system inside website 
+- [ ] Need to create eco-system inside website 
      - like when I copy something I can paste with button any inputs
-- [ ] Remove tracking of vercel:: reason - it's open-source
-- [ ] Convert url link to kebeb-case for seo reasons
 - [ ] if website opened in mobile show error in Banner that no good experice
      - and use normal inputs instead of monaco editor
-- [ ] all button need to looks like same
+- [ ] all button need to looks like same for better experience
 - [ ] need to add og:image with website name and tools availble
 - [ ] some time monaco editor did't load because of server give fallback editor after specific time editor did't load
 - [ ] Need to use keyboard function keys like `F1`, `F9`
@@ -32,18 +27,11 @@
 - [ ] Need to use import alias @import
 - [ ] Create Error Boundary for application 
    - If internet connection is offline and press any link page shows blank without showing error to resolve: 
-      - see online status with navigator api if possible and show error look like -your internet is not work... give better text 
+      - when component failed to load, see online status with navigator api if possible and show error look like -your internet is not work... give better text 
       - give try again button 
       - if still not issue resolved if 3 or more try agians give rise issue button
       - Error page can be stored in localStorage
-- [ ] Cache pages or to make page load faster 
-- [ ] Use better variable names
-- [ ] Need to use comments in code 
 - [ ] max length of input text is how browser or system can handle
-- [ ] Need to use code standard or limiting in code
-      - if it is good: <<!--** https://github.com/airbnb/javascript **-->>
-      - or use eslint
-- [ ] add author and wiki link
 - [ ] Responsiveness:: create reponsive website using `grid`, `position: fixed;` and `shadcn/ui Resizable` or use lib `react-resizable-panels`
      - <<!--** https://ui.shadcn.com/docs/components/resizable **-->>
      - use manual instead of cli
@@ -55,7 +43,6 @@ export function cn(...classes) {
   return classNames(...classes);
 }
 ```
-- [ ] Use sandbox and every security feature in every single iframe tag
 - [ ] Entirely Depend on tailwindcss arbitrary feature
      1. **colors**:
         - `bg-[color]`, `text-[color]`, `border-[color]`
@@ -107,23 +94,6 @@ export function cn(...classes) {
         - `shadow-[value]`
         - example: `shadow-[0_4px_6px_rgba(0,0,0,0.1)]`
 
-### COMPLETED
-
-- [x] need to add <<!--** https://gist.github.com/sabeerbikba/baa8d4dda596e9ca94b4894e8599d0a7 **-->> in metaTagsGenrator 
-- [x] add in title and meta title , live html for SEO - 06/05/24
-- [x] need open link in another tab of borser list in autoprefixer tab also check for all links - 06/05/24
-- [x] add google console in websites.jsx - 06/05/24
-- [x] delete task.todo file from repo - 06/05/24
-- [x] need to correct stringConverter component logic when [ chnage case with selector ] - 13/06/24
-- [x] in string convertor component give option convert text LowerCase and UpperCase - 13/06/24
-- [x] need to add comment in index.html file like this <!--**  Github: https://github.com/sabeerbikba/dev.tools  **--> - 02/06/24
-- [X] minify css use `<style></style>` and for javascript `<script></script>` and html default : COMPLETED - `LiveHtml` Compoent
-
-## other task 
-
- - [ ] use precommit hook that generate just run build:styles script  and wait few second 
-
-
 ## New Tools Ideas
 
 [ ] Random data generator : front-end if better
@@ -166,7 +136,8 @@ export function cn(...classes) {
    - normal sms <<!--** https://salam.qanawat-me.com/Alnufais/ **-->>
    - *find more
 - [ ] (Browser Info) browser all api support need to show table with api name and supprt yes or no example 
-   - [ ] screen width and height live 
+   - [ ] screen width and height live specially for mobile means mobile first 
+      - also need add tip how to check in dev-tools like as you resize in dev tools show screen widthxheight in top-right corner 
    - [ ] device info with navigator API 
 ```javascript
 // this code check localStorage api support or not
@@ -272,15 +243,6 @@ if (typeof(Storage) !== "undefined") {
    - [ ] json-to-yaml.jsx
    - [ ] html-to-jsx.jsx and jsx-to-html
    - [ ] Convert css in js or vanilla css to tailwind css or vice versa
-
-
-### COMPLETED
-
-- [x] Live react code - 24/05/24 : [/LiveReact](https://devtools-sabeerbikba.vercel.app/LiveReact)
-- [x] live .md editor - 25/05/24 : [/MarkdownEditor](https://devtools-sabeerbikba.vercel.app/MarkdownEditor)
-- [x] loremIpsum genrator: <<!--**https://www.mobilefish.com/services/lipsum/lipsum.php **-->> - 24/05/24 : [/LoremIpsumGenrator](https://devtools-sabeerbikba.vercel.app/LoremIpsumGenrator)
-- [x] typescript play that simmilar to <<!--**https://www.typescriptlang.org/play/ **-->> <<!--**https://github.com/microsoft/TypeScript-Website **-->> -  [/TypescriptPlayground](https://devtools-sabeerbikba.vercel.app/TypescriptPlayground)
-- [x] html css javascript code beautifier -  [/LiveHtml](https://devtools-sabeerbikba.vercel.app/LiveHtml)
 
 ## Advance
 

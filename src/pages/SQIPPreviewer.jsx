@@ -281,7 +281,7 @@ const SQIPPreviewer = () => {
                   />
                   <CopyBtn
                      copyText={base64String}
-                     copyBtnDisabled={!isValidBase64String}
+                     disabled={!isValidBase64String}
                      className='mt-7 !h-16'
                   />
                </div>

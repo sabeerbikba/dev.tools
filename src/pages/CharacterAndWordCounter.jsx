@@ -1,8 +1,8 @@
 import { useEffect, useReducer } from "react";
 import MonacoEditor from '@monaco-editor/react'
 
-import Selector from "../common/Selector";
-import CopyBtn from '../common/CopyBtn';
+import Selector from "@/common/Selector";
+import CopyBtn from '@/common/CopyBtn';
 
 const FilterOption = {
    Character: "Character",
@@ -132,7 +132,7 @@ export default function CharacterAndWordCounter() {
                   <CopyBtn
                      copyText={output}
                      setCopyBtnDisabled={(isDisabled) => UPDATE_VALUE('copyBtnDisabled', isDisabled)}
-                     copyBtnDisabled={copyBtnDisabled || output === ''}
+                     disabled={copyBtnDisabled || output === ''}
                   />
                </div>
             </div>

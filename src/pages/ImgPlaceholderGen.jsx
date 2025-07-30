@@ -949,7 +949,7 @@ const ImgPlaceholderGen = () => {
                                  btnText={btnText}
                                  copyText={copyText}
                                  styles={{ width: isLargeButton ? '240px' : '180px', height: '42px' }}
-                                 copyBtnDisabled={isExtractedColorsBtnsDisabled}
+                                 disabled={isExtractedColorsBtnsDisabled}
                               />
                            )
                         })}
@@ -1003,7 +1003,7 @@ const ImgPlaceholderGen = () => {
                      <div className={tailwind.output.blurhash.blurhashEditButtonsDiv}>
                         <CopyBtn
                            copyText={blurhash}
-                           copyBtnDisabled={Boolean(!blurhash)}
+                           disabled={Boolean(!blurhash)}
                         />
                         <PasteBtn onPaste={handlePaste} btnDisabled={!isBlurhash.editing} />
                         {[
@@ -1192,10 +1192,11 @@ const ColorCard = ({
 
                   return (
                      <CopyBtn
+                        key={key}
                         btnText={btnText}
                         copyText={copyText}
                         styles={{ width: '180px', height: '42px' }}
-                        copyBtnDisabled={isRgbNotSet}
+                        disabled={isRgbNotSet}
                      />
                   );
                })}

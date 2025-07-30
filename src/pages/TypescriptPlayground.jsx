@@ -2,9 +2,9 @@ import { useReducer, useEffect, useRef } from 'react';
 import * as ts from 'typescript';
 import MonacoEditor from '@monaco-editor/react';
 
-import CopyBtn from '../common/CopyBtn';
-import { compilerOption, compilerOptionTicks } from '../data/typescriptPlayground';
-import useLocalStorageReducer from '../hooks/useLocalStorageReducer';
+import CopyBtn from '@/common/CopyBtn';
+import { compilerOption, compilerOptionTicks } from '@/data/typescriptPlayground';
+import useLocalStorageReducer from '@/hooks/useLocalStorageReducer';
 
 const initCode = `const message: string = 'hello world';
 console.log(message);
@@ -496,7 +496,7 @@ export default function TypescriptPlayground() {
                   styles={styles.btns}
                   className={styles.btnsClass}
                   setCopyBtnDisabled={isDisabled => dispatch({ type: actionTypes.SET_COPY_BTN_DISABLED, value: isDisabled })}
-                  copyBtnDisabled={copyBtnDisabled || outputCode === ''}
+                  disabled={copyBtnDisabled || outputCode === ''}
                />
                <button style={styles.btns} className={styles.btnsClass} onClick={runCode}>
                   RunCode

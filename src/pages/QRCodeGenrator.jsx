@@ -1,7 +1,7 @@
 import { useState } from "react";
 import QRCode from "react-qr-code";
 
-import CopyBtn from '../common/CopyBtn';
+import CopyBtn from '@/common/CopyBtn';
 
 export default function QrCodeGenerator() {
    const [qrText, setQrText] = useState("https://www.google.com/"); console.log(qrText.length);
@@ -90,7 +90,7 @@ export default function QrCodeGenerator() {
                <CopyBtn
                   copyText={qrText}
                   setCopyBtnDisabled={isDisabled => setCopyBtnDisabled(isDisabled)}
-                  copyBtnDisabled={copyBtnDisabled || qrText.trim() == ''}
+                  disabled={copyBtnDisabled || qrText.trim() == ''}
                />
                <button
                   className={tailwindcss.btn}

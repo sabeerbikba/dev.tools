@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import ReactDiffViewer from 'react-diff-viewer-continued';
 
-import useLocalStorageState from '../hooks/useLocalStorageState';
-import TextArea from '../common/TextArea';
+import useLocalStorageState from '@/hooks/useLocalStorageState';
+import TextArea from '@/common/TextArea';
 
 const initialOldCode = `
 const a = 10

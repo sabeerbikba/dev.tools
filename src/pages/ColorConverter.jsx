@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { PhotoshopPicker, SwatchesPicker, HuePicker, AlphaPicker, CirclePicker, SliderPicker } from 'react-color';
 
-import useLocalStorageReducer from "../hooks/useLocalStorageReducer";
-import CopyBtn from '../common/CopyBtn';
+import useLocalStorageReducer from "@/hooks/useLocalStorageReducer";
+import CopyBtn from '@/common/CopyBtn';
 
 /** TODO;
  * add random color genrator 
@@ -472,7 +472,7 @@ function Output4CC({
             <CopyBtn
                copyText={colorCode}
                setCopyBtnDisabled={setIsCopyBtnDisabled}
-               copyBtnDisabled={isCopyBtnDisabled}
+               disabled={isCopyBtnDisabled}
                styles={{ height: '40px', width: '70px' }}
             />
          </div>

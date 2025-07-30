@@ -1,8 +1,8 @@
-import React, { useEffect, Suspense } from "react";
+import { useEffect, Suspense, cloneElement } from "react";
 import PropTypes from "prop-types";
 
 export default function SuspenseWithFallback({ children, fallback = <Fallback />, text = "Loading..." }) {
-   const fallbackComponent = React.cloneElement(fallback, { text });
+   const fallbackComponent = cloneElement(fallback, { text });
 
    return (
       <Suspense fallback={fallbackComponent }>

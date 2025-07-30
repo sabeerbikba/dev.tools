@@ -8,7 +8,7 @@ export default function CopyBtn({
    styles = {},
    svg,
    setCopyBtnDisabled,
-   copyBtnDisabled = false, // TODO: rename to btnDisabled
+   disabled = false,
    className,
 }) {
    const [isCopying, setIsCopying] = useState(false);
@@ -46,7 +46,7 @@ export default function CopyBtn({
 
    const btnStyle = {
       color: 'white',
-      backgroundColor: copyBtnDisabled ? '#4446a6' : '#6366f1',
+      backgroundColor: disabled ? '#4446a6' : '#6366f1',
       height: '40px',
       width: '120px',
       borderRadius: '10px',
@@ -55,7 +55,7 @@ export default function CopyBtn({
 
    return (
       <button
-         disabled={copyBtnDisabled || isCopying}
+         disabled={disabled || isCopying}
          onClick={handleCopyBtn}
          style={btnStyle}
          className={`${className} ${isCopying ? 'cursor-progress' : ''}`}
@@ -94,6 +94,6 @@ CopyBtn.propTypes = {
    styles: PropTypes.object,
    svg: PropTypes.bool,
    setCopyBtnDisabled: PropTypes.func,
-   copyBtnDisabled: PropTypes.bool,
+   disabled: PropTypes.bool,
    className: PropTypes.string,
 };
