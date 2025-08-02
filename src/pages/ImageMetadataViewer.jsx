@@ -1,10 +1,10 @@
 import { useRef, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import exifr from 'exifr';
-import clsx from 'clsx';
 import { Prism as JsonSyntaxHighlighter } from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
+import cn from "@/utils/cn";
 import ToolBoxLayout from '@/common/ToolBoxLayout';
 import ToolBox from '@/common/ToolBox';
 import Btn from '@/common/BasicBtn';
@@ -72,7 +72,6 @@ const ImageMetadataViewer = () => {
             const exifData = await exifr.parse(file);
 
             if (exifData) {
-               console.log('EXIF data extracted:', exifData);
                updateValues({
                   metadata: exifData,
                   error: '',
@@ -158,7 +157,7 @@ const ImageMetadataViewer = () => {
 
 const Info = ({ text, colorRed }) => (
    <div className={
-      clsx(
+      cn(
          "flex items-center justify-center h-full text-center text-xl",
          colorRed && "text-red-500",
       )}

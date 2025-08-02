@@ -6,6 +6,7 @@ import MonacoEditor from '@monaco-editor/react';
 
 import CopyBtn from '@/common/CopyBtn';
 import useLocalStorageReducer from '@/hooks/useLocalStorageReducer';
+import ExternalLink from '@/common/ExternalLink';
 
 const CSS_EXAMPLE = '/* Your default CSS example here */';
 
@@ -270,9 +271,9 @@ export default function AutoPrefixerTool() {
                   include comment with configuration to the result
                   <br />
                   You can also see which browsers you choose by filter string on {' '}
-                  <a href="https://browsersl.ist/?q=last%206%20version" target='__blank' style={{ color: 'lightblue', textDecoration: 'underline' }}>
+                  <ExternalLink href="https://browsersl.ist/?q=last%206%20version" style={{ color: 'lightblue', textDecoration: 'underline' }}>
                      browsersl.ist
-                  </a>
+                  </ExternalLink>
                </label>
                {/* {error} */}
             </div>

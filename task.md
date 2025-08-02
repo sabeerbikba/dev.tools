@@ -1,171 +1,196 @@
 # Dev.tools TODO:s
 
 ## Tasks for allready exist component
-seo
-- [ ] Create home page 
+
+- use `ExternalLink.jsx` component where it needed
+- add tool link: https://www.fontfabric.com/font-tester/?srsltid=AfmBOoqkzkNO_pSMffdfgjkWiVRWqj2p51Dj6mSX4DtUuZJyxg9AqHWz
+- For editor if mobile need to load simple simple textarea and initially monaco editor take time to load until need to show normal editor if until user allready type something need to show ask first want to change editor to monaco to better experiance
+- [ ] need to add `sitempa.xml` and `robots.txt` based on `routes.jsx`
+- [ ] also need to extract color from other tab need to create tools some api available as seen vueUse docs
+- [ ] need to seperate 3 tools from `imgPlaceholderGen` component
+- in color pallate it `pasting json` of image data not colors data in placeholderGen component
+- [ ] Create home page
 - [ ] create all pages responsive /live-html first priority
-- [ ] remove `useOpenLink` hook and instead use `OpenLinkBtn` component, or create seprate component for this task 
-- [ ] need to use component `ToolBox` and `ToolBoxLayout` where it can be usable  
-- [ ] need to use component `BasicBtn` where it can be usable for simplicity  
+- [ ] remove `useOpenLink` hook and instead use `OpenLinkBtn` component, or create seprate component for this task
+- [ ] need to use component `ToolBox` and `ToolBoxLayout` where it can be usable
+- [ ] need to use component `BasicBtn` where it can be usable for simplicity
 - [ ] error in `LiveReact` component : development
 - [ ] error in `GrapejSEditor` component: both
-- [ ] error in `ColorConverter` component: development 
-- [ ] remove `store` lib instead use locaStorageState hook if it is good option,  
-- [ ] clear all console 
+- [ ] error in `ColorConverter` component: development
+- [ ] remove `store` lib instead use locaStorageState hook if it is good option,
+- [ ] clear all console
 - [ ] need to add tip in stringConvertor component that this task can do with vs code using select text want to convert and ctrl+shift+p and search whatever case want to convert for example see this video
 - [ ] need to rename link and Component name and link name in to SearchEngines Component
 - [ ] need to add og:image with website name and tools availble
-- [ ] Need to create eco-system inside website 
-     - like when I copy something I can paste with button any inputs
+- [ ] Need to create eco-system inside website
+  - like when I copy something I can paste with button any inputs
 - [ ] if website opened in mobile show error in Banner that no good experice
-     - and use normal inputs instead of monaco editor
+  - and use normal inputs instead of monaco editor
 - [ ] all button need to looks like same for better experience
 - [ ] need to add og:image with website name and tools availble
 - [ ] some time monaco editor did't load because of server give fallback editor after specific time editor did't load
 - [ ] Need to use keyboard function keys like `F1`, `F9`
-     - Example: In TypescriptPlayground component user press `F9` code will be run
+  - Example: In TypescriptPlayground component user press `F9` code will be run
 - [ ] Need to use import alias @import
-- [ ] Create Error Boundary for application 
-   - If internet connection is offline and press any link page shows blank without showing error to resolve: 
-      - when component failed to load, see online status with navigator api if possible and show error look like -your internet is not work... give better text 
-      - give try again button 
-      - if still not issue resolved if 3 or more try agians give rise issue button
-      - Error page can be stored in localStorage
+- [ ] Create Error Boundary for application
+  - If internet connection is offline and press any link page shows blank without showing error to resolve:
+    - when component failed to load, see online status with navigator api if possible and show error look like -your internet is not work... give better text
+    - give try again button
+    - if still not issue resolved if 3 or more try agians give rise issue button
+    - Error page can be stored in localStorage
 - [ ] max length of input text is how browser or system can handle
 - [ ] Responsiveness:: create reponsive website using `grid`, `position: fixed;` and `shadcn/ui Resizable` or use lib `react-resizable-panels`
-     - <<!--** https://ui.shadcn.com/docs/components/resizable **-->>
-     - use manual instead of cli
-         - import { cn } from "@/lib/utils"    ⬇️
+  - <<!--** https://ui.shadcn.com/docs/components/resizable **-->>
+  - use manual instead of cli
+    - import { cn } from "@/lib/utils" ⬇️
+
 ```javascript
-import classNames from 'classnames';
+import classNames from "classnames";
 
 export function cn(...classes) {
   return classNames(...classes);
 }
 ```
+
 - [ ] Entirely Depend on tailwindcss arbitrary feature
-     1. **colors**:
-        - `bg-[color]`, `text-[color]`, `border-[color]`
-        - example: `bg-[#ff5733]`
 
-    2. **spacing**:
-        - `p-[value]`, `pt-[value]`, `pr-[value]`, `pb-[value]`, `pl-[value]`
-        - `m-[value]`, `mt-[value]`, `mr-[value]`, `mb-[value]`, `ml-[value]`
-        - example: `p-[20px]`
+  1. **colors**:
 
-    3. **sizing**:
-        - `w-[value]`, `h-[value]`
-        - example: `w-[300px]`, `h-[200px]`
+     - `bg-[color]`, `text-[color]`, `border-[color]`
+     - example: `bg-[#ff5733]`
 
-    4. **typography**:
-        - `text-[value]`, `font-[value]`, `leading-[value]`, `tracking-[value]`
-        - example: `text-[18px]`, `font-[400]`
+  2. **spacing**:
 
-    5. **borders**:
-        - `border-[value]`, `border-t-[value]`, `border-r-[value]`, `border-b-[value]`, `border-l-[value]`
-        - example: `border-[2px]`
+     - `p-[value]`, `pt-[value]`, `pr-[value]`, `pb-[value]`, `pl-[value]`
+     - `m-[value]`, `mt-[value]`, `mr-[value]`, `mb-[value]`, `ml-[value]`
+     - example: `p-[20px]`
 
-    6. **border radius**:
-        - `rounded-[value]`, `rounded-t-[value]`, `rounded-r-[value]`, `rounded-b-[value]`, `rounded-l-[value]`
-        - example: `rounded-[10px]`
+  3. **sizing**:
 
-    7. **grid and flexbox**:
-        - `grid-cols-[value]`, `grid-rows-[value]`
-        - `flex-[value]`
-        - example: `grid-cols-[1fr_2fr_1fr]`
+     - `w-[value]`, `h-[value]`
+     - example: `w-[300px]`, `h-[200px]`
 
-    8. **z-index**:
-        - `z-[value]`
-        - example: `z-[10]`
+  4. **typography**:
 
-    9. **transforms**:
-        - `translate-x-[value]`, `translate-y-[value]`, `rotate-[value]`, `scale-[value]`
-        - example: `translate-x-[10px]`, `rotate-[45deg]`
+     - `text-[value]`, `font-[value]`, `leading-[value]`, `tracking-[value]`
+     - example: `text-[18px]`, `font-[400]`
 
-    10. **custom breakpoints**:
-        - `lg:[value]`, `xl:[value]`
-        - example: `lg:[400px]`
+  5. **borders**:
 
-    11. **opacity**:
-        - `opacity-[value]`
-        - example: `opacity-[0.5]`
+     - `border-[value]`, `border-t-[value]`, `border-r-[value]`, `border-b-[value]`, `border-l-[value]`
+     - example: `border-[2px]`
 
-    12. **shadow**:
-        - `shadow-[value]`
-        - example: `shadow-[0_4px_6px_rgba(0,0,0,0.1)]`
+  6. **border radius**:
+
+     - `rounded-[value]`, `rounded-t-[value]`, `rounded-r-[value]`, `rounded-b-[value]`, `rounded-l-[value]`
+     - example: `rounded-[10px]`
+
+  7. **grid and flexbox**:
+
+     - `grid-cols-[value]`, `grid-rows-[value]`
+     - `flex-[value]`
+     - example: `grid-cols-[1fr_2fr_1fr]`
+
+  8. **z-index**:
+
+     - `z-[value]`
+     - example: `z-[10]`
+
+  9. **transforms**:
+
+     - `translate-x-[value]`, `translate-y-[value]`, `rotate-[value]`, `scale-[value]`
+     - example: `translate-x-[10px]`, `rotate-[45deg]`
+
+  10. **custom breakpoints**:
+
+      - `lg:[value]`, `xl:[value]`
+      - example: `lg:[400px]`
+
+  11. **opacity**:
+
+      - `opacity-[value]`
+      - example: `opacity-[0.5]`
+
+  12. **shadow**:
+      - `shadow-[value]`
+      - example: `shadow-[0_4px_6px_rgba(0,0,0,0.1)]`
 
 ## New Tools Ideas
 
 [ ] Random data generator : front-end if better
-   - inspired by : <<!--** https://github.com/helixquar/randomeverything **-->>
-   - main :<<!--** https://chancejs.com/index.html **-->>
-   - can be used faker.js
-   - MOCK.api: in website url
-   - inspired by.:<<!--** mockapi.io **-->>
-   - <<!--** https://jsonplaceholder.typicode.com/ **-->>
-   - <<!--** https://chatgpt.com/c/c9e5351e-bbb2-481c-bc59-5662fc1bcbab **-->>
-   - we can achive by MSW or PUPPITER lib
+
+- inspired by : <<!--** https://github.com/helixquar/randomeverything **-->>
+- main :<<!--** https://chancejs.com/index.html **-->>
+- can be used faker.js
+- MOCK.api: in website url
+- inspired by.:<<!--** mockapi.io **-->>
+- <<!--** https://jsonplaceholder.typicode.com/ **-->>
+- <<!--** https://chatgpt.com/c/c9e5351e-bbb2-481c-bc59-5662fc1bcbab **-->>
+- we can achive by MSW or PUPPITER lib
 - [ ] <<!--** https://github.com/mathiasbynens/mothereff.in **-->>
-   - [ ]  HTML entity encoder/decoder - <<!--** https://mothereff.in/html-entities **-->>
-      - need to show all entities 
-         - html_entities - <<!--** https://www.w3schools.com/html/html_entities.asp **-->>
-         - html_symbols - <<!--** https://www.w3schools.com/html/html_symbols.asp **-->>
-         - html_emojis - <<!--** https://www.w3schools.com/html/html_emojis.asp **-->>
-   - [ ] URL encoder/decoder - <<!--** https://mothereff.in/url **-->>    console.log("broswer support storage!!");
-   - [ ] ES2015 Unicode regular expression transpiler - <<!--** https://mothereff.in/regexpu **-->>
-   - [ ] UTF-8 string length & byte counter - <<!--** https://mothereff.in/byte-counter **-->>
--  <<!--** https://github.com/jaywcjlove/tools **-->>
-   - [ ] Generate Password - <<!--** https://wangchujiang.com/tools/#/generate-password **-->>
-     - password complexity options 
-   - [ ] PDF to IMG -  <<!--** https://wangchujiang.com/tools/#/pdf-to-img **-->> 
-   - [ ] exif-viewer <<!--** https://wangchujiang.com/tools/#/exif-viewer **-->> 
-   - [ ] generate-github-badges - <<!--** https://wangchujiang.com/tools/#/generate-github-badges **-->>
+  - [ ] HTML entity encoder/decoder - <<!--** https://mothereff.in/html-entities **-->>
+    - need to show all entities
+      - html_entities - <<!--** https://www.w3schools.com/html/html_entities.asp **-->>
+      - html_symbols - <<!--** https://www.w3schools.com/html/html_symbols.asp **-->>
+      - html_emojis - <<!--** https://www.w3schools.com/html/html_emojis.asp **-->>
+  - [ ] URL encoder/decoder - <<!--** https://mothereff.in/url **-->> console.log("broswer support storage!!");
+  - [ ] ES2015 Unicode regular expression transpiler - <<!--** https://mothereff.in/regexpu **-->>
+  - [ ] UTF-8 string length & byte counter - <<!--** https://mothereff.in/byte-counter **-->>
+- <<!--** https://github.com/jaywcjlove/tools **-->>
+  - [ ] Generate Password - <<!--** https://wangchujiang.com/tools/#/generate-password **-->>
+    - password complexity options
+  - [ ] PDF to IMG - <<!--** https://wangchujiang.com/tools/#/pdf-to-img **-->>
+  - [ ] exif-viewer <<!--** https://wangchujiang.com/tools/#/exif-viewer **-->>
+  - [ ] generate-github-badges - <<!--** https://wangchujiang.com/tools/#/generate-github-badges **-->>
 - [ ] svg editor using lib <<!--** https://github.com/SVG-Edit/svgedit **-->>
-- [ ] if possible better to use use <<!--** https://github.com/givanz/VvvebJs **-->> vvveb drag and drop web editor better then grapejs 
+- [ ] if possible better to use use <<!--** https://github.com/givanz/VvvebJs **-->> vvveb drag and drop web editor better then grapejs
 - [ ] CSV to Table inspired by this vsCode extension - <<!--** https://github.com/Plasma/csv-to-table **-->>
-   - [ ] and also json table
+  - [ ] and also json table
 - [ ] social media id link genrator : <<!--** https://faq.whatsapp.com/5913398998672934 **-->> : <<!--** https://web.whatsapp.com/send?phone=yourphonenumber **-->>
-   * *also include instrction how find usernames in. wiki
-   - instagram
-   - whatsApp - inclue two links 
-   - facebook
-   - likedin
-   - telegram group join - user link
-   - other apps open with a tag like - genrator 
-   - <a href="mailto:hege@example.com">hege@example.com</a>
-   - normal sms <<!--** https://salam.qanawat-me.com/Alnufais/ **-->>
-   - *find more
-- [ ] (Browser Info) browser all api support need to show table with api name and supprt yes or no example 
-   - [ ] screen width and height live specially for mobile means mobile first 
-      - also need add tip how to check in dev-tools like as you resize in dev tools show screen widthxheight in top-right corner 
-   - [ ] device info with navigator API 
+  - \*also include instrction how find usernames in. wiki
+  * instagram
+  * whatsApp - inclue two links
+  * facebook
+  * likedin
+  * telegram group join - user link
+  * other apps open with a tag like - genrator
+  * <a href="mailto:hege@example.com">hege@example.com</a>
+  * normal sms <<!--** https://salam.qanawat-me.com/Alnufais/ **-->>
+  * \*find more
+- [ ] (Browser Info) browser all api support need to show table with api name and supprt yes or no example
+  - [ ] screen width and height live specially for mobile means mobile first
+    - also need add tip how to check in dev-tools like as you resize in dev tools show screen widthxheight in top-right corner
+  - [ ] device info with navigator API
+
 ```javascript
 // this code check localStorage api support or not
-if (typeof(Storage) !== "undefined") {
+if (typeof Storage !== "undefined") {
   // Code for yes in table
 } else {
-  // Sorry! set no in table 
+  // Sorry! set no in table
 }
 ```
-| keySomething | value |
-|----------|----------|
-| height | `45`px | <-- need to change as screen size change
-| width | `120`px | <-- same for it 
-| localStoage Supported | yes|
-| ISE supported | no |
+
+| keySomething          | value   |
+| --------------------- | ------- | ---------------------------------------- |
+| height                | `45`px  | <-- need to change as screen size change |
+| width                 | `120`px | <-- same for it                          |
+| localStoage Supported | yes     |
+| ISE supported         | no      |
+
 - [ ] code snippets saving block to save code snippets
 - [ ] All-in-one code beautifier and minifier if possible give options
 - [ ] fake data genrator using faker
-- [ ] HTML and CSS basic all color names and preview with also color code need to show in  code * made design
+- [ ] HTML and CSS basic all color names and preview with also color code need to show in code \* made design
 - [ ] base64 viewer what that is image or video or auto if better use selectors
-   - also genrate base64
+  - also genrate base64
 - [ ] color shades genrator
 - [ ] robots.txt genrator
   - if user set every site allow to crow notify to use that if all pages allow not reason to add robots.txt file
 - [ ] css filters
 - [ ] css tools <<!--** [ * html-css-js.com || + GPT || ] **-->>
-- [ ] textShadow and styling spacing what can do with text - also need to support google fonts  
-- [ ] font *
+- [ ] textShadow and styling spacing what can do with text - also need to support google fonts
+- [ ] font \*
   - [ ] font-family: Specifies the font family for text.
     - give toggle somthing that specify all browser supported built on fonts
   - [ ] font-size: Sets the size of the font.
@@ -194,11 +219,11 @@ if (typeof(Storage) !== "undefined") {
   - [ ] font-smooth: This property controls font smoothing, which is the anti-aliasing effect applied to fonts to make them appear smoother on screen. It's mostly supported in older versions of web browsers and is not commonly used anymore.
   - [ ] font-size-adjust: This property adjusts the font size based on the x-height of the first-choice font, ensuring that fonts of similar x-heights appear at the same size, regardless of the font family or fallback font used. This property is useful for maintaining consistent text sizes across different fonts.
   - [ ] font-optical-sizing: This property allows you to control whether font rendering should optimize for legibility or rendering speed. It's primarily used for fine-tuning the appearance of text in different contexts, such as print or digital screens.
-- [ ] table *
-- [ ] border*
-- [ ] border-radius*
-- [ ] transform *
-- [ ] backgoround *
+- [ ] table \*
+- [ ] border\*
+- [ ] border-radius\*
+- [ ] transform \*
+- [ ] backgoround \*
 - [ ] css sprite genrator +
 - [ ] css shape genrator+
 - [ ] css color pallte genrator +
@@ -221,28 +246,28 @@ if (typeof(Storage) !== "undefined") {
 - [ ] Send html templates from client
 - add google fonts and google all developer helping products in websites component
 - [ ] images
-   - [ ] crop
-   - [ ] compress
-   - [ ] convert format
-   * [ images corp and compression tool using lib react-image-file-resizer and react-image-crop ]
+  - [ ] crop
+  - [ ] compress
+  - [ ] convert format
+  * [ images corp and compression tool using lib react-image-file-resizer and react-image-crop ]
 - [ ] more compression tools
   - <<!--** https://fffuel.co/ **-->>
   - <<!--** https://animista.net/play/basic/shadow-inset/shadow-inset-lr **-->>
   - <<!--** https://svgartista.net/?referrer=animista **-->>
 - All-in-one Convert Tools
-   - as change selector need to chamge link
-   - link need to be; .vercel.app/toolName/html-to-jsx and .vercel.app/toolName/jsx-to-html
-   - and directly open that particular convertor with link
-   - link need to be memorable 
-   - [ ] json-schema-to-openapi-schema.jsx ??
-   - [ ] toml-to-json.jsx
-   - [ ] toml-to-yaml.jsx
-   - [ ] yaml-to-json.jsx
-   - [ ] yaml-to-toml.jsx
-   - [ ] json-to-toml.jsx
-   - [ ] json-to-yaml.jsx
-   - [ ] html-to-jsx.jsx and jsx-to-html
-   - [ ] Convert css in js or vanilla css to tailwind css or vice versa
+  - as change selector need to chamge link
+  - link need to be; .vercel.app/toolName/html-to-jsx and .vercel.app/toolName/jsx-to-html
+  - and directly open that particular convertor with link
+  - link need to be memorable
+  - [ ] json-schema-to-openapi-schema.jsx ??
+  - [ ] toml-to-json.jsx
+  - [ ] toml-to-yaml.jsx
+  - [ ] yaml-to-json.jsx
+  - [ ] yaml-to-toml.jsx
+  - [ ] json-to-toml.jsx
+  - [ ] json-to-yaml.jsx
+  - [ ] html-to-jsx.jsx and jsx-to-html
+  - [ ] Convert css in js or vanilla css to tailwind css or vice versa
 
 ## Advance
 

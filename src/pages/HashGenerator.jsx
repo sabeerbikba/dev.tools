@@ -132,7 +132,7 @@ const Output4Hash = ({ title = "", hash }) => {
     p: "font-bold text-sm mb-2 text-white",
     div: "flex gap-2",
     input:
-      "px-4 py-2 w-full block rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
+      "px-4 py-2 w-full block rounded-lg border-0 !bg-gray-700 !text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",
     button:
       "rounded-md bg-indigo-500 px-3.5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500",
   };

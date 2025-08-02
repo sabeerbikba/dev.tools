@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef } from 'react';
-import clsx from 'clsx';
 
+import cn from "@/utils/cn";
 import ToolBoxLayout from '@/common/ToolBoxLayout';
 import ToolBox from '@/common/ToolBox';
 import Input from '@/common/Input';
@@ -258,7 +258,7 @@ const SQIPPreviewer = () => {
                            btnText={btnText}
                            onClick={onClick}
                            btnDisabled={btnDisabled}
-                           classNames={clsx(
+                           classNames={cn(
                               '!h-[45px]',
                               isLargeButton ? '!w-[340px]' : '!w-[290px]',
                               key === 0 ? '!mr-1' : key === 1 ? '!mx-1' : '!ml-1',
@@ -305,7 +305,7 @@ const SQIPPreviewer = () => {
                      divStyles={{ height: '73px', width: 'auto' }}
                   />
                </div>
-               <div className={clsx(tailwind.btnsDiv, 'pt-6')}>
+               <div className={cn(tailwind.btnsDiv, 'pt-6')}>
                   {[
                      {
                         btnText: 'Clear',
@@ -331,7 +331,7 @@ const SQIPPreviewer = () => {
                            btnText={btnText}
                            onClick={onClick}
                            btnDisabled={btnDisabled}
-                           classNames={clsx(
+                           classNames={cn(
                               'min-w-[370px] !w-[446px] !h-[45px]',
                               key === 0 ? 'mr-2' : 'ml-2'
                            )}

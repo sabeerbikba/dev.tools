@@ -10,11 +10,11 @@ import {
 } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import clsx from 'clsx';
 import { decode, isBlurhashValid } from 'blurhash';
 import { Prism as JsonSyntaxHighlighter } from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
+import cn from "@/utils/cn";
 import ToolBoxLayout from '@/common/ToolBoxLayout';
 import ToolBox from '@/common/ToolBox';
 import Input from '@/common/Input';
@@ -665,23 +665,23 @@ const ImgPlaceholderGen = () => {
             }
          },
          blurhash: {
-            tmpDimensionsTooltip: clsx(
+            tmpDimensionsTooltip: cn(
                'relative top-[3.2px] right-[25px] border-2 border-orange-400 rounded-lg text-xs bg-[rgba(255, 87, 34, 0.1)] w-44 pt-[5px] h-[30px]',
                shouldShowDimensionTooltip ? 'visible' : 'invisible',
             ),
             tmpDimensionsTooltipTriangle: 'relative left-[-9px] top-6 inline-block w-0 h-0 border-y-[7px] border-y-transparent border-r-[14px] border-r-orange-500 rotate-[50deg]',
 
-            tmpDimensionsWidthHeigt: clsx(
+            tmpDimensionsWidthHeigt: cn(
                'flex w-[30%] rounded-lg border-b-0',
                shouldShowDimensionTooltip ? 'border border-orange-400' : 'border border-transparent'
             ),
             blurhashEditButtonsDiv: 'flex justify-around	mb-3.5 mt-[5px]',
             blurhashCanvasDiv: 'border-2 border-gray-500 rounded-[10px] h-[54%] flex content-center justify-center flex-col my-2.5 mx-0 p-[5px]',
-            suggestions: clsx(
+            suggestions: cn(
                'w-[81%] border border-gray-500 mr-3.5 rounded-[10px] p-[18px] pb-1 overflow-y-auto h-[117px]',
                isSuggestionBoxScrolling ? 'scrollbar-show' : 'scrollbar-hide',
             ),
-            suggestion: clsx('pb-3',
+            suggestion: cn('pb-3',
                imgSize > 768000 ? 'block' : 'hidden'
             ),
             testImgAndCopyJsonBtnsDiv: 'flex flex-col w-[150px] gap-[34px]',
@@ -771,7 +771,7 @@ const ImgPlaceholderGen = () => {
                                  } 
                               })
                            }}
-                           className={clsx(
+                           className={cn(
                               tailwind.input.outoputOptions.optionDiv,
                               option === outputOptionsRadio ? 'bg-[#808080]' : 'bg-[#80808021]'
                            )}
@@ -783,7 +783,7 @@ const ImgPlaceholderGen = () => {
                               {option}
                            </label>
                            <span
-                              className={clsx('grow',
+                              className={cn('grow',
                                  isChangingTab && option !== outputOptionsRadio ? 'visible' : 'invisible'
                               )}
                            >⏳</span>
@@ -1148,7 +1148,7 @@ const ColorCard = ({
 
    const tailwind = {
       main: "flex flex-col md:flex-row rounded-lg shadow-xl overflow-hidden border-t-[1px] border-zinc-700 mb-2",
-      colorPreview: clsx(
+      colorPreview: cn(
          "w-4/12 bg-gray-200 m-2 border-2 border-gray-700 rounded-lg rounded-r-none",
          isRgbNotSet && 'flex content-center justify-center flex-wrap'
       ),

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import ExternalLink from "@/common/ExternalLink";
 
 const EndLink = ({
    text,
@@ -19,25 +20,23 @@ const EndLink = ({
          <p className={tailwind.text}>
             {linkStart && (
                <>
-                  <a
+                  <ExternalLink
                      href={link}
-                     target='__blank'
                      className={tailwind.link}
                   >
                      {linkText}
-                  </a>{' '}
+                  </ExternalLink>{' '}
                </>
             )}
             {text}
             {!linkStart && (
                <>
-                  {' '}<a
+                  {' '}<ExternalLink
                      href={link}
-                     target='__blank'
                      className={tailwind.link}
                   >
                      {linkText}
-                  </a>
+                  </ExternalLink>
                </>
             )}
          </p>

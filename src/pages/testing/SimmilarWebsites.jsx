@@ -1,6 +1,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
+import ExternalLink from "@/common/ExternalLink";
+
 const websites = [
   {
     pageIndex: 1,
@@ -51,14 +53,14 @@ function Buttons({ websites, handleClick, pageIndex }) {
         >
           {website.name}
           <button className="sw-link-btn">
-            <a
+            <ExternalLink
               className="sw-btn-link"
               href={website.link}
               target="_blank"
               rel="noreferrer"
             >
               visit site
-            </a>
+            </ExternalLink>
           </button>
         </div>
       ))}

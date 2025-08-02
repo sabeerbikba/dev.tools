@@ -485,7 +485,7 @@ export default function TypescriptPlayground() {
                      </div>
                   </div>
                </div>
-            )};
+            )}
             <div style={styles.btnsDiv}>
                <button type="button" className={styles.btnsClass} style={styles.btns} onClick={clearInputs}>
                   ClearCode

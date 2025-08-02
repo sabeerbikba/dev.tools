@@ -740,7 +740,7 @@ export default function MetaTagsGenrator() {
   };
 
   return (
-    <div style={styles.main}>
+    <div style={styles.main} className="[&>textarea]:bg-white">
       <div style={{ ...styles.mainDiv2, overflow: "scroll" }}>
         <Heading
           text="Basic SEO"
@@ -792,6 +792,7 @@ export default function MetaTagsGenrator() {
             }`}
             placeholder="Description must be within 150 characters"
             onChange={UPDATE_INPUT}
+            styles={{ backgroundColor: "white" }}
             divStyles={{ flexGrow: "3" }}
           />
           <Input
@@ -801,6 +802,7 @@ export default function MetaTagsGenrator() {
             value={keywords}
             placeholder="keyword1, keyword2, keyword3"
             onChange={UPDATE_INPUT}
+            styles={{ backgroundColor: "white" }}
             divStyles={{ flexGrow: "1" }}
           />
         </div>
@@ -944,7 +946,11 @@ export default function MetaTagsGenrator() {
                 ogDescription.trim().length
               }`}
               onChange={UPDATE_INPUT}
-              styles={{ ...ogInputsFocused, height: "86px" }}
+              styles={{
+                ...ogInputsFocused,
+                height: "86px",
+                backgroundColor: "white",
+              }}
               onFocus={() => setLivePreview(1)}
               tooltipPosition={{ bottom: "59px", left: "87px" }}
             />
@@ -1210,6 +1216,7 @@ export default function MetaTagsGenrator() {
             tooltipError={`Suggested Character Limit is 200 entered ${
               tcDescription.trim().length
             }`}
+            styles={{ backgroundColor: "white" }}
             onChange={UPDATE_INPUT}
             onFocus={() => setLivePreview(2)}
             tooltipPosition={{ bottom: "52px", left: "91px" }}

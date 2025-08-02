@@ -1,6 +1,7 @@
 import { useEffect, Suspense, cloneElement } from "react";
 import PropTypes from "prop-types";
 
+// loading spinner
 export default function SuspenseWithFallback({ children, fallback = <Fallback />, text = "Loading..." }) {
    const fallbackComponent = cloneElement(fallback, { text });
 
