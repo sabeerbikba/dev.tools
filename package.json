@@ -5,6 +5,7 @@
 	"homepage": "https://devtools-sabeerbikba.vercel.app",
 	"repository": "https://github.com/sabeerbikba/dev.tools",
 	"author": "sabeer bikba <sabeerbikba02@gmail.com>",
+   "type": "module",
 	"license": "MIT",
 	"scripts": {
 		"dev": "vite",
