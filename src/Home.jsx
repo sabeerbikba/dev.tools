@@ -1,18 +1,44 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { Zap, ExternalLink, Sparkles } from "lucide-react";
+import { Zap, ExternalLink, Sparkles, Wifi, Wrench, Eye } from "lucide-react";
 
-import earthIcon from '@/public/earth.svg';
+import earthIcon from "@/public/earth.svg";
 import cn from "@/utils/cn";
 import { routes, formatToolName } from "@/routes";
 import ExternalLinkA from "@/common/ExternalLink";
 
+const features = [
+  {
+    title: "Offline-First Experience",
+    description:
+      "Works even without internet. Once a page is loaded online, it stays available offline — thanks to PWA tech.",
+    icon: Wifi,
+  },
+  {
+    title: "Blazing Fast SPA",
+    description:
+      "Single Page Application architecture means instant navigation without full reloads or flickers.",
+    icon: Zap,
+  },
+  {
+    title: "20+ Built-in Dev Tools",
+    description:
+      "Includes a growing suite of tools — from code formatters to converters — no plugins required.",
+    icon: Wrench,
+  },
+  {
+    title: "Instant Preview",
+    description:
+      "See changes live as you work — no rebuilds, no refreshes. What you edit is what you get, instantly.",
+    icon: Eye,
+  },
+];
+
 const HomePage = () => (
   <>
     <HeroSection />
-    <div id="tools">
-      <ToolsGrid />
-    </div>
+    <Features />
+    <Tools />
   </>
 );
 
@@ -50,8 +76,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative !py-24 !px-4 text-center overflow-hidden">
-      {/* Background decoration */}
+    <section className="relative !py-32 !px-4 text-center overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-20 left-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute top-40 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
@@ -61,9 +86,8 @@ const HeroSection = () => {
       <div className="max-w-4xl !mx-auto">
         <div className="flex justify-center !mb-8">
           <div className="relative !py-4 !m-auto bg-gradient-to-r from-primary/10 to-blue-500/10 rounded-3xl border border-[#4446a6]/20 aspect-square w-32">
-          {/* src="/earth.svg" */}
             <img
-            src={earthIcon}
+              src={earthIcon}
               alt="dev.tools logo"
               className="relative top-[5%] left-[28%]"
             />
@@ -110,8 +134,54 @@ const HeroSection = () => {
   );
 };
 
-const ToolsGrid = () => (
-  <section id="tools" className="!py-16 !px-4 relative">
+const Features = () => (
+  <section className="py-16 px-4 text-white">
+    <div className="max-w-7xl mx-auto">
+      <div className="text-center mb-16">
+        <div className="text-white bg-[#4446a6]/15 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm mb-4">
+          <Zap className="w-4 h-4" />
+          Features
+        </div>
+        <h2 className="text-4xl font-semibold mb-4">
+          Everything you need for
+          <span className="block bg-gradient-to-r from-[#4446a6] to-white bg-clip-text text-transparent">
+            productive development
+          </span>
+        </h2>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {features.map((feature, index) => {
+          const IconComponent = feature.icon;
+          return (
+            <div
+              key={index}
+              className="group relative p-6 rounded-xl border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-500 hover:border-gray-600 bg-[#374151]/20 hover:bg-[#374151]/30"
+            >
+              <div className="mb-4">
+                <div className="w-12 h-12 rounded-lg bg-[#4446a6]/10 flex items-center justify-center group-hover:bg-[#4446a6]/20 transition-colors">
+                  <IconComponent className="w-6 h-6 text-[#696a98]" />
+                </div>
+              </div>
+
+              <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                {feature.title}
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                {feature.description}
+              </p>
+
+              <div className="absolute inset-0 rounded-xl border-2 border-transparent group-hover:border-primary/20 transition-colors" />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+);
+
+const Tools = () => (
+  <section id="tools" className="!py-16 pt-[120px]! !px-4 relative">
     <div className="absolute inset-0 -z-10">
       <div className="absolute top-0 left-1/4 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl" />
@@ -192,7 +262,7 @@ const ToolCard = ({ name, description, path, category, icon, isPopular }) => (
     <CardHeader className="!pb-3">
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
-          <div className="!p-2.5 bg-[#4446a6]/10 rounded-xl text-[#4446a6] group-hover:scale-110 transition-transform duration-200">
+          <div className="!p-2.5 bg-[#4446a6]/10 rounded-xl text-[#696a98] group-hover:scale-110 transition-transform duration-200">
             {icon}
           </div>
           <div>
@@ -216,7 +286,7 @@ const ToolCard = ({ name, description, path, category, icon, isPopular }) => (
     </CardHeader>
 
     <CardContent>
-      <p className="text-muted-foreground !mb-4 leading-relaxed">
+      <p className="!mb-4 leading-relaxed text-sm">
         {description}
       </p>
       <NavLink
