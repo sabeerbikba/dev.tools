@@ -79,6 +79,17 @@ const routes = [
     icon: <Braces className="w-5 h-5" />,
   },
   {
+    path: "markdown-editor",
+    element: <MarkdownEditor />,
+    isLazy: true,
+    description:
+      "Live Markdown editor with GitHub-style preview. Perfect for editing README.md without switching tabs.",
+    category: "Editor",
+    icon: <FileText className="w-5 h-5" />,
+    isPopular: true,
+  },
+
+  {
     path: "search-engines",
     element: <SearchEngine />,
     description:
@@ -133,33 +144,6 @@ const routes = [
     icon: <LayoutTemplate className="w-5 h-5" />,
   },
   {
-    path: "lorem-ipsum-generator",
-    element: <LoremIpsumGenerator />,
-    isLazy: true,
-    description:
-      "Generate Lorem Ipsum text for mockups, wireframes, and content placeholders instantly.",
-    category: "Content",
-    icon: <FileText className="w-5 h-5" />,
-  },
-  {
-    path: "css-unit-converter",
-    element: <UnitConverter />,
-    description:
-      "Convert between CSS units like px, em and Tailwind equivalents.",
-    category: "Utility",
-    icon: <SlidersHorizontal className="w-5 h-5" />,
-  },
-  {
-    path: "markdown-editor",
-    element: <MarkdownEditor />,
-    isLazy: true,
-    description:
-      "Live Markdown editor with GitHub-style preview. Perfect for editing README.md without switching tabs.",
-    category: "Editor",
-    icon: <FileText className="w-5 h-5" />,
-    isPopular: true,
-  },
-  {
     path: "diff-viewer",
     element: <DiffViewer />,
     isLazy: true,
@@ -170,6 +154,16 @@ const routes = [
     isPopular: true,
   },
   {
+    path: "browser-ready-css",
+    element: <AutoprefixerTool />,
+    isLazy: true,
+    description:
+      "Add necessary vendor prefixes to your CSS. Make it browser-ready with one click.",
+    category: "CSS",
+    icon: <ClipboardList className="w-5 h-5" />,
+  },
+
+  {
     path: "character-and-word-counter",
     element: <CharacterAndWordCounter />,
     description:
@@ -178,22 +172,22 @@ const routes = [
     icon: <TextCursorInput className="w-5 h-5" />,
   },
   {
-    path: "color-converter",
-    element: <ColorConverter />,
+    path: "lorem-ipsum-generator",
+    element: <LoremIpsumGenerator />,
     isLazy: true,
     description:
-      "Convert between HEX, RGB, RGBA, and HSL color formats with real-time preview.",
-    category: "Color",
-    icon: <Palette className="w-5 h-5" />,
+      "Generate Lorem Ipsum text for mockups, wireframes, and content placeholders instantly.",
+    category: "Content",
+    icon: <FileText className="w-5 h-5" />,
   },
   {
-    path: "browser-ready-css",
-    element: <AutoprefixerTool />,
+    path: "image-metadata-viewer",
+    element: <ImageMetadataViewer />,
     isLazy: true,
     description:
-      "Add necessary vendor prefixes to your CSS. Make it browser-ready with one click.",
-    category: "CSS",
-    icon: <ClipboardList className="w-5 h-5" />,
+      "Inspect EXIF metadata from images: camera, GPS, timestamps, device info, and more.",
+    category: "Image",
+    icon: <Eye className="w-5 h-5" />,
   },
   {
     path: "string-converter",
@@ -221,13 +215,21 @@ const routes = [
     icon: <Hash className="w-5 h-5" />,
   },
   {
-    path: "image-metadata-viewer",
-    element: <ImageMetadataViewer />,
+    path: "color-converter",
+    element: <ColorConverter />,
     isLazy: true,
     description:
-      "Inspect EXIF metadata from images: camera, GPS, timestamps, device info, and more.",
-    category: "Image",
-    icon: <Eye className="w-5 h-5" />,
+      "Convert between HEX, RGB, RGBA, and HSL color formats with real-time preview.",
+    category: "Color",
+    icon: <Palette className="w-5 h-5" />,
+  },
+  {
+    path: "css-unit-converter",
+    element: <UnitConverter />,
+    description:
+      "Convert between CSS units like px, em and Tailwind equivalents.",
+    category: "Utility",
+    icon: <SlidersHorizontal className="w-5 h-5" />,
   },
   {
     path: "websites",
@@ -244,6 +246,12 @@ const routes = [
   },
 ];
 
-const paths = routes.slice(1, -1).map(({ path }) => "/" + path);
+const customSlice = (startIdx, endIdx) =>
+  routes
+    .slice(startIdx, endIdx)
+    .map(({ path }) => (path === "/" ? path : "/" + path));
 
-export { formatToolName, routes, paths };
+const paths = customSlice(1, -1);
+const mobileResponsivePaths = customSlice(0, 4).concat(customSlice(12, -1));
+
+export { formatToolName, routes, paths, mobileResponsivePaths };

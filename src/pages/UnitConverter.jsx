@@ -44,7 +44,7 @@ export default function UnitConverter() {
    }
 
    return (
-      <div className="flex flex-col gap-8 p-4" style={{ minWidth: '1620px' }}>
+      <div className="flex flex-col gap-8 p-4">
          <div className="flex flex-col gap-2">
             <UnitInput
                name="em"

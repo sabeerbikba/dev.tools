@@ -111,14 +111,14 @@ const HeroSection = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center !mb-8">
           <a
             href="/#tools"
-            className="bg-[#4446a6] text-2xl text-white/95 inline-flex-center whitespace-nowrap text-sm font-medium transition-all h-10 rounded-md !px-6 gap-2"
+            className="max-w-[163px] bg-[#4446a6] text-2xl text-white/95 inline-flex-center whitespace-nowrap text-sm font-medium transition-all h-10 rounded-md !px-6 gap-2"
           >
             <Zap className="w-5 h-5" />
             Explore Tools
           </a>
           <ExternalLinkA
             href="https://github.com/sabeerbikba/dev.tools"
-            className="text-white hover:bg-[#4446a6]/25 border border-[#4446a6]/60 inline-flex-center whitespace-nowrap text-sm font-medium transition-all h-10 rounded-md !px-2 gap-2"
+            className="max-w-[163px] !px-[21px] text-white hover:bg-[#4446a6]/25 border border-[#4446a6]/60 inline-flex-center whitespace-nowrap text-sm font-medium transition-all h-10 rounded-md !px-2 gap-2"
             style={{
               backgroundImage:
                 "url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 fill-opacity=%220.35%22 viewBox=%220 0 100 100%22><text x=%220%22 y=%2216%22 font-size=%2216%22>⭐</text></svg>')",
@@ -126,7 +126,7 @@ const HeroSection = () => {
               backgroundSize: "220px",
             }}
           >
-            Star us on GitHub ({stars})
+            Star on GitHub ({stars})
           </ExternalLinkA>
         </div>
       </div>

@@ -363,7 +363,7 @@ export default function SearchEngine() {
    }, [shouldFocusEditor]);
 
    const tailwindcss = {
-      main: 'pl-4 pt-4 flex h-full w-full',
+      main: 'pl-4 pt-4 flex size-full',
       main2: 'box-border',
       selectDiv: ' flex items-center mb-4 gap-4 h-12',
       p: "font-bold text-xl text-white",

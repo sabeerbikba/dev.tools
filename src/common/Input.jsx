@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 
+// convert entire component styles in tailwindcss 
+
 export default function Input({
    name,
    label = '',
@@ -93,7 +95,3 @@ Input.propTypes = {
    onFocus: PropTypes.func,
    inputDisalbed: PropTypes.bool,
 };
-
-// function UPDATE_INPUT(field, value) {
-//    dispatch({ type: actionTypes.UPDATE_INPUT, field: field, value: value })
-// }

@@ -35,7 +35,7 @@ const DiffViewer = memo(() => {
    }
 
    return (
-      <div className="w-full h-full flex flex-col gap-4" style={styles.main}>
+      <div className="size-full flex flex-col gap-4" style={styles.main}>
          <div className="flex gap-4 h-1/2">
             <TextArea
                initialInput={oldCode}

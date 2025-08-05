@@ -97,20 +97,16 @@ const HashGenerator = () => {
     }
   }, [input]);
 
-  const tailwindcss = {
-    main: "flex gap-4 p-4",
-    hashOutputsDiv: "w-full h-full flex flex-col gap-4",
-  };
-
   return (
-    <div className={tailwindcss.main} style={{ minWidth: "1620px" }}>
+    <div className="lg:flex gap-4 p-4">
       <TextArea
         onInputChange={(input) => {
           UPDATE_VALUE("input", input);
           generateHashes(input);
         }}
       />
-      <div className={tailwindcss.hashOutputsDiv}>
+      <div className="size-full flex flex-col gap-4 pt-10">
+        <p class="font-bold text-xl text-white"> Output: </p>
         {[
           { title: "Md5", hash: md5Hash },
           { title: "sha1", hash: sha1Hash },

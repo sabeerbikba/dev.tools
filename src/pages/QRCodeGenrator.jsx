@@ -94,7 +94,7 @@ export default function QrCodeGenerator() {
   };
 
   return (
-    <div className={tailwindcss.main} style={{ minWidth: "1620px" }}>
+    <div className={tailwindcss.main}>
       <div>
         <p className={tailwindcss.p}>Text: </p>
         {qrText.length == 1500 && (

@@ -1,30 +1,83 @@
-import { NavLink } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { Star, AlignJustify, AlignLeft } from "lucide-react";
 
+import cn from "@/utils/cn";
 import { routes, formatToolName } from "@/routes";
 import ExternalLink from "@/common/ExternalLink";
 import useOnlineStatus from "@/hooks/useOnlineStatus";
+import { mobileResponsivePaths } from "@/routes";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import useLocalStorageState from "@/hooks/useLocalStorageState";
 
-const NavBar = () => (
-  <nav>
-    <ul className="sidenav">
-      {routes.slice(1, -1).map(({ path }) => (
-        <li key={path}>
-          <NavLink className="nav-a" to={"/" + path}>
-            {formatToolName(path).pascalCase}
-          </NavLink>
-        </li>
-      ))}
-      <Status />
-      <GithubStar />
-    </ul>
-  </nav>
-);
+const NavBar = () => {
+  const navRef = useRef(null);
+  const isMobile = useMediaQuery("max-width: 640px");
+  const location = useLocation();
+  const isCurrentRouteMoibleResponsive = mobileResponsivePaths.includes(
+    location.pathname
+  );
+  const [isNavOpen, setNavOpen] = useLocalStorageState("nav:isOpen", true);
+
+  useEffect(() => {
+    if (isMobile && isCurrentRouteMoibleResponsive) {
+      setNavOpen(false);
+    } else {
+      setNavOpen(true);
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
+    const handlePointerDown = (e) => {
+      if (
+        navRef.current &&
+        !navRef.current.contains(e.target) &&
+        isCurrentRouteMoibleResponsive &&
+        isMobile
+      ) {
+        setNavOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [location.pathname, isMobile]);
+
+  return (
+    <>
+      <nav ref={navRef} className={isNavOpen ? "block" : "hidden"}>
+        <ul className="sidenav pb-[72px]">
+          {routes.slice(1, -1).map(({ path }) => (
+            <li key={path}>
+              <NavLink className="nav-a" to={"/" + path}>
+                {formatToolName(path).pascalCase}
+              </NavLink>
+            </li>
+          ))}
+          <Status />
+          <GithubStar />
+        </ul>
+      </nav>
+      {isCurrentRouteMoibleResponsive && isMobile && (
+        <div
+          onClick={() => setNavOpen(!isNavOpen)}
+          className={cn(
+            "cursor-pointer fixed bottom-5 z-[50] text-5xl text-white border-[1px] border-white/70 rounded-sm p-0.5",
+            isNavOpen ? "left-[220px]" : "left-4"
+          )}
+        >
+          {isNavOpen ? <AlignJustify /> : <AlignLeft />}
+        </div>
+      )}
+    </>
+  );
+};
 
 const Status = () => {
   const isOnline = useOnlineStatus();
 
   return (
-    <div className="fixed left-0 bottom-[47px] text-white m-auto text-center w-[210px] border-t pt-1 border-black">
+    <div className="bg-[#374151] fixed left-0 bottom-[37px] text-white m-auto text-center w-[210px] border-t py-1 border-black">
       <div className="inline-flex items-center gap-2 text-sm font-medium z-50">
         <span
           className={`h-3 w-3 rounded-full inline-block ${
@@ -39,53 +92,18 @@ const Status = () => {
   );
 };
 
-const GithubStar = () => {
-  const styles = {
-    a: {
-      position: "fixed",
-      bottom: "0",
-      left: "0",
-      backgroundColor: "#2a3951",
-      fontSize: "1.1rem",
-      padding: "6px 8px 6px 16px",
-      textDecoration: "none",
-      borderTop: "2px solid black",
-      borderRadius: "10px 10px 0 0",
-      display: "block",
-      width: "210px",
-    },
-    li: { border: "none", color: "#d9d9d9" },
-    svg: { display: "inline", marginBottom: "4px" },
-  };
-
-  return (
-    <ul>
-      <li style={styles.li}>
-        <ExternalLink
-          style={styles.a}
-          href="https://github.com/sabeerbikba/dev.tools"
-        >
-          <svg
-            style={styles.svg}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-            ></path>
-          </svg>{" "}
-          Star Us On Github
-        </ExternalLink>
-      </li>
-    </ul>
-  );
-};
+const GithubStar = () => (
+  <ul>
+    <li className="border-none text-[#d9d9d9]">
+      <ExternalLink
+        className="fixed bottom-0 left-0 bg-[#2a3951] text-[1.1rem] border-t border-black block w-[210px] decoration-none py-1.5 px-5 rounded-[10px_10px_0_0]"
+        href="https://github.com/sabeerbikba/dev.tools"
+      >
+        <Star className="!w-5 !h-5 inline !stroke-[1.5px] pb-px" /> Star On
+        Github
+      </ExternalLink>
+    </li>
+  </ul>
+);
 
 export default NavBar;

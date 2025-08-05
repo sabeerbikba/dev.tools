@@ -242,7 +242,7 @@ export default function StringConverter() {
    };
 
    return (
-      <div className={styles.main} style={{ minWidth: '1620px' }}>
+      <div className={styles.main}>
          <InputOutputSection
             title=" Input: "
             setRef={inputRef}
@@ -325,7 +325,7 @@ const InputOutputSection = forwardRef(({
    setRef = null
 }, ref) => {
    const styles = {
-      wHFull: "w-full h-full",
+      wHFull: "size-full",
       selectorDiv: "flex items-center mb-4 gap-4 justify-between",
       outputText: "font-bold text-xl text-white",
       textArea: "px-8 py-2 block w-full rounded-lg border-0 bg-gray-700 text-white shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6",

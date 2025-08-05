@@ -36,7 +36,7 @@ const constantTailwind = {
    blurhashCanvas: {
       error: 'text-red-600',
       canvasDiv: 'object-contain max-h-full max-w-full m-auto',
-      canvas: 'w-full h-full',
+      canvas: 'size-full',
    }
 };
 
@@ -657,8 +657,8 @@ const ImgPlaceholderGen = () => {
                   colorBox: "rounded-md h-14 flex items-center px-3",
 
                   right: "md:w-2/5 h-[328px]",
-                  jsonPreview: "border-l border-neutral-700 rounded-none w-full h-full",
-                  noImageDiv: "w-full h-full flex items-center justify-center",
+                  jsonPreview: "border-l border-neutral-700 rounded-none size-full",
+                  noImageDiv: "size-full flex items-center justify-center",
                   noImage: "text-center text-xl",
                },
                bottomBox: "flex justify-between px-4 pr-8 py-2 bg-[rgb(48,48,49)] rounded-b-lg",

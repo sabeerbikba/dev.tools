@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import { Monitor, Smartphone } from "lucide-react";
 import { useLocation } from "react-router-dom";
 
-import { paths } from "@/routes";
+import { mobileResponsivePaths } from "@/routes";
+import useMediaQuery from "@/hooks/useMediaQuery";
+
 
 const MobileInfoModal = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const isMobile = useMediaQuery("max-width: 970px");
 
   const handleContinue = () => {
     setIsOpen(false);
@@ -15,8 +18,11 @@ const MobileInfoModal = () => {
   };
 
   const checkScreenSize = () => {
-    const isMobile = window.innerWidth < 970;
-    if (paths.includes(location.pathname) && isMobile && !dismissed) {
+    if (
+      !mobileResponsivePaths.includes(location.pathname) &&
+      isMobile &&
+      !dismissed
+    ) {
       setIsOpen(true);
     } else {
       setIsOpen(false);
@@ -48,22 +54,24 @@ const MobileInfoModal = () => {
 
   return isOpen ? (
     <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center">
-      <div className="bg-[#374151] text-white p-6 rounded-2xl shadow-2xl w-full max-w-md mx-4 relative text-center">
+      <div className="bg-[#374151] p-6 rounded-2xl shadow-2xl w-full max-w-md mx-4 relative text-center">
         <div className="flex flex-col items-center gap-4">
           <div className="bg-[#6366f1]/10 rounded-full p-4">
             <Monitor className="w-8 h-8 text-[#6366f1]" />
           </div>
-          <h2 className="text-xl font-semibold">Best Viewed on Desktop</h2>
+          <h2 className="text-xl font-semibold text-white">
+            Best Viewed on Desktop
+          </h2>
           <p className="text-sm text-gray-300">
             Dev.tools is best experienced on wider screens
           </p>
 
           <div className="flex items-center justify-center gap-4 py-2">
-            <div className="flex flex-col items-center gap-1 opacity-50">
+            <div className="flex flex-col items-center gap-1 opacity-50 text-white">
               <Smartphone className="w-6 h-6" />
               <span className="text-xs">Mobile</span>
             </div>
-            <div className="text-2xl">→</div>
+            <div className="text-2xl text-white">→</div>
             <div className="flex flex-col items-center gap-1 text-[#6366f1]">
               <Monitor className="w-6 h-6" />
               <span className="text-xs">Desktop</span>

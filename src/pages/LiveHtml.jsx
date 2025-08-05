@@ -3,6 +3,7 @@ import MonacoEditor from "@monaco-editor/react";
 import beautify from "js-beautify";
 
 import useLocalStorageState from "@/hooks/useLocalStorageState";
+import EditorSplitViewLayout from "@/components/EditorSplitViewLayout";
 import CopyBtn from "@/common/CopyBtn";
 
 const initCode = `<h2>Hello world!</h2>`;
@@ -17,35 +18,15 @@ const LiveHtml = () => {
   };
 
   const styles = {
-    main: {
-      width: "100%",
-      height: "100%",
-      display: "flex",
-      minWidth: "1620px",
-    },
-    div50: {
-      width: "50%",
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-      background: "#808080cc",
-    },
-    btnDiv: { display: "flex", justifyContent: "space-around", height: "5%" },
     btn: {
-      width: "30%",
-      height: "92%",
-      color: "white",
-      borderRadius: "5px",
       backgroundColor: `${!code.trim() ? "#4446a6" : "rgb(99, 102, 241)"}`,
     },
-    "h95%": { height: "95%" },
-    livepreviewDiv: { width: "50%", height: "100%" },
   };
 
   return (
-    <div style={styles.main}>
-      <div style={styles.div50}>
-        <div style={styles.btnDiv}>
+    <EditorSplitViewLayout
+      editorBtns={
+        <>
           <button
             style={styles.btn}
             onClick={() => setCode("")}
@@ -61,23 +42,24 @@ const LiveHtml = () => {
             Format
           </button>
           <CopyBtn
+            className="!h-[92%]"
             copyText={code}
             styles={styles.btn}
             setCopyBtnDisabled={(isDisabled) => setCopyBtnDisabled(isDisabled)}
             disabled={copyBtnDisabled || code.trim() === ""}
           />
-        </div>
-        <div style={styles["h95%"]}>
-          <MonacoEditor
-            language="html"
-            theme="vs-dark"
-            options={{ minimap: { enabled: false }, lineNumber: true }}
-            onChange={setCode}
-            value={code}
-          />
-        </div>
-      </div>
-      <div style={styles.livepreviewDiv}>
+        </>
+      }
+      editor={
+        <MonacoEditor
+          language="html"
+          theme="vs-dark"
+          options={{ minimap: { enabled: false }, lineNumber: true }}
+          onChange={setCode}
+          value={code}
+        />
+      }
+      preview={
         <iframe
           srcDoc={`<html><head></head><body style="color: white;">${code}</body></html>`}
           sandbox="allow-scripts"
@@ -85,8 +67,8 @@ const LiveHtml = () => {
           width={"100%"}
           height={"100%"}
         />
-      </div>
-    </div>
+      }
+    />
   );
 };
 

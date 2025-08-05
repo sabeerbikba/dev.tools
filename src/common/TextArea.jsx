@@ -21,7 +21,7 @@ export default function TextArea({
    };
 
    return (
-      <div className="w-full h-full">
+      <div className="size-full">
          <div className="flex items-center mb-4 gap-4">
             <p className="font-bold text-xl text-white"> {title} </p>
             <button
