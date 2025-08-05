@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import cn from "@/utils/cn";
 import NavBar from "@/components/Nav";
 import Footer from "@/components/Footer";
+import MobileInfoModal from "@/components/MobileInfoModel";
 
 const Layout = () => {
   const location = useLocation();
@@ -10,6 +11,7 @@ const Layout = () => {
 
   return (
     <>
+      <MobileInfoModal />
       {!isHomePage && <NavBar />}
       <main
         className={cn(

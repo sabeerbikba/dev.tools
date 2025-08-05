@@ -244,4 +244,6 @@ const routes = [
   },
 ];
 
-export { formatToolName, routes };
+const paths = routes.slice(1, -1).map(({ path }) => "/" + path);
+
+export { formatToolName, routes, paths };
