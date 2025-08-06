@@ -48,28 +48,29 @@ function AccordionGenrator({ heading, index }) {
       <AccordionItemHeading key={index}>
         <AccordionItemButton className="accordion-btn4Web">
           <div className="accordion-btn4Web-div">
-            <div className="accordion-btn4Web-div2">{heading}</div>
+            <div className="accordion-btn4Web-div2  max-lg:!text-lg max-sm:!text-base">
+              {heading}
+            </div>
           </div>
         </AccordionItemButton>
       </AccordionItemHeading>
       {accrdionBody.map((body, bodyIndex) => (
         <AccordionItemPanel
           key={bodyIndex}
-          className="accrdion-panel4Web"
-          style={{ backgroundColor: "#8c8ecc", padding: "0 0 0 20px" }}
+          className="accrdion-panel4Web bg-[#8c8ecc] pl-5 max-lg:pl-2 max-sm:pl-1"
         >
           <div className="accordion-panel4WebDiv">
-            <div>
+            <div className="flex justify-center content-center flex-wrap">
               <img
-                src={baseUrl + body.img}
-                className="accordion-panel4WebImg"
+                src={body.customImg ? body.img : baseUrl + body.img}
+                className="rounded-[8px] h-[60px] max-lg:h-[45px] max-sm:h-[35px]"
               />
             </div>
             <div className="accordion-panel4WebHead">{body.heading}</div>
             <p className="accordion-panel4WebP">{body.text}</p>
             <div>
               <button
-                className="accordion-panel4WebBtn"
+                className="accordion-panel4WebBtn max-lg:!w-[7rem] max-sm:!w-[4.8rem]"
                 onClick={useOpenLink(body.link)}
               >
                 Visit

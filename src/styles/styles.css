@@ -261,12 +261,6 @@ button.btn:disabled {
   background-color: #8c8ecc;
 }
 
-.accordion-panel4WebImg,
-.Browser-extensionsImg {
-  border-radius: 8px;
-  height: 60px;
-}
-
 .accordion-panel4WebHead,
 .Browser-extensionsHead {
   /* text-align: center; */

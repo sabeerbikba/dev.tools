@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import cn from "@/utils/cn";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
-// TODO: mobile not friendly error need to show for non responsive value
-
 const EditorSplitViewLayout = ({ editorBtns, editor, preview }) => {
   const [enabledEditor, setEnabledEditor] = useState(true);
     const isMobile = useMediaQuery("max-width: 640px");
@@ -17,7 +15,7 @@ const EditorSplitViewLayout = ({ editorBtns, editor, preview }) => {
     <div className="sm:flex size-full">
       <div
         className={cn(
-          "sm:w-1/2 max-sm:w-full sm:h-full max-sm:h-[88%] flex flex-col bg-[#808080cc]",
+          "sm:w-1/2 max-sm:w-full sm:h-full max-sm:h-[80%] flex flex-col bg-[#808080cc]",
           enabledEditor || isMobile && "hidden h-0"
         )}
       >
@@ -28,7 +26,7 @@ const EditorSplitViewLayout = ({ editorBtns, editor, preview }) => {
       </div>
       <div
         className={cn(
-          "sm:w-1/2 max-sm:w-full sm:h-full max-sm:h-[88%] text-white max-sm:border-b max-sm:border-white",
+          "sm:w-1/2 max-sm:w-full sm:h-full max-sm:h-[80%] text-white max-sm:border-b max-sm:border-white",
           !enabledEditor || isMobile && "hidden"
         )}
       >
@@ -40,12 +38,12 @@ const EditorSplitViewLayout = ({ editorBtns, editor, preview }) => {
         <div
           onClick={() => setEnabledEditor((prev) => !prev)}
           className={`mx-2 w-14 h-8 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer transition-colors duration-300 ${
-            enabledEditor ? "bg-indigo-500" : "bg-gray-400"
+            !enabledEditor ? "bg-indigo-500" : "bg-gray-400"
           }`}
         >
           <div
             className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform duration-300 ${
-              enabledEditor ? "translate-x-6" : "translate-x-0"
+              !enabledEditor ? "translate-x-6" : "translate-x-0"
             }`}
           />
         </div>

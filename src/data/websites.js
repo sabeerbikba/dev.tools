@@ -114,6 +114,28 @@ export const websites = {
          img: 'TPgJt9i.png'
       },
    ],
+   "Code Genrator": [
+      {
+         heading: "V0.dev",
+         text: "AI tool by Vercel that turns text prompts into clean React + Tailwind components.",
+         link: "https://v0.dev/",
+         customImg: true,
+         img: "https://v0.dev/assets/icon-dark-32x32.png"
+      },
+      {
+         heading: "Figma Make",
+         text: "Figma's AI feature that generates code from text or designs using modern frontend stacks.",
+         link: "https://www.figma.com/make/",
+         img: "sCrOWn1.png"
+      },
+      {
+         heading: "Flexbox Labs",
+         text: "A simple playground to generate and visualize CSS Flexbox layouts.",
+         link: "https://flexboxlabs.netlify.app/",
+         customImg: true,
+         img: "https://flexboxlabs.netlify.app/favicon.ico"
+      }
+   ],
    "Regular Expression": [
       {
          heading: "regexr.com",
