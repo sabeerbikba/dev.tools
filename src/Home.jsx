@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { Zap, ExternalLink, Sparkles, Wifi, Wrench, Eye } from "lucide-react";
+import {
+  Zap,
+  ExternalLink,
+  Sparkles,
+  Wifi,
+  Wrench,
+  Eye,
+  SquarePlus,
+} from "lucide-react";
 
 import earthIcon from "@/public/earth.svg";
 import cn from "@/utils/cn";
@@ -34,6 +42,12 @@ const features = [
   },
 ];
 
+const formatNumber = (num) =>
+  new Intl.NumberFormat("en-US", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(num);
+
 const HomePage = () => (
   <>
     <HeroSection />
@@ -46,37 +60,30 @@ const HeroSection = () => {
   const [stars, setStars] = useState("30+");
 
   useEffect(() => {
-    const getStarsCount = async () => {
+    (async () => {
       try {
-        const res = await fetch(
-          "https://api.github.com/repos/sabeerbikba/dev.tools"
+        const resp = await fetch(
+          "https://api.github.com/repos/sabeerbikba/dev.tools",
+          {
+            headers: { Accept: "application/vnd.github+json" },
+          }
         );
-        if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-
-        const data = await res.json();
-        const rawCount = data?.stargazers_count;
-
-        const formatNumber = (num) =>
-          new Intl.NumberFormat("en-US", {
-            notation: "compact",
-            maximumFractionDigits: 1,
-          }).format(num);
-
-        if (rawCount > 1000) {
-          setStars(formatNumber(rawCount) + "+");
-        } else {
-          setStars(formatNumber(rawCount));
-        }
+        if (!resp.ok) throw new Error(`GitHub API error: ${resp.status}`);
+        const data = await resp.json();
+        const rawCount = parseInt(data?.stargazers_count);
+        setStars(
+          rawCount > 1000
+            ? `${formatNumber(rawCount)}+`
+            : formatNumber(rawCount)
+        );
       } catch (err) {
         console.error("Failed to fetch stars:", err);
       }
-    };
-
-    getStarsCount();
+    })();
   }, []);
 
   return (
-    <section className="relative !py-32 !px-4 text-center overflow-hidden">
+    <section className="relative py-28 xl:py-32 max-sm:py-20 !px-4 text-center overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-20 left-1/4 w-72 h-72 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute top-40 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
@@ -135,14 +142,14 @@ const HeroSection = () => {
 };
 
 const Features = () => (
-  <section className="py-16 px-4 text-white">
+  <section className="py-16 xl:py-14 max-sm:py-12 px-4 text-white">
     <div className="max-w-7xl mx-auto">
-      <div className="text-center mb-16">
+      <div className="text-center mb-16 max-sm:mb-12">
         <div className="text-white bg-[#4446a6]/15 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm mb-4">
           <Zap className="w-4 h-4" />
           Features
         </div>
-        <h2 className="text-4xl font-semibold mb-4">
+        <h2 className="text-4xl max-sm:text-3xl font-semibold mb-4">
           Everything you need for
           <span className="block bg-gradient-to-r from-[#4446a6] to-white bg-clip-text text-transparent">
             productive development
@@ -150,13 +157,13 @@ const Features = () => (
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {features.map((feature, index) => {
           const IconComponent = feature.icon;
           return (
             <div
               key={index}
-              className="group relative p-6 rounded-xl border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-500 hover:border-gray-600 bg-[#374151]/20 hover:bg-[#374151]/30"
+              className="group max-md:max-w-[510px] max-md:mx-auto relative p-6 rounded-xl border bg-card hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-gray-500 hover:border-gray-600 bg-[#374151]/20 hover:bg-[#374151]/30"
             >
               <div className="mb-4">
                 <div className="w-12 h-12 rounded-lg bg-[#4446a6]/10 flex items-center justify-center group-hover:bg-[#4446a6]/20 transition-colors">
@@ -181,7 +188,10 @@ const Features = () => (
 );
 
 const Tools = () => (
-  <section id="tools" className="!py-16 pt-[120px]! !px-4 relative">
+  <section
+    id="tools"
+    className="py-16 pt-[90px] xl:pt-[120px] max-sm:pt-[80px] px-4 relative"
+  >
     <div className="absolute inset-0 -z-10">
       <div className="absolute top-0 left-1/4 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl" />
@@ -197,7 +207,7 @@ const Tools = () => (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
         {routes
           .slice(1, -1)
-          .map(({ name, description, path, category, icon, isPopular }, i) => (
+          .map(({ description, path, category, icon, isPopular, isNew }, i) => (
             <ToolCard
               key={i}
               name={formatToolName(path).titleCase}
@@ -206,6 +216,7 @@ const Tools = () => (
               category={category}
               icon={icon}
               isPopular={isPopular}
+              isNew={isNew}
             />
           ))}
       </div>
@@ -253,7 +264,15 @@ const CardContent = ({ className, ...props }) => (
   />
 );
 
-const ToolCard = ({ name, description, path, category, icon, isPopular }) => (
+const ToolCard = ({
+  name,
+  description,
+  path,
+  category,
+  icon,
+  isPopular,
+  isNew,
+}) => (
   <Card className="group max-w-[410px] hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
     {isPopular && (
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-blue-500/5 pointer-events-none" />
@@ -269,12 +288,25 @@ const ToolCard = ({ name, description, path, category, icon, isPopular }) => (
             <CardTitle className="group-hover:text-[#e6e6e6] transition-colors">
               {name}
             </CardTitle>
-            {isPopular && (
+            {(isPopular || isNew) && (
               <div className="flex items-center gap-1 !mt-1">
-                <Sparkles className="w-3 h-3 fill-yellow-500 text-yellow-500" />
-                <span className="text-xs font-medium text-yellow-600">
-                  Popular
-                </span>
+                {isPopular && (
+                  <>
+                    <Sparkles className="w-3 h-3 fill-yellow-500 text-yellow-500" />
+                    <span className="text-xs font-medium text-yellow-600">
+                      Popular
+                    </span>
+                  </>
+                )}
+                {isNew && (
+                  <>
+                    {" "}
+                    <SquarePlus className="w-3 h-3 text-red-400" />
+                    <span className="text-xs font-medium text-red-500">
+                      New
+                    </span>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -286,9 +318,7 @@ const ToolCard = ({ name, description, path, category, icon, isPopular }) => (
     </CardHeader>
 
     <CardContent>
-      <p className="!mb-4 leading-relaxed text-sm">
-        {description}
-      </p>
+      <p className="!mb-4 leading-relaxed text-sm">{description}</p>
       <NavLink
         className="inline-flex-center group-hover:bg-[#4446a6] whitespace-nowrap text-sm font-medium border h-8 rounded-md !px-3 w-full gap-2 group-hover:bg-primary group-hover:text-[#4446a6]-foreground border-gray-200 group-hover:border-gray-300 transition-all duration-200"
         to={path}

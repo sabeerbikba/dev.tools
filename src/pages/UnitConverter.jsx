@@ -35,9 +35,6 @@ export default function UnitConverter() {
       if (!showError) {
          toast.warn('Only number are allowed!!', {
             onOpen: () => setShowError(true),
-            position: 'bottom-right',
-            theme: 'dark',
-            autoClose: 2600,
             onClose: () => setShowError(false),
          });
       }

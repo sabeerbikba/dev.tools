@@ -352,8 +352,6 @@ export default function MetaTagsGenrator() {
       if (!finalOutputBtnDisalbed) {
         toast.warn(warningText, {
           onOpen: () => UPDATE_INPUT("finalOutputBtnDisalbed", true),
-          position: "bottom-right",
-          theme: "dark",
           autoClose: time,
           onClose: () => UPDATE_INPUT("finalOutputBtnDisalbed", false),
         });
@@ -448,11 +446,7 @@ export default function MetaTagsGenrator() {
       output +=
         '    <meta property="og:url" content="' + ogUrl.value.trim() + '">\n';
     } else if (!urlRegex.test(ogUrl.value.trim()) && ogUrl.value.trim()) {
-      toast.warn("URL is not valid", {
-        position: "bottom-right",
-        theme: "dark",
-        autoClose: 2400,
-      });
+      toast.warn("URL is not valid");
     }
 
     if (ogDescription.trim()) {

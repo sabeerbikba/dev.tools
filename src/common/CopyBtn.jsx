@@ -9,7 +9,7 @@ export default function CopyBtn({
    svg,
    setCopyBtnDisabled,
    disabled = false,
-   className,
+   className = "",
 }) {
    const [isCopying, setIsCopying] = useState(false);
 
@@ -18,8 +18,6 @@ export default function CopyBtn({
          setIsCopying(true);
          await navigator.clipboard.writeText(copyText.toString());
          toast.success('text-copied', {
-            position: 'bottom-right',
-            theme: 'dark',
             autoClose: 1700,
             onClose: () => {
                setIsCopying(false);

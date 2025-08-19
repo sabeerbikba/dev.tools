@@ -34,7 +34,7 @@ const App = () => (
         </Routes>
       </ErrorBoundary>
     </BrowserRouter>
-    <ToastContainer />
+    <ToastContainer position="bottom-right" theme="dark" autoClose={2400} />
     {/* // vercel */}
     {process.env.NODE_ENV === "production" && <Analytics />}
   </>

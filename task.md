@@ -2,6 +2,7 @@
 
 ## Tasks for allready exist component
 
+- need to use where can be used useMeadiaQuery() hook
 - use `ExternalLink.jsx` component where it needed
 - add tool link: https://www.fontfabric.com/font-tester/?srsltid=AfmBOoqkzkNO_pSMffdfgjkWiVRWqj2p51Dj6mSX4DtUuZJyxg9AqHWz
 - For editor if mobile need to load simple simple textarea and initially monaco editor take time to load until need to show normal editor if until user allready type something need to show ask first want to change editor to monaco to better experiance

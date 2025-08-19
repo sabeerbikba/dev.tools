@@ -33,10 +33,35 @@ select {
   color: black;
 }
 
-.inline-flex-center {
+.flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.inline-flex-center {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .text-styling */
+
+input[type="range"].text-styling::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 300px;
+  background: transparent;
+}
+
+input[type="range"].text-styling::-webkit-slider-runnable-track {
+  height: 6px;
+  background-color: #efefef;
+  border-radius: 3px;
+}
+
+input[type="range"].text-styling::-webkit-slider-thumb {
+  margin-top: -5px;
 }
 
 body {
@@ -109,6 +134,7 @@ button.btn:disabled {
   display: inline-block;
   background-color: #374151;
   list-style-type: none;
+  z-index: 9999;
 }
 
 .sidenav li {
