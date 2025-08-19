@@ -129,6 +129,13 @@ export const websites = {
          img: "sCrOWn1.png"
       },
       {
+         heading: "Lovable",
+         text: "Build software products, using only a chat interface.",
+         link: "https://lovable.dev/",
+         customImg: true,
+         img: "https://lovable.dev/icon.svg?9e0c9b5bb1bae062"
+      },
+      {
          heading: "Flexbox Labs",
          text: "A simple playground to generate and visualize CSS Flexbox layouts.",
          link: "https://flexboxlabs.netlify.app/",
