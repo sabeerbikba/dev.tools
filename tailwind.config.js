@@ -14,14 +14,11 @@ export default {
       extend: {
          screens: {
             // Docs: https://tailwindcss.com/docs/responsive-design
-            xs: "475px",
-            //   DEFAULTS  //
             // 'sm': '640px',
             // 'md': '768px',
             // 'lg': '1024px',
             // 'xl': '1280px',
             // '2xl': '1536px',
-            "3xl": "1920px",
          },
       },
    },

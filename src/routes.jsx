@@ -17,6 +17,7 @@ import {
   Hash,
   ClipboardList,
   ListChecks,
+  CaseSensitive
 } from "lucide-react";
 
 import HomePage from "@/Home";
@@ -39,9 +40,12 @@ import StringConverter from "@/pages/StringConverter";
 const QrCodeGenerator = lazy(() => import("@/pages/QRCodeGenrator"));
 const HashGenerator = lazy(() => import("@/pages/HashGenerator"));
 const ImageMetadataViewer = lazy(() => import("@/pages/ImageMetadataViewer"));
+const TextStylingTool = lazy(() => import("./pages/CssTextStyling"));
 import Websites from "@/pages/Websites";
-// import Test from "./pages/testing/Test" // Testing purpose
+// import Test from "@/pages/testing/Test"; // Testing purpose
 import NoPage from "@/pages/NoPage";
+
+const size5 = "size-5";
 
 const formatToolName = (slug) => {
   const words = slug
@@ -67,7 +71,7 @@ const routes = [
     description:
       "Real-time HTML and SVG editor with instant side-by-side preview. Great for testing or tweaking SVGs live.",
     category: "Editor",
-    icon: <Code className="w-5 h-5" />,
+    icon: <Code className={size5} />,
     isPopular: true,
   },
   {
@@ -76,7 +80,7 @@ const routes = [
     description:
       "Interactive React playground with live JSX preview. Great for testing components in-browser.",
     category: "Editor",
-    icon: <Braces className="w-5 h-5" />,
+    icon: <Braces className={size5} />,
   },
   {
     path: "markdown-editor",
@@ -85,7 +89,7 @@ const routes = [
     description:
       "Live Markdown editor with GitHub-style preview. Perfect for editing README.md without switching tabs.",
     category: "Editor",
-    icon: <FileText className="w-5 h-5" />,
+    icon: <FileText className={size5} />,
     isPopular: true,
   },
 
@@ -95,7 +99,7 @@ const routes = [
     description:
       "Dev-focused search interface. Skip the step of Googling a search engine—just enter text, pick an engine, go. Also includes code snippet support like CodePen.",
     category: "SEO",
-    icon: <Search className="w-5 h-5" />,
+    icon: <Search className={size5} />,
   },
   {
     path: "meta-tags-generator",
@@ -104,7 +108,7 @@ const routes = [
     description:
       "Generate SEO meta tags with support for social previews like Twitter Cards and Open Graph.",
     category: "SEO",
-    icon: <Tag className="w-5 h-5" />,
+    icon: <Tag className={size5} />,
   },
   {
     path: "image-placeholder-generator",
@@ -113,7 +117,7 @@ const routes = [
     description:
       "Create BlurHash and LQIP image placeholders to speed up UI loads with minimal effort.",
     category: "Image",
-    icon: <Image className="w-5 h-5" />,
+    icon: <Image className={size5} />,
   },
   {
     path: "sqip-lqip-previewer",
@@ -122,7 +126,7 @@ const routes = [
     description:
       "Preview SVG-based SQIP and LQIP placeholders. Optimize loading performance with visual feedback.",
     category: "Image",
-    icon: <SlidersHorizontal className="w-5 h-5" />,
+    icon: <SlidersHorizontal className={size5} />,
   },
   {
     path: "typescript-playground",
@@ -132,7 +136,7 @@ const routes = [
     description:
       "Real-time TypeScript editor. Write, test, and debug TypeScript code directly in the browser.",
     category: "Editor",
-    icon: <Type className="w-5 h-5" />,
+    icon: <Type className={size5} />,
   },
   {
     path: "grapesjs-editor",
@@ -141,7 +145,7 @@ const routes = [
     description:
       "Drag-and-drop page builder powered by GrapesJS. Customize components visually without code.",
     category: "Builder",
-    icon: <LayoutTemplate className="w-5 h-5" />,
+    icon: <LayoutTemplate className={size5} />,
   },
   {
     path: "diff-viewer",
@@ -150,7 +154,7 @@ const routes = [
     description:
       "Side-by-side diff tool. Compare and visualize text/code differences instantly.",
     category: "Utility",
-    icon: <FileDiff className="w-5 h-5" />,
+    icon: <FileDiff className={size5} />,
     isPopular: true,
   },
   {
@@ -160,7 +164,7 @@ const routes = [
     description:
       "Add necessary vendor prefixes to your CSS. Make it browser-ready with one click.",
     category: "CSS",
-    icon: <ClipboardList className="w-5 h-5" />,
+    icon: <ClipboardList className={size5} />,
   },
 
   {
@@ -169,7 +173,7 @@ const routes = [
     description:
       "Real-time counter for characters, words, paragraphs, and custom delimiters. Minimal and fast.",
     category: "Utility",
-    icon: <TextCursorInput className="w-5 h-5" />,
+    icon: <TextCursorInput className={size5} />,
   },
   {
     path: "lorem-ipsum-generator",
@@ -178,7 +182,7 @@ const routes = [
     description:
       "Generate Lorem Ipsum text for mockups, wireframes, and content placeholders instantly.",
     category: "Content",
-    icon: <FileText className="w-5 h-5" />,
+    icon: <FileText className={size5} />,
   },
   {
     path: "image-metadata-viewer",
@@ -187,7 +191,7 @@ const routes = [
     description:
       "Inspect EXIF metadata from images: camera, GPS, timestamps, device info, and more.",
     category: "Image",
-    icon: <Eye className="w-5 h-5" />,
+    icon: <Eye className={size5} />,
   },
   {
     path: "string-converter",
@@ -195,15 +199,15 @@ const routes = [
     description:
       "Convert strings into camelCase, PascalCase, kebab-case, snake_case, and more.",
     category: "Utility",
-    icon: <Type className="w-5 h-5" />,
+    icon: <Type className={size5} />,
   },
   {
     path: "qr-code-generator",
     element: <QrCodeGenerator />,
     isLazy: true,
-    description: "Generate QR codes from strings. Download-ready.",
+    description: "Generate QR codes from input strings. Download-ready. ",
     category: "Generator",
-    icon: <QrCode className="w-5 h-5" />,
+    icon: <QrCode className={size5} />,
   },
   {
     path: "hash-generator",
@@ -212,7 +216,7 @@ const routes = [
     description:
       "Generate hashes (MD5, SHA1, SHA224, SHA256, SHA384, SHA512, keccak256) from input string.",
     category: "Security",
-    icon: <Hash className="w-5 h-5" />,
+    icon: <Hash className={size5} />,
   },
   {
     path: "color-converter",
@@ -221,7 +225,7 @@ const routes = [
     description:
       "Convert between HEX, RGB, RGBA, and HSL color formats with real-time preview.",
     category: "Color",
-    icon: <Palette className="w-5 h-5" />,
+    icon: <Palette className={size5} />,
   },
   {
     path: "css-unit-converter",
@@ -229,7 +233,17 @@ const routes = [
     description:
       "Convert between CSS units like px, em and Tailwind equivalents.",
     category: "Utility",
-    icon: <SlidersHorizontal className="w-5 h-5" />,
+    icon: <SlidersHorizontal className={size5} />,
+  },
+  {
+    isNew: true,
+    path: "css-text-styling",
+    element: <TextStylingTool />,
+    isLazy: true,
+    description:
+      "Interactive text style playground for tweaking fonts, gradients, shadows, strokes, and advanced CSS properties. Copy-ready output.",
+    category: "css",
+    icon: <CaseSensitive className={size5} />,
   },
   {
     path: "websites",
@@ -237,7 +251,7 @@ const routes = [
     description:
       "Handpicked dev tools, sites, and resources. Bookmark-worthy stuff for web developers.",
     category: "Directory",
-    icon: <ListChecks className="w-5 h-5" />,
+    icon: <ListChecks className={size5} />,
     isPopular: true,
   },
   {
