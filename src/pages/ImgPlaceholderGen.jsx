@@ -21,6 +21,7 @@ import Input from "@/common/Input";
 import CopyBtn from "@/common/CopyBtn";
 import PasteBtn from "@/common/PasteBtn";
 import Btn from "@/common/BasicBtn";
+import ExternalLink from "@/common/ExternalLink";
 import EndLink from "@/common/Endink";
 
 import { Fallback } from "@/components/SuspenseWithFallback";
@@ -1214,13 +1215,12 @@ const ImgPlaceholderGen = () => {
                 {blurhashProcessedStats.counts !== 0 && blurhash && (
                   <p className="pb-3">
                     📜{" "}
-                    <a
-                      href={"https://github.com/woltapp/react-blurhash"}
-                      target="__blank"
-                      className="text-[lightblue] underline"
+                    <ExternalLink
+                      href="https://github.com/woltapp/react-blurhash"
+                      className="text-[lightblue] !underline"
                     >
                       Checkout
-                    </a>{" "}
+                    </ExternalLink>{" "}
                     how to use Blurhash in code.
                   </p>
                 )}
