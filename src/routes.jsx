@@ -17,7 +17,8 @@ import {
   Hash,
   ClipboardList,
   ListChecks,
-  CaseSensitive
+  CaseSensitive,
+  Monitor,
 } from "lucide-react";
 
 import HomePage from "@/Home";
@@ -30,6 +31,7 @@ const SQIPPreviewer = lazy(() => import("@/pages/SQIPPreviewer"));
 const TypescriptPlayground = lazy(() => import("@/pages/TypescriptPlayground"));
 const GrapesJSEditor = lazy(() => import("@/pages/GrapesJSEditor"));
 const LoremIpsumGenerator = lazy(() => import("@/pages/LoremIpsumGenrator"));
+import ScreenSize from "@/pages/ScreenSize";
 import UnitConverter from "@/pages/UnitConverter";
 const MarkdownEditor = lazy(() => import("@/pages/MarkdownEditor"));
 const DiffViewer = lazy(() => import("@/pages/DiffViewer"));
@@ -40,7 +42,7 @@ import StringConverter from "@/pages/StringConverter";
 const QrCodeGenerator = lazy(() => import("@/pages/QRCodeGenrator"));
 const HashGenerator = lazy(() => import("@/pages/HashGenerator"));
 const ImageMetadataViewer = lazy(() => import("@/pages/ImageMetadataViewer"));
-const TextStylingTool = lazy(() => import("./pages/CssTextStyling"));
+const TextStylingTool = lazy(() => import("@/pages/CssTextStyling"));
 import Websites from "@/pages/Websites";
 // import Test from "@/pages/testing/Test"; // Testing purpose
 import NoPage from "@/pages/NoPage";
@@ -228,6 +230,15 @@ const routes = [
     icon: <Palette className={size5} />,
   },
   {
+    isNew: true,
+    path: "screen-size",
+    element: <ScreenSize />,
+    description:
+      "Check your device screen width, height, and viewport dimensions in real time.",
+    category: "Utility",
+    icon: <Monitor className={size5} />,
+  },
+  {
     path: "css-unit-converter",
     element: <UnitConverter />,
     description:
@@ -245,6 +256,16 @@ const routes = [
     category: "css",
     icon: <CaseSensitive className={size5} />,
   },
+  /* 
+  { // Testing purpose
+    path: "test",
+    element: <Test />,
+    description:
+      "Interactive text style playground for tweaking fonts, gradients, shadows, strokes, and advanced CSS properties. Copy-ready output.",
+    category: "null",
+    icon: <CaseSensitive className={size5} />,
+  }, 
+  */
   {
     path: "websites",
     element: <Websites />,

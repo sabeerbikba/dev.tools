@@ -2,6 +2,7 @@
 
 ## Tasks for allready exist component
 
+- every tool change need to be reflect in SEO meta tags for better seo
 - add tool link: https://www.fontfabric.com/font-tester/?srsltid=AfmBOoqkzkNO_pSMffdfgjkWiVRWqj2p51Dj6mSX4DtUuZJyxg9AqHWz
 - done just remove lib with command, [ ] remove `store` lib instead use locaStorageState hook if it is good option,
 - For editor if mobile need to load simple simple textarea and initially monaco editor take time to load until need to show normal editor if until user allready type something need to show ask first want to change editor to monaco to better experiance
@@ -70,7 +71,6 @@
   * normal sms <<!--** https://salam.qanawat-me.com/Alnufais/ **-->>
   * \*find more
 - [ ] (Browser Info) browser all api support need to show table with api name and supprt yes or no example
-  - [ ] screen width and height live specially for mobile means mobile first
     - also need add tip how to check in dev-tools like as you resize in dev tools show screen widthxheight in top-right corner
   - [ ] device info with navigator API
 
