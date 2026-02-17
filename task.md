@@ -57,8 +57,8 @@
   - [ ] generate-github-badges - <<!--** https://wangchujiang.com/tools/#/generate-github-badges **-->>
 - [ ] svg editor using lib <<!--** https://github.com/SVG-Edit/svgedit **-->>
 - [ ] if possible better to use use <<!--** https://github.com/givanz/VvvebJs **-->> vvveb drag and drop web editor better then grapejs
-- [ ] CSV to Table inspired by this vsCode extension - <<!--** https://github.com/Plasma/csv-to-table **-->>
-  - [ ] and also json table
+- [x] CSV to Table inspired by this vsCode extension - <<!--** https://github.com/Plasma/csv-to-table **-->>
+  - [x] and also json table
 - [ ] social media id link genrator : <<!--** https://faq.whatsapp.com/5913398998672934 **-->> : <<!--** https://web.whatsapp.com/send?phone=yourphonenumber **-->>
   - \*also include instrction how find usernames in. wiki
   * instagram
