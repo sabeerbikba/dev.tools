@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import MonacoEditor from "@monaco-editor/react";
-import { Send, Plus, Trash2, Clock, FileText, Globe, ShieldAlert, History, Code, Save, ChevronRight, ChevronDown, Check, Copy } from "lucide-react";
+import { Send, Plus, Trash2, Clock, FileText, Globe, ShieldAlert, History, Code, Save, ChevronRight, ChevronDown, Check, Copy, X, Database } from "lucide-react";
 import useLocalStorageState from "@/hooks/useLocalStorageState";
 import { toast } from "react-toastify";
 import cn from "@/utils/cn";
 import PropTypes from "prop-types";
 
 const methods = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"];
-const authTypes = ["None", "Bearer Token", "Basic Auth"];
-const bodyTypes = ["None", "Raw (JSON)", "x-www-form-urlencoded", "multipart/form-data"];
+const authTypes = ["None", "Bearer Token", "Basic Auth", "API Key"];
+const bodyTypes = ["None", "Raw (JSON)", "x-www-form-urlencoded", "multipart/form-data", "Binary File"];
 
 export default function ApiTester() {
   const [url, setUrl] = useLocalStorageState("ApiTester_Url", "https://jsonplaceholder.typicode.com/todos/1");
@@ -24,12 +24,16 @@ export default function ApiTester() {
   const [authToken, setAuthToken] = useLocalStorageState("ApiTester_AuthToken", "");
   const [authUsername, setAuthUsername] = useLocalStorageState("ApiTester_AuthUsername", "");
   const [authPassword, setAuthPassword] = useLocalStorageState("ApiTester_AuthPassword", "");
+  const [apiKeyKey, setApiKeyKey] = useLocalStorageState("ApiTester_ApiKeyKey", "");
+  const [apiKeyValue, setApiKeyValue] = useLocalStorageState("ApiTester_ApiKeyValue", "");
+  const [apiKeyPlacement, setApiKeyPlacement] = useLocalStorageState("ApiTester_ApiKeyPlacement", "Header");
 
   // Body
   const [bodyType, setBodyType] = useLocalStorageState("ApiTester_BodyType", "Raw (JSON)");
   const [rawBody, setRawBody] = useLocalStorageState("ApiTester_RawBody", "{\n  \n}");
-  const [formData, setFormData] = useLocalStorageState("ApiTester_FormData", [{ key: "", value: "", type: "text" }]);
+  const [formData, setFormData] = useLocalStorageState("ApiTester_FormData", [{ key: "", value: "", type: "text", file: null }]); // Added file support (not persisted in local storage properly but kept in state for session)
   const [urlEncodedData, setUrlEncodedData] = useLocalStorageState("ApiTester_UrlEncodedData", [{ key: "", value: "" }]);
+  const [binaryFile, setBinaryFile] = useState(null); // Not persisted
 
   const [useProxy, setUseProxy] = useLocalStorageState("ApiTester_UseProxy", false);
   const [response, setResponse] = useState(null);
@@ -41,6 +45,61 @@ export default function ApiTester() {
   const [history, setHistory] = useLocalStorageState("ApiTester_History", []);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [showCodeModal, setShowCodeModal] = useState(false);
+
+  // Environment Variables
+  const [showEnvModal, setShowEnvModal] = useState(false);
+  const [envVars, setEnvVars] = useLocalStorageState("ApiTester_EnvVars", [{ key: "baseUrl", value: "https://jsonplaceholder.typicode.com" }]);
+
+  // Close modal on ESC
+  useEffect(() => {
+    const handleEsc = (e) => {
+        if (e.key === "Escape") {
+            setShowCodeModal(false);
+            setShowEnvModal(false);
+        }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, []);
+
+  // Substitute variables
+  const substituteVars = (text) => {
+      if (typeof text !== "string") return text;
+      let result = text;
+      envVars.forEach(v => {
+          if (v.key) {
+              const regex = new RegExp(`\\{\\{${v.key}\\}\\}`, 'g');
+              result = result.replace(regex, v.value);
+          }
+      });
+      return result;
+  };
+
+  // Helper to load request safely
+  const loadRequest = (item) => {
+      const confirmLoad = window.confirm("Load this request? Current unsaved changes will be lost.");
+      if (!confirmLoad) return;
+
+      setUrl(item.url);
+      setMethod(item.method);
+      setParams(item.params || []);
+      setHeaders(item.headers || []);
+      setAuthType(item.authType || "None");
+      setAuthToken(item.authToken || "");
+      setAuthUsername(item.authUsername || "");
+      setAuthPassword(item.authPassword || "");
+      setApiKeyKey(item.apiKeyKey || "");
+      setApiKeyValue(item.apiKeyValue || "");
+      setApiKeyPlacement(item.apiKeyPlacement || "Header");
+      setBodyType(item.bodyType || "None");
+      setRawBody(item.rawBody || "");
+      // Reset files as they can't be stored in localStorage history easily
+      setFormData((item.formData || []).map(f => ({ ...f, file: null })));
+      setBinaryFile(null);
+      setUrlEncodedData(item.urlEncodedData || []);
+      setUseProxy(item.useProxy || false);
+      toast.info("Request loaded from history (Files reset)");
+  };
 
   const addToHistory = (req) => {
     const newHistory = [req, ...history].slice(0, 50); // Keep last 50
@@ -54,24 +113,48 @@ export default function ApiTester() {
     const startTime = performance.now();
 
     try {
+      // Substitute vars in URL, Params, Headers, Body
+      const subUrl = substituteVars(url);
+      const subParams = params.map(p => ({ ...p, value: substituteVars(p.value) }));
+      const subHeaders = headers.map(h => ({ ...h, value: substituteVars(h.value) }));
+      const subRawBody = substituteVars(rawBody);
+      const subFormData = formData.map(f => ({ ...f, value: f.type === 'text' ? substituteVars(f.value) : f.value }));
+      const subUrlEncodedData = urlEncodedData.map(p => ({ ...p, value: substituteVars(p.value) }));
+
+      const subAuthToken = substituteVars(authToken);
+      const subAuthUsername = substituteVars(authUsername);
+      const subAuthPassword = substituteVars(authPassword);
+      const subApiKeyValue = substituteVars(apiKeyValue);
+
       // Construct URL with params
-      const urlObj = new URL(url);
-      params.forEach((p) => {
+      let finalUrl = subUrl.trim();
+      if (!/^https?:\/\//i.test(finalUrl) && !finalUrl.startsWith("http")) { // Basic check, assuming http/https
+          finalUrl = `https://${finalUrl}`;
+      }
+
+      const urlObj = new URL(finalUrl);
+      subParams.forEach((p) => {
         if (p.key) urlObj.searchParams.append(p.key, p.value);
       });
 
       // Construct headers
       const headersObj = {};
-      headers.forEach((h) => {
+      subHeaders.forEach((h) => {
         if (h.key) headersObj[h.key] = h.value;
       });
 
       // Handle Auth
-      if (authType === "Bearer Token" && authToken) {
-        headersObj["Authorization"] = `Bearer ${authToken}`;
-      } else if (authType === "Basic Auth" && (authUsername || authPassword)) {
-        const token = btoa(`${authUsername}:${authPassword}`);
+      if (authType === "Bearer Token" && subAuthToken) {
+        headersObj["Authorization"] = `Bearer ${subAuthToken}`;
+      } else if (authType === "Basic Auth" && (subAuthUsername || subAuthPassword)) {
+        const token = btoa(`${subAuthUsername}:${subAuthPassword}`);
         headersObj["Authorization"] = `Basic ${token}`;
+      } else if (authType === "API Key" && apiKeyKey && subApiKeyValue) {
+          if (apiKeyPlacement === "Header") {
+              headersObj[apiKeyKey] = subApiKeyValue;
+          } else {
+              urlObj.searchParams.append(apiKeyKey, subApiKeyValue);
+          }
       }
 
       const options = {
@@ -82,34 +165,46 @@ export default function ApiTester() {
       // Handle Body
       if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
         if (bodyType === "Raw (JSON)") {
-           if (rawBody) {
+           if (subRawBody) {
              try {
                 // Validate JSON but send raw string
-                JSON.parse(rawBody);
+                JSON.parse(subRawBody);
                 headersObj["Content-Type"] = "application/json";
-                options.body = rawBody;
+                options.body = subRawBody;
              } catch (e) {
                 // Allow sending invalid JSON if user insists, but warn?
                 // For now, let's assume valid JSON or just send text
                 headersObj["Content-Type"] = "application/json";
-                options.body = rawBody;
+                options.body = subRawBody;
              }
            }
         } else if (bodyType === "x-www-form-urlencoded") {
            const formBody = new URLSearchParams();
-           urlEncodedData.forEach(p => {
+           subUrlEncodedData.forEach(p => {
              if (p.key) formBody.append(p.key, p.value);
            });
            headersObj["Content-Type"] = "application/x-www-form-urlencoded";
            options.body = formBody;
         } else if (bodyType === "multipart/form-data") {
            const formBody = new FormData();
-           formData.forEach(p => {
-             if (p.key) formBody.append(p.key, p.value);
+           subFormData.forEach(f => {
+             if (f.key) {
+                 if (f.type === "file" && f.file) {
+                     formBody.append(f.key, f.file);
+                 } else {
+                     formBody.append(f.key, f.value);
+                 }
+             }
            });
            // Fetch automatically sets Content-Type for FormData with boundary
            delete headersObj["Content-Type"];
            options.body = formBody;
+        } else if (bodyType === "Binary File" && binaryFile) {
+            options.body = binaryFile;
+            // Content-Type should be set manually or guessed, user can set header
+            if (!headersObj["Content-Type"]) {
+                headersObj["Content-Type"] = binaryFile.type || "application/octet-stream";
+            }
         }
       }
 
@@ -159,7 +254,7 @@ export default function ApiTester() {
 
       const responseObj = {
         status: res.status,
-        statusText: res.statusText,
+        statusText: res.statusText || getStatusText(res.status),
         time,
         size: size ? `${(size / 1024).toFixed(2)} KB` : "Unknown",
         data: textData,
@@ -183,6 +278,9 @@ export default function ApiTester() {
           authToken,
           authUsername,
           authPassword,
+          apiKeyKey,
+          apiKeyValue,
+          apiKeyPlacement,
           bodyType,
           rawBody,
           formData,
@@ -210,12 +308,48 @@ export default function ApiTester() {
   const createAddHandler = (setter, list) => () => setter([...list, { key: "", value: "" }]);
   const createRemoveHandler = (setter, list) => (index) => setter(list.filter((_, i) => i !== index));
 
+  const getStatusText = (status) => {
+      switch (status) {
+          case 200: return "OK";
+          case 201: return "Created";
+          case 204: return "No Content";
+          case 400: return "Bad Request";
+          case 401: return "Unauthorized";
+          case 403: return "Forbidden";
+          case 404: return "Not Found";
+          case 418: return "I'm a teapot";
+          case 500: return "Internal Server Error";
+          case 502: return "Bad Gateway";
+          case 503: return "Service Unavailable";
+          default: return "Unknown";
+      }
+  };
+
+  const getStatusTooltip = (status) => {
+      if (status >= 200 && status < 300) return "Success: The request was successfully received, understood, and accepted.";
+      if (status >= 300 && status < 400) return "Redirection: Further action needs to be taken in order to complete the request.";
+      if (status >= 400 && status < 500) {
+          if (status === 418) return "418 I'm a teapot: The server refuses the attempt to brew coffee with a teapot.";
+          return "Client Error: The request contains bad syntax or cannot be fulfilled.";
+      }
+      if (status >= 500) return "Server Error: The server failed to fulfill an apparently valid request.";
+      return "";
+  };
+
   const generateSnippets = () => {
       // Headers
       const headersObj = {};
       headers.forEach((h) => { if (h.key) headersObj[h.key] = h.value; });
       if (authType === "Bearer Token" && authToken) headersObj["Authorization"] = `Bearer ${authToken}`;
       else if (authType === "Basic Auth" && (authUsername || authPassword)) headersObj["Authorization"] = `Basic ${btoa(`${authUsername}:${authPassword}`)}`;
+      else if (authType === "API Key" && apiKeyKey && apiKeyValue && apiKeyPlacement === "Header") headersObj[apiKeyKey] = apiKeyValue;
+
+      let finalUrl = url;
+      if (authType === "API Key" && apiKeyKey && apiKeyValue && apiKeyPlacement === "Query Params") {
+          const u = new URL(url);
+          u.searchParams.append(apiKeyKey, apiKeyValue);
+          finalUrl = u.toString();
+      }
 
       let bodyStr = "";
       if (["POST", "PUT", "PATCH", "DELETE"].includes(method)) {
@@ -231,7 +365,7 @@ export default function ApiTester() {
       }
 
       // cURL
-      let curl = `curl -X ${method} "${url}"`;
+      let curl = `curl -X ${method} "${finalUrl}"`;
       Object.entries(headersObj).forEach(([k, v]) => {
           curl += ` \\\n  -H "${k}: ${v}"`;
       });
@@ -240,16 +374,32 @@ export default function ApiTester() {
       }
 
       // Fetch
-      let fetchCode = `fetch("${url}", {\n  method: "${method}",\n  headers: ${JSON.stringify(headersObj, null, 4).replace(/\n/g, "\n  ")}`;
+      let fetchCode = `fetch("${finalUrl}", {\n  method: "${method}",\n  headers: ${JSON.stringify(headersObj, null, 4).replace(/\n/g, "\n  ")}`;
       if (bodyStr) {
           fetchCode += `,\n  body: ${JSON.stringify(bodyStr)}`;
       }
       fetchCode += "\n});";
 
-      return { curl, fetch: fetchCode };
+      // Python Requests
+      let pythonCode = `import requests\n\nurl = "${finalUrl}"\n\nheaders = ${JSON.stringify(headersObj, null, 4)}\n\n`;
+      if (bodyStr) {
+          pythonCode += `payload = ${JSON.stringify(bodyStr)}\n\nresponse = requests.request("${method}", url, headers=headers, data=payload)`;
+      } else {
+          pythonCode += `response = requests.request("${method}", url, headers=headers)`;
+      }
+      pythonCode += `\n\nprint(response.text)`;
+
+      // Node Axios
+      let nodeAxios = `const axios = require('axios');\n\nlet config = {\n  method: '${method.toLowerCase()}',\n  maxBodyLength: Infinity,\n  url: '${finalUrl}',\n  headers: ${JSON.stringify(headersObj, null, 4).replace(/\n/g, "\n  ")}`;
+      if (bodyStr) {
+          nodeAxios += `,\n  data: ${JSON.stringify(bodyStr)}`;
+      }
+      nodeAxios += "\n};\n\naxios.request(config)\n.then((response) => {\n  console.log(JSON.stringify(response.data));\n})\n.catch((error) => {\n  console.log(error);\n});";
+
+      return { curl, fetch: fetchCode, python: pythonCode, node: nodeAxios };
   };
 
-  const snippets = showCodeModal ? generateSnippets() : { curl: "", fetch: "" };
+  const snippets = showCodeModal ? generateSnippets() : { curl: "", fetch: "", python: "", node: "" };
 
   return (
     <div className="flex h-[calc(100vh-4rem)] bg-gray-900 text-white overflow-hidden relative">
@@ -258,23 +408,23 @@ export default function ApiTester() {
               <div className="bg-gray-800 border border-gray-700 rounded-lg w-[600px] max-h-[80vh] flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
                   <div className="p-4 border-b border-gray-700 flex justify-between items-center bg-gray-900 rounded-t-lg">
                       <h3 className="font-bold flex items-center gap-2"><Code size={20} /> Code Snippets</h3>
-                      <button onClick={() => setShowCodeModal(false)} className="text-gray-400 hover:text-white"><Check size={20} /></button>
+                      <button onClick={() => setShowCodeModal(false)} className="text-gray-400 hover:text-white"><X size={20} /></button>
                   </div>
                   <div className="p-4 overflow-auto custom-scrollbar flex flex-col gap-6">
-                      <div>
-                          <div className="flex justify-between items-center mb-2">
-                              <span className="text-xs font-bold text-gray-400 uppercase">cURL</span>
-                              <button onClick={() => { navigator.clipboard.writeText(snippets.curl); toast.success("Copied cURL!"); }} className="text-xs flex items-center gap-1 text-indigo-400 hover:text-indigo-300"><Copy size={12} /> Copy</button>
-                          </div>
-                          <pre className="bg-gray-900 p-3 rounded text-xs overflow-auto font-mono text-gray-300 border border-gray-700 whitespace-pre-wrap">{snippets.curl}</pre>
-                      </div>
-                      <div>
-                          <div className="flex justify-between items-center mb-2">
-                              <span className="text-xs font-bold text-gray-400 uppercase">Fetch (JS)</span>
-                              <button onClick={() => { navigator.clipboard.writeText(snippets.fetch); toast.success("Copied Fetch!"); }} className="text-xs flex items-center gap-1 text-indigo-400 hover:text-indigo-300"><Copy size={12} /> Copy</button>
-                          </div>
-                          <pre className="bg-gray-900 p-3 rounded text-xs overflow-auto font-mono text-gray-300 border border-gray-700 whitespace-pre-wrap">{snippets.fetch}</pre>
-                      </div>
+                      {[
+                          { label: "cURL", code: snippets.curl },
+                          { label: "Fetch (JS)", code: snippets.fetch },
+                          { label: "Python (Requests)", code: snippets.python },
+                          { label: "Node.js (Axios)", code: snippets.node }
+                      ].map((item) => (
+                          <div key={item.label}>
+                            <div className="flex justify-between items-center mb-2">
+                                <span className="text-xs font-bold text-gray-400 uppercase">{item.label}</span>
+                                <button onClick={() => { navigator.clipboard.writeText(item.code); toast.success(`Copied ${item.label}!`); }} className="text-xs flex items-center gap-1 text-indigo-400 hover:text-indigo-300"><Copy size={12} /> Copy</button>
+                            </div>
+                            <pre className="bg-gray-900 p-3 rounded text-xs overflow-auto font-mono text-gray-300 border border-gray-700 whitespace-pre-wrap max-h-40 custom-scrollbar">{item.code}</pre>
+                        </div>
+                      ))}
                   </div>
               </div>
           </div>
@@ -292,23 +442,7 @@ export default function ApiTester() {
             {isSidebarOpen ? (
                 <div className="flex flex-col">
                     {history.map((item, idx) => (
-                        <button key={idx} onClick={() => {
-                            // Load history item
-                            setUrl(item.url);
-                            setMethod(item.method);
-                            setParams(item.params || []);
-                            setHeaders(item.headers || []);
-                            setAuthType(item.authType || "None");
-                            setAuthToken(item.authToken || "");
-                            setAuthUsername(item.authUsername || "");
-                            setAuthPassword(item.authPassword || "");
-                            setBodyType(item.bodyType || "None");
-                            setRawBody(item.rawBody || "");
-                            setFormData(item.formData || []);
-                            setUrlEncodedData(item.urlEncodedData || []);
-                            setUseProxy(item.useProxy || false);
-                            toast.info("Request loaded from history");
-                        }} className="p-3 border-b border-gray-700 hover:bg-gray-700 text-left group transition-colors">
+                        <button key={idx} onClick={() => loadRequest(item)} className="p-3 border-b border-gray-700 hover:bg-gray-700 text-left group transition-colors">
                             <div className="flex items-center justify-between mb-1">
                                 <span className={cn("text-[10px] font-bold px-1.5 py-0.5 rounded",
                                     item.method === "GET" ? "bg-green-900/50 text-green-300 border border-green-800" :
@@ -367,8 +501,16 @@ export default function ApiTester() {
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="Enter request URL"
-                    className="w-full h-full bg-gray-800 border border-gray-700 rounded-r pl-10 pr-3 text-sm focus:outline-none focus:border-indigo-500"
+                    className="w-full h-full bg-gray-800 border border-gray-700 rounded-r pl-10 pr-8 text-sm focus:outline-none focus:border-indigo-500"
                     />
+                    {url && (
+                        <button
+                            onClick={() => setUrl("")}
+                            className="absolute inset-y-0 right-0 pr-2 flex items-center text-gray-500 hover:text-white"
+                        >
+                            <X size={14} />
+                        </button>
+                    )}
                 </div>
 
                 <button
@@ -385,6 +527,14 @@ export default function ApiTester() {
                 title="Generate Code Snippets"
                 >
                 <Code size={18} />
+                </button>
+
+                <button
+                onClick={() => setShowEnvModal(true)}
+                className="h-10 bg-gray-800 border border-gray-700 hover:bg-gray-700 text-gray-300 px-3 rounded flex items-center gap-2 font-medium transition-colors"
+                title="Manage Environment Variables"
+                >
+                <Database size={18} />
                 </button>
             </div>
 
@@ -494,6 +644,65 @@ export default function ApiTester() {
                                 </div>
                             )}
 
+      {showEnvModal && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setShowEnvModal(false)}>
+              <div className="bg-gray-800 border border-gray-700 rounded-lg w-[500px] max-h-[80vh] flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
+                  <div className="p-4 border-b border-gray-700 flex justify-between items-center bg-gray-900 rounded-t-lg">
+                      <h3 className="font-bold flex items-center gap-2"><Database size={20} /> Environment Variables</h3>
+                      <button onClick={() => setShowEnvModal(false)} className="text-gray-400 hover:text-white"><X size={20} /></button>
+                  </div>
+                  <div className="p-4 overflow-auto custom-scrollbar">
+                      <div className="text-xs text-gray-400 mb-4">
+                          Define variables to reuse in URL, Headers, and Body using <span className="font-mono text-indigo-300">{"{{variable}}"}</span> syntax.
+                      </div>
+                      <KeyValueEditor
+                          items={envVars}
+                          onAdd={createAddHandler(setEnvVars, envVars)}
+                          onRemove={createRemoveHandler(setEnvVars, envVars)}
+                          onUpdate={createUpdateHandler(setEnvVars, envVars)}
+                          keyName="Variable"
+                      />
+                  </div>
+              </div>
+          </div>
+      )}
+
+                            {authType === "API Key" && (
+                                <div className="flex gap-4 items-end">
+                                    <div className="flex-1 flex flex-col gap-1">
+                                        <label className="text-xs text-gray-400 font-medium">Key</label>
+                                        <input
+                                            type="text"
+                                            value={apiKeyKey}
+                                            onChange={(e) => setApiKeyKey(e.target.value)}
+                                            placeholder="x-api-key"
+                                            className="bg-gray-900 border border-gray-700 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
+                                        />
+                                    </div>
+                                    <div className="flex-1 flex flex-col gap-1">
+                                        <label className="text-xs text-gray-400 font-medium">Value</label>
+                                        <input
+                                            type="text"
+                                            value={apiKeyValue}
+                                            onChange={(e) => setApiKeyValue(e.target.value)}
+                                            placeholder="Value"
+                                            className="bg-gray-900 border border-gray-700 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                         <label className="text-xs text-gray-400 font-medium">Add to</label>
+                                         <select
+                                            value={apiKeyPlacement}
+                                            onChange={(e) => setApiKeyPlacement(e.target.value)}
+                                            className="bg-gray-900 border border-gray-700 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
+                                         >
+                                             <option value="Header">Header</option>
+                                             <option value="Query Params">Query Params</option>
+                                         </select>
+                                    </div>
+                                </div>
+                            )}
+
                             {authType === "None" && (
                                 <div className="text-sm text-gray-500 text-center py-8">
                                     This request does not use any authorization.
@@ -559,6 +768,17 @@ export default function ApiTester() {
                                     />
                                     <label htmlFor="bodyMultipart" className="text-sm text-gray-300">multipart</label>
                                 </div>
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        name="bodyType"
+                                        id="bodyBinary"
+                                        checked={bodyType === "Binary File"}
+                                        onChange={() => setBodyType("Binary File")}
+                                        className="text-indigo-600 focus:ring-indigo-500 bg-gray-900 border-gray-700"
+                                    />
+                                    <label htmlFor="bodyBinary" className="text-sm text-gray-300">Binary</label>
+                                </div>
                              </div>
 
                              <div className="flex-1 overflow-hidden rounded border border-gray-700 bg-gray-900">
@@ -584,16 +804,32 @@ export default function ApiTester() {
                                 )}
                                 {bodyType === "multipart/form-data" && (
                                     <div className="p-4 overflow-auto h-full">
-                                        <KeyValueEditor
+                                        <FormDataEditor
                                             items={formData}
                                             onAdd={createAddHandler(setFormData, formData)}
                                             onRemove={createRemoveHandler(setFormData, formData)}
-                                            onUpdate={createUpdateHandler(setFormData, formData)}
-                                            keyName="Field"
+                                            onUpdate={(index, field, value) => {
+                                                const newFormData = [...formData];
+                                                newFormData[index][field] = value;
+                                                setFormData(newFormData);
+                                            }}
                                         />
-                                        <div className="mt-4 text-xs text-gray-500 italic">
-                                            Note: Currently supports text fields only. File upload support coming soon.
-                                        </div>
+                                    </div>
+                                )}
+                                {bodyType === "Binary File" && (
+                                    <div className="flex flex-col items-center justify-center h-full text-gray-400 p-4">
+                                        <input
+                                            type="file"
+                                            onChange={(e) => setBinaryFile(e.target.files[0])}
+                                            className="block w-full text-sm text-gray-400
+                                                file:mr-4 file:py-2 file:px-4
+                                                file:rounded-full file:border-0
+                                                file:text-sm file:font-semibold
+                                                file:bg-indigo-600 file:text-white
+                                                hover:file:bg-indigo-700
+                                                cursor-pointer"
+                                        />
+                                        {binaryFile && <div className="mt-4 text-xs">Selected: {binaryFile.name} ({binaryFile.size} bytes)</div>}
                                     </div>
                                 )}
                                 {bodyType === "None" && (
@@ -631,11 +867,14 @@ export default function ApiTester() {
                     </div>
                     {response && (
                     <div className="flex gap-3 text-xs font-mono px-4">
-                        <span className={cn("font-bold px-1.5 py-0.5 rounded bg-opacity-20",
-                            response.status >= 200 && response.status < 300 ? "bg-green-500 text-green-400" :
-                            response.status >= 300 && response.status < 400 ? "bg-blue-500 text-blue-400" :
-                            response.status >= 400 && response.status < 500 ? "bg-yellow-500 text-yellow-400" : "bg-red-500 text-red-400"
-                        )}>
+                        <span
+                            className={cn("font-bold px-1.5 py-0.5 rounded bg-opacity-20 cursor-help",
+                                response.status >= 200 && response.status < 300 ? "bg-green-500 text-green-400" :
+                                response.status >= 300 && response.status < 400 ? "bg-blue-500 text-blue-400" :
+                                response.status >= 400 && response.status < 500 ? "bg-yellow-500 text-yellow-400" : "bg-red-500 text-red-400"
+                            )}
+                            title={getStatusTooltip(response.status)}
+                        >
                         {response.status} {response.statusText}
                         </span>
                         <span className="text-gray-400 flex items-center gap-1">
@@ -816,3 +1055,71 @@ KeyValueEditor.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   keyName: PropTypes.string.isRequired,
 };
+
+function FormDataEditor({ items, onAdd, onRemove, onUpdate }) {
+    return (
+      <div className="flex flex-col gap-2">
+        <div className="flex gap-2 text-xs font-semibold text-gray-400 mb-1 px-1">
+          <div className="flex-1">Key</div>
+          <div className="w-20">Type</div>
+          <div className="flex-1">Value</div>
+          <div className="w-8"></div>
+        </div>
+        {items.map((item, index) => (
+          <div key={index} className="flex gap-2 group items-center">
+            <input
+              type="text"
+              placeholder="Key"
+              value={item.key}
+              onChange={(e) => onUpdate(index, "key", e.target.value)}
+              className="flex-1 bg-gray-900 border border-gray-700 rounded px-2 py-1.5 text-sm focus:outline-none focus:border-indigo-500 transition-colors"
+            />
+            <select
+                value={item.type}
+                onChange={(e) => onUpdate(index, "type", e.target.value)}
+                className="w-20 bg-gray-900 border border-gray-700 rounded px-1 py-1.5 text-xs focus:outline-none focus:border-indigo-500"
+            >
+                <option value="text">Text</option>
+                <option value="file">File</option>
+            </select>
+            {item.type === "text" ? (
+                 <input
+                 type="text"
+                 placeholder="Value"
+                 value={item.value}
+                 onChange={(e) => onUpdate(index, "value", e.target.value)}
+                 className="flex-1 bg-gray-900 border border-gray-700 rounded px-2 py-1.5 text-sm focus:outline-none focus:border-indigo-500 transition-colors"
+               />
+            ) : (
+                <input
+                    type="file"
+                    onChange={(e) => onUpdate(index, "file", e.target.files[0])}
+                    className="flex-1 text-xs text-gray-400 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-gray-700 file:text-white hover:file:bg-gray-600"
+                />
+            )}
+
+            <button
+              onClick={() => onRemove(index)}
+              className="w-8 flex items-center justify-center text-gray-500 hover:text-red-400 transition-colors opacity-50 group-hover:opacity-100"
+              title="Remove"
+            >
+              <Trash2 size={16} />
+            </button>
+          </div>
+        ))}
+        <button
+          onClick={onAdd}
+          className="self-start mt-2 flex items-center gap-1 text-xs font-medium text-indigo-400 hover:text-indigo-300 transition-colors px-2 py-1 rounded hover:bg-indigo-400/10"
+        >
+          <Plus size={14} /> Add Field
+        </button>
+      </div>
+    );
+  }
+
+  FormDataEditor.propTypes = {
+    items: PropTypes.array.isRequired,
+    onAdd: PropTypes.func.isRequired,
+    onRemove: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired,
+  };
