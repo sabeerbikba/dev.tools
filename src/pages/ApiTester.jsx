@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import MonacoEditor from "@monaco-editor/react";
-import { Send, Plus, Trash2, Clock, FileText, Globe, ShieldAlert, History, Code, Save, ChevronRight, ChevronDown, Check, Copy, X, Database } from "lucide-react";
+import { Send, Plus, Trash2, Clock, FileText, Globe, ShieldAlert, History, Code, Save, ChevronRight, ChevronDown, Check, Copy, X, Database, BookOpen } from "lucide-react";
 import useLocalStorageState from "@/hooks/useLocalStorageState";
 import { toast } from "react-toastify";
 import cn from "@/utils/cn";
 import PropTypes from "prop-types";
 
-const methods = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"];
+const methods = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS", "WS"];
 const authTypes = ["None", "Bearer Token", "Basic Auth", "API Key"];
 const bodyTypes = ["None", "Raw (JSON)", "x-www-form-urlencoded", "multipart/form-data", "Binary File"];
 
@@ -41,10 +41,39 @@ export default function ApiTester() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Automation
+  const [preRequestScript, setPreRequestScript] = useLocalStorageState("ApiTester_PreRequestScript", "// JavaScript to run before request\n// console.log('Pre-request script running...');");
+  const [testScript, setTestScript] = useLocalStorageState("ApiTester_TestScript", "// JavaScript to run after response\n// pm.test(\"Status code is 200\", function () {\n//     pm.response.to.have.status(200);\n// });");
+  const [visualizerTemplate, setVisualizerTemplate] = useLocalStorageState("ApiTester_VisualizerTemplate", `<!DOCTYPE html>
+<html>
+<head>
+  <style>body { font-family: sans-serif; padding: 10px; }</style>
+</head>
+<body>
+  <h3>Visualizer</h3>
+  <div id="data"></div>
+  <script>
+    // Access response data via window.responseData
+    const data = window.responseData;
+    document.getElementById('data').innerText = JSON.stringify(data, null, 2);
+  </script>
+</body>
+</html>`);
+
+  // WebSocket
+  const [wsClient, setWsClient] = useState(null);
+  const [wsLogs, setWsLogs] = useState([]);
+  const [wsMessage, setWsMessage] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
+
+  // Mock Server
+  const [mocks, setMocks] = useLocalStorageState("ApiTester_Mocks", [{ method: "GET", path: "/users", response: "[\n  {\"id\": 1, \"name\": \"Mock User\"}\n]", status: 200 }]);
+
   // History & Sidebar
   const [history, setHistory] = useLocalStorageState("ApiTester_History", []);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [showCodeModal, setShowCodeModal] = useState(false);
+  const [showDocsModal, setShowDocsModal] = useState(false);
 
   // Environment Variables
   const [showEnvModal, setShowEnvModal] = useState(false);
@@ -56,6 +85,7 @@ export default function ApiTester() {
         if (e.key === "Escape") {
             setShowCodeModal(false);
             setShowEnvModal(false);
+            setShowDocsModal(false);
         }
     };
     window.addEventListener("keydown", handleEsc);
@@ -77,13 +107,10 @@ export default function ApiTester() {
 
   // Helper to load request safely
   const loadRequest = (item) => {
-      const confirmLoad = window.confirm("Load this request? Current unsaved changes will be lost.");
-      if (!confirmLoad) return;
-
       setUrl(item.url);
       setMethod(item.method);
-      setParams(item.params || []);
-      setHeaders(item.headers || []);
+      setParams(item.params || [{ key: "", value: "" }]);
+      setHeaders(item.headers || [{ key: "", value: "" }]);
       setAuthType(item.authType || "None");
       setAuthToken(item.authToken || "");
       setAuthUsername(item.authUsername || "");
@@ -92,13 +119,13 @@ export default function ApiTester() {
       setApiKeyValue(item.apiKeyValue || "");
       setApiKeyPlacement(item.apiKeyPlacement || "Header");
       setBodyType(item.bodyType || "None");
-      setRawBody(item.rawBody || "");
+      setRawBody(item.rawBody || "{\n  \n}");
       // Reset files as they can't be stored in localStorage history easily
-      setFormData((item.formData || []).map(f => ({ ...f, file: null })));
+      setFormData((item.formData || [{ key: "", value: "", type: "text", file: null }]).map(f => ({ ...f, file: null })));
       setBinaryFile(null);
-      setUrlEncodedData(item.urlEncodedData || []);
+      setUrlEncodedData(item.urlEncodedData || [{ key: "", value: "" }]);
       setUseProxy(item.useProxy || false);
-      toast.info("Request loaded from history (Files reset)");
+      toast.success("Request loaded");
   };
 
   const addToHistory = (req) => {
@@ -107,6 +134,11 @@ export default function ApiTester() {
   };
 
   const handleSend = async () => {
+    if (method === "WS") {
+        handleWebSocket();
+        return;
+    }
+
     setLoading(true);
     setResponse(null);
     setError(null);
@@ -115,6 +147,34 @@ export default function ApiTester() {
     try {
       // Substitute vars in URL, Params, Headers, Body
       const subUrl = substituteVars(url);
+
+      // Check for Mock
+      try {
+          const urlObj = new URL(subUrl);
+          const mock = mocks.find(m => m.method === method && urlObj.pathname === m.path);
+          if (mock) {
+              setTimeout(() => {
+                  setResponse({
+                      status: mock.status,
+                      statusText: "Mock Response",
+                      time: (performance.now() - startTime).toFixed(0),
+                      size: `${(mock.response.length / 1024).toFixed(2)} KB`,
+                      data: mock.response,
+                      headers: { "content-type": "application/json", "x-powered-by": "ApiTester Mock Server" },
+                      isImage: false,
+                      isHtml: false,
+                      contentType: "application/json"
+                  });
+                  setLoading(false);
+                  addToHistory({
+                      url, method, params, headers, authType, authToken, authUsername, authPassword, apiKeyKey, apiKeyValue, apiKeyPlacement, bodyType, rawBody, formData, urlEncodedData, useProxy, timestamp: new Date().toISOString(), status: mock.status, time: "10"
+                  });
+              }, 200); // Simulate network delay
+              return;
+          }
+      } catch (e) {
+          // Ignore URL parsing errors for mock check
+      }
       const subParams = params.map(p => ({ ...p, value: substituteVars(p.value) }));
       const subHeaders = headers.map(h => ({ ...h, value: substituteVars(h.value) }));
       const subRawBody = substituteVars(rawBody);
@@ -299,6 +359,52 @@ export default function ApiTester() {
     }
   };
 
+  const handleWebSocket = () => {
+      if (isConnected) {
+          wsClient.close();
+          setWsClient(null);
+          setIsConnected(false);
+          setWsLogs(prev => [...prev, { type: "system", message: "Disconnected", time: new Date().toLocaleTimeString() }]);
+      } else {
+          try {
+              const subUrl = substituteVars(url);
+              const socket = new WebSocket(subUrl);
+
+              socket.onopen = () => {
+                  setIsConnected(true);
+                  setWsLogs(prev => [...prev, { type: "system", message: `Connected to ${subUrl}`, time: new Date().toLocaleTimeString() }]);
+                  setActiveResponseTab("logs");
+              };
+
+              socket.onmessage = (event) => {
+                  setWsLogs(prev => [...prev, { type: "received", message: event.data, time: new Date().toLocaleTimeString() }]);
+              };
+
+              socket.onclose = () => {
+                  setIsConnected(false);
+                  setWsClient(null);
+                  setWsLogs(prev => [...prev, { type: "system", message: "Connection closed", time: new Date().toLocaleTimeString() }]);
+              };
+
+              socket.onerror = (error) => {
+                  setWsLogs(prev => [...prev, { type: "error", message: "WebSocket Error", time: new Date().toLocaleTimeString() }]);
+              };
+
+              setWsClient(socket);
+          } catch (e) {
+              toast.error("Invalid WebSocket URL");
+          }
+      }
+  };
+
+  const sendWsMessage = () => {
+      if (wsClient && isConnected && wsMessage) {
+          wsClient.send(wsMessage);
+          setWsLogs(prev => [...prev, { type: "sent", message: wsMessage, time: new Date().toLocaleTimeString() }]);
+          setWsMessage("");
+      }
+  };
+
   // Helper functions for Key-Value editors
   const createUpdateHandler = (setter, list) => (index, field, value) => {
     const newList = [...list];
@@ -401,7 +507,75 @@ export default function ApiTester() {
 
   const snippets = showCodeModal ? generateSnippets() : { curl: "", fetch: "", python: "", node: "" };
 
-  return (
+  const generateDocs = () => {
+      const curl = generateSnippets().curl;
+      const docHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; mx-auto; padding: 2rem; background: #f9fafb; }
+        .container { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin: 0 auto; }
+        h1 { margin-top: 0; color: #111; }
+        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-weight: bold; font-size: 0.875rem; color: white; background: #4f46e5; }
+        .badge.GET { background: #10b981; } .badge.POST { background: #3b82f6; } .badge.DELETE { background: #ef4444; } .badge.PUT { background: #f59e0b; }
+        .section { margin-top: 2rem; }
+        h3 { border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem; color: #4b5563; }
+        pre { background: #1f2937; color: #e5e7eb; padding: 1rem; border-radius: 4px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { text-align: left; padding: 0.75rem; border-bottom: 1px solid #e5e7eb; }
+        th { color: #6b7280; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        code { background: #f3f4f6; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+            <span class="badge ${method}">${method}</span>
+            <h1 style="margin: 0; font-size: 1.5rem;">${url}</h1>
+        </div>
+
+        <div class="section">
+            <h3>Description</h3>
+            <p>Request to <code>${new URL(url).pathname}</code>.</p>
+        </div>
+
+        ${params.some(p => p.key) ? `
+        <div class="section">
+            <h3>Query Parameters</h3>
+            <table>
+                <thead><tr><th>Key</th><th>Value</th></tr></thead>
+                <tbody>
+                    ${params.filter(p => p.key).map(p => `<tr><td><code>${p.key}</code></td><td>${p.value}</td></tr>`).join('')}
+                </tbody>
+            </table>
+        </div>` : ''}
+
+        ${headers.some(h => h.key) ? `
+        <div class="section">
+            <h3>Headers</h3>
+            <table>
+                <thead><tr><th>Key</th><th>Value</th></tr></thead>
+                <tbody>
+                    ${headers.filter(h => h.key).map(h => `<tr><td><code>${h.key}</code></td><td>${h.value}</td></tr>`).join('')}
+                </tbody>
+            </table>
+        </div>` : ''}
+
+        <div class="section">
+            <h3>Example Request</h3>
+            <pre>${curl}</pre>
+        </div>
+    </div>
+</body>
+</html>`;
+      return docHtml;
+  };
+
+  return
     <div className="flex h-[calc(100vh-4rem)] bg-gray-900 text-white overflow-hidden relative">
       {showCodeModal && (
           <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setShowCodeModal(false)}>
@@ -500,13 +674,14 @@ export default function ApiTester() {
                     type="text"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleSend()}
                     placeholder="Enter request URL"
                     className="w-full h-full bg-gray-800 border border-gray-700 rounded-r pl-10 pr-8 text-sm focus:outline-none focus:border-indigo-500"
                     />
                     {url && (
                         <button
                             onClick={() => setUrl("")}
-                            className="absolute inset-y-0 right-0 pr-2 flex items-center text-gray-500 hover:text-white"
+                            className="absolute inset-y-0 right-0 pr-2 flex items-center text-gray-500 hover:text-red-400 transition-colors"
                         >
                             <X size={14} />
                         </button>
@@ -516,9 +691,14 @@ export default function ApiTester() {
                 <button
                 onClick={handleSend}
                 disabled={loading}
-                className="h-10 bg-indigo-600 hover:bg-indigo-700 text-white px-6 rounded flex items-center gap-2 font-semibold disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-900/20"
+                className={cn(
+                    "h-10 px-6 rounded flex items-center gap-2 font-semibold disabled:opacity-50 disabled:cursor-not-allowed shadow-lg transition-colors",
+                    method === "WS" && isConnected
+                        ? "bg-red-600 hover:bg-red-700 text-white shadow-red-900/20"
+                        : "bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-900/20"
+                )}
                 >
-                {loading ? "Sending..." : <><Send size={16} /> Send</>}
+                {loading ? "Sending..." : method === "WS" ? (isConnected ? "Disconnect" : "Connect") : <><Send size={16} /> Send</>}
                 </button>
 
                 <button
@@ -535,6 +715,14 @@ export default function ApiTester() {
                 title="Manage Environment Variables"
                 >
                 <Database size={18} />
+                </button>
+
+                <button
+                onClick={() => setShowDocsModal(true)}
+                className="h-10 bg-gray-800 border border-gray-700 hover:bg-gray-700 text-gray-300 px-3 rounded flex items-center gap-2 font-medium transition-colors"
+                title="Generate Documentation"
+                >
+                <BookOpen size={18} />
                 </button>
             </div>
 
@@ -561,13 +749,13 @@ export default function ApiTester() {
         <div className="flex-1 flex overflow-hidden max-md:flex-col">
             {/* Request Panel */}
             <div className="w-1/2 max-md:w-full max-md:h-1/2 flex flex-col border-r max-md:border-r-0 max-md:border-b border-gray-700 bg-gray-800/50">
-                <div className="flex border-b border-gray-700 bg-gray-800">
-                    {["params", "auth", "headers", "body"].map((tab) => (
+                <div className="flex border-b border-gray-700 bg-gray-800 overflow-x-auto hide-scrollbar">
+                    {["params", "auth", "headers", "body", "scripts", "mocks"].map((tab) => (
                     <button
                         key={tab}
                         onClick={() => setActiveTab(tab)}
                         className={cn(
-                        "px-4 py-2.5 text-xs font-medium uppercase tracking-wider transition-colors hover:text-white border-b-2",
+                        "px-4 py-2.5 text-xs font-medium uppercase tracking-wider transition-colors hover:text-white border-b-2 whitespace-nowrap",
                         activeTab === tab
                             ? "text-indigo-400 border-indigo-500 bg-gray-700/50"
                             : "text-gray-400 border-transparent hover:bg-gray-700/30"
@@ -578,6 +766,8 @@ export default function ApiTester() {
                         {tab === "headers" && headers.some(h => h.key) && <span className="ml-1 text-[10px] text-indigo-400">●</span>}
                         {tab === "body" && bodyType !== "None" && <span className="ml-1 text-[10px] text-indigo-400">●</span>}
                         {tab === "auth" && authType !== "None" && <span className="ml-1 text-[10px] text-indigo-400">●</span>}
+                        {tab === "scripts" && (preRequestScript.length > 60 || testScript.length > 60) && <span className="ml-1 text-[10px] text-indigo-400">●</span>}
+                        {tab === "mocks" && mocks.length > 0 && <span className="ml-1 text-[10px] text-indigo-400">●</span>}
                     </button>
                     ))}
                 </div>
@@ -667,6 +857,24 @@ export default function ApiTester() {
           </div>
       )}
 
+      {showDocsModal && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" onClick={() => setShowDocsModal(false)}>
+              <div className="bg-gray-800 border border-gray-700 rounded-lg w-[800px] max-h-[85vh] flex flex-col shadow-2xl" onClick={e => e.stopPropagation()}>
+                  <div className="p-4 border-b border-gray-700 flex justify-between items-center bg-gray-900 rounded-t-lg">
+                      <h3 className="font-bold flex items-center gap-2"><BookOpen size={20} /> Generated Documentation</h3>
+                      <button onClick={() => setShowDocsModal(false)} className="text-gray-400 hover:text-white"><X size={20} /></button>
+                  </div>
+                  <div className="flex-1 bg-white overflow-hidden">
+                      <iframe
+                          srcDoc={generateDocs()}
+                          title="API Documentation"
+                          className="w-full h-full border-none"
+                      />
+                  </div>
+              </div>
+          </div>
+      )}
+
                             {authType === "API Key" && (
                                 <div className="flex gap-4 items-end">
                                     <div className="flex-1 flex flex-col gap-1">
@@ -719,6 +927,83 @@ export default function ApiTester() {
                             onUpdate={createUpdateHandler(setHeaders, headers)}
                             keyName="Header"
                         />
+                    )}
+
+                    {activeTab === "scripts" && (
+                        <div className="flex flex-col h-full gap-4">
+                            <div className="flex-1 flex flex-col">
+                                <label className="text-xs text-gray-400 font-medium mb-1">Pre-request Script</label>
+                                <div className="flex-1 border border-gray-700 rounded overflow-hidden">
+                                    <MonacoEditor
+                                        language="javascript"
+                                        theme="vs-dark"
+                                        value={preRequestScript}
+                                        onChange={(value) => setPreRequestScript(value || "")}
+                                        options={{ minimap: { enabled: false }, lineNumbers: "on", scrollBeyondLastLine: false }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex-1 flex flex-col">
+                                <label className="text-xs text-gray-400 font-medium mb-1">Tests</label>
+                                <div className="flex-1 border border-gray-700 rounded overflow-hidden">
+                                    <MonacoEditor
+                                        language="javascript"
+                                        theme="vs-dark"
+                                        value={testScript}
+                                        onChange={(value) => setTestScript(value || "")}
+                                        options={{ minimap: { enabled: false }, lineNumbers: "on", scrollBeyondLastLine: false }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === "mocks" && (
+                        <div className="flex flex-col h-full gap-4">
+                            <div className="flex justify-between items-center">
+                                <div className="text-xs text-gray-400">Define mock endpoints. Requests matching the path/method will return the mock response.</div>
+                                <button onClick={() => setMocks([...mocks, { method: "GET", path: "/new-mock", response: "{}", status: 200 }])} className="text-xs flex items-center gap-1 text-indigo-400 hover:text-indigo-300"><Plus size={12} /> Add Mock</button>
+                            </div>
+                            <div className="flex-1 overflow-auto custom-scrollbar flex flex-col gap-4">
+                                {mocks.map((mock, idx) => (
+                                    <div key={idx} className="border border-gray-700 rounded p-3 bg-gray-900/50">
+                                        <div className="flex gap-2 mb-2">
+                                            <select
+                                                value={mock.method}
+                                                onChange={(e) => { const n = [...mocks]; n[idx].method = e.target.value; setMocks(n); }}
+                                                className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs font-bold w-20"
+                                            >
+                                                {methods.filter(m => m !== "WS").map(m => <option key={m} value={m}>{m}</option>)}
+                                            </select>
+                                            <input
+                                                type="text"
+                                                value={mock.path}
+                                                onChange={(e) => { const n = [...mocks]; n[idx].path = e.target.value; setMocks(n); }}
+                                                placeholder="/path"
+                                                className="flex-1 bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs"
+                                            />
+                                            <input
+                                                type="number"
+                                                value={mock.status}
+                                                onChange={(e) => { const n = [...mocks]; n[idx].status = parseInt(e.target.value); setMocks(n); }}
+                                                placeholder="200"
+                                                className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-xs w-16"
+                                            />
+                                            <button onClick={() => setMocks(mocks.filter((_, i) => i !== idx))} className="text-gray-500 hover:text-red-400"><Trash2 size={14} /></button>
+                                        </div>
+                                        <div className="h-32 border border-gray-700 rounded overflow-hidden">
+                                            <MonacoEditor
+                                                language="json"
+                                                theme="vs-dark"
+                                                value={mock.response}
+                                                onChange={(value) => { const n = [...mocks]; n[idx].response = value || ""; setMocks(n); }}
+                                                options={{ minimap: { enabled: false }, lineNumbers: "off", folding: false }}
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     )}
 
                     {activeTab === "body" && (
@@ -847,8 +1132,11 @@ export default function ApiTester() {
             <div className="w-1/2 max-md:w-full max-md:h-1/2 flex flex-col bg-gray-900 border-l max-md:border-l-0 border-gray-700">
                 <div className="flex border-b border-gray-700 bg-gray-800 justify-between items-center h-[45px]">
                     <div className="flex overflow-x-auto hide-scrollbar">
-                        {["body", "headers", "preview"].map((tab) => {
+                        {["body", "headers", "preview", "visualizer", "logs"].map((tab) => {
                              if (tab === "preview" && !response?.isHtml && !response?.isImage) return null;
+                             if (tab === "visualizer" && (!response || response.isHtml || response.isImage)) return null;
+                             if (tab === "logs" && method !== "WS") return null;
+                             if ((tab === "body" || tab === "headers" || tab === "visualizer") && method === "WS") return null; // Hide standard tabs for WS
                              return (
                                 <button
                                     key={tab}
@@ -928,7 +1216,45 @@ export default function ApiTester() {
                     </div>
                     )}
 
-                    {response && (
+                    {method === "WS" && activeResponseTab === "logs" && (
+                        <div className="h-full flex flex-col p-4">
+                            <div className="flex gap-2 mb-4">
+                                <input
+                                    type="text"
+                                    value={wsMessage}
+                                    onChange={(e) => setWsMessage(e.target.value)}
+                                    onKeyDown={(e) => e.key === "Enter" && sendWsMessage()}
+                                    placeholder="Type a message..."
+                                    className="flex-1 bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
+                                    disabled={!isConnected}
+                                />
+                                <button
+                                    onClick={sendWsMessage}
+                                    disabled={!isConnected}
+                                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 rounded text-sm font-semibold disabled:opacity-50"
+                                >
+                                    Send
+                                </button>
+                            </div>
+                            <div className="flex-1 overflow-auto custom-scrollbar flex flex-col gap-2 font-mono text-xs">
+                                {wsLogs.map((log, idx) => (
+                                    <div key={idx} className={cn("p-2 rounded border border-transparent",
+                                        log.type === "sent" ? "bg-indigo-900/20 border-indigo-900/50 self-end text-indigo-300" :
+                                        log.type === "received" ? "bg-gray-800 border-gray-700 self-start text-green-300" :
+                                        log.type === "error" ? "bg-red-900/20 text-red-400 self-center" : "text-gray-500 self-center italic"
+                                    )}>
+                                        <span className="opacity-50 mr-2 text-[10px]">{log.time}</span>
+                                        {log.type === "sent" && <span className="font-bold mr-1">↑</span>}
+                                        {log.type === "received" && <span className="font-bold mr-1">↓</span>}
+                                        {log.message}
+                                    </div>
+                                ))}
+                                {wsLogs.length === 0 && <div className="text-gray-600 text-center mt-10">Not connected or no logs yet.</div>}
+                            </div>
+                        </div>
+                    )}
+
+                    {response && method !== "WS" && (
                         <div className="h-full flex flex-col">
                             {activeResponseTab === "preview" && (
                                 <>
@@ -988,6 +1314,31 @@ export default function ApiTester() {
                                             ))}
                                         </tbody>
                                     </table>
+                                </div>
+                            )}
+
+                            {activeResponseTab === "visualizer" && (
+                                <div className="flex flex-col h-full">
+                                    <div className="h-1/3 border-b border-gray-700 flex flex-col">
+                                        <div className="bg-gray-800 px-4 py-1 text-xs text-gray-400 font-medium">Template (HTML/JS) - Use <code>window.responseData</code></div>
+                                        <div className="flex-1">
+                                            <MonacoEditor
+                                                language="html"
+                                                theme="vs-dark"
+                                                value={visualizerTemplate}
+                                                onChange={(value) => setVisualizerTemplate(value || "")}
+                                                options={{ minimap: { enabled: false }, lineNumbers: "on" }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="flex-1 bg-white">
+                                        <iframe
+                                            srcDoc={`<script>window.responseData = ${response.data};</script>${visualizerTemplate}`}
+                                            title="Response Visualizer"
+                                            className="w-full h-full border-none"
+                                            sandbox="allow-scripts"
+                                        />
+                                    </div>
                                 </div>
                             )}
                         </div>
