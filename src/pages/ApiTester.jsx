@@ -1,6 +1,6 @@
 import { useState } from "react";
 import MonacoEditor from "@monaco-editor/react";
-import { Send, Plus, Trash2, Clock, FileText, Globe } from "lucide-react";
+import { Send, Plus, Trash2, Clock, FileText, Globe, ShieldAlert } from "lucide-react";
 import useLocalStorageState from "@/hooks/useLocalStorageState";
 import { toast } from "react-toastify";
 import cn from "@/utils/cn";
@@ -15,6 +15,7 @@ export default function ApiTester() {
   const [params, setParams] = useLocalStorageState("ApiTester_Params", [{ key: "", value: "" }]);
   const [headers, setHeaders] = useLocalStorageState("ApiTester_Headers", [{ key: "", value: "" }]);
   const [body, setBody] = useLocalStorageState("ApiTester_Body", "{\n  \n}");
+  const [useProxy, setUseProxy] = useLocalStorageState("ApiTester_UseProxy", false);
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -47,7 +48,13 @@ export default function ApiTester() {
         options.body = body;
       }
 
-      const res = await fetch(urlObj.toString(), options);
+      let fetchUrl = urlObj.toString();
+      if (useProxy) {
+        // Using corsproxy.io as a public proxy
+        fetchUrl = `https://corsproxy.io/?${encodeURIComponent(fetchUrl)}`;
+      }
+
+      const res = await fetch(fetchUrl, options);
       const endTime = performance.now();
       const time = (endTime - startTime).toFixed(0);
 
@@ -57,8 +64,12 @@ export default function ApiTester() {
       let data;
       let textData = "";
       if (contentType && contentType.includes("application/json")) {
-        data = await res.json();
-        textData = JSON.stringify(data, null, 2);
+        try {
+            data = await res.json();
+            textData = JSON.stringify(data, null, 2);
+        } catch (e) {
+            textData = await res.text();
+        }
       } else {
         textData = await res.text();
       }
@@ -110,38 +121,57 @@ export default function ApiTester() {
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] bg-gray-900 text-white p-4 gap-4 overflow-hidden">
       {/* Top Bar */}
-      <div className="flex gap-2 items-center">
-        <select
-          value={method}
-          onChange={(e) => setMethod(e.target.value)}
-          className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 font-semibold w-24"
-        >
-          {methods.map((m) => (
-            <option key={m} value={m}>
-              {m}
-            </option>
-          ))}
-        </select>
-        <div className="flex-1 relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Globe className="h-4 w-4 text-gray-400" />
+      <div className="flex flex-col gap-2">
+        <div className="flex gap-2 items-center">
+            <select
+            value={method}
+            onChange={(e) => setMethod(e.target.value)}
+            className="bg-gray-800 border border-gray-700 rounded px-3 py-2 text-sm focus:outline-none focus:border-indigo-500 font-semibold w-24"
+            >
+            {methods.map((m) => (
+                <option key={m} value={m}>
+                {m}
+                </option>
+            ))}
+            </select>
+            <div className="flex-1 relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Globe className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                type="text"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="Enter URL"
+                className="w-full bg-gray-800 border border-gray-700 rounded pl-10 pr-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
+                />
             </div>
-            <input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="Enter URL"
-            className="w-full bg-gray-800 border border-gray-700 rounded pl-10 pr-3 py-2 text-sm focus:outline-none focus:border-indigo-500"
-            />
+
+            <button
+            onClick={handleSend}
+            disabled={loading}
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded flex items-center gap-2 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+            {loading ? "Sending..." : <><Send size={16} /> Send</>}
+            </button>
         </div>
 
-        <button
-          onClick={handleSend}
-          disabled={loading}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded flex items-center gap-2 font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? "Sending..." : <><Send size={16} /> Send</>}
-        </button>
+        {/* Proxy Option */}
+        <div className="flex items-center gap-2 px-1">
+             <label className="flex items-center gap-2 text-xs text-gray-400 cursor-pointer select-none hover:text-gray-300">
+                <input
+                    type="checkbox"
+                    checked={useProxy}
+                    onChange={(e) => setUseProxy(e.target.checked)}
+                    className="rounded border-gray-700 bg-gray-800 text-indigo-600 focus:ring-indigo-500"
+                />
+                <ShieldAlert size={14} />
+                <span>Use Proxy (Bypass CORS)</span>
+             </label>
+             <span className="text-[10px] text-gray-500 ml-2 border-l border-gray-700 pl-2">
+                Enable this if you encounter "Failed to fetch" errors on public APIs. Note: Does not work for localhost.
+             </span>
+        </div>
       </div>
 
       <div className="flex flex-1 gap-4 overflow-hidden max-md:flex-col">
@@ -229,11 +259,28 @@ export default function ApiTester() {
             )}
 
             {error && !loading && (
-                 <div className="p-4 text-red-400 font-mono text-sm whitespace-pre-wrap">
-                    Error: {error}
-                    <br/>
-                    <br/>
-                    <span className="text-gray-400 text-xs">Note: Cross-Origin Resource Sharing (CORS) errors are common in browser-based tools. Ensure the API allows requests from this origin, or use a proxy.</span>
+                 <div className="p-4 flex flex-col gap-4 text-sm">
+                    <div className="text-red-400 font-mono bg-red-900/20 p-3 rounded border border-red-900/50">
+                        Error: {error}
+                    </div>
+
+                    <div className="bg-gray-700/50 p-3 rounded border border-gray-600 text-gray-300">
+                        <div className="flex items-center gap-2 font-semibold text-yellow-500 mb-2">
+                            <ShieldAlert size={16} />
+                            <span>Troubleshooting</span>
+                        </div>
+                        <ul className="list-disc list-inside space-y-1 text-xs text-gray-400">
+                            <li>
+                                <strong>CORS Error?</strong> If you are testing a public API, try enabling the <span className="text-indigo-400">"Use Proxy"</span> checkbox above.
+                            </li>
+                            <li>
+                                <strong>Localhost?</strong> The proxy cannot reach localhost. Ensure your local server has CORS enabled (e.g., using `cors` middleware in Express).
+                            </li>
+                            <li>
+                                <strong>Network?</strong> Check your internet connection or the API URL.
+                            </li>
+                        </ul>
+                    </div>
                  </div>
             )}
 
