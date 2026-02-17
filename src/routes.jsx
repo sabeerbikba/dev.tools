@@ -19,6 +19,7 @@ import {
   ListChecks,
   CaseSensitive,
   Monitor,
+  Table,
 } from "lucide-react";
 
 import HomePage from "@/Home";
@@ -43,6 +44,7 @@ const QrCodeGenerator = lazy(() => import("@/pages/QRCodeGenrator"));
 const HashGenerator = lazy(() => import("@/pages/HashGenerator"));
 const ImageMetadataViewer = lazy(() => import("@/pages/ImageMetadataViewer"));
 const TextStylingTool = lazy(() => import("@/pages/CssTextStyling"));
+const CsvToTable = lazy(() => import("@/pages/CsvToTable"));
 import Websites from "@/pages/Websites";
 // import Test from "@/pages/testing/Test"; // Testing purpose
 import NoPage from "@/pages/NoPage";
@@ -255,6 +257,16 @@ const routes = [
       "Interactive text style playground for tweaking fonts, gradients, shadows, strokes, and advanced CSS properties. Copy-ready output.",
     category: "css",
     icon: <CaseSensitive className={size5} />,
+  },
+  {
+    isNew: true,
+    path: "csv-to-table",
+    element: <CsvToTable />,
+    isLazy: true,
+    description:
+      "Convert CSV data to various table formats: Markdown, ASCII, HTML, JSON, and SQL.",
+    category: "Utility",
+    icon: <Table className={size5} />,
   },
   /* 
   { // Testing purpose

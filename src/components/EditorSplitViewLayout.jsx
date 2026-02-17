@@ -45,7 +45,7 @@ const EditorSplitViewLayout = ({ editorBtns, editor, preview }) => {
   );
 };
 
-EditorSplitViewLayout.PropTypes = {
+EditorSplitViewLayout.propTypes = {
   editorBtns: PropTypes.element.isRequired,
   editor: PropTypes.element.isRequired,
   preview: PropTypes.element.isRequired,
