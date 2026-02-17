@@ -20,6 +20,7 @@ import {
   CaseSensitive,
   Monitor,
   Table,
+  Network,
 } from "lucide-react";
 
 import HomePage from "@/Home";
@@ -45,6 +46,7 @@ const HashGenerator = lazy(() => import("@/pages/HashGenerator"));
 const ImageMetadataViewer = lazy(() => import("@/pages/ImageMetadataViewer"));
 const TextStylingTool = lazy(() => import("@/pages/CssTextStyling"));
 const CsvToTable = lazy(() => import("@/pages/CsvToTable"));
+const ApiTester = lazy(() => import("@/pages/ApiTester"));
 import Websites from "@/pages/Websites";
 // import Test from "@/pages/testing/Test"; // Testing purpose
 import NoPage from "@/pages/NoPage";
@@ -267,6 +269,16 @@ const routes = [
       "Convert CSV data to various table formats: Markdown, ASCII, HTML, JSON, and SQL.",
     category: "Utility",
     icon: <Table className={size5} />,
+  },
+  {
+    isNew: true,
+    path: "api-tester",
+    element: <ApiTester />,
+    isLazy: true,
+    description:
+      "Test HTTP requests (GET, POST, PUT, DELETE, etc.) directly from your browser. Analyze responses, headers, and performance.",
+    category: "Network",
+    icon: <Network className={size5} />,
   },
   /* 
   { // Testing purpose
