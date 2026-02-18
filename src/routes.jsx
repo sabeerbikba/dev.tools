@@ -22,6 +22,7 @@ import {
    Table,
    Network,
    Share2,
+   Link,
 } from "lucide-react";
 
 import HomePage from "@/Home";
@@ -49,6 +50,7 @@ const ImageMetadataViewer = lazy(() => import("@/pages/ImageMetadataViewer"));
 const TextStylingTool = lazy(() => import("@/pages/CssTextStyling"));
 const CsvToTable = lazy(() => import("@/pages/CsvToTable"));
 const ApiTester = lazy(() => import("@/pages/ApiTester"));
+const ImageToDataUrl = lazy(() => import("@/pages/ImageToDataUrl"));
 import Websites from "@/pages/Websites";
 // import Test from "@/pages/testing/Test"; // Testing purpose
 import NoPage from "@/pages/NoPage";
@@ -290,6 +292,16 @@ const routes = [
          "Test HTTP requests (GET, POST, PUT, DELETE, etc.) directly from your browser. Analyze responses, headers, and performance.",
       category: "Network",
       icon: <Network className={size5} />,
+   },
+   {
+      isNew: true,
+      path: "image-to-data-url",
+      element: <ImageToDataUrl />,
+      isLazy: true,
+      description:
+         "Convert images to Data URLs (Base64 or URL-encoded) for use in CSS, HTML, or JavaScript.",
+      category: "Image",
+      icon: <Link className={size5} />,
    },
    /* 
    { // Testing purpose
