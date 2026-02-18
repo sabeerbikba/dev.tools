@@ -21,6 +21,7 @@ import {
    Monitor,
    Table,
    Network,
+   Share2,
 } from "lucide-react";
 
 import HomePage from "@/Home";
@@ -28,6 +29,7 @@ import SearchEngine from "@/pages/SearchEngine";
 const LiveHtml = lazy(() => import("@/pages/LiveHtml"));
 import LiveReact from "@/pages/LiveReact";
 const MetaTagsGenrator = lazy(() => import("@/pages/MetaTagsGenrator"));
+const SocialMediaPreviewer = lazy(() => import("@/pages/SocialMediaPreviewer"));
 const ImgPlaceholderGen = lazy(() => import("@/pages/ImgPlaceholderGen"));
 const SQIPPreviewer = lazy(() => import("@/pages/SQIPPreviewer"));
 const TypescriptPlayground = lazy(() => import("@/pages/TypescriptPlayground"));
@@ -115,6 +117,16 @@ const routes = [
          "Generate SEO meta tags with support for social previews like Twitter Cards and Open Graph.",
       category: "SEO",
       icon: <Tag className={size5} />,
+   },
+   {
+      isNew: true,
+      path: "social-media-previewer",
+      element: <SocialMediaPreviewer />,
+      isLazy: true,
+      description:
+         "Preview how your links look on Twitter, Facebook, LinkedIn, Discord, and more. Visual validation for your meta tags.",
+      category: "SEO",
+      icon: <Share2 className={size5} />,
    },
    {
       path: "image-placeholder-generator",
