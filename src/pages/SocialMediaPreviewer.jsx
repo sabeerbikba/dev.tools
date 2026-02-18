@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import ToolBoxLayout from '@/common/ToolBoxLayout';
 import ToolBox from '@/common/ToolBox';
 import Input from '@/common/Input';
-import { Upload, X, Download } from 'lucide-react';
+import { Upload, X, Download, TriangleAlert, } from 'lucide-react';
 import { toast } from 'react-toastify';
 
 const SocialMediaPreviewer = () => {
@@ -13,8 +13,17 @@ const SocialMediaPreviewer = () => {
    const [imageUrl, setImageUrl] = useState('');
    const [uploadedImage, setUploadedImage] = useState(null);
    const [twitterCardType, setTwitterCardType] = useState('summary_large_image'); // 'summary' or 'summary_large_image'
+   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 });
    const [isFetching, setIsFetching] = useState(false);
-   const [activeTab, setActiveTab] = useState('automatic'); // 'automatic' or 'manual'
+   const [activeTab, setActiveTab] = useState(() => {
+      if (typeof window !== 'undefined') {
+         const hostname = window.location.hostname;
+         if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            return 'automatic';
+         }
+      }
+      return 'manual';
+   });
 
    useEffect(() => {
       if (imageSource === 'upload' && uploadedImage) {
@@ -52,6 +61,7 @@ const SocialMediaPreviewer = () => {
    };
 
    const fetchMetaTags = async () => {
+      // TODO: create own api that only support this website request
       if (!url) {
          toast.error("Please enter a URL first.");
          return;
@@ -59,7 +69,6 @@ const SocialMediaPreviewer = () => {
 
       setIsFetching(true);
       try {
-         // Using corsproxy.io to bypass CORS
          const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
          const response = await fetch(proxyUrl);
 
@@ -85,7 +94,6 @@ const SocialMediaPreviewer = () => {
          if (fetchedDescription) setDescription(fetchedDescription);
 
          if (fetchedImage) {
-            // Handle relative URLs for images
             let absoluteImageUrl = fetchedImage;
             if (fetchedImage.startsWith('/')) {
                try {
@@ -109,13 +117,11 @@ const SocialMediaPreviewer = () => {
          }
 
          toast.success("Meta tags fetched successfully!");
-         // Switch to manual tab so user can see/edit fetched data
-         setActiveTab('manual');
+         if (activeTab !== '') setActiveTab('manual');
 
       } catch (error) {
          console.error("Error fetching meta tags:", error);
          try {
-            // Fallback to allorigins
             const backupProxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
             const response = await fetch(backupProxyUrl);
             const data = await response.json();
@@ -147,7 +153,7 @@ const SocialMediaPreviewer = () => {
                   setUploadedImage(null);
                }
                toast.success("Meta tags fetched successfully (via backup proxy)!");
-               setActiveTab('manual');
+               if (activeTab !== '') setActiveTab('manual');
             } else {
                toast.error("Failed to fetch meta tags. Please enter manually.");
             }
@@ -160,7 +166,6 @@ const SocialMediaPreviewer = () => {
       }
    };
 
-   // Platform Preview Components
    const TwitterCard = () => {
       const isLarge = twitterCardType === 'summary_large_image';
       return (
@@ -276,45 +281,20 @@ const SocialMediaPreviewer = () => {
 
             <div className="flex border-b border-gray-700 mb-6">
                <button
-                  className={`flex-1 pb-2 text-center transition-colors ${activeTab === 'automatic' ? 'border-b-2 border-blue-500 text-white font-medium' : 'text-gray-400 hover:text-gray-200'}`}
-                  onClick={() => setActiveTab('automatic')}
-               >
-                  Automatic
-               </button>
-               <button
                   className={`flex-1 pb-2 text-center transition-colors ${activeTab === 'manual' ? 'border-b-2 border-blue-500 text-white font-medium' : 'text-gray-400 hover:text-gray-200'}`}
                   onClick={() => setActiveTab('manual')}
                >
                   Manual
                </button>
+               <button
+                  className={`flex-1 pb-2 text-center transition-colors ${activeTab === 'automatic' ? 'border-b-2 border-blue-500 text-white font-medium' : 'text-gray-400 hover:text-gray-200'}`}
+                  onClick={() => setActiveTab('automatic')}
+               >
+                  Automatic
+               </button>
             </div>
 
-            {activeTab === 'automatic' ? (
-               <div className="mb-4">
-                  <div className="relative">
-                     <Input
-                        name="url"
-                        label="Website URL"
-                        value={url}
-                        onChange={(name, value) => setUrl(value)}
-                        placeholder="https://example.com"
-                        elementHeight="85px"
-                        divStyles={{ paddingTop: '50px', }}
-                     />
-                     <button
-                        onClick={fetchMetaTags}
-                        disabled={isFetching || !url}
-                        className="absolute right-2 top-8 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white p-2 rounded text-xs flex items-center gap-1 transition-colors"
-                        title="Fetch Meta Tags"
-                     >
-                        {isFetching ? 'Fetching...' : <><Download size={14} /> Fetch Meta</>}
-                     </button>
-                  </div>
-                  <p className="text-gray-400 text-sm mt-12">
-                     Enter a URL and click "Fetch Meta" to automatically retrieve title, description, and image. You can then edit them in the Manual tab.
-                  </p>
-               </div>
-            ) : (
+            {activeTab === 'manual' ? (
                <>
                   {/* Image Section First */}
                   <div className="mb-6">
@@ -328,7 +308,6 @@ const SocialMediaPreviewer = () => {
                               checked={imageSource === 'upload'}
                               onChange={() => {
                                  setImageSource('upload');
-                                 setImageUrl(''); // Clear url input when switching
                               }}
                               className="mr-2"
                            />
@@ -343,7 +322,6 @@ const SocialMediaPreviewer = () => {
                               onChange={() => {
                                  setImageSource('url');
                                  setUploadedImage(null);
-                                 setImageUrl(''); // Clear upload preview when switching
                               }}
                               className="mr-2"
                            />
@@ -400,7 +378,6 @@ const SocialMediaPreviewer = () => {
                   <Input
                      name="description"
                      label="Description"
-                     elementType="text"
                      value={description}
                      onChange={(_, value) => setDescription(value)}
                      placeholder="Enter page description"
@@ -445,6 +422,37 @@ const SocialMediaPreviewer = () => {
                      </div>
                   </div>
                </>
+            ) : (
+               <div className="mb-4">
+                  <div className="relative">
+                     <Input
+                        name="url"
+                        label="Website URL"
+                        value={url}
+                        onChange={(name, value) => setUrl(value)}
+                        placeholder="https://example.com"
+                        elementHeight="85px"
+                        divStyles={{ paddingTop: '50px', }}
+                     />
+                     <button
+                        onClick={fetchMetaTags}
+                        disabled={isFetching || !url}
+                        className="absolute right-2 top-8 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white p-2 rounded text-xs flex items-center gap-1 transition-colors"
+                        title="Fetch Meta Tags"
+                     >
+                        {isFetching ? 'Fetching...' : <><Download size={14} /> Fetch Meta</>}
+                     </button>
+                  </div>
+                  <p className="text-gray-400 text-sm mt-12">
+                     Enter a URL and click "Fetch Meta" to automatically retrieve title, description, and image. You can then edit them in the Manual tab.
+                  </p>
+                  <p className="flex items-start gap-2 p-3 mt-4 text-xs text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 rounded-md">
+                     <TriangleAlert size={16} className="mt-0.5 flex-shrink-0" />
+                     <span>
+                        <strong>Dev Mode Only:</strong> Automatic fetching currently works only in the development environment. We will add full production support soon!
+                     </span>
+                  </p>
+               </div>
             )}
 
          </ToolBox>
