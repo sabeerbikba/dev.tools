@@ -22,6 +22,7 @@ import {
    Table,
    Network,
    Share2,
+   Link,
 } from "lucide-react";
 
 import HomePage from "@/Home";
@@ -49,6 +50,7 @@ const ImageMetadataViewer = lazy(() => import("@/pages/ImageMetadataViewer"));
 const TextStylingTool = lazy(() => import("@/pages/CssTextStyling"));
 const CsvToTable = lazy(() => import("@/pages/CsvToTable"));
 const ApiTester = lazy(() => import("@/pages/ApiTester"));
+const ImageToDataUrl = lazy(() => import("@/pages/ImageToDataUrl"));
 import Websites from "@/pages/Websites";
 // import Test from "@/pages/testing/Test"; // Testing purpose
 import NoPage from "@/pages/NoPage";
@@ -209,6 +211,16 @@ const routes = [
          "Inspect EXIF metadata from images: camera, GPS, timestamps, device info, and more.",
       category: "Image",
       icon: <Eye className={size5} />,
+   },
+   {
+      isNew: true,
+      path: "image-to-data-url",
+      element: <ImageToDataUrl />,
+      isLazy: true,
+      description:
+         "Convert images to Data URLs (Base64 or URL-encoded) for use in CSS, HTML, or JavaScript.",
+      category: "Image",
+      icon: <Link className={size5} />,
    },
    {
       path: "string-converter",
