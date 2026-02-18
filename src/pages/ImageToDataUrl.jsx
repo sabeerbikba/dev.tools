@@ -114,6 +114,8 @@ const ImageToDataUrl = () => {
   const currentOutput =
     outputType === "url-encoded" && isSvg ? svgUrlEncoded : dataUrl;
 
+  const isValidPreviewUrl = previewUrl && previewUrl.startsWith("blob:");
+
   return (
     <ToolBoxLayout>
       <ToolBox title="Input Image">
@@ -144,7 +146,7 @@ const ImageToDataUrl = () => {
           {file && (
             <div className="flex flex-col md:flex-row gap-6 mt-4">
               <div className="w-full md:w-1/3 flex items-center justify-center bg-gray-800/50 rounded-lg p-4 min-h-[200px]">
-                {previewUrl && (
+                {isValidPreviewUrl && (
                   <img
                     src={previewUrl}
                     alt="Preview"
