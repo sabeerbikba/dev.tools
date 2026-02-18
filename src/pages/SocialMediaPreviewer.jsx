@@ -26,6 +26,24 @@ const SocialMediaPreviewer = () => {
    });
 
    useEffect(() => {
+      if (!imageUrl) {
+         setImageDimensions({ width: 0, height: 0 });
+         return;
+      }
+
+      const img = new Image();
+      img.src = imageUrl;
+
+      img.onload = () => {
+         setImageDimensions({ width: img.width, height: img.height });
+      };
+
+      img.onerror = () => {
+         setImageDimensions({ width: 0, height: 0 });
+      };
+   }, [imageUrl]);
+
+   useEffect(() => {
       if (imageSource === 'upload' && uploadedImage) {
          const reader = new FileReader();
          reader.onload = (e) => {
@@ -169,11 +187,12 @@ const SocialMediaPreviewer = () => {
    const TwitterCard = () => {
       const isLarge = twitterCardType === 'summary_large_image';
       return (
-         <div className="border border-gray-300 rounded-lg overflow-hidden bg-white max-w-sm mx-auto font-sans text-black">
+         <div className="border border-gray-300 rounded-xl overflow-hidden bg-white max-w-sm mx-auto font-sans text-black">
             {isLarge ? (
                <>
                   {imageUrl && (
-                     <div className="h-48 overflow-hidden bg-gray-100 relative">
+                     // Twitter Large: ~1.91:1 Aspect Ratio
+                     <div className="w-full relative aspect-[1.91/1] bg-gray-100">
                         <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" />
                      </div>
                   )}
@@ -184,13 +203,13 @@ const SocialMediaPreviewer = () => {
                   </div>
                </>
             ) : (
-               <div className="flex">
+               <div className="flex items-center">
                   {imageUrl && (
-                     <div className="w-32 h-32 flex-shrink-0 bg-gray-100 relative border-r border-gray-200">
+                     <div className="w-32 shrink-0 aspect-square bg-gray-100 border-r border-gray-200 relative">
                         <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" />
                      </div>
                   )}
-                  <div className="p-3 flex flex-col justify-center overflow-hidden">
+                  <div className="p-3 overflow-hidden">
                      <div className="text-gray-500 text-sm uppercase truncate mb-1">{getDomainName(url)}</div>
                      <div className="font-bold text-gray-900 leading-tight mb-1 truncate">{title || 'Page Title'}</div>
                      <div className="text-gray-500 text-sm line-clamp-2">{description || 'Page description goes here...'}</div>
@@ -202,13 +221,13 @@ const SocialMediaPreviewer = () => {
    };
 
    const FacebookCard = () => (
-      <div className="border border-gray-300 bg-gray-100 max-w-sm mx-auto font-sans text-black">
+      <div className="border border-gray-300 bg-[#f0f2f5] max-w-sm mx-auto font-sans text-black">
          {imageUrl && (
-            <div className="h-48 overflow-hidden bg-gray-200 relative">
+            <div className="w-full aspect-[1.91/1] bg-gray-200 relative">
                <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" />
             </div>
          )}
-         <div className="p-3 bg-gray-100 border-t border-gray-300">
+         <div className="p-3 bg-[#f0f2f5] border-t border-gray-300">
             <div className="text-gray-600 text-xs uppercase truncate mb-1">{getDomainName(url).toUpperCase()}</div>
             <div className="font-bold text-gray-900 leading-tight mb-1 line-clamp-2">{title || 'Page Title'}</div>
             <div className="text-gray-600 text-sm line-clamp-1">{description || 'Page description goes here...'}</div>
@@ -219,7 +238,7 @@ const SocialMediaPreviewer = () => {
    const LinkedInCard = () => (
       <div className="border border-gray-300 rounded-sm overflow-hidden bg-white max-w-sm mx-auto font-sans text-black shadow-sm">
          {imageUrl && (
-            <div className="h-48 overflow-hidden bg-gray-100 relative">
+            <div className="w-full aspect-[1.91/1] bg-gray-100 relative">
                <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" />
             </div>
          )}
@@ -236,18 +255,18 @@ const SocialMediaPreviewer = () => {
          <div className="font-bold text-[#00b0f4] mb-1 hover:underline cursor-pointer">{title || 'Page Title'}</div>
          <div className="text-sm text-gray-300 mb-2 line-clamp-3">{description || 'Page description goes here...'}</div>
          {imageUrl && (
-            <div className="rounded-lg overflow-hidden max-w-full max-h-60 bg-gray-900 inline-block">
-               <img src={imageUrl} alt="Preview" className="max-w-full h-auto object-contain max-h-60" />
+            <div className="rounded-lg overflow-hidden max-w-[90%] bg-gray-900 inline-block">
+               <img src={imageUrl} alt="Preview" className="w-full h-auto object-contain max-h-[250px]" />
             </div>
          )}
       </div>
    );
 
    const WhatsAppCard = () => (
-      <div className="bg-[#dcf8c6] p-2 rounded-lg max-w-sm mx-auto font-sans text-black shadow relative inline-block">
+      <div className="bg-[#dcf8c6] p-2 rounded-lg max-w-sm mx-auto font-sans text-black shadow relative inline-block min-w-[280px]">
          <div className="bg-gray-100 rounded overflow-hidden mb-1">
             {imageUrl && (
-               <div className="h-32 overflow-hidden bg-gray-200 relative">
+               <div className="w-full aspect-[1.91/1] bg-gray-200 relative">
                   <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" />
                </div>
             )}
@@ -257,20 +276,27 @@ const SocialMediaPreviewer = () => {
                <div className="text-gray-500 text-xs truncate mt-1">{getDomainName(url)}</div>
             </div>
          </div>
-         <div className="text-blue-500 hover:underline text-sm break-all">{url || 'https://example.com'}</div>
+         <div className="text-blue-500 hover:underline text-sm break-all px-1">{url || 'https://example.com'}</div>
       </div>
    );
 
    const TelegramCard = () => (
-      <div className="bg-white p-2 rounded-lg max-w-sm mx-auto font-sans text-black shadow-sm border border-gray-100 inline-block">
+      <div className="bg-white p-2 rounded-lg max-w-sm mx-auto font-sans text-black shadow-sm border border-gray-100 inline-block min-w-[280px]">
          <div className="font-bold text-[#2481cc] leading-tight mb-1 cursor-pointer truncate">{title || 'Page Title'}</div>
          <div className="text-black text-sm mb-2 line-clamp-3 leading-snug">{description || 'Page description goes here...'}</div>
          {imageUrl && (
-            <div className="rounded overflow-hidden mb-1 relative">
-               <img src={imageUrl} alt="Preview" className="w-full h-auto object-cover rounded" />
+            <div className="rounded overflow-hidden mb-1 relative w-full aspect-[1.91/1]">
+               <img src={imageUrl} alt="Preview" className="w-full h-full object-cover rounded" />
             </div>
          )}
          <div className="text-blue-500 text-sm truncate opacity-70 mt-1">{getDomainName(url)}</div>
+      </div>
+   );
+
+   const WrapOgCard = ({ label, children }) => (
+      <div className="flex flex-col gap-2 border border-white/70 p-1 pb-3 rounded-2xl">
+         <h3 className="text-lg font-semibold text-gray-300 mb-1 ml-4">{label}</h3>
+         {children}
       </div>
    );
 
@@ -362,6 +388,18 @@ const SocialMediaPreviewer = () => {
                                  <span>Click to upload image</span>
                               </div>
                            )}
+                        </div>
+                     )}
+
+                     {/* Image Dimensions Display */}
+                     {imageUrl && imageDimensions.width > 0 && (
+                        <div className="text-xs text-gray-400 mt-2 flex items-center gap-1">
+                           <span className="bg-gray-800 px-2 py-0.5 rounded border border-gray-700">
+                              {imageDimensions.width} x {imageDimensions.height} px
+                           </span>
+                           {imageDimensions.width < 200 || imageDimensions.height < 200 ? (
+                              <span className="text-yellow-500 ml-1">(Low Res)</span>
+                           ) : null}
                         </div>
                      )}
                   </div>
@@ -460,35 +498,16 @@ const SocialMediaPreviewer = () => {
          {/* here can be used loop */}
          <ToolBox title="Previews" boxWidth="60%">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-8">
-               <div className="flex flex-col gap-2">
-                  <h3 className="text-lg font-semibold text-gray-300 mb-1">Twitter / X</h3>
-                  <TwitterCard />
-               </div>
-
-               <div className="flex flex-col gap-2">
-                  <h3 className="text-lg font-semibold text-gray-300 mb-1">Facebook</h3>
-                  <FacebookCard />
-               </div>
-
-               <div className="flex flex-col gap-2">
-                  <h3 className="text-lg font-semibold text-gray-300 mb-1">LinkedIn</h3>
-                  <LinkedInCard />
-               </div>
-
-               <div className="flex flex-col gap-2">
-                  <h3 className="text-lg font-semibold text-gray-300 mb-1">Discord</h3>
-                  <DiscordCard />
-               </div>
-
-               <div className="flex flex-col gap-2">
-                  <h3 className="text-lg font-semibold text-gray-300 mb-1">WhatsApp</h3>
-                  <WhatsAppCard />
-               </div>
-
-               <div className="flex flex-col gap-2">
-                  <h3 className="text-lg font-semibold text-gray-300 mb-1">Telegram</h3>
-                  <TelegramCard />
-               </div>
+               {[
+                  { id: 'twitter', label: 'Twitter / X', component: <TwitterCard /> },
+                  { id: 'facebook', label: 'Facebook', component: <FacebookCard /> },
+                  { id: 'linkedin', label: 'LinkedIn', component: <LinkedInCard /> },
+                  { id: 'discord', label: 'Discord', component: <DiscordCard /> },
+                  { id: 'whatsapp', label: 'WhatsApp', component: <WhatsAppCard /> },
+                  { id: 'telegram', label: 'Telegram', component: <TelegramCard /> },
+               ].map((card) => (
+                  <WrapOgCard key={card.id} label={card.label}>{card.component}</WrapOgCard>
+               ))}
             </div>
          </ToolBox>
       </ToolBoxLayout>
