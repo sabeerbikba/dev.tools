@@ -78,7 +78,7 @@
     "postcss": "^8.4.38",
     "rimraf": "^6.0.1",
     "tailwindcss": "^4.1.11",
-    "vite": "^7.0.6",
+    "vite": "^7.0.8",
     "vite-plugin-pwa": "^1.0.2"
   }
 }
