@@ -17,12 +17,12 @@
 - [ ] error in `ColorConverter` component: development
 - [ ] need to add tip in stringConvertor component that this task can do with vs code using select text want to convert and ctrl+shift+p and search whatever case want to convert for example see this video
 - [ ] need to rename link and Component name and link name in to SearchEngines Component
-- [ ] need to add og:image with website name and tools availble
+- [ ] need to add og:image with website name and tools available
 - [ ] Need to create eco-system inside website
   - like when I copy something I can paste with button any inputs
 - [ ] if website opened in mobile show error in Banner that no good experice
   - and use normal inputs instead of monaco editor
-- [ ] need to add og:image with website name and tools availble
+- [ ] need to add og:image with website name and tools available
 - [ ] some time monaco editor did't load because of server give fallback editor after specific time editor did't load
 - [ ] max length of input text is how browser or system can handle
 - [ ] Responsiveness:: create reponsive website using `grid`, `position: fixed;` and `shadcn/ui Resizable` or use lib `react-resizable-panels`
